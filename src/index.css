@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens ---------- */
+:root {
+  --c-bg: 247 248 246;
+  --c-panel: 255 255 255;
+  --c-sunk: 238 242 240;
+  --c-line: 224 230 228;
+  --c-ink: 12 20 38;
+  --c-mute: 98 112 132;
+  --c-brand: 5 150 105;
+  --c-cyan: 8 145 178;
+  --c-navy: 11 18 38;
+  --c-shadow: 11 18 38;
+  --m3: 180 110 20;
+  --m4: 5 150 105;
+  --m5: 8 145 178;
+  --read-size: 18px;
+  --read-width: 760px;
+
+  --dg-bg: #fbfcfb; --dg-ink: #0f172a; --dg-line: #94a3b8; --dg-box: #ffffff; --dg-k: #475569;
+  --dg-g: #059669; --dg-g-bg: #e8f8f1; --dg-w: #ea580c; --dg-w-bg: #fff1e6; --dg-b: #2563eb; --dg-b-bg: #e8f0fe;
+  --dg-v: #7c3aed; --dg-v-bg: #f1ecfe; --dg-c: #0891b2; --dg-c-bg: #e3f6fa; --dg-r: #dc2626; --dg-r-bg: #fdecec;
+  --dg-sun: #f59e0b; --dg-land: #dbe7d2; --dg-soil: #ece0cf; --dg-sea: #bcd9f2; --dg-gw: #a9c9ea; --dg-cloud: #ffffff;
+  --dg-leaf: #4ade80; --dg-trunk: #8b6b4a; --dg-plate: #64748b; --dg-hop: #e2e8f0; --dg-bag: #f3ead2; --dg-tube: #cbd5e1;
+  --dg-str: #f3f0fd; --dg-drop: #93c5fd; --dg-atm: rgba(8,145,178,.10);
+  color-scheme: light;
+}
+[data-theme='dark'] {
+  --c-bg: 7 12 26;
+  --c-panel: 14 22 41;
+  --c-sunk: 20 30 52;
+  --c-line: 33 45 70;
+  --c-ink: 226 232 240;
+  --c-mute: 148 163 184;
+  --c-brand: 52 211 153;
+  --c-cyan: 34 211 238;
+  --c-navy: 4 8 20;
+  --c-shadow: 0 0 0;
+  --m3: 245 180 70;
+  --m4: 52 211 153;
+  --m5: 34 211 238;
+
+  --dg-bg: #0b1426; --dg-ink: #e2e8f0; --dg-line: #4b5d7a; --dg-box: #121d35; --dg-k: #94a3b8;
+  --dg-g: #34d399; --dg-g-bg: #0b2a24; --dg-w: #fb923c; --dg-w-bg: #35210f; --dg-b: #60a5fa; --dg-b-bg: #0f2142;
+  --dg-v: #a78bfa; --dg-v-bg: #221a45; --dg-c: #22d3ee; --dg-c-bg: #082c36; --dg-r: #f87171; --dg-r-bg: #3a1417;
+  --dg-sun: #fbbf24; --dg-land: #1a2c2a; --dg-soil: #2a2420; --dg-sea: #12335a; --dg-gw: #16406e; --dg-cloud: #2a3b5c;
+  --dg-leaf: #22a05a; --dg-trunk: #8b6b4a; --dg-plate: #94a3b8; --dg-hop: #1c2a45; --dg-bag: #3a3425; --dg-tube: #2c3b59;
+  --dg-str: #151338; --dg-drop: #3b82f6; --dg-atm: rgba(34,211,238,.10);
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+  overflow-x: hidden;
+}
+:focus-visible { outline: 2px solid rgb(var(--c-brand)); outline-offset: 2px; border-radius: 6px; }
+::selection { background: rgb(var(--c-brand) / .28); }
+* { scrollbar-width: thin; scrollbar-color: rgb(var(--c-mute) / .45) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: rgb(var(--c-mute) / .35); border-radius: 8px; border: 2px solid transparent; background-clip: content-box; }
+*::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-mute) / .6); background-clip: content-box; border: 2px solid transparent; }
+
+@layer components {
+.card { @apply rounded-2xl border border-line bg-panel shadow-soft; }
+.btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-200 select-none disabled:opacity-50 disabled:cursor-not-allowed; }
+.btn-primary { @apply btn bg-brand text-white shadow-soft hover:brightness-110 active:scale-[.98]; }
+[data-theme='dark'] .btn-primary { color: #04130d; }
+.btn-ghost { @apply btn border border-line bg-panel text-ink hover:bg-sunk active:scale-[.98]; }
+.chip { @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-sunk px-2.5 py-1 text-xs font-medium text-mute; }
+.eyebrow { @apply text-[11px] font-semibold uppercase tracking-[.14em] text-mute; }
+.skeleton { background: linear-gradient(90deg, rgb(var(--c-sunk)) 25%, rgb(var(--c-line)) 50%, rgb(var(--c-sunk)) 75%); background-size: 200% 100%; @apply animate-shimmer rounded-lg; }
+
+}
+
+/* ---------- Reading typography ---------- */
+.reading { font-family: 'Source Serif 4', Georgia, Cambria, serif; font-size: var(--read-size); line-height: 1.75; max-width: var(--read-width); }
+.reading p { margin: .85em 0; }
+.reading strong.kw { font-weight: 650; background: linear-gradient(transparent 58%, rgb(var(--c-brand) / .22) 58%); padding: 0 1px; }
+.reading h2, .reading h3, .reading h4 { font-family: Inter, system-ui, sans-serif; letter-spacing: -.01em; }
+.reading ol.num { counter-reset: n; list-style: none; padding: 0; margin: .9em 0; }
+.reading ol.num > li { counter-increment: n; position: relative; padding-left: 2.4rem; margin: .7em 0; }
+.reading ol.num > li::before { content: counter(n); position: absolute; left: 0; top: .2em; width: 1.6rem; height: 1.6rem; border-radius: 9999px; font: 600 .72rem/1.6rem Inter, sans-serif; text-align: center; color: rgb(var(--c-brand)); background: rgb(var(--c-brand) / .12); }
+.reading ul.dot { list-style: none; padding: 0; margin: .9em 0; }
+.reading ul.dot > li { position: relative; padding-left: 1.5rem; margin: .6em 0; }
+.reading ul.dot > li::before { content: ''; position: absolute; left: .35rem; top: .72em; width: .42rem; height: .42rem; border-radius: 9999px; background: rgb(var(--c-brand)); }
+.reading table { border-collapse: separate; border-spacing: 0; width: 100%; font-family: Inter, system-ui, sans-serif; font-size: .82em; line-height: 1.5; }
+.reading th { text-align: left; font-weight: 600; background: rgb(var(--c-sunk)); padding: .6rem .8rem; border-bottom: 1px solid rgb(var(--c-line)); white-space: nowrap; }
+.reading td { padding: .6rem .8rem; border-bottom: 1px solid rgb(var(--c-line)); vertical-align: top; min-width: 7rem; }
+.reading tr:last-child td { border-bottom: 0; }
+.reading td strong { font-weight: 650; }
+.eq { font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif; font-size: 1.05em; }
+.sect-body[hidden] { display: none; }
+
+/* ---------- SVG diagram system ---------- */
+.dg { width: 100%; height: auto; display: block; }
+.dg .tx { fill: var(--dg-ink); font-family: Inter, system-ui, sans-serif; font-size: 13px; }
+.dg .tx-xs { font-size: 10.5px; } .dg .tx-s { font-size: 11.8px; } .dg .tx-l { font-size: 17px; }
+.dg .tb { font-weight: 650; }
+.dg .tc-g { fill: var(--dg-g); } .dg .tc-w { fill: var(--dg-w); } .dg .tc-b { fill: var(--dg-b); } .dg .tc-v { fill: var(--dg-v); }
+.dg .tc-c { fill: var(--dg-c); } .dg .tc-r { fill: var(--dg-r); } .dg .tc-k { fill: var(--dg-k); }
+.dg .bx { stroke-width: 1.4; }
+.dg .bx-n { fill: var(--dg-box); stroke: var(--dg-line); }
+.dg .bx-g { fill: var(--dg-g-bg); stroke: var(--dg-g); } .dg .bx-w { fill: var(--dg-w-bg); stroke: var(--dg-w); }
+.dg .bx-b { fill: var(--dg-b-bg); stroke: var(--dg-b); } .dg .bx-v { fill: var(--dg-v-bg); stroke: var(--dg-v); }
+.dg .bx-c { fill: var(--dg-c-bg); stroke: var(--dg-c); } .dg .bx-r { fill: var(--dg-r-bg); stroke: var(--dg-r); }
+.dg .ln { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.dg .ln-k { stroke: var(--dg-k); } .dg .ln-g { stroke: var(--dg-g); } .dg .ln-w { stroke: var(--dg-w); } .dg .ln-b { stroke: var(--dg-b); }
+.dg .ln-v { stroke: var(--dg-v); } .dg .ln-c { stroke: var(--dg-c); } .dg .ln-r { stroke: var(--dg-r); }
+.dg .dash { stroke-dasharray: 6 5; }
+.dg .flow { animation: dgflow 1.6s linear infinite; }
+@keyframes dgflow { to { stroke-dashoffset: -22; } }
+.dg .mk-k { fill: var(--dg-k); } .dg .mk-g { fill: var(--dg-g); } .dg .mk-w { fill: var(--dg-w); } .dg .mk-b { fill: var(--dg-b); }
+.dg .mk-v { fill: var(--dg-v); } .dg .mk-c { fill: var(--dg-c); } .dg .mk-r { fill: var(--dg-r); }
+.dg .nb { stroke-width: 0; } .dg .nb-g { fill: var(--dg-g); } .dg .nb-w { fill: var(--dg-w); } .dg .nb-b { fill: var(--dg-b); } .dg .nb-v { fill: var(--dg-v); } .dg .nb-n { fill: var(--dg-k); }
+.dg .nbt { fill: #fff; }
+[data-theme='dark'] .dg .nbt { fill: #06101f; }
+.dg .f-sun { fill: var(--dg-sun); } .dg .f-land { fill: var(--dg-land); } .dg .f-soil { fill: var(--dg-soil); }
+.dg .f-sea { fill: var(--dg-sea); } .dg .f-gw { fill: var(--dg-gw); } .dg .f-atm { fill: var(--dg-atm); }
+.dg .f-cloud-o circle, .dg .f-cloud-o rect { fill: var(--dg-line); stroke: var(--dg-line); stroke-width: 3; }
+.dg .f-cloud circle, .dg .f-cloud rect { fill: var(--dg-cloud); stroke: none; }
+.dg .f-leaf { fill: var(--dg-leaf); } .dg .f-trunk { fill: var(--dg-trunk); }
+.dg .f-plate { fill: var(--dg-plate); } .dg .f-hop { fill: var(--dg-hop); stroke: var(--dg-line); stroke-width: 1.4; }
+.dg .f-bag { fill: var(--dg-bag); stroke: var(--dg-line); stroke-width: 1.4; } .dg .f-tube { fill: var(--dg-tube); stroke: var(--dg-line); stroke-width: 1.2; }
+.dg .f-str { fill: var(--dg-str); } .dg .f-cyc { fill: var(--dg-box); stroke: var(--dg-line); stroke-width: 1.6; stroke-linejoin: round; }
+.dg .f-drop { fill: var(--dg-drop); stroke: var(--dg-b); stroke-width: .8; }
+.dg .pd { fill: var(--dg-k); } .dg .pt { fill: var(--dg-w); }
+
+/* ---------- Motion ---------- */
+.page-enter { animation: rise .45s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  .dg .flow { animation: none; }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  :root, [data-theme='dark'] { --c-bg: 255 255 255; --c-panel: 255 255 255; --c-sunk: 244 244 244; --c-line: 205 205 205; --c-ink: 0 0 0; --c-mute: 70 70 70; --c-brand: 4 120 87; --c-shadow: 0 0 0;
+    --dg-bg:#fff; --dg-ink:#111; --dg-line:#777; --dg-box:#fff; --dg-k:#444; --dg-g:#047857; --dg-g-bg:#eef9f4; --dg-w:#c2410c; --dg-w-bg:#fff4ea; --dg-b:#1d4ed8; --dg-b-bg:#eef3ff; --dg-v:#6d28d9; --dg-v-bg:#f4f0ff; --dg-c:#0e7490; --dg-c-bg:#e9f7fa; --dg-r:#b91c1c; --dg-sea:#cfe4f6; --dg-gw:#bcd6ee; --dg-land:#e6eedf; --dg-soil:#efe6d8; --dg-cloud:#fff; --dg-hop:#eef0f3; --dg-bag:#f5eddb; --dg-tube:#d8dee6; --dg-str:#f5f2fd; --dg-atm:rgba(8,145,178,.08); }
+  body { background: #fff !important; }
+  .no-print, aside, header.topbar, .progress-bar, .fab { display: none !important; }
+  main { margin: 0 !important; padding: 0 !important; }
+  .reading { max-width: 100% !important; font-size: 11.5pt !important; line-height: 1.55; }
+  .sect-body[hidden] { display: block !important; }
+  .sect-btn svg { display: none; }
+  .avoid-break { break-inside: avoid; }
+  .diagram-frame { break-inside: avoid; box-shadow: none !important; }
+  .print-head { display: block !important; }
+  a { color: inherit; text-decoration: none; }
+  .card { box-shadow: none !important; }
+  .dg .flow { animation: none; }
+}
+.print-head { display: none; }
