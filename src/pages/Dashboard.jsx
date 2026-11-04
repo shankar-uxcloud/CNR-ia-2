@@ -18,7 +18,7 @@ function MiniRow({ q }) {
 }
 
 export default function Dashboard() {
-  const { completed, bookmarks, recent, resetAll, notify } = useStudy();
+  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, resetAll, notify } = useStudy();
   const done = Object.keys(completed).length;
   const [v, setV] = useState(0);
   useEffect(() => { const t = setTimeout(() => setV(done / 10), 80); return () => clearTimeout(t); }, [done]);
@@ -27,6 +27,9 @@ export default function Dashboard() {
   const next = last || QUESTIONS.find((q) => !completed[q.id]);
   const marked = QUESTIONS.filter((q) => bookmarks[q.id]);
   const recents = recent.map(byId).filter(Boolean);
+  const attempted = Object.keys(practiceAttempts).length;
+  const practiceSessions = Object.values(practiceAttempts).reduce((n, a) => n + (a.attempts || 0), 0);
+  const checklistDone = Object.values(examChecks).reduce((n, checks) => n + Object.values(checks).filter(Boolean).length, 0);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
@@ -92,6 +95,13 @@ export default function Dashboard() {
           </section>
         </div>
       </div>
+
+
+      <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Additional preparation activity">
+        <a href="#/practice" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><p className="text-xs text-mute">Questions practised</p><p className="mt-1 text-2xl font-bold tabular-nums">{attempted}<span className="text-sm font-medium text-mute"> / 10</span></p><span className="mt-2 block text-xs font-semibold text-brand">Open Practice Centre →</span></a>
+        <a href="#/practice" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><p className="text-xs text-mute">Practice sessions</p><p className="mt-1 text-2xl font-bold tabular-nums">{practiceSessions}</p><span className="mt-2 block text-xs text-mute">Saved self-assessments</span></a>
+        <div className="card p-4"><p className="text-xs text-mute">Writing checklist points</p><p className="mt-1 text-2xl font-bold tabular-nums">{checklistDone}</p><span className="mt-2 block text-xs text-mute">Ticks saved across questions</span></div>
+      </section>
 
       <section className="mt-8" aria-labelledby="study-route">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
