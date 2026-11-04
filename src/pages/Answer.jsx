@@ -4,6 +4,7 @@ import {
   Eye, FileText, LayoutDashboard, Maximize2, Printer, Settings2, Clock, ListTree, Minus, Plus,
 } from 'lucide-react';
 import { QUESTIONS, byId, SUBJECT, MODULES } from '../data/questions';
+import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
 import { answerToText, diagramsOf, readMinutes } from '../lib/content';
 import { useStudy, FONT_SIZES, WIDTHS } from '../lib/study';
 import { iconFor } from '../lib/icons';
@@ -53,7 +54,9 @@ export default function Answer({ id }) {
   const q = byId(id);
   const st = useStudy();
   const { isDone, isMarked, toggleDone, toggleBookmark, visit, notify, focus, setFocus, settings, setSetting, examChecks = {}, toggleExamCheck, readingChecks = {}, toggleReading } = st;
-  const sections = q?.answer.sections || [];
+  const [answerMode, setAnswerMode] = useState('ten');
+  const fiveMarkSections = FIVE_MARK_ANSWERS[id] || [];
+  const sections = answerMode === 'five' && fiveMarkSections.length ? fiveMarkSections : (q?.answer.sections || []);
   const [open, setOpen] = useState(() => Object.fromEntries(sections.map((s) => [s.id, true])));
   const [practice, setPractice] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -62,6 +65,8 @@ export default function Answer({ id }) {
   const [prog, setProg] = useState(0);
   const [panel, setPanel] = useState(false);
   const articleRef = useRef(null);
+
+  useEffect(() => { setOpen(Object.fromEntries(sections.map((s) => [s.id, true]))); setActive(sections[0]?.id); }, [answerMode, id]); // eslint-disable-line
 
   useEffect(() => { if (q) { visit(q.id); document.title = `${q.code} ${q.title} – VTU ExamPrep BCV755B`; } return () => { document.title = 'VTU ExamPrep – BCV755B Conservation of Natural Resources'; }; }, [id]); // eslint-disable-line
 
@@ -134,21 +139,27 @@ export default function Answer({ id }) {
             <a href={`#/module/${q.module}`} className="hover:text-ink">Module {q.module}</a><ChevronRight size={12} /><span className="font-semibold text-ink">{q.code}</span>
           </nav>
 
-          <div className="print-head mb-4 border-b border-line pb-2 text-sm"><b>{SUBJECT.code} – {SUBJECT.name}</b> · Module {q.module} · {q.code} · 10 Marks</div>
+          <div className="print-head mb-4 border-b border-line pb-2 text-sm"><b>{SUBJECT.code} – {SUBJECT.name}</b> · Module {q.module} · {q.code} · {answerMode === 'five' ? '5' : '10'} Marks</div>
 
           <header>
-            <div className="flex flex-wrap items-center gap-2"><ModuleBadge m={q.module} long /><MarksBadge /><StatusChip done={done} />
+            <div className="flex flex-wrap items-center gap-2"><ModuleBadge m={q.module} long /><span className="chip">{answerMode === 'five' ? '5 Marks · Short Answer' : '10 Marks · Detailed Answer'}</span><StatusChip done={done} />
               <span className="chip"><Clock size={12} aria-hidden="true" />{readMinutes(q)} min read</span>{readDone && <span className="chip text-brand"><CheckCircle2 size={12}/>Reading completed</span>}</div>
             <div className="mt-4 flex items-start gap-4">
               <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl" style={{ background: `rgb(var(--m${q.module}) / .12)`, color: modColor(q.module) }}><Icon size={27} aria-hidden="true" /></div>
               <div><p className="eyebrow">{q.code} · {MODULES[q.module].name}</p><h1 id="q-title" className="mt-0.5 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{q.title}</h1></div>
             </div>
             <blockquote className="mt-5 rounded-2xl border border-line bg-sunk px-5 py-4 font-read text-[17px] leading-relaxed" style={{ borderLeft: `4px solid ${modColor(q.module)}` }}>
-              <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · 10 Marks</span>{q.question}
+              <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · {answerMode === 'five' ? '5' : '10'} Marks</span>{q.question}
             </blockquote>
 
+            {/* Answer length selector */}
+            <div className="no-print mt-5 inline-flex rounded-xl border border-line bg-sunk p-1" role="group" aria-label="Choose answer length">
+              <button type="button" onClick={() => setAnswerMode('five')} aria-pressed={answerMode === 'five'} className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${answerMode === 'five' ? 'bg-panel text-brand shadow-soft' : 'text-mute hover:text-ink'}`}>5-mark answer</button>
+              <button type="button" onClick={() => setAnswerMode('ten')} aria-pressed={answerMode === 'ten'} className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${answerMode === 'ten' ? 'bg-panel text-brand shadow-soft' : 'text-mute hover:text-ink'}`}>10-mark answer</button>
+            </div>
+
             {/* Actions */}
-            <div className="no-print mt-5 flex flex-wrap items-center gap-2">
+            <div className="no-print mt-3 flex flex-wrap items-center gap-2">
               <button onClick={complete} aria-pressed={done} className={done ? 'btn border border-brand/50 bg-brand/12 text-brand' : 'btn-primary'}>
                 {done ? <CheckCircle2 size={18} /> : <Check size={18} />}{done ? 'Completed' : 'Mark as Completed'}
               </button>
@@ -183,7 +194,7 @@ export default function Answer({ id }) {
 
           <section className="no-print card mt-6 p-5" aria-label="VTU answer writing checklist">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={17} className="text-brand" />10-mark answer writing checklist</h2><p className="mt-1 text-sm text-mute">Use these question-specific headings to check your preparation. Your ticks are saved in this browser.</p></div>
+              <div><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={17} className="text-brand" />{answerMode === 'five' ? '5-mark' : '10-mark'} answer writing checklist</h2><p className="mt-1 text-sm text-mute">Use these question-specific headings to check your preparation. Your ticks are saved in this browser.</p></div>
               <span className="rounded-lg bg-brand/10 px-3 py-2 text-sm font-bold tabular-nums text-brand">{sections.filter((s) => examChecks[q.id]?.[s.id]).length + (nDiagrams && examChecks[q.id]?.diagram ? 1 : 0)}/{sections.length + (nDiagrams ? 1 : 0)} covered</span>
             </div>
             <div className="mt-3 grid gap-1 sm:grid-cols-2">
