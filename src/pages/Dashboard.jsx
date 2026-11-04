@@ -93,6 +93,35 @@ export default function Dashboard() {
         </div>
       </div>
 
+      <section className="mt-8" aria-labelledby="study-route">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <p className="eyebrow">A simple revision route</p>
+            <h2 id="study-route" className="mt-1 text-xl font-bold tracking-tight">Choose your next module</h2>
+          </div>
+          <p className="text-xs text-mute">Open a module and work through its questions in order.</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[3, 4, 5].map((m) => {
+            const qs = QUESTIONS.filter((q) => q.module === m);
+            const finished = qs.filter((q) => completed[q.id]).length;
+            return (
+              <a key={m} href={`#/module/${m}`} className="card group p-4 transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: modColor(m) }}>Module {m}</span>
+                  <span className="text-xs tabular-nums text-mute">{finished}/{qs.length} done</span>
+                </div>
+                <h3 className="mt-2 font-semibold">{MODULES[m].name}</h3>
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sunk">
+                  <div className="h-full rounded-full transition-all" style={{ width: `${(finished / qs.length) * 100}%`, background: modColor(m) }} />
+                </div>
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand">Study this module <ArrowRight size={13} className="transition group-hover:translate-x-0.5" /></span>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+
       <div className="mt-8 flex justify-end">
         <button onClick={() => { if (confirm('Reset all completed answers, bookmarks and recent history?')) { resetAll(); notify('Progress reset'); } }} className="inline-flex items-center gap-2 text-xs font-medium text-mute hover:text-ink"><RotateCcw size={13} />Reset progress</button>
       </div>
