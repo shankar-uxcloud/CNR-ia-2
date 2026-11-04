@@ -11,9 +11,9 @@ export const SUBJECT = {
 
 // Module classification is fixed by the brief: Q09 and Q10 belong to Module 3.
 export const MODULES = {
-  3: { n: 3, name: 'Air Pollution', long: 'Air Pollution, Control Equipment and Ozone Depletion' },
-  4: { n: 4, name: 'Biodiversity and Ecosystem Conservation', long: 'Biodiversity, Conservation and Biogeochemical Cycles' },
-  5: { n: 5, name: 'Global Warming and Environmental Management', long: 'Global Warming, International Agreements and EIA' },
+  3: { n: 3, name: 'Air and Air Pollution', long: 'Air composition, air pollutants, air quality, pollution effects, control equipment and ozone depletion' },
+  4: { n: 4, name: 'Biodiversity and Ecosystem', long: 'Biodiversity, flora and fauna, ecosystem components, conservation and biogeochemical cycles' },
+  5: { n: 5, name: 'Global Warming and EIA', long: 'Global warming, climate change, global conservation efforts and Environmental Impact Assessment' },
 };
 export const MODULE_ORDER = [5, 4, 3];
 
