@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Search, X, SearchX, Bookmark } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER } from '../data/questions';
 import { searchBlob } from '../lib/content';
@@ -10,10 +10,16 @@ const BLOBS = Object.fromEntries(QUESTIONS.map((q) => [q.id, searchBlob(q)]));
 
 export default function Library({ module, bookmarksOnly }) {
   const { query, setQuery, bookmarks } = useStudy();
+  const [sort, setSort] = useState('default');
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
-  const list = useMemo(() => QUESTIONS.filter((q) =>
-    (!module || q.module === module) && (!bookmarksOnly || bookmarks[q.id]) && terms.every((t) => BLOBS[q.id].includes(t))),
-  [module, bookmarksOnly, bookmarks, query]);
+  const list = useMemo(() => {
+    const result = QUESTIONS.filter((q) =>
+      (!module || q.module === module) && (!bookmarksOnly || bookmarks[q.id]) && terms.every((t) => BLOBS[q.id].includes(t)));
+    if (sort === 'title') result.sort((a, b) => a.title.localeCompare(b.title));
+    if (sort === 'module') result.sort((a, b) => a.module - b.module || a.no - b.no);
+    if (sort === 'recent') result.sort((a, b) => (bookmarks[b.id] || 0) - (bookmarks[a.id] || 0));
+    return result;
+  }, [module, bookmarksOnly, bookmarks, query, sort]);
   const title = bookmarksOnly ? 'Bookmarked Questions' : module ? `Module ${module}` : 'All Questions';
   const sub = bookmarksOnly ? 'Answers you saved for quick revision.' : module ? MODULES[module].long : 'Ten important 10-mark questions across Modules 3, 4 and 5.';
   const chips = [{ to: '/questions', label: 'All', n: 10, on: !module && !bookmarksOnly }, ...[3, 4, 5].map((m) => ({ to: `/module/${m}`, label: `Module ${m}`, n: MODULES && QUESTIONS.filter((q) => q.module === m).length, on: module === m, m })), { to: '/bookmarks', label: 'Bookmarked', n: Object.keys(bookmarks).length, on: bookmarksOnly, icon: true }];
@@ -41,7 +47,14 @@ export default function Library({ module, bookmarksOnly }) {
             </a>
           ))}
         </div>
-        <p className="text-sm text-mute" aria-live="polite">Showing {list.length} of 10 questions</p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-mute" aria-live="polite">Showing {list.length} of 10 questions</p>
+          <label className="flex items-center gap-2 text-xs font-medium text-mute">Sort
+            <select value={sort} onChange={(e) => setSort(e.target.value)} className="h-9 rounded-lg border border-line bg-panel px-2 text-sm text-ink">
+              <option value="default">Question order</option><option value="title">Title A–Z</option><option value="module">Module</option>{bookmarksOnly && <option value="recent">Recently bookmarked</option>}
+            </select>
+          </label>
+        </div>
       </div>
 
       <div className="mt-4 space-y-4">

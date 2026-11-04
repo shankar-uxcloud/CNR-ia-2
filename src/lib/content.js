@@ -41,7 +41,14 @@ export function answerToText(q) {
 /** Lower-cased text used for instant search. */
 export function searchBlob(q) {
   const heads = q.answer.sections.flatMap((s) => [s.title, ...(s.subsections || []).map((x) => x.title)]);
-  return [q.code, q.title, q.question, `module ${q.module}`, ...q.answer.keywords, ...heads].join(' ').toLowerCase();
+  const searchableBlocks = allBlocks(q.answer).flatMap((b) => {
+    if (b.type === 'p' || b.type === 'note' || b.type === 'key') return [b.text || '', b.title || ''];
+    if (b.type === 'list') return b.items || [];
+    if (b.type === 'table') return [...(b.head || []), ...(b.rows || []).flat()];
+    if (b.type === 'eq') return [b.title || '', ...(b.lines || [])];
+    return [];
+  });
+  return [q.code, q.title, q.question, `module ${q.module}`, ...q.answer.keywords, ...heads, ...searchableBlocks].join(' ').toLowerCase();
 }
 
 export const readMinutes = (q) => Math.max(3, Math.round(answerToText(q).split(/\s+/).length / 190));
