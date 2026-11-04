@@ -27,6 +27,11 @@ export const q01 = {
           'The **natural greenhouse effect** makes the Earth habitable.',
           'Human activities increase greenhouse-gas concentrations, producing an **enhanced greenhouse effect** and additional warming.',
         ] },
+        { type: 'p', text: 'The process has two important parts. First, the atmosphere allows much of the incoming short-wave solar energy to reach the surface. Second, the warmed surface emits energy as long-wave infrared radiation. Greenhouse gases absorb and re-emit some of this outgoing radiation. This natural process keeps the lower atmosphere warmer than it would otherwise be; the enhanced effect occurs when human activities add more heat-trapping gases.' },
+        { type: 'table', head: ['Natural greenhouse effect', 'Enhanced greenhouse effect'], rows: [
+          ['Occurs naturally because greenhouse gases are present in the atmosphere.', 'Becomes stronger when human activities increase greenhouse-gas concentrations.'],
+          ['Keeps the Earth warm enough to support life.', 'Retains additional heat and contributes to long-term global warming.'],
+        ] },
         { type: 'diagram', id: 'greenhouse', caption: 'Greenhouse effect: sunlight warms the surface; greenhouse gases absorb and re-emit part of the outgoing heat.' },
         { type: 'p', text: '**Diagram explanation:** Incoming solar radiation passes through the atmosphere and warms the surface. The surface sends heat back upwards. Part of this heat escapes to space, while part is absorbed by greenhouse gases and re-emitted, so some returns towards the surface and warms the lower atmosphere. More greenhouse gas means more heat retained – the enhanced greenhouse effect.' },
         { type: 'key', title: 'Revision sequence', text: 'Sun’s radiation → Earth’s surface warms → outgoing heat partly absorbed and re-emitted by greenhouse gases → enhanced warming.' },
