@@ -10,12 +10,14 @@ import Library from './pages/Library';
 
 const Answer = lazy(() => import('./pages/Answer'));
 const Revision = lazy(() => import('./pages/Revision'));
+const Practice = lazy(() => import('./pages/Practice'));
 
 function Router({ path }) {
   if (path === '/dashboard') return <Dashboard />;
   if (path === '/questions') return <Library />;
   if (path === '/bookmarks') return <Library bookmarksOnly />;
   if (path === '/revision') return <Revision />;
+  if (path === '/practice') return <Practice />;
   const m = path.match(/^\/module\/([345])$/);
   if (m) return <Library module={Number(m[1])} />;
   const q = path.match(/^\/q\/([a-z0-9]+)$/);
