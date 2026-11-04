@@ -213,7 +213,21 @@ export const q03 = {
       ],
     },
     {
-      id: 'strategies', title: '3. Global Conservation Strategies',
+      id: 'remember', title: '3. Organising the International Efforts',
+      blocks: [
+        { type: 'table', head: ['Main area', 'Agreement / organisation', 'Central purpose'], rows: [
+          ['Biodiversity', 'CBD', 'Conservation, sustainable use and fair benefit sharing'],
+          ['Climate action', 'UNFCCC / Paris Agreement / Kyoto Protocol', 'International cooperation to address greenhouse-gas emissions and climate change'],
+          ['Wildlife trade', 'CITES', 'Regulates international trade in listed species'],
+          ['Wetlands', 'Ramsar Convention', 'Conservation and wise use of wetlands'],
+          ['Migratory species', 'Convention on Migratory Species (Bonn Convention)', 'Cooperation for conservation across national boundaries'],
+          ['Environmental coordination', 'UNEP', 'Supports environmental cooperation, research and awareness'],
+        ] },
+        { type: 'note', kind: 'added', text: 'This table groups the agreements and organisations already described above by their main area of work. It does not add new treaty dates or legal targets.' },
+      ],
+    },
+    {
+      id: 'strategies', title: '4. Global Conservation Strategies',
       blocks: [
         { type: 'list', ordered: true, items: [
           'Create and manage **protected areas** such as national parks, sanctuaries and biosphere reserves.',
