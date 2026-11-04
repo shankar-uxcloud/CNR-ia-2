@@ -1,4 +1,4 @@
-# VTU ExamPrep – BCV755B Conservation of Natural Resources
+ CNR
 
 React + Vite + Tailwind CSS + lucide-react. No backend; progress, bookmarks, theme and reading settings are stored in `localStorage`.
 
