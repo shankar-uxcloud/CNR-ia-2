@@ -70,9 +70,10 @@ export default function Landing() {
             const qs = QUESTIONS.filter((q) => q.module === m);
             return (
               <a key={m} href={`#/module/${m}`} className="card group p-6 transition hover:-translate-y-1 hover:shadow-lift">
-                <div className="flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-widest" style={{ color: modColor(m) }}>Module {m}</span><span className="text-3xl font-bold tabular-nums">{qs.length}</span></div>
-                <h3 className="mt-2 font-semibold">{MODULES[m].name}</h3>
-                <ul className="mt-4 space-y-1.5 text-sm text-mute">{qs.map((q) => <li key={q.id} className="flex gap-2"><span className="w-8 shrink-0 font-semibold text-ink">{q.code}</span>{q.title}</li>)}</ul>
+                <div className="flex items-start justify-between gap-3"><div><span className="text-xs font-bold uppercase tracking-widest" style={{ color: modColor(m) }}>MODULE {String(m).padStart(2, '0')}</span><h3 className="mt-2 text-lg font-bold tracking-tight">{MODULES[m].name}</h3></div><span className="grid h-11 min-w-11 place-items-center rounded-xl text-lg font-bold tabular-nums" style={{ color: modColor(m), background: `rgb(var(--m${m}) / .12)` }}>{qs.length}</span></div>
+                <p className="mt-2 min-h-12 text-sm leading-relaxed text-mute">{MODULES[m].long}</p>
+                <div className="mt-4 border-t border-line pt-3"><p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-mute">Included questions</p><ul className="space-y-2 text-sm text-mute">{qs.map((q) => <li key={q.id} className="flex items-start gap-2"><span className="shrink-0 rounded-md bg-sunk px-1.5 py-0.5 text-[11px] font-bold text-ink">{q.code}</span><span>{q.title}</span></li>)}</ul></div>
+                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand transition group-hover:gap-3">Explore module <ArrowRight size={16} /></span>
               </a>
             );
           })}
