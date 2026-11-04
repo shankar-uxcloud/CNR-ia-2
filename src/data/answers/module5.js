@@ -27,6 +27,11 @@ export const q01 = {
           'The **natural greenhouse effect** makes the Earth habitable.',
           'Human activities increase greenhouse-gas concentrations, producing an **enhanced greenhouse effect** and additional warming.',
         ] },
+        { type: 'p', text: 'The process has two important parts. First, the atmosphere allows much of the incoming short-wave solar energy to reach the surface. Second, the warmed surface emits energy as long-wave infrared radiation. Greenhouse gases absorb and re-emit some of this outgoing radiation. This natural process keeps the lower atmosphere warmer than it would otherwise be; the enhanced effect occurs when human activities add more heat-trapping gases.' },
+        { type: 'table', head: ['Natural greenhouse effect', 'Enhanced greenhouse effect'], rows: [
+          ['Occurs naturally because greenhouse gases are present in the atmosphere.', 'Becomes stronger when human activities increase greenhouse-gas concentrations.'],
+          ['Keeps the Earth warm enough to support life.', 'Retains additional heat and contributes to long-term global warming.'],
+        ] },
         { type: 'diagram', id: 'greenhouse', caption: 'Greenhouse effect: sunlight warms the surface; greenhouse gases absorb and re-emit part of the outgoing heat.' },
         { type: 'p', text: '**Diagram explanation:** Incoming solar radiation passes through the atmosphere and warms the surface. The surface sends heat back upwards. Part of this heat escapes to space, while part is absorbed by greenhouse gases and re-emitted, so some returns towards the surface and warms the lower atmosphere. More greenhouse gas means more heat retained – the enhanced greenhouse effect.' },
         { type: 'key', title: 'Revision sequence', text: 'Sun’s radiation → Earth’s surface warms → outgoing heat partly absorbed and re-emitted by greenhouse gases → enhanced warming.' },
@@ -128,6 +133,19 @@ export const q02 = {
       ],
     },
     {
+      id: 'impact-chain', title: 'How the Effects Are Connected',
+      blocks: [
+        { type: 'list', ordered: true, items: [
+          '**Higher temperature** contributes to glacier retreat and ocean warming.',
+          '**Glacier retreat and changing rainfall** can affect seasonal water availability and increase water-management challenges.',
+          '**Warmer oceans and sea-level rise** increase risks to coastal ecosystems and settlements; ocean warming can contribute to coral bleaching.',
+          '**Heat stress and changing rainfall** affect human health, agriculture and the distribution of disease vectors.',
+          '**Damage to ecosystems and infrastructure** can reduce livelihoods and increase economic losses.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This is a revision-oriented connection of effects already described in the answer. It is not a separate case study or a quantified causal model from the source notes.' },
+      ],
+    },
+    {
       id: 'summary', title: 'Summary Table',
       blocks: [
         { type: 'table', head: ['Effect', 'Main consequences', 'Example given in the notes'], rows: [
@@ -195,7 +213,21 @@ export const q03 = {
       ],
     },
     {
-      id: 'strategies', title: '3. Global Conservation Strategies',
+      id: 'remember', title: '3. Organising the International Efforts',
+      blocks: [
+        { type: 'table', head: ['Main area', 'Agreement / organisation', 'Central purpose'], rows: [
+          ['Biodiversity', 'CBD', 'Conservation, sustainable use and fair benefit sharing'],
+          ['Climate action', 'UNFCCC / Paris Agreement / Kyoto Protocol', 'International cooperation to address greenhouse-gas emissions and climate change'],
+          ['Wildlife trade', 'CITES', 'Regulates international trade in listed species'],
+          ['Wetlands', 'Ramsar Convention', 'Conservation and wise use of wetlands'],
+          ['Migratory species', 'Convention on Migratory Species (Bonn Convention)', 'Cooperation for conservation across national boundaries'],
+          ['Environmental coordination', 'UNEP', 'Supports environmental cooperation, research and awareness'],
+        ] },
+        { type: 'note', kind: 'added', text: 'This table groups the agreements and organisations already described above by their main area of work. It does not add new treaty dates or legal targets.' },
+      ],
+    },
+    {
+      id: 'strategies', title: '4. Global Conservation Strategies',
       blocks: [
         { type: 'list', ordered: true, items: [
           'Create and manage **protected areas** such as national parks, sanctuaries and biosphere reserves.',
@@ -276,6 +308,22 @@ export const q04 = {
         ] },
         { type: 'p', text: '**Importance of categorisation:** it identifies the competent authority, helps determine the level of assessment and documentation, allows projects to be evaluated in proportion to their likely impacts, and supports public consultation, mitigation planning and post-clearance monitoring.' },
         { type: 'note', kind: 'gap', text: 'The notes do not give a reliable list of Category B examples or the year of the EIA notification. Check these against the current syllabus or the applicable EIA notification before writing them in an examination.' },
+      ],
+    },
+    {
+      id: 'step-purpose', title: '6. Purpose of Each EIA Stage',
+      blocks: [
+        { type: 'table', head: ['Stage', 'Main question answered'], rows: [
+          ['Screening', 'Does this project require environmental assessment, and which category applies?'],
+          ['Scoping', 'Which environmental issues and studies must be examined?'],
+          ['Baseline studies', 'What are the existing environmental conditions before the project?'],
+          ['Impact prediction', 'What changes may occur during construction and operation?'],
+          ['Alternatives and mitigation', 'Can a less harmful option be selected, and how can impacts be reduced?'],
+          ['EIA report and consultation', 'Are findings documented and stakeholder views considered?'],
+          ['Appraisal and clearance', 'Does the proposal meet the applicable requirements and what conditions apply?'],
+          ['Monitoring', 'Are the conditions and environmental management measures being followed?'],
+        ] },
+        { type: 'note', kind: 'added', text: 'This table restates the process steps in question form to make the EIA sequence easier to understand and reproduce in an examination.' },
       ],
     },
     {

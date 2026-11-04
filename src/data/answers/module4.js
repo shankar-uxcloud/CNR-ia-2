@@ -60,7 +60,18 @@ export const q05 = {
       ],
     },
     {
-      id: 'summary', title: '3. Summary Table of Values',
+      id: 'remember', title: '3. Quick Revision of the Three Levels',
+      blocks: [
+        { type: 'table', head: ['Level', 'Remember it as', 'Example from the notes'], rows: [
+          ['Genetic diversity', 'Differences within one species', 'Different varieties of rice, wheat and mango'],
+          ['Species diversity', 'Variety and relative abundance of species', 'Tigers, elephants, birds, insects and plants in a forest'],
+          ['Ecosystem diversity', 'Variety of habitats and communities', 'Forests, grasslands, deserts, wetlands, rivers and oceans'],
+        ] },
+        { type: 'key', title: 'Exam memory cue', text: 'Genes within a species → different species in a region → different ecosystems across a landscape.' },
+      ],
+    },
+    {
+      id: 'summary', title: '4. Summary Table of Values',
       blocks: [
         { type: 'table', head: ['Value', 'Key contribution'], rows: [
           ['Ecological', 'Food webs, pollination, nutrient cycling, soil fertility, balance'],
@@ -138,7 +149,20 @@ export const q06 = {
       ],
     },
     {
-      id: 'measures', title: '3. Measures for Biodiversity Conservation',
+      id: 'impact-chain', title: '3. How Major Threats Reduce Biodiversity',
+      blocks: [
+        { type: 'list', ordered: true, items: [
+          '**Habitat destruction and fragmentation** reduce available living space and can isolate populations.',
+          '**Pollution** damages habitats and can affect survival and reproduction.',
+          '**Overexploitation** removes organisms faster than populations can recover.',
+          '**Invasive species** may compete with native species, prey on them or spread disease.',
+          '**Climate change and natural disturbances** alter or destroy habitat conditions and can shift species distribution and survival.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This is a cause-and-effect summary of the threats already described in the source-based answer, not a separate ranking of their severity.' },
+      ],
+    },
+    {
+      id: 'measures', title: '4. Measures for Biodiversity Conservation',
       blocks: [
         { type: 'list', ordered: true, items: [
           'Establish and effectively manage **national parks, wildlife sanctuaries and biosphere reserves**.',
@@ -196,7 +220,20 @@ export const q07 = {
       ],
     },
     {
-      id: 'differences', title: '3. Differences between In-situ and Ex-situ Conservation',
+      id: 'importance', title: '3. Importance of Both Conservation Approaches',
+      blocks: [
+        { type: 'p', text: 'The two approaches address different conservation needs and should be viewed as **complementary methods**, not competing alternatives.' },
+        { type: 'list', ordered: true, items: [
+          '**Protection of natural relationships:** in-situ conservation keeps species in their habitats, where they can continue to live, reproduce and interact with other organisms.',
+          '**Protection when natural survival is difficult:** ex-situ conservation provides additional care or storage for selected species or their genetic material when they are highly threatened or need specialised support.',
+          '**Support for future recovery:** gene banks, pollen and tissue culture, and cryopreservation preserve biological material for future use.',
+          '**Wider conservation value:** combining habitat protection with off-site conservation provides more than one way to safeguard biodiversity.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This section organises the purposes of the methods already described in the Module 4 and Module 5 notes. The notes do not provide separate case studies or measured success rates for these methods.' },
+      ],
+    },
+    {
+      id: 'differences', title: '4. Differences between In-situ and Ex-situ Conservation',
       blocks: [
         { type: 'table', head: ['Basis', 'In-situ conservation', 'Ex-situ conservation'], rows: [
           ['Meaning', 'Protects species in their natural habitats', 'Protects species or genetic material outside natural habitats'],
@@ -304,7 +341,20 @@ export const q08 = {
       ],
     },
     {
-      id: 'importance', title: '7. Importance for Soil Fertility, Productivity and Ecological Balance',
+      id: 'cycle-summary', title: '7. One-Line Revision of the Five Cycles',
+      blocks: [
+        { type: 'table', head: ['Cycle', 'Main pathway to remember'], rows: [
+          ['Carbon', 'Atmospheric CO₂ → plants → food chains → respiration / decomposition / combustion → CO₂'],
+          ['Nitrogen', 'Atmospheric N₂ → fixation → soil compounds → plants / animals → decomposition → denitrification'],
+          ['Oxygen', 'Photosynthesis releases O₂ → respiration and combustion use O₂'],
+          ['Phosphorus', 'Rocks → weathering → soil / water → plants / animals → decomposition / sediments'],
+          ['Water', 'Evaporation / transpiration → condensation → precipitation → runoff / infiltration'],
+        ] },
+        { type: 'note', kind: 'added', text: 'These are condensed memory pathways based on the five cycle descriptions and diagrams in this answer. Expand each arrow into the full process when writing a 10-mark answer.' },
+      ],
+    },
+    {
+      id: 'importance', title: '8. Importance for Soil Fertility, Productivity and Ecological Balance',
       blocks: [
         { type: 'list', ordered: true, items: [
           '**Recycles essential nutrients** and maintains their availability to organisms.',
