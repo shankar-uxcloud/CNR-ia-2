@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
 export const WIDTHS = [{ label: 'Narrow', px: 640 }, { label: 'Medium', px: 760 }, { label: 'Wide', px: 920 }];
-const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, revisionChecks: {}, quizAttempts: [], plannerTasks: [], settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
+const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, revisionChecks: {}, readingChecks: {}, quizAttempts: [], plannerTasks: [], settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
 
 function load() {
   try {
@@ -12,7 +12,7 @@ function load() {
     return {
       ...DEFAULTS, ...s,
       examChecks: s.examChecks || {}, practiceAttempts: s.practiceAttempts || {},
-      revisionChecks: s.revisionChecks || {}, quizAttempts: Array.isArray(s.quizAttempts) ? s.quizAttempts : [],
+      revisionChecks: s.revisionChecks || {}, readingChecks: s.readingChecks || {}, quizAttempts: Array.isArray(s.quizAttempts) ? s.quizAttempts : [],
       plannerTasks: Array.isArray(s.plannerTasks) ? s.plannerTasks : [],
       settings: { ...DEFAULTS.settings, ...(s.settings || {}) },
     };
@@ -63,6 +63,7 @@ export function StudyProvider({ children }) {
       return { ...s, examChecks: { ...s.examChecks, [id]: { ...current, [key]: !current[key] } } };
     }),
     toggleRevision: (id) => setState((s) => ({ ...s, revisionChecks: { ...s.revisionChecks, [id]: s.revisionChecks[id] ? 0 : Date.now() } })),
+    toggleReading: (id) => setState((s) => ({ ...s, readingChecks: { ...s.readingChecks, [id]: s.readingChecks[id] ? 0 : Date.now() } })),
     savePracticeAttempt: (id, score, total) => setState((s) => {
       const previous = s.practiceAttempts[id];
       return { ...s, practiceAttempts: { ...s.practiceAttempts, [id]: { at: Date.now(), score, total, attempts: (previous?.attempts || 0) + 1 } } };
