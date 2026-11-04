@@ -311,6 +311,22 @@ export const q04 = {
       ],
     },
     {
+      id: 'step-purpose', title: '6. Purpose of Each EIA Stage',
+      blocks: [
+        { type: 'table', head: ['Stage', 'Main question answered'], rows: [
+          ['Screening', 'Does this project require environmental assessment, and which category applies?'],
+          ['Scoping', 'Which environmental issues and studies must be examined?'],
+          ['Baseline studies', 'What are the existing environmental conditions before the project?'],
+          ['Impact prediction', 'What changes may occur during construction and operation?'],
+          ['Alternatives and mitigation', 'Can a less harmful option be selected, and how can impacts be reduced?'],
+          ['EIA report and consultation', 'Are findings documented and stakeholder views considered?'],
+          ['Appraisal and clearance', 'Does the proposal meet the applicable requirements and what conditions apply?'],
+          ['Monitoring', 'Are the conditions and environmental management measures being followed?'],
+        ] },
+        { type: 'note', kind: 'added', text: 'This table restates the process steps in question form to make the EIA sequence easier to understand and reproduce in an examination.' },
+      ],
+    },
+    {
       id: 'conclusion', title: 'Conclusion',
       blocks: [
         { type: 'p', text: 'EIA supports **informed decision-making** by identifying environmental risks before project implementation and by requiring suitable **mitigation and monitoring**.' },
