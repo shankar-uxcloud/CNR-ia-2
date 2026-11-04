@@ -341,7 +341,20 @@ export const q08 = {
       ],
     },
     {
-      id: 'importance', title: '7. Importance for Soil Fertility, Productivity and Ecological Balance',
+      id: 'cycle-summary', title: '7. One-Line Revision of the Five Cycles',
+      blocks: [
+        { type: 'table', head: ['Cycle', 'Main pathway to remember'], rows: [
+          ['Carbon', 'Atmospheric CO₂ → plants → food chains → respiration / decomposition / combustion → CO₂'],
+          ['Nitrogen', 'Atmospheric N₂ → fixation → soil compounds → plants / animals → decomposition → denitrification'],
+          ['Oxygen', 'Photosynthesis releases O₂ → respiration and combustion use O₂'],
+          ['Phosphorus', 'Rocks → weathering → soil / water → plants / animals → decomposition / sediments'],
+          ['Water', 'Evaporation / transpiration → condensation → precipitation → runoff / infiltration'],
+        ] },
+        { type: 'note', kind: 'added', text: 'These are condensed memory pathways based on the five cycle descriptions and diagrams in this answer. Expand each arrow into the full process when writing a 10-mark answer.' },
+      ],
+    },
+    {
+      id: 'importance', title: '8. Importance for Soil Fertility, Productivity and Ecological Balance',
       blocks: [
         { type: 'list', ordered: true, items: [
           '**Recycles essential nutrients** and maintains their availability to organisms.',
