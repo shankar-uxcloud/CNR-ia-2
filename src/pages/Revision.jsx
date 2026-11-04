@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { useStudy } from '../lib/study';
+import { CheckCircle2, Circle } from 'lucide-react';
 import { ChevronDown, ExternalLink, ChevronsUpDown, Search, X, SearchX } from 'lucide-react';
 import { QUESTIONS } from '../data/questions';
 import { diagramsOf, keyPointsOf } from '../lib/content';
@@ -7,6 +9,7 @@ import DiagramFrame from '../components/DiagramFrame';
 import { ModuleBadge } from '../components/ui';
 
 export default function Revision() {
+  const { revisionChecks = {}, toggleRevision } = useStudy();
   const [open, setOpen] = useState({});
   const [query, setQuery] = useState('');
   const [module, setModule] = useState('all');
@@ -14,7 +17,7 @@ export default function Revision() {
     const term = query.trim().toLowerCase();
     return QUESTIONS.filter((q) => {
       const inModule = module === 'all' || String(q.module) === module;
-      const searchable = [q.code, q.title, q.question, ...(q.answer.keywords || []), ...(q.answer.sections || []).map((s) => s.title)]
+      const searchable = [q.code, q.title, q.question, ...(q.answer.keywords || []), ...(q.answer.sections || []).map((s) => s.title), ...(q.answer.sections || []).flatMap(s => (s.blocks || []).flatMap(b => [b.text || '', ...(b.items || [])]))]
         .join(' ').toLowerCase();
       return inModule && (!term || searchable.includes(term));
     });
@@ -51,7 +54,7 @@ export default function Revision() {
           ))}
         </div>
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm text-mute" aria-live="polite">Showing {filtered.length} of {QUESTIONS.length} questions</p>
+          <p className="text-sm text-mute" aria-live="polite">Showing {filtered.length} of {QUESTIONS.length} questions · {QUESTIONS.filter(q => revisionChecks[q.id]).length} revised</p>
           <button className="btn-ghost !py-2" onClick={toggleAll} disabled={!filtered.length}>
             <ChevronsUpDown size={16} />{all ? 'Collapse shown' : 'Expand shown'}
           </button>
@@ -74,6 +77,7 @@ export default function Revision() {
               <h2><button onClick={() => setOpen((o) => ({ ...o, [q.id]: !o[q.id] }))} aria-expanded={isOpen} aria-controls={`rev-${q.id}`} className="flex w-full items-center gap-3 px-5 py-4 text-left hover:bg-sunk/60">
                 <span className="w-10 text-sm font-bold text-mute">{q.code}</span>
                 <span className="min-w-0 flex-1"><span className="block font-semibold">{q.title}</span><span className="mt-1 block"><ModuleBadge m={q.module} /></span></span>
+                <span className="chip">{revisionChecks[q.id] ? 'Revised' : 'Not revised'}</span>
                 <ChevronDown size={18} className={`shrink-0 transition ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
               </button></h2>
               {isOpen && (
@@ -83,6 +87,7 @@ export default function Revision() {
                   <div><h3 className="eyebrow mb-2">Key headings</h3>
                     <ol className="space-y-1 text-sm">{q.answer.sections.map((s) => <li key={s.id} className="flex gap-2"><span className="text-brand">▸</span>{s.title}</li>)}</ol></div>
                   {keys.map((k, i) => <div key={i} className="rounded-xl border-l-4 border-brand bg-brand/8 px-4 py-3 text-sm"><b className="text-brand">{k.title}: </b><Inline text={k.text} /></div>)}
+                  <button onClick={() => toggleRevision(q.id)} className="btn-primary !py-2" aria-pressed={!!revisionChecks[q.id]}>{revisionChecks[q.id] ? <CheckCircle2 size={16}/> : <Circle size={16}/>} {revisionChecks[q.id] ? 'Mark as not revised' : 'Mark revision complete'}</button>
                   {dg.length > 0 && <div><h3 className="eyebrow mb-1">Essential diagrams</h3>{dg.map((d) => <DiagramFrame key={d.id} id={d.id} caption={d.caption} />)}</div>}
                   <a href={`#/q/${q.id}`} className="btn-ghost !py-2"><ExternalLink size={15} />Open full answer</a>
                 </div>

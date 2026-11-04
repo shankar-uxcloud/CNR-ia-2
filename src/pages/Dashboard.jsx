@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, Bookmark, CheckCircle2, Circle, Clock, PlayCircle, RotateCcw, Trophy } from 'lucide-react';
+import { ArrowRight, Bookmark, CheckCircle2, Circle, Clock, PlayCircle, RotateCcw, Trophy, Brain, CalendarDays, Zap } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER, byId, byModule } from '../data/questions';
 import { useStudy } from '../lib/study';
 import { iconFor } from '../lib/icons';
@@ -18,7 +18,7 @@ function MiniRow({ q }) {
 }
 
 export default function Dashboard() {
-  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, resetAll, notify } = useStudy();
+  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, revisionChecks = {}, quizAttempts = [], plannerTasks = [], resetAll, notify } = useStudy();
   const done = Object.keys(completed).length;
   const [v, setV] = useState(0);
   useEffect(() => { const t = setTimeout(() => setV(done / 10), 80); return () => clearTimeout(t); }, [done]);
@@ -101,6 +101,12 @@ export default function Dashboard() {
         <a href="#/practice" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><p className="text-xs text-mute">Questions practised</p><p className="mt-1 text-2xl font-bold tabular-nums">{attempted}<span className="text-sm font-medium text-mute"> / 10</span></p><span className="mt-2 block text-xs font-semibold text-brand">Open Practice Centre →</span></a>
         <a href="#/practice" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><p className="text-xs text-mute">Practice sessions</p><p className="mt-1 text-2xl font-bold tabular-nums">{practiceSessions}</p><span className="mt-2 block text-xs text-mute">Saved self-assessments</span></a>
         <div className="card p-4"><p className="text-xs text-mute">Writing checklist points</p><p className="mt-1 text-2xl font-bold tabular-nums">{checklistDone}</p><span className="mt-2 block text-xs text-mute">Ticks saved across questions</span></div>
+      </section>
+
+      <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="New study tools">
+        <a href="#/revision" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><Zap size={18} className="text-brand"/><p className="mt-2 text-xs text-mute">Revision completed</p><p className="mt-1 text-2xl font-bold tabular-nums">{Object.values(revisionChecks).filter(Boolean).length}/10</p><span className="mt-2 block text-xs font-semibold text-brand">Open Revision Mode →</span></a>
+        <a href="#/quiz" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><Brain size={18} className="text-brand"/><p className="mt-2 text-xs text-mute">Quiz attempts</p><p className="mt-1 text-2xl font-bold tabular-nums">{quizAttempts.length}</p><span className="mt-2 block text-xs font-semibold text-brand">Take a quiz →</span></a>
+        <a href="#/planner" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><CalendarDays size={18} className="text-brand"/><p className="mt-2 text-xs text-mute">Pending study tasks</p><p className="mt-1 text-2xl font-bold tabular-nums">{plannerTasks.filter(t=>!t.done).length}</p><span className="mt-2 block text-xs font-semibold text-brand">Open study planner →</span></a>
       </section>
 
       <section className="mt-8" aria-labelledby="study-route">
