@@ -133,6 +133,19 @@ export const q02 = {
       ],
     },
     {
+      id: 'impact-chain', title: 'How the Effects Are Connected',
+      blocks: [
+        { type: 'list', ordered: true, items: [
+          '**Higher temperature** contributes to glacier retreat and ocean warming.',
+          '**Glacier retreat and changing rainfall** can affect seasonal water availability and increase water-management challenges.',
+          '**Warmer oceans and sea-level rise** increase risks to coastal ecosystems and settlements; ocean warming can contribute to coral bleaching.',
+          '**Heat stress and changing rainfall** affect human health, agriculture and the distribution of disease vectors.',
+          '**Damage to ecosystems and infrastructure** can reduce livelihoods and increase economic losses.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This is a revision-oriented connection of effects already described in the answer. It is not a separate case study or a quantified causal model from the source notes.' },
+      ],
+    },
+    {
       id: 'summary', title: 'Summary Table',
       blocks: [
         { type: 'table', head: ['Effect', 'Main consequences', 'Example given in the notes'], rows: [
