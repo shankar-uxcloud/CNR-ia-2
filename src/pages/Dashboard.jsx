@@ -18,7 +18,7 @@ function MiniRow({ q }) {
 }
 
 export default function Dashboard() {
-  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, revisionChecks = {}, quizAttempts = [], plannerTasks = [], resetAll, notify } = useStudy();
+  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, revisionChecks = {}, readingChecks = {}, quizAttempts = [], plannerTasks = [], resetAll, notify } = useStudy();
   const done = Object.keys(completed).length;
   const [v, setV] = useState(0);
   useEffect(() => { const t = setTimeout(() => setV(done / 10), 80); return () => clearTimeout(t); }, [done]);
@@ -30,6 +30,9 @@ export default function Dashboard() {
   const attempted = Object.keys(practiceAttempts).length;
   const practiceSessions = Object.values(practiceAttempts).reduce((n, a) => n + (a.attempts || 0), 0);
   const checklistDone = Object.values(examChecks).reduce((n, checks) => n + Object.values(checks).filter(Boolean).length, 0);
+  const avgQuiz = quizAttempts.length ? Math.round(quizAttempts.reduce((n, a) => n + (a.total ? a.score / a.total : 0), 0) / quizAttempts.length * 100) : null;
+  const weakIds = [...new Set(quizAttempts.flatMap(a => a.wrongQuestionIds || []))];
+  const weakQuestions = QUESTIONS.filter(q => weakIds.includes(q.id));
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
@@ -102,6 +105,13 @@ export default function Dashboard() {
         <a href="#/practice" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><p className="text-xs text-mute">Practice sessions</p><p className="mt-1 text-2xl font-bold tabular-nums">{practiceSessions}</p><span className="mt-2 block text-xs text-mute">Saved self-assessments</span></a>
         <div className="card p-4"><p className="text-xs text-mute">Writing checklist points</p><p className="mt-1 text-2xl font-bold tabular-nums">{checklistDone}</p><span className="mt-2 block text-xs text-mute">Ticks saved across questions</span></div>
       </section>
+
+      <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Reading and quiz analytics">
+        <div className="card p-4"><p className="text-xs text-mute">Answers marked as read</p><p className="mt-1 text-2xl font-bold tabular-nums">{Object.values(readingChecks).filter(Boolean).length}/10</p><span className="mt-2 block text-xs text-mute">Reading completion ticks</span></div>
+        <div className="card p-4"><p className="text-xs text-mute">Average quiz score</p><p className="mt-1 text-2xl font-bold tabular-nums">{avgQuiz === null ? '—' : avgQuiz + '%'}</p><span className="mt-2 block text-xs text-mute">Across saved attempts</span></div>
+        <div className="card p-4"><p className="text-xs text-mute">Questions missed in quizzes</p><p className="mt-1 text-2xl font-bold tabular-nums">{weakQuestions.length}</p><span className="mt-2 block text-xs text-mute">Unique topics to revisit</span></div>
+      </section>
+      {weakQuestions.length > 0 && <section className="card mt-4 p-5" aria-label="Quiz revision suggestions"><h2 className="font-semibold">Topics to revisit from quiz attempts</h2><p className="mt-1 text-sm text-mute">Based only on questions missed in your saved quiz attempts.</p><div className="mt-3 flex flex-wrap gap-2">{weakQuestions.map(q => <a key={q.id} href={`#/q/${q.id}`} className="chip hover:border-brand hover:text-brand">{q.code} · {q.title}</a>)}</div></section>}
 
       <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="New study tools">
         <a href="#/revision" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><Zap size={18} className="text-brand"/><p className="mt-2 text-xs text-mute">Revision completed</p><p className="mt-1 text-2xl font-bold tabular-nums">{Object.values(revisionChecks).filter(Boolean).length}/10</p><span className="mt-2 block text-xs font-semibold text-brand">Open Revision Mode →</span></a>
