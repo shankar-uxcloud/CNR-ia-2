@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, Layers } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, Layers } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -37,6 +37,7 @@ function Nav({ path, onNavigate }) {
     { to: '/module/5', label: 'Module 5', dot: 5, count: 4 },
     { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark, count: nb },
     { to: '/revision', label: 'Revision Mode', icon: Zap },
+    { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
   ];
   return (
     <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
