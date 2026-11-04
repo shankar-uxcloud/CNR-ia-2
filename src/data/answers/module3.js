@@ -170,7 +170,19 @@ export const q10 = {
       ],
     },
     {
-      id: 'hole', title: '4. Formation of the Ozone Hole',
+      id: 'mechanism-summary', title: '4. Reaction Sequence to Remember',
+      blocks: [
+        { type: 'list', ordered: true, items: [
+          '**Transport:** long-lived ozone-depleting substances such as CFCs and halons reach the stratosphere.',
+          '**Photodissociation:** ultraviolet radiation breaks down these substances and releases reactive chlorine or bromine radicals.',
+          '**Catalytic reaction:** the radicals react with ozone and are regenerated, allowing repeated ozone-destroying reactions.',
+          '**Polar intensification:** very cold polar conditions and polar stratospheric clouds prepare reactive chlorine; returning spring sunlight starts rapid ozone loss.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This is a compact revision sequence of the mechanisms and polar conditions explained in the sections above. In the examination, include the balanced reaction steps shown earlier.' },
+      ],
+    },
+    {
+      id: 'hole', title: '5. Formation of the Ozone Hole',
       blocks: [
         { type: 'list', ordered: true, items: [
           '**Cold polar winter:** very low temperatures favour **polar stratospheric clouds (PSCs)**.',
@@ -182,7 +194,7 @@ export const q10 = {
       ],
     },
     {
-      id: 'effects', title: '5. Effects of Ozone Depletion',
+      id: 'effects', title: '6. Effects of Ozone Depletion',
       blocks: [
         { type: 'table', head: ['Area affected', 'Effects'], rows: [
           ['Human health', 'Increased UV-B radiation at the surface; higher risk of **skin cancer, cataracts and immune suppression**'],
@@ -194,7 +206,7 @@ export const q10 = {
       ],
     },
     {
-      id: 'control', title: '6. International Measures for Controlling Ozone Depletion',
+      id: 'control', title: '7. International Measures for Controlling Ozone Depletion',
       blocks: [
         { type: 'list', ordered: true, items: [
           '**Montreal Protocol (1987):** international agreement to **phase out production and consumption** of controlled ozone-depleting substances; implement the Protocol and its amendments.',
