@@ -32,9 +32,9 @@ function Nav({ path, onNavigate }) {
   const items = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/questions', label: 'All Questions', icon: ListChecks, count: 10 },
-    { to: '/module/3', label: 'Module 3', dot: 3, count: 2 },
-    { to: '/module/4', label: 'Module 4', dot: 4, count: 4 },
-    { to: '/module/5', label: 'Module 5', dot: 5, count: 4 },
+    { to: '/module/3', label: 'Module 3', moduleName: 'Air and Air Pollution', dot: 3, count: 2 },
+    { to: '/module/4', label: 'Module 4', moduleName: 'Biodiversity and Ecosystem', dot: 4, count: 4 },
+    { to: '/module/5', label: 'Module 5', moduleName: 'Global Warming and EIA', dot: 5, count: 4 },
     { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark, count: nb },
     { to: '/revision', label: 'Revision Mode', icon: Zap },
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
@@ -49,7 +49,7 @@ function Nav({ path, onNavigate }) {
           <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={path === it.to ? 'page' : undefined}
             className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${path === it.to ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
             {it.icon ? <it.icon size={18} aria-hidden="true" /> : <span className="grid h-[18px] w-[18px] place-items-center"><span className="h-2.5 w-2.5 rounded-full" style={{ background: modColor(it.dot) }} /></span>}
-            <span className="flex-1">{it.label}</span>
+            <span className="min-w-0 flex-1">{it.moduleName ? <><span className="block">{it.label}</span><span className="mt-0.5 block truncate text-[11px] font-normal text-mute">{it.moduleName}</span></> : it.label}</span>
             {it.count !== undefined && <span className="rounded-md bg-sunk px-1.5 py-0.5 text-[11px] tabular-nums text-mute">{it.count}</span>}
           </a>
         );
