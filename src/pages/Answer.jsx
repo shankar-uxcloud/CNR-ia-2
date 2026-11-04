@@ -9,7 +9,7 @@ import { answerToText, diagramsOf, readMinutes } from '../lib/content';
 import { useStudy, FONT_SIZES, WIDTHS } from '../lib/study';
 import { iconFor } from '../lib/icons';
 import { Blocks } from '../components/Blocks';
-import { IconBtn, ModuleBadge, MarksBadge, StatusChip, Empty, modColor } from '../components/ui';
+import { IconBtn, ModuleBadge, StatusChip, Empty, modColor } from '../components/ui';
 
 function Section({ s, open, toggle }) {
   return (
@@ -112,7 +112,9 @@ export default function Answer({ id }) {
     setTimeout(() => document.getElementById(sid)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
   };
   const copy = async () => {
-    const text = answerToText(q);
+    const text = answerMode === 'five'
+      ? sections.map((s) => `${s.title}\\n${(s.blocks || []).map((b) => b.text || (b.items || []).join('\\n') || (b.lines || []).join('\\n')).join('\\n')}`).join('\\n\\n')
+      : answerToText(q);
     try { await navigator.clipboard.writeText(text); notify('Answer copied to clipboard'); }
     catch {
       const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
