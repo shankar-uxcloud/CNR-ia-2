@@ -196,7 +196,20 @@ export const q07 = {
       ],
     },
     {
-      id: 'differences', title: '3. Differences between In-situ and Ex-situ Conservation',
+      id: 'importance', title: '3. Importance of Both Conservation Approaches',
+      blocks: [
+        { type: 'p', text: 'The two approaches address different conservation needs and should be viewed as **complementary methods**, not competing alternatives.' },
+        { type: 'list', ordered: true, items: [
+          '**Protection of natural relationships:** in-situ conservation keeps species in their habitats, where they can continue to live, reproduce and interact with other organisms.',
+          '**Protection when natural survival is difficult:** ex-situ conservation provides additional care or storage for selected species or their genetic material when they are highly threatened or need specialised support.',
+          '**Support for future recovery:** gene banks, pollen and tissue culture, and cryopreservation preserve biological material for future use.',
+          '**Wider conservation value:** combining habitat protection with off-site conservation provides more than one way to safeguard biodiversity.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This section organises the purposes of the methods already described in the Module 4 and Module 5 notes. The notes do not provide separate case studies or measured success rates for these methods.' },
+      ],
+    },
+    {
+      id: 'differences', title: '4. Differences between In-situ and Ex-situ Conservation',
       blocks: [
         { type: 'table', head: ['Basis', 'In-situ conservation', 'Ex-situ conservation'], rows: [
           ['Meaning', 'Protects species in their natural habitats', 'Protects species or genetic material outside natural habitats'],
