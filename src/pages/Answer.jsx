@@ -52,7 +52,7 @@ function Toc({ items, active, onPick, className = '' }) {
 export default function Answer({ id }) {
   const q = byId(id);
   const st = useStudy();
-  const { isDone, isMarked, toggleDone, toggleBookmark, visit, notify, focus, setFocus, settings, setSetting, examChecks = {}, toggleExamCheck } = st;
+  const { isDone, isMarked, toggleDone, toggleBookmark, visit, notify, focus, setFocus, settings, setSetting, examChecks = {}, toggleExamCheck, readingChecks = {}, toggleReading } = st;
   const sections = q?.answer.sections || [];
   const [open, setOpen] = useState(() => Object.fromEntries(sections.map((s) => [s.id, true])));
   const [practice, setPractice] = useState(false);
@@ -96,7 +96,7 @@ export default function Answer({ id }) {
 
   const idx = QUESTIONS.findIndex((x) => x.id === q.id);
   const prev = QUESTIONS[idx - 1], next = QUESTIONS[idx + 1];
-  const done = isDone(q.id), marked = isMarked(q.id);
+  const done = isDone(q.id), marked = isMarked(q.id), readDone = !!readingChecks[q.id];
   const Icon = iconFor(q.icon);
   const allOpen = sections.every((s) => open[s.id]);
   const showAnswer = !practice || revealed;
@@ -138,7 +138,7 @@ export default function Answer({ id }) {
 
           <header>
             <div className="flex flex-wrap items-center gap-2"><ModuleBadge m={q.module} long /><MarksBadge /><StatusChip done={done} />
-              <span className="chip"><Clock size={12} aria-hidden="true" />{readMinutes(q)} min read</span></div>
+              <span className="chip"><Clock size={12} aria-hidden="true" />{readMinutes(q)} min read</span>{readDone && <span className="chip text-brand"><CheckCircle2 size={12}/>Reading completed</span>}</div>
             <div className="mt-4 flex items-start gap-4">
               <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl" style={{ background: `rgb(var(--m${q.module}) / .12)`, color: modColor(q.module) }}><Icon size={27} aria-hidden="true" /></div>
               <div><p className="eyebrow">{q.code} · {MODULES[q.module].name}</p><h1 id="q-title" className="mt-0.5 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{q.title}</h1></div>
@@ -152,6 +152,7 @@ export default function Answer({ id }) {
               <button onClick={complete} aria-pressed={done} className={done ? 'btn border border-brand/50 bg-brand/12 text-brand' : 'btn-primary'}>
                 {done ? <CheckCircle2 size={18} /> : <Check size={18} />}{done ? 'Completed' : 'Mark as Completed'}
               </button>
+              <button onClick={() => { toggleReading(q.id); notify(readDone ? 'Reading completion cleared' : 'Reading marked complete'); }} aria-pressed={readDone} className={readDone ? 'btn border border-brand/50 bg-brand/12 text-brand' : 'btn-ghost'}><CheckCircle2 size={17}/>{readDone ? 'Read' : 'Mark as Read'}</button>
               <IconBtn icon={Bookmark} label={marked ? 'Remove bookmark' : 'Bookmark this answer'} active={marked} onClick={() => { toggleBookmark(q.id); notify(marked ? 'Bookmark removed' : 'Answer bookmarked'); }} className={marked ? '[&_svg]:fill-current' : ''} />
               <span className="mx-1 hidden h-6 w-px bg-line sm:block" />
               <IconBtn icon={Copy} label="Copy answer" onClick={copy} />
