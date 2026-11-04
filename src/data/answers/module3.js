@@ -29,6 +29,7 @@ export const q09 = {
         { type: 'diagram', id: 'esp', caption: 'Electrostatic precipitator: charging of particles, migration to collecting plates, dust removal through the hopper.' },
         { type: 'p', text: '**Applications:** thermal power plants (**fly ash**), cement factories, steel mills and large industrial exhaust systems.' },
         { type: 'p', text: '**Advantage:** efficient for **fine particles and large gas volumes**.' },
+        { type: 'p', text: '**What happens to the collected dust?** Dust deposited on the collecting plates is dislodged periodically and falls into the hopper for collection. The gas stream therefore leaves after the charged particles have been separated from it.' },
       ],
     },
     {
@@ -44,6 +45,7 @@ export const q09 = {
         { type: 'diagram', id: 'baghouse', caption: 'Baghouse filter: dust-laden air is filtered through fabric bags; collected dust falls into the hopper during cleaning.' },
         { type: 'p', text: '**Applications:** metalworking, woodworking, pharmaceutical and cement industries.' },
         { type: 'p', text: '**Advantage:** high dust-removal efficiency.' },
+        { type: 'p', text: '**What happens to the collected dust?** The dust cake retained on the fabric is periodically removed by shaking, reverse-air flow or pulse-jet cleaning. The released dust falls into the hopper, while the filter bags are used again.' },
       ],
     },
     {
@@ -58,6 +60,7 @@ export const q09 = {
         ] },
         { type: 'diagram', id: 'cyclone', caption: 'Cyclone separator: tangential entry produces a spinning flow; particles are thrown to the wall and fall to the hopper.' },
         { type: 'p', text: '**Applications:** pre-cleaning of exhaust gases, woodworking and grain-processing industries.' },
+        { type: 'p', text: '**Separation path:** the heavier particles move towards the chamber wall and lose momentum, then fall into the hopper. The cleaned gas follows the inner upward path and leaves through the central outlet.' },
         { type: 'p', text: '**Advantage:** simple, low-cost construction. **Limitation:** less effective for very fine particles when used alone.' },
       ],
     },
@@ -74,10 +77,23 @@ export const q09 = {
         { type: 'diagram', id: 'scrubber', caption: 'Wet scrubber: spray liquid captures particles and absorbs gases; contaminated liquid leaves for treatment.' },
         { type: 'p', text: '**Applications:** chemical plants, acid manufacturing, power plants and processes producing dust and absorbable gases.' },
         { type: 'p', text: '**Advantage:** can remove particles and selected gases. **Limitation:** produces wastewater or sludge requiring treatment.' },
+        { type: 'p', text: '**After scrubbing:** captured particles and absorbed pollutants remain in the liquid stream. This contaminated liquid must be collected and treated rather than being discharged untreated.' },
       ],
     },
     {
-      id: 'comparison', title: '5. Comparison of the Equipment',
+      id: 'selection', title: '5. How the Four Devices Differ',
+      blocks: [
+        { type: 'list', ordered: true, items: [
+          '**ESP:** uses an electric field to charge particles and attract them to collecting plates.',
+          '**Baghouse filter:** uses fabric bags as a physical filter that retains dust.',
+          '**Cyclone separator:** uses the spinning motion of gas and centrifugal force to separate particles.',
+          '**Wet scrubber:** brings polluted gas into contact with liquid so particles are captured and selected gases are absorbed.',
+        ] },
+        { type: 'key', title: 'Quick memory cue', text: 'ESP – electric charge; Baghouse – fabric; Cyclone – centrifugal force; Wet scrubber – liquid contact.' },
+      ],
+    },
+    {
+      id: 'comparison', title: '6. Comparison of the Equipment',
       blocks: [
         { type: 'table', head: ['Equipment', 'Principle', 'Main pollutant / application', 'Advantage', 'Limitation'], rows: [
           ['**ESP**', 'Electrostatic force', 'Fine particles and fly ash', 'Efficient for fine particles and large gas volumes', '—'],
