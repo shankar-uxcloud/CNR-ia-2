@@ -60,7 +60,18 @@ export const q05 = {
       ],
     },
     {
-      id: 'summary', title: '3. Summary Table of Values',
+      id: 'remember', title: '3. Quick Revision of the Three Levels',
+      blocks: [
+        { type: 'table', head: ['Level', 'Remember it as', 'Example from the notes'], rows: [
+          ['Genetic diversity', 'Differences within one species', 'Different varieties of rice, wheat and mango'],
+          ['Species diversity', 'Variety and relative abundance of species', 'Tigers, elephants, birds, insects and plants in a forest'],
+          ['Ecosystem diversity', 'Variety of habitats and communities', 'Forests, grasslands, deserts, wetlands, rivers and oceans'],
+        ] },
+        { type: 'key', title: 'Exam memory cue', text: 'Genes within a species → different species in a region → different ecosystems across a landscape.' },
+      ],
+    },
+    {
+      id: 'summary', title: '4. Summary Table of Values',
       blocks: [
         { type: 'table', head: ['Value', 'Key contribution'], rows: [
           ['Ecological', 'Food webs, pollination, nutrient cycling, soil fertility, balance'],
