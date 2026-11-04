@@ -149,7 +149,20 @@ export const q06 = {
       ],
     },
     {
-      id: 'measures', title: '3. Measures for Biodiversity Conservation',
+      id: 'impact-chain', title: '3. How Major Threats Reduce Biodiversity',
+      blocks: [
+        { type: 'list', ordered: true, items: [
+          '**Habitat destruction and fragmentation** reduce available living space and can isolate populations.',
+          '**Pollution** damages habitats and can affect survival and reproduction.',
+          '**Overexploitation** removes organisms faster than populations can recover.',
+          '**Invasive species** may compete with native species, prey on them or spread disease.',
+          '**Climate change and natural disturbances** alter or destroy habitat conditions and can shift species distribution and survival.',
+        ] },
+        { type: 'note', kind: 'added', text: 'This is a cause-and-effect summary of the threats already described in the source-based answer, not a separate ranking of their severity.' },
+      ],
+    },
+    {
+      id: 'measures', title: '4. Measures for Biodiversity Conservation',
       blocks: [
         { type: 'list', ordered: true, items: [
           'Establish and effectively manage **national parks, wildlife sanctuaries and biosphere reserves**.',
