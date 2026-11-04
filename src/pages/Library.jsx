@@ -22,9 +22,9 @@ export default function Library({ module, bookmarksOnly }) {
     if (sort === 'studied') result.sort((a, b) => (recent.indexOf(a.id) < 0 ? 999 : recent.indexOf(a.id)) - (recent.indexOf(b.id) < 0 ? 999 : recent.indexOf(b.id)));
     return result;
   }, [module, bookmarksOnly, bookmarks, completed, recent, query, sort, status]);
-  const title = bookmarksOnly ? 'Bookmarked Questions' : module ? `Module ${module}` : 'All Questions';
+  const title = bookmarksOnly ? 'Bookmarked Questions' : module ? `Module ${module} · ${MODULES[module].name}` : 'All Questions';
   const sub = bookmarksOnly ? 'Answers you saved for quick revision.' : module ? MODULES[module].long : 'Ten important 10-mark questions across Modules 3, 4 and 5.';
-  const chips = [{ to: '/questions', label: 'All', n: 10, on: !module && !bookmarksOnly }, ...[3, 4, 5].map((m) => ({ to: `/module/${m}`, label: `Module ${m}`, n: MODULES && QUESTIONS.filter((q) => q.module === m).length, on: module === m, m })), { to: '/bookmarks', label: 'Bookmarked', n: Object.keys(bookmarks).length, on: bookmarksOnly, icon: true }];
+  const chips = [{ to: '/questions', label: 'All', n: 10, on: !module && !bookmarksOnly }, ...[3, 4, 5].map((m) => ({ to: `/module/${m}`, label: `M${m} · ${MODULES[m].name}`, n: MODULES && QUESTIONS.filter((q) => q.module === m).length, on: module === m, m })), { to: '/bookmarks', label: 'Bookmarked', n: Object.keys(bookmarks).length, on: bookmarksOnly, icon: true }];
   const grouped = !module && !bookmarksOnly && !terms.length;
   let idx = 0;
   return (
