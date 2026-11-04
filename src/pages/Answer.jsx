@@ -52,7 +52,7 @@ function Toc({ items, active, onPick, className = '' }) {
 export default function Answer({ id }) {
   const q = byId(id);
   const st = useStudy();
-  const { isDone, isMarked, toggleDone, toggleBookmark, visit, notify, focus, setFocus, settings, setSetting } = st;
+  const { isDone, isMarked, toggleDone, toggleBookmark, visit, notify, focus, setFocus, settings, setSetting, examChecks = {}, toggleExamCheck } = st;
   const sections = q?.answer.sections || [];
   const [open, setOpen] = useState(() => Object.fromEntries(sections.map((s) => [s.id, true])));
   const [practice, setPractice] = useState(false);
@@ -178,6 +178,18 @@ export default function Answer({ id }) {
               </div>
             </div>
           </header>
+
+
+          <section className="no-print card mt-6 p-5" aria-label="VTU answer writing checklist">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={17} className="text-brand" />10-mark answer writing checklist</h2><p className="mt-1 text-sm text-mute">Use these question-specific headings to check your preparation. Your ticks are saved in this browser.</p></div>
+              <span className="rounded-lg bg-brand/10 px-3 py-2 text-sm font-bold tabular-nums text-brand">{sections.filter((s) => examChecks[q.id]?.[s.id]).length + (nDiagrams && examChecks[q.id]?.diagram ? 1 : 0)}/{sections.length + (nDiagrams ? 1 : 0)} covered</span>
+            </div>
+            <div className="mt-3 grid gap-1 sm:grid-cols-2">
+              {sections.map((s) => <label key={s.id} className="flex cursor-pointer items-start gap-2 rounded-lg px-2 py-2 text-sm hover:bg-sunk"><input type="checkbox" checked={!!examChecks[q.id]?.[s.id]} onChange={() => toggleExamCheck(q.id, s.id)} className="mt-0.5 h-4 w-4 accent-[rgb(var(--c-brand))]" /><span>{s.title.replace(/^\\d+\\.\\s*/, '')}</span></label>)}
+              {nDiagrams > 0 && <label className="flex cursor-pointer items-start gap-2 rounded-lg px-2 py-2 text-sm hover:bg-sunk"><input type="checkbox" checked={!!examChecks[q.id]?.diagram} onChange={() => toggleExamCheck(q.id, 'diagram')} className="mt-0.5 h-4 w-4 accent-[rgb(var(--c-brand))]" /><span>Practise drawing and labelling {nDiagrams} relevant diagram{nDiagrams > 1 ? 's' : ''}</span></label>}
+            </div>
+          </section>
 
           {/* Mobile TOC */}
           {showAnswer && (
