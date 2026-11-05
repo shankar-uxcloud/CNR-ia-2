@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { BookOpenCheck, CheckCircle2, Dices, Eye, RotateCcw, Save, ClipboardCheck, Sparkles, AlertCircle, Check, X } from 'lucide-react';
+import { BookOpenCheck, CheckCircle2, Dices, Eye, RotateCcw, Save, ClipboardCheck, Sparkles, AlertCircle, Check, Copy, Trash2, History, ArrowUpRight, FileText } from 'lucide-react';
 import { QUESTIONS, MODULES } from '../data/questions';
+import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
 import { diagramsOf } from '../lib/content';
 import { useStudy } from '../lib/study';
 import { ModuleBadge } from '../components/ui';
@@ -82,71 +83,126 @@ const CONCEPT_GROUPS = {
     { name: 'International controls', terms: ['montreal protocol', 'phase out', 'monitoring', 'alternatives'], weight: 1 },
   ],
 };
+const hasCue = (source, cue) => {
+  const sourceTokens = new Set(tokens(source));
+  const phrase = tokens(cue);
+  return phrase.length > 0 && phrase.every((part) => sourceTokens.has(part));
+};
 
-function hasConcept(text, concept) {
-  const sourceTokens = new Set(tokens(text));
-  return concept.terms.some((term) => {
-    const phrase = tokens(term);
-    return phrase.length > 0 && phrase.every((part) => sourceTokens.has(part));
+function evaluateAnswer(question, response, mode) {
+  const maxMarks = mode === 'five' ? 5 : 10;
+  const sections = mode === 'five' ? (FIVE_MARK_ANSWERS[question.id] || []) : question.answer.sections;
+  const responseClean = clean(response);
+  const wordCount = response.trim().split(/\s+/).filter(Boolean).length;
+  const keywordTerms = [...new Set((question.answer.keywords || []).filter(Boolean))];
+  const matched = keywordTerms.filter((term) => hasCue(responseClean, term));
+  const missing = keywordTerms.filter((term) => !hasCue(responseClean, term));
+  const responseTokens = new Set(tokens(responseClean));
+  const sectionResults = sections.map((section) => {
+    const body = [section.title, ...(section.blocks || []).map(blockText)].join(' ');
+    const cues = keywordTerms.filter((term) => clean(body).includes(clean(term)));
+    const hits = cues.filter((term) => hasCue(responseClean, term));
+    const titleHit = tokens(section.title).some((word) => responseTokens.has(word));
+    return { id: section.id, title: section.title, covered: cues.length ? hits.length >= Math.min(2, cues.length) : titleHit, hits };
   });
+  const conceptGroups = (CONCEPT_GROUPS[question.id] || []).map((group) => ({
+    name: group.name, weight: group.weight, covered: group.terms.some((term) => hasCue(responseClean, term)),
+  }));
+  const conceptPoints = conceptGroups.reduce((sum, item) => sum + (item.covered ? item.weight : 0), 0);
+  const conceptMax = conceptGroups.reduce((sum, item) => sum + item.weight, 0) || 1;
+  const conceptRatio = conceptPoints / conceptMax;
+  const sectionRatio = sections.length ? sectionResults.filter((x) => x.covered).length / sections.length : 0;
+  const keywordRatio = keywordTerms.length ? matched.length / keywordTerms.length : 0;
+  const referenceText = sections.flatMap((s) => [s.title, ...(s.blocks || []).map(blockText)]).join(' ');
+  const expectsExamples = /example|e\.g\.|such as|for instance/i.test(referenceText);
+  const examplePresent = expectsExamples && /\b(example|for example|such as|e\.g\.|bandipur|sundarbans|kaziranga|thar|western ghats|antarctica|neem|tulsi|turmeric|willow|cinchona|grass|deer|tiger)\b/i.test(response);
+  const diagramCount = question.answer.sections.flatMap((s) => [...(s.blocks || []), ...(s.subsections || []).flatMap((x) => x.blocks || [])]).filter((b) => b.type === 'diagram').length;
+  const diagramPresent = !diagramCount || /\b(diagram|figure|flowchart|sketch|drawn|labelled|labeled)\b/i.test(response);
+  const depthTarget = maxMarks === 10 ? 180 : 85;
+  const criteria = [
+    { name: 'Concept coverage', ratio: conceptRatio, weight: 0.35 },
+    { name: 'Technical terminology', ratio: keywordRatio, weight: 0.20 },
+    { name: 'Answer structure', ratio: sectionRatio, weight: 0.20 },
+    { name: 'Explanation depth', ratio: Math.min(1, wordCount / depthTarget), weight: 0.15 },
+    { name: 'Relevant examples', ratio: expectsExamples ? (examplePresent ? 1 : 0) : 1, weight: 0.05 },
+    { name: 'Diagram acknowledgement', ratio: diagramCount ? (diagramPresent ? 1 : 0) : 1, weight: 0.05 },
+  ];
+  const score = Math.max(0, Math.min(maxMarks, Math.round(criteria.reduce((sum, item) => sum + item.ratio * item.weight, 0) * maxMarks * 2) / 2));
+  const strengths = [
+    ...conceptGroups.filter((x) => x.covered).map((x) => 'Concept area present: ' + x.name),
+    ...sectionResults.filter((x) => x.covered).slice(0, 3).map((x) => 'Section represented: ' + x.title),
+  ];
+  const missingConcepts = conceptGroups.filter((x) => !x.covered).map((x) => x.name);
+  const suggestions = [];
+  if (wordCount < depthTarget * 0.6) suggestions.push('Add fuller explanations. A list of terms alone does not demonstrate the required depth.');
+  if (missingConcepts.length) suggestions.push('Add and explain these concept areas: ' + missingConcepts.join(', ') + '.');
+  if (expectsExamples && !examplePresent) suggestions.push('Include a relevant example supported by the reference answer.');
+  if (diagramCount && !diagramPresent) suggestions.push('Practise and label the relevant reference diagram. Text acknowledgement does not assess drawing quality.');
+  if (sectionResults.some((x) => !x.covered)) suggestions.push('Use clear headings so the examiner can identify each part of the answer.');
+  return {
+    maxMarks, score, wordCount, matched, missing, sectionResults, conceptGroups, criteria,
+    conceptCoverage: Math.round(conceptRatio * 100), strengths, missingConcepts, suggestions,
+    diagramCount, diagramPresent, examplePresent, method: 'rule-based',
+  };
 }
 
-function evaluateAnswer(question, response) {
-  const answer = clean(response);
-  const words = answer.split(/\s+/).filter(Boolean);
-  const keywords = [...new Set((question.answer.keywords || []).filter(Boolean))];
-  const matched = keywords.filter((term) => answer.includes(clean(term)));
-  const missing = keywords.filter((term) => !answer.includes(clean(term)));
-  const sections = question.answer.sections || [];
-  const sectionResults = sections.map((section) => {
-    const source = clean([section.title, ...(section.blocks || []).map(blockText)].join(' '));
-    const relevant = keywords.filter((term) => source.includes(clean(term)));
-    const hits = relevant.filter((term) => answer.includes(clean(term)));
-    const titleWords = clean(section.title).split(' ').filter((word) => word.length > 3);
-    const titleHit = titleWords.some((word) => answer.includes(word));
-    return { title: section.title, covered: relevant.length ? hits.length >= Math.min(2, relevant.length) : titleHit, hits: hits.slice(0, 4) };
+const stripFormatting = (value) => String(value || '').replace(/\*\*/g, '').trim();
+function buildImprovedDraft(question, mode, evaluation) {
+  const sections = mode === 'five' ? (FIVE_MARK_ANSWERS[question.id] || []) : question.answer.sections;
+  const lines = [question.question, ''];
+  sections.forEach((section) => {
+    lines.push(section.title);
+    (section.blocks || []).forEach((block) => {
+      if (block.text) lines.push(stripFormatting(block.text));
+      if (block.items) block.items.forEach((item, i) => lines.push((i + 1) + '. ' + stripFormatting(item)));
+      if (block.lines) block.lines.forEach((line) => lines.push(line));
+      if (block.type === 'diagram') lines.push('Diagram to draw: ' + stripFormatting(block.caption));
+      if (block.rows) block.rows.forEach((row) => lines.push(row.map(stripFormatting).join(' | ')));
+    });
+    (section.subsections || []).forEach((sub) => {
+      lines.push(sub.title);
+      (sub.blocks || []).forEach((block) => {
+        if (block.text) lines.push(stripFormatting(block.text));
+        if (block.items) block.items.forEach((item, i) => lines.push((i + 1) + '. ' + stripFormatting(item)));
+        if (block.lines) block.lines.forEach((line) => lines.push(line));
+      });
+    });
+    lines.push('');
   });
-  const groups = CONCEPT_GROUPS[question.id] || [];
-  const conceptResults = groups.map((group) => ({
-    name: group.name,
-    covered: group.terms.some((term) => hasConcept(answer, term)),
-    weight: group.weight,
-  }));
-  const conceptPoints = conceptResults.reduce((sum, item) => sum + (item.covered ? item.weight : 0), 0);
-  const conceptTotal = conceptResults.reduce((sum, item) => sum + item.weight, 0);
-  const sectionScore = sections.length ? sectionResults.filter((item) => item.covered).length / sections.length : 0;
-  const keywordScore = keywords.length ? matched.length / keywords.length : 0;
-  const conceptScore = conceptTotal ? conceptPoints / conceptTotal : 0;
-  // Practice diagnostic only: concept-cue presence, structure and terminology overlap.
-  const score = Math.round((conceptScore * 60) + (sectionScore * 25) + (keywordScore * 15));
-  const suggestions = [];
-  if (words.length < 80) suggestions.push('Your response is quite short for a 10-mark answer. Add explanations and supporting points.');
-  if (conceptResults.some((item) => !item.covered)) suggestions.push('Strengthen the uncovered concepts below. Explain each one in your own words instead of only listing terms.');
-  if (sectionResults.some((item) => !item.covered)) suggestions.push('Check the uncovered answer sections and add the relevant explanations.');
-  if (missing.length) suggestions.push('Review these model-answer terms where relevant: ' + missing.slice(0, 6).join(', ') + '.');
-  if (words.length >= 80 && conceptScore >= 0.8) suggestions.push('Most concept groups are represented. Recheck technical accuracy, logical order, examples and diagram labels against the model answer.');
-  return { score, wordCount: words.length, matched, missing, sectionResults, conceptResults, suggestions, conceptScore: Math.round(conceptScore * 100) };
+  lines.push('Improvement focus', evaluation.missingConcepts.length
+    ? 'Revise and explain: ' + evaluation.missingConcepts.join(', ')
+    : 'Review technical precision, examples and any required labelled diagram.');
+  return lines.join('\n').trim();
 }
 
 export default function Practice() {
-  const { practiceAttempts = {}, savePracticeAttempt, evaluationAttempts = [], saveEvaluationAttempt, notify } = useStudy();
+  const {
+    practiceAttempts = {}, savePracticeAttempt, evaluationAttempts = [],
+    saveEvaluationAttempt, clearEvaluationHistory, notify,
+  } = useStudy();
   const [module, setModule] = useState('all');
   const [questionId, setQuestionId] = useState(QUESTIONS[0].id);
+  const [answerMode, setAnswerMode] = useState('ten');
   const [revealed, setRevealed] = useState(false);
   const [checks, setChecks] = useState({});
   const [saved, setSaved] = useState(false);
   const [response, setResponse] = useState('');
   const [evaluation, setEvaluation] = useState(null);
   const [evaluationSaved, setEvaluationSaved] = useState(false);
+  const [showHistory, setShowHistory] = useState(true);
+  const [historyQuestion, setHistoryQuestion] = useState('all');
   const available = useMemo(() => QUESTIONS.filter((q) => module === 'all' || String(q.module) === module), [module]);
   const question = available.find((q) => q.id === questionId) || available[0];
+  const fiveAvailable = !!FIVE_MARK_ANSWERS[question?.id]?.length;
   const diagrams = question ? diagramsOf(question.answer).length : 0;
+  const referenceSections = question ? (answerMode === 'five' ? FIVE_MARK_ANSWERS[question.id] || [] : question.answer.sections || []) : [];
   const checklist = question ? [
-    ...question.answer.sections.map((s) => s.title.replace(/^\d+\.\s*/, '')),
-    ...(diagrams ? [`Draw and label the relevant diagram(s) (${diagrams})`] : []),
+    ...referenceSections.map((s) => s.title.replace(/^\d+\.\s*/, '')),
+    ...(answerMode === 'ten' && diagrams ? ['Draw and label the relevant diagram(s) (' + diagrams + ')'] : []),
   ] : [];
-  const score = checklist.filter((_, i) => checks[i]).length;
+  const checksCount = checklist.filter((_, i) => checks[i]).length;
   const attempts = Object.values(practiceAttempts);
+  const currentHistory = evaluationAttempts.filter((a) => a.questionId === question?.id && String(a.answerMode || 'ten') === answerMode);
   const resetAttempt = (id) => { setQuestionId(id); setRevealed(false); setChecks({}); setSaved(false); setResponse(''); setEvaluation(null); setEvaluationSaved(false); };
   const chooseRandom = () => {
     const pool = available.filter((q) => q.id !== question?.id);
@@ -159,99 +215,100 @@ export default function Practice() {
     if (pool.length) resetAttempt(pool[0].id);
   };
   const runEvaluation = () => {
-    if (response.trim().split(/\s+/).length < 20) { notify('Write at least 20 words before evaluating', 'err'); return; }
-    setEvaluation(evaluateAnswer(question, response));
+    if (!response.trim()) { notify('Write your answer before evaluating', 'err'); return; }
+    if (response.trim().split(/\s+/).filter(Boolean).length < 12) { notify('Add at least 12 words so the feedback has material to review', 'err'); return; }
+    setEvaluation(evaluateAnswer(question, response, answerMode));
     setEvaluationSaved(false);
   };
+  const improvedDraft = evaluation ? buildImprovedDraft(question, answerMode, evaluation) : '';
   const saveEvaluation = () => {
     if (!evaluation) return;
-    saveEvaluationAttempt({ questionId: question.id, questionTitle: question.title, score: evaluation.score, wordCount: evaluation.wordCount, matchedCount: evaluation.matched.length, keywordCount: evaluation.matched.length + evaluation.missing.length });
+    saveEvaluationAttempt({
+      questionId: question.id, questionTitle: question.title, answerMode,
+      maxMarks: evaluation.maxMarks, score: evaluation.score, wordCount: evaluation.wordCount,
+      conceptCoverage: evaluation.conceptCoverage, criteria: evaluation.criteria,
+      strengths: evaluation.strengths, missingConcepts: evaluation.missingConcepts,
+      suggestions: evaluation.suggestions, improvedAnswer: improvedDraft,
+    });
     setEvaluationSaved(true);
-    notify('Answer evaluation saved');
+    notify('Evaluation saved to this browser');
   };
+  const copyImproved = async () => {
+    if (!improvedDraft) return;
+    try { await navigator.clipboard.writeText(improvedDraft); notify('Improved reference draft copied'); }
+    catch {
+      const area = document.createElement('textarea'); area.value = improvedDraft;
+      area.style.position = 'fixed'; area.style.opacity = '0'; document.body.appendChild(area); area.select();
+      try { document.execCommand('copy'); notify('Draft copied'); } catch { notify('Copy failed – select the draft manually', 'err'); }
+      area.remove();
+    }
+  };
+  const removeCurrentHistory = () => {
+    if (!currentHistory.length) return;
+    if (!window.confirm('Delete all saved evaluations for this question and answer length? This cannot be undone.')) return;
+    clearEvaluationHistory((a) => a.questionId === question.id && String(a.answerMode || 'ten') === answerMode);
+    notify('Selected evaluation history cleared');
+  };
+  const retry = () => { setResponse(''); setEvaluation(null); setEvaluationSaved(false); setRevealed(false); setChecks({}); setSaved(false); };
+  const previous = currentHistory[0];
+  const improvement = previous && evaluation ? Number((evaluation.score - previous.score).toFixed(1)) : null;
 
   if (!question) return null;
+  const improvedDraft = evaluation ? buildImprovedDraft(question, answerMode, evaluation) : '';
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8 sm:py-10">
-      <p className="eyebrow">Active recall · answer feedback</p>
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-10">
+      <p className="eyebrow">VTU written practice · Smart Answer Evaluation 2.0</p>
       <h1 className="mt-1 text-3xl font-bold tracking-tight">Practice Centre</h1>
-      <p className="mt-2 max-w-2xl text-mute">Write your answer below for a concept-group, section-coverage and terminology review against the selected source answer. It is a structured practice aid, not an AI fact-checker or official VTU evaluation.</p>
-
+      <p className="mt-2 max-w-3xl text-mute">Evaluate 5-mark and 10-mark answers against the matching reference notes. The local rubric reviews concept cues, structure, depth, examples and diagram acknowledgement. It is not AI grading or an official VTU marks prediction.</p>
       <div className="mt-6 grid gap-3 sm:grid-cols-3">
-        <div className="card p-4"><p className="text-xs text-mute">Questions attempted</p><p className="mt-1 text-2xl font-bold tabular-nums">{Object.keys(practiceAttempts).length}<span className="text-sm font-medium text-mute"> / 10</span></p></div>
+        <div className="card p-4"><p className="text-xs text-mute">Questions practised</p><p className="mt-1 text-2xl font-bold tabular-nums">{Object.keys(practiceAttempts).length} / 10</p></div>
         <div className="card p-4"><p className="text-xs text-mute">Practice sessions</p><p className="mt-1 text-2xl font-bold tabular-nums">{attempts.reduce((n, a) => n + (a.attempts || 0), 0)}</p></div>
-        <div className="card p-4"><p className="text-xs text-mute">Evaluations saved</p><p className="mt-1 text-2xl font-bold tabular-nums">{evaluationAttempts.length}</p></div>
+        <div className="card p-4"><p className="text-xs text-mute">Saved evaluations</p><p className="mt-1 text-2xl font-bold tabular-nums">{evaluationAttempts.length}</p></div>
       </div>
-
       <section className="card mt-6 p-5">
-        <div className="grid gap-4 sm:grid-cols-[1fr_1.5fr_auto] sm:items-end">
-          <label className="block text-sm font-semibold">Module
-            <select value={module} onChange={(e) => selectModule(e.target.value)} className="mt-2 h-11 w-full rounded-xl border border-line bg-panel px-3 font-normal">
-              <option value="all">All modules</option><option value="3">Module 3 · {MODULES[3].name}</option><option value="4">Module 4 · {MODULES[4].name}</option><option value="5">Module 5 · {MODULES[5].name}</option>
-            </select>
-          </label>
-          <label className="block text-sm font-semibold">Question
-            <select value={question.id} onChange={(e) => resetAttempt(e.target.value)} className="mt-2 h-11 w-full rounded-xl border border-line bg-panel px-3 font-normal">
-              {available.map((q) => <option key={q.id} value={q.id}>{q.code} · {q.title}</option>)}
-            </select>
-          </label>
-          <button onClick={chooseRandom} className="btn-primary h-11"><Dices size={17} />Random</button>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1.5fr_auto] lg:items-end">
+          <label className="block text-sm font-semibold">Module<select value={module} onChange={(e) => selectModule(e.target.value)} className="mt-2 h-11 w-full rounded-xl border border-line bg-panel px-3 font-normal"><option value="all">All modules</option><option value="3">Module 3 · {MODULES[3].name}</option><option value="4">Module 4 · {MODULES[4].name}</option><option value="5">Module 5 · {MODULES[5].name}</option></select></label>
+          <label className="block text-sm font-semibold">Question<select value={question.id} onChange={(e) => resetAttempt(e.target.value)} className="mt-2 h-11 w-full rounded-xl border border-line bg-panel px-3 font-normal">{available.map((q) => <option key={q.id} value={q.id}>{q.code} · {q.title}</option>)}</select></label>
+          <button onClick={chooseRandom} className="btn-primary h-11"><Dices size={17}/>Random question</button>
         </div>
         <div className="mt-5 border-t border-line pt-5">
-          <div className="flex flex-wrap items-center gap-2"><ModuleBadge m={question.module} /><span className="chip">10 Marks</span><span className="chip">{checklist.length} preparation points</span></div>
-          <h2 className="mt-3 text-xl font-bold">{question.code} · {question.title}</h2>
-          <p className="mt-2 leading-relaxed text-mute">{question.question}</p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            <a href={`#/q/${question.id}`} className="btn-ghost"><BookOpenCheck size={16} />Open full answer</a>
-            {!revealed && <button onClick={() => setRevealed(true)} className="btn-primary"><Eye size={16} />Reveal self-assessment checklist</button>}
-            {revealed && <button onClick={() => { setRevealed(false); setChecks({}); setSaved(false); }} className="btn-ghost"><RotateCcw size={16} />Reset checklist</button>}
+          <div className="flex flex-wrap items-center gap-2"><ModuleBadge m={question.module}/><span className="chip">{answerMode === 'five' ? '5 Marks' : '10 Marks'}</span><span className="chip">{referenceSections.length} reference sections</span></div>
+          <h2 className="mt-3 text-xl font-bold">{question.code} · {question.title}</h2><p className="mt-2 leading-relaxed text-mute">{question.question}</p>
+          <div className="mt-4 inline-flex rounded-xl border border-line bg-sunk p-1" role="group" aria-label="Answer mark format">
+            <button type="button" disabled={!fiveAvailable} onClick={() => {setAnswerMode('five');setEvaluation(null);setEvaluationSaved(false);}} aria-pressed={answerMode === 'five'} className={\`rounded-lg px-4 py-2 text-sm font-semibold \${answerMode === 'five' ? 'bg-panel text-brand shadow-soft' : 'text-mute hover:text-ink'} disabled:opacity-40\`}>5-mark answer</button>
+            <button type="button" onClick={() => {setAnswerMode('ten');setEvaluation(null);setEvaluationSaved(false);}} aria-pressed={answerMode === 'ten'} className={\`rounded-lg px-4 py-2 text-sm font-semibold \${answerMode === 'ten' ? 'bg-panel text-brand shadow-soft' : 'text-mute hover:text-ink'}\`}>10-mark answer</button>
           </div>
+          <p className="mt-2 text-xs text-mute">The selected answer length determines the scoring scale and matching reference notes.</p>
+          <div className="mt-4 flex flex-wrap gap-2"><a href={\`#/q/\${question.id}\`} className="btn-ghost"><BookOpenCheck size={16}/>Open full reference answer</a><button onClick={() => setRevealed((v) => !v)} className="btn-ghost"><Eye size={16}/>{revealed ? 'Hide checklist' : 'Self-assessment checklist'}</button></div>
         </div>
       </section>
-
       <section className="card mt-5 p-5">
-        <div className="flex items-center gap-2"><Sparkles size={19} className="text-brand" /><h2 className="font-semibold">Smart Answer Evaluation</h2></div>
-        <p className="mt-1 text-sm text-mute">The evaluator checks representative concept groups, model-answer sections and technical terms. It can flag missing coverage, but it does not reliably detect incorrect or contradictory claims.</p>
-        <label className="mt-4 block text-sm font-semibold" htmlFor="written-answer">Your written answer</label>
-        <textarea id="written-answer" value={response} onChange={(e) => { setResponse(e.target.value); setEvaluation(null); setEvaluationSaved(false); }} rows={10} maxLength={12000} placeholder="Write your answer here. Include definitions, key points, explanations and examples…" className="mt-2 w-full rounded-xl border border-line bg-sunk p-4 text-sm leading-relaxed outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20" />
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-mute"><span>{response.trim() ? response.trim().split(/\s+/).length : 0} words · 12,000 character limit</span><span>Minimum 20 words</span></div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button onClick={runEvaluation} disabled={response.trim().split(/\s+/).filter(Boolean).length < 20} className="btn-primary"><ClipboardCheck size={16} />Evaluate my answer</button>
-          <button onClick={() => { setResponse(''); setEvaluation(null); setEvaluationSaved(false); }} className="btn-ghost"><RotateCcw size={16} />Clear</button>
-        </div>
+        <div className="flex items-center gap-2"><Sparkles size={19} className="text-brand"/><h2 className="font-semibold">Write your answer</h2></div>
+        <label className="mt-4 block text-sm font-semibold" htmlFor="written-answer">Student response · {answerMode === 'five' ? '5 marks' : '10 marks'}</label>
+        <textarea id="written-answer" value={response} onChange={(e) => {setResponse(e.target.value);setEvaluation(null);setEvaluationSaved(false);}} rows={10} maxLength={20000} placeholder="Write your answer in your own words. Include explanations, examples and diagram notes where relevant…" className="mt-2 w-full rounded-xl border border-line bg-sunk p-4 text-sm leading-relaxed outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"/>
+        <div className="mt-2 flex flex-wrap justify-between gap-2 text-xs text-mute"><span>{response.trim() ? response.trim().split(/\s+/).filter(Boolean).length : 0} words</span><span>{response.length.toLocaleString()} / 20,000 characters · minimum 12 words</span></div>
+        <div className="mt-4 flex flex-wrap gap-2"><button onClick={runEvaluation} disabled={!response.trim() || response.trim().split(/\s+/).filter(Boolean).length < 12} className="btn-primary"><ClipboardCheck size={16}/>Evaluate answer</button><button onClick={() => {setResponse('');setEvaluation(null);setEvaluationSaved(false);}} className="btn-ghost"><RotateCcw size={16}/>Clear response</button></div>
       </section>
-
       {evaluation && <section className="card mt-5 p-5 animate-rise" aria-live="polite">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div><p className="eyebrow">Coverage indicator · not exam marks</p><h2 className="mt-1 text-xl font-bold">Your answer feedback</h2></div>
-          <div className="rounded-xl bg-brand/10 px-4 py-3 text-center"><p className="text-2xl font-bold tabular-nums text-brand">{evaluation.score}%</p><p className="text-xs text-mute">coverage estimate</p></div>
-        </div>
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-sunk"><div className="h-full rounded-full bg-brand transition-all" style={{ width: `${evaluation.score}%` }} /></div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-xl border border-line p-3"><p className="text-xs text-mute">Word count</p><p className="mt-1 text-xl font-bold">{evaluation.wordCount}</p></div>
-          <div className="rounded-xl border border-line p-3"><p className="text-xs text-mute">Keywords found</p><p className="mt-1 text-xl font-bold">{evaluation.matched.length}/{evaluation.matched.length + evaluation.missing.length}</p></div>
-          <div className="rounded-xl border border-line p-3"><p className="text-xs text-mute">Sections covered</p><p className="mt-1 text-xl font-bold">{evaluation.sectionResults.filter((s) => s.covered).length}/{evaluation.sectionResults.length}</p></div>
-        </div>
-        <div className="mt-5 grid gap-5 sm:grid-cols-2">
-          <div><h3 className="flex items-center gap-2 text-sm font-semibold"><Check size={16} className="text-brand" />Detected keywords</h3><div className="mt-2 flex flex-wrap gap-2">{evaluation.matched.length ? evaluation.matched.map((word) => <span key={word} className="chip">{word}</span>) : <p className="text-sm text-mute">No model-answer keywords detected yet.</p>}</div></div>
-          <div><h3 className="flex items-center gap-2 text-sm font-semibold"><X size={16} className="text-orange-500" />Keywords to review</h3><div className="mt-2 flex flex-wrap gap-2">{evaluation.missing.length ? evaluation.missing.slice(0, 12).map((word) => <span key={word} className="chip">{word}</span>) : <p className="text-sm text-mute">All listed keywords were detected.</p>}</div></div>
-        </div>
-        {evaluation.conceptResults?.length > 0 && <div className="mt-5"><h3 className="text-sm font-semibold">Concept understanding checklist</h3><p className="mt-1 text-xs text-mute">A concept is marked present when one of its representative ideas appears in your answer. This does not verify whether your explanation is correct.</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{evaluation.conceptResults.map((item) => <div key={item.name} className="flex items-start gap-2 rounded-xl border border-line p-3 text-sm"><span className={item.covered ? 'text-brand' : 'text-orange-500'}>{item.covered ? <CheckCircle2 size={16}/> : <AlertCircle size={16}/>}</span><span className="flex-1">{item.name}</span><span className="text-xs text-mute">{item.covered ? 'Present' : 'Add / explain'}</span></div>)}</div><p className="mt-3 text-xs text-mute">Concept-group coverage: {evaluation.conceptScore}% · This reflects selected concept-cue presence, not conceptual correctness.</p></div>}<div className="mt-5"><h3 className="text-sm font-semibold">Topic coverage</h3><div className="mt-2 space-y-2">{evaluation.sectionResults.map((item) => <div key={item.title} className="flex items-start gap-2 text-sm"><span className={item.covered ? 'text-brand' : 'text-orange-500'}>{item.covered ? <CheckCircle2 size={16}/> : <AlertCircle size={16}/>}</span><span>{item.title}</span><span className="ml-auto text-xs text-mute">{item.covered ? 'Detected' : 'Review'}</span></div>)}</div></div>
-        {evaluation.suggestions.length > 0 && <div className="mt-5 rounded-xl bg-sunk p-4"><h3 className="text-sm font-semibold">Suggestions</h3><ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-mute">{evaluation.suggestions.map((tip) => <li key={tip}>{tip}</li>)}</ul></div>}
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-xs text-mute">This diagnostic checks representative concept cues, section coverage and terminology presence. It cannot reliably identify false or contradictory statements, judge explanation quality, handwriting or diagrams, or award/predict VTU marks.</p><button onClick={saveEvaluation} disabled={evaluationSaved} className="btn-primary"><Save size={16}/>{evaluationSaved ? 'Evaluation saved' : 'Save evaluation'}</button></div>
+        <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="eyebrow">Rule-based practice rubric · {evaluation.maxMarks} marks</p><h2 className="mt-1 text-xl font-bold">Evaluation results</h2><p className="mt-1 text-xs text-mute">Estimated practice score only. Not official VTU marks.</p></div><div className="rounded-2xl bg-brand/10 px-5 py-4 text-center"><p className="text-3xl font-bold tabular-nums text-brand">{evaluation.score}<span className="text-base">/{evaluation.maxMarks}</span></p><p className="text-xs text-mute">estimated score</p></div></div>
+        <div className="mt-4 h-2 overflow-hidden rounded-full bg-sunk" role="progressbar" aria-label="Estimated score" aria-valuemin="0" aria-valuemax="100" aria-valuenow={evaluation.score/evaluation.maxMarks*100}><div className="h-full rounded-full bg-brand transition-all" style={{width:\`\${evaluation.score/evaluation.maxMarks*100}%\`}}/></div>
+        {improvement !== null && <p className={\`mt-3 text-sm font-semibold \${improvement > 0 ? 'text-brand' : improvement < 0 ? 'text-orange-500' : 'text-mute'}\`}>{improvement > 0 ? '+' : ''}{improvement} marks versus latest saved attempt.</p>}
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{evaluation.criteria.map((item) => <div key={item.name} className="rounded-xl border border-line p-3"><div className="flex justify-between gap-2 text-sm"><span>{item.name}</span><b>{Math.round(item.ratio*100)}%</b></div><div className="mt-2 h-1.5 rounded-full bg-sunk"><div className="h-full rounded-full bg-brand" style={{width:\`\${item.ratio*100}%\`}}/></div><p className="mt-1 text-xs text-mute">Weight: {Math.round(item.weight*100)}% · {Math.round(item.ratio*item.weight*evaluation.maxMarks*10)/10} marks</p></div>)}</div>
+        <div className="mt-5 grid gap-5 lg:grid-cols-2"><div><h3 className="text-sm font-semibold text-brand">What you did well</h3><ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-mute">{evaluation.strengths.map((x)=><li key={x}>{x}</li>)}</ul></div><div><h3 className="text-sm font-semibold text-orange-500">What is missing</h3><ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-mute">{evaluation.missingConcepts.length ? evaluation.missingConcepts.map((x)=><li key={x}>{x}</li>) : <li>All configured concept groups have cues present.</li>}</ul></div></div>
+        <div className="mt-5 rounded-xl bg-sunk p-4"><h3 className="text-sm font-semibold">Suggestions</h3><ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-mute">{evaluation.suggestions.map((x)=><li key={x}>{x}</li>)}</ul></div>
+        <div className="mt-5"><h3 className="text-sm font-semibold">Reference section comparison</h3><div className="mt-2 space-y-2">{evaluation.sectionResults.map((item)=><div key={item.id} className="flex items-start gap-2 rounded-lg border border-line p-3 text-sm"><span className={item.covered?'text-brand':'text-orange-500'}>{item.covered?<CheckCircle2 size={16}/>:<AlertCircle size={16}/>}</span><span className="flex-1">{item.title}</span><span className="text-xs text-mute">{item.covered?'Cue found':'Review'}</span></div>)}</div></div>
+        <div className="mt-5 rounded-2xl border border-line p-4"><div className="flex flex-wrap items-center justify-between gap-2"><h3 className="font-semibold">Improved VTU-style reference draft</h3><button onClick={copyImproved} className="btn-ghost"><Copy size={15}/>Copy draft</button></div><p className="mt-1 text-xs text-mute">This uses only the selected verified reference answer. It is not AI rewriting and adds no unsupported claims.</p><pre className="mt-3 max-h-[30rem] overflow-auto whitespace-pre-wrap rounded-xl bg-sunk p-4 font-sans text-sm leading-6">{improvedDraft}</pre></div>
+        <div className="mt-5 flex flex-wrap gap-2"><button onClick={saveEvaluation} disabled={evaluationSaved} className="btn-primary"><Save size={16}/>{evaluationSaved?'Saved':'Save evaluation'}</button><button onClick={retry} className="btn-ghost"><RotateCcw size={16}/>Retry this question</button><a href={\`#/q/\${question.id}\`} className="btn-ghost"><FileText size={16}/>Open reference answer</a></div>
+        <p className="mt-4 text-xs text-mute">This rubric cannot reliably identify false statements, contradictions, nuanced technical errors or the quality of drawn diagrams. It is a transparent practice heuristic, not examiner judgement.</p>
       </section>}
-
-      {revealed && <section className="card mt-5 p-5 animate-rise">
-        <div className="flex flex-wrap items-center justify-between gap-2"><div><h2 className="font-semibold">Self-assessment checklist</h2><p className="mt-1 text-sm text-mute">Tick only the elements you actually included in your written answer.</p></div><span className="rounded-lg bg-brand/10 px-3 py-2 text-sm font-bold tabular-nums text-brand">{score}/{checklist.length} covered</span></div>
-        <div className="mt-4 space-y-2">
-          {checklist.map((item, i) => <label key={i} className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-3 text-sm hover:bg-sunk"><input type="checkbox" checked={!!checks[i]} onChange={() => setChecks((s) => ({ ...s, [i]: !s[i] }))} className="mt-0.5 h-4 w-4 accent-[rgb(var(--c-brand))]" /><span>{item}</span></label>)}
-        </div>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-mute">This checklist measures topic coverage only; it does not assign VTU marks.</p>
-          <button disabled={saved} onClick={() => { savePracticeAttempt(question.id, score, checklist.length); setSaved(true); notify('Practice assessment saved'); }} className="btn-primary"><Save size={16} />{saved ? 'Assessment saved' : 'Save self-assessment'}</button>
-        </div>
-      </section>}
-      <div className="mt-6 flex items-center gap-2 text-sm text-mute"><CheckCircle2 size={16} className="text-brand" />Practice and evaluation history is stored locally in this browser.</div>
+      {revealed && <section className="card mt-5 p-5"><h2 className="font-semibold">Self-assessment checklist</h2><div className="mt-3 space-y-2">{checklist.map((item,i)=><label key={item} className="flex items-start gap-2 rounded-lg border border-line p-3 text-sm"><input type="checkbox" checked={!!checks[i]} onChange={()=>setChecks((s)=>({...s,[i]:!s[i]}))} className="mt-0.5 h-4 w-4"/>{item}</label>)}</div><button disabled={saved} onClick={()=>{savePracticeAttempt(question.id,checksCount,checklist.length);setSaved(true);notify('Self-assessment saved');}} className="btn-primary mt-4"><Save size={16}/>{saved?'Saved':'Save checklist'}</button></section>}
+      <section className="card mt-5 p-5"><div className="flex flex-wrap items-center justify-between gap-2"><div><h2 className="font-semibold">Evaluation history</h2><p className="mt-1 text-xs text-mute">Stored locally in this browser, separated by question and answer length.</p></div><button onClick={()=>setShowHistory((v)=>!v)} className="btn-ghost"><History size={15}/>{showHistory?'Hide history':'Show history'}</button></div>
+        {showHistory && <div className="mt-4"><label className="text-xs font-semibold text-mute">Filter question <select value={historyQuestion} onChange={(e)=>setHistoryQuestion(e.target.value)} className="ml-2 h-9 rounded-lg border border-line bg-panel px-2 text-sm text-ink"><option value="all">All questions</option>{QUESTIONS.map((q)=><option key={q.id} value={q.id}>{q.code} · {q.title}</option>)}</select></label>
+          <div className="mt-3 space-y-2">{evaluationAttempts.filter((a)=>historyQuestion==='all'||a.questionId===historyQuestion).length ? evaluationAttempts.filter((a)=>historyQuestion==='all'||a.questionId===historyQuestion).map((a)=><div key={a.id} className="flex flex-wrap items-center gap-3 rounded-xl border border-line p-3 text-sm"><div className="min-w-0 flex-1"><p className="font-semibold">{a.questionTitle} · {a.answerMode==='five'?'5 marks':'10 marks'}</p><p className="text-xs text-mute">{a.at?new Date(a.at).toLocaleString():'Older saved attempt'} · {a.wordCount||0} words</p></div><b>{a.score}/{a.maxMarks||10}</b><button onClick={()=>{setQuestionId(a.questionId);setModule(String(QUESTIONS.find((q)=>q.id===a.questionId)?.module||'all'));setAnswerMode(a.answerMode||'ten');setResponse('');setEvaluation(null);}} className="btn-ghost"><ArrowUpRight size={14}/>Retry</button></div>) : <p className="py-4 text-sm text-mute">No evaluation attempts saved yet.</p>}</div>
+          <button onClick={removeCurrentHistory} disabled={!currentHistory.length} className="btn-ghost mt-3 text-orange-600 disabled:opacity-40"><Trash2 size={15}/>Clear current question history</button>
+        </div>}
+      </section>
+      <div className="mt-6 flex items-center gap-2 text-sm text-mute"><CheckCircle2 size={16} className="text-brand"/>Evaluation records are stored locally. Student answers are not sent to a server.</div>
     </div>
   );
 }
