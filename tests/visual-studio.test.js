@@ -15,8 +15,8 @@ test('visual studio concepts are mapped to the ten existing main-bank questions'
   assert.deepEqual([...new Set(topicQids)].sort(), qids.sort());
 });
 
-test('visual studio has six usable learning workspaces and interactive controls', () => {
-  for (const key of ["mindmap","flows","cards","compare","diagrams","revision"]) {
+test('visual studio has seven usable learning workspaces and interactive controls', () => {
+  for (const key of ["mindmap","flows","cards","compare","diagrams","revision","quiz"]) {
     assert.match(visual, new RegExp("tab===['\"]" + key + "['\"]"));
   }
   for (const label of ['Zoom in','Zoom out','Reset view','Fit to screen']) assert.match(visual, new RegExp(label));
@@ -32,11 +32,27 @@ test('all diagram IDs used by Visual Studio exist in the verified diagram regist
   for (const id of [...used, ...usedArrays]) assert.ok(registry.includes(id), 'missing registry diagram: ' + id);
 });
 
+test('visual knowledge lab provides syllabus-based questions and saves attempts', () => {
+  const lab = read('src/components/VisualKnowledgeLab.jsx');
+  for (const concept of ['Genetic diversity','Gene bank','Nitrogen fixation','Cyclone separator','Scoping','Infrared radiation','Montreal Protocol']) assert.ok(lab.includes(concept));
+  assert.match(lab, /saveVisualQuizAttempt/);
+  assert.match(store, /quizAttempts: \[\{ \.\.\.attempt, at: Date\.now\(\) \}/);
+});
+
+test('flow navigation and revision checklist persist learner progress', () => {
+  assert.match(visual, /Previous step/);
+  assert.match(visual, /Next step/);
+  assert.match(visual, /toggleVisualRevision/);
+  assert.match(store, /revision: \{\}, quizAttempts: \[\]/);
+});
+
 test('visual progress persistence is backward-compatible with existing local storage', () => {
   assert.match(store, /const KEY = 'vtu-examprep-v1'/);
-  assert.match(store, /visualStudio: \{ viewed: \{\}, completedMaps: \{\}, exercises: \{\}, favorites: \{\} \}/);
+  assert.match(store, /visualStudio: \{ viewed: \{\}, completedMaps: \{\}, exercises: \{\}, favorites: \{\}, revision: \{\}, quizAttempts: \[\] \}/);
   assert.match(store, /markVisualViewed/);
   assert.match(store, /completeVisualMap/);
   assert.match(store, /completeVisualExercise/);
   assert.match(store, /toggleVisualFavorite/);
+  assert.match(store, /toggleVisualRevision/);
+  assert.match(store, /saveVisualQuizAttempt/);
 });
