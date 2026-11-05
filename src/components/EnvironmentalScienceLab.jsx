@@ -21,12 +21,24 @@ const RESOURCE_MARKERS = [
   { id: 'biodiversity-resource', label: 'Biodiversity', detail: 'Species, genetic and ecosystem diversity contribute to resilience and ecosystem services.', lat: -8, lon: -62, color: '#ff71c8' },
 ];
 
+const CONCEPT_IDS = {
+  earth: ['forest-resource','freshwater','mineral','renewable','biodiversity-resource'],
+  forest: ['canopy','understory','forestfloor','soil','habitat'],
+  water: ['evaporation','condensation','precipitation','infiltration','runoff'],
+  energy: ['solar','wind','hydro','biomass'],
+  biodiversity: ['producer','herbivore','predator','decomposer','soil'],
+  scenarios: ['canopy','groundwater','habitat','renewables'],
+};
 const HOTSPOT_INFO = {
   'forest-resource': 'Forest resources: biological products and ecosystem services such as habitat, soil protection and carbon storage.',
   freshwater: 'Water resources: surface water and groundwater are renewed and stored through the hydrological cycle.',
   mineral: 'Mineral resources: finite geological materials; responsible extraction considers land, water and waste impacts.',
   renewable: 'Energy resources: solar, wind and flowing water are renewable energy flows when appropriately managed.',
   'biodiversity-resource': 'Biodiversity: variation among living organisms at genetic, species and ecosystem levels.',
+  understory: 'Understory: shrubs and young trees form a vegetation layer beneath the canopy and provide cover and food for wildlife.',
+  groundwater: 'Groundwater pressure: sustained extraction can lower water tables and reduce water available to wells, springs and connected ecosystems; the outcome depends on local recharge and use.',
+  habitat: 'Habitat connectivity: connected habitats can help organisms move, disperse and maintain gene flow; fragmentation can isolate populations.',
+  renewables: 'Renewable energy adoption: a shift toward renewable energy can reduce dependence on fossil fuels, while siting and life-cycle impacts still require assessment.',
   canopy: 'Canopy: the upper tree layer intercepts light and rainfall and provides habitat for many organisms.',
   understory: 'Understory: shrubs and young trees create additional habitat and influence forest regeneration.',
   soil: 'Soil: mineral particles, organic matter, water, air and organisms form a living system that supports plants.',
@@ -325,7 +337,7 @@ export default function EnvironmentalScienceLab() {
         {active==='water'&&<div className="card p-4"><div className="flex flex-wrap items-center justify-between gap-2"><h3 className="font-semibold">Water-cycle learning sequence</h3><span className="chip">Stage {step+1} of 5</span></div><div className="mt-3 flex flex-wrap gap-2">{waterSteps.map((name,i)=><button key={name} onClick={()=>setStep(i)} aria-pressed={step===i} className={`rounded-xl border px-3 py-2 text-xs font-semibold ${step===i?'border-brand bg-brand/10 text-brand':'border-line bg-panel text-mute hover:bg-sunk'}`}>{i+1}. {name}</button>)}</div><div className="mt-3 flex items-center justify-between gap-2"><p className="text-sm text-mute">{lesson.concepts[step]}</p><div className="flex gap-2"><button className="btn-ghost !px-3" onClick={()=>setStep(s=>Math.max(0,s-1))}><ChevronLeft size={16}/>Previous</button><button className="btn-ghost !px-3" onClick={()=>setStep(s=>(s+1)%5)}>Next<ChevronRight size={16}/></button></div></div></div>}
         {isScenario&&<div className="card p-4"><div className="flex flex-wrap items-center justify-between gap-2"><div><h3 className="font-semibold">Scenario parameter controls</h3><p className="mt-1 text-xs text-mute">Qualitative, illustrative controls — not measured predictions.</p></div><button className="btn-primary" onClick={runScenario}>Save scenario attempt</button></div><div className="mt-4 grid gap-4 sm:grid-cols-2">{[['forest','Forest cover illustration'],['groundwater','Groundwater extraction pressure'],['habitat','Habitat connectivity'],['renewables','Renewable energy adoption']].map(([key,name])=><label key={key} className="block"><span className="flex justify-between text-sm font-medium"><span>{name}</span><span className="tabular-nums text-brand">{scenario[key]}%</span></span><input className="mt-2 w-full accent-cyan-400" type="range" min="0" max="100" value={scenario[key]} onChange={e=>updateScenario(key,Number(e.target.value))}/></label>)}</div><p className="mt-3 text-xs text-mute">Changing these controls changes only the conceptual scene and saves your chosen settings as a practice attempt; it does not calculate real-world ecological forecasts.</p></div>}
         <div className="grid gap-4 lg:grid-cols-[1.05fr_.95fr]">
-          <article className="card p-5"><p className="eyebrow">SELECTED SYSTEM</p><h3 className="mt-1 text-lg font-semibold">{selected?.label||lesson.title}</h3><p className="mt-2 text-sm leading-6 text-mute">{selectedInfo||lesson.explanation}</p>{selected&&<button className="mt-3 text-xs font-semibold text-brand hover:underline" onClick={()=>setSelected(null)}>Clear selection</button>}<div className="mt-4 flex flex-wrap gap-2">{lesson.concepts.map((concept,i)=><span key={concept} className="chip">{i+1}. {concept}</span>)}</div></article>
+          <article className="card p-5"><p className="eyebrow">SELECTED SYSTEM</p><h3 className="mt-1 text-lg font-semibold">{selected?.label||lesson.title}</h3><p className="mt-2 text-sm leading-6 text-mute">{selectedInfo||lesson.explanation}</p>{selected&&<button className="mt-3 text-xs font-semibold text-brand hover:underline" onClick={()=>setSelected(null)}>Clear selection</button>}<div className="mt-4 flex flex-wrap gap-2">{lesson.concepts.map((concept,i)=>{const id=CONCEPT_IDS[active]?.[i];return <button key={concept} type="button" className={"chip hover:border-brand hover:text-brand "+(selected?.id===id?'border-brand text-brand':'')} aria-pressed={selected?.id===id} onClick={()=>setSelected({id,label:concept})}>{i+1}. {concept}</button>;})}</div></article>
           <article className="card p-5"><p className="eyebrow">LEARNING OBJECTIVES</p><h3 className="mt-1 text-lg font-semibold">What to understand</h3><ul className="mt-3 space-y-2 text-sm text-mute">{lesson.concepts.map((c,i)=><li key={c} className="flex gap-2"><span className="mt-0.5 text-brand">✦</span><span>{c}</span></li>)}</ul><div className="mt-4 rounded-xl border border-brand/20 bg-brand/5 p-3 text-xs leading-5 text-mute"><CircleHelp size={14} className="mb-1 text-brand"/>Educational models are simplified. They do not represent measured geographic distributions, calibrated physical models or numerical environmental forecasts.</div></article>
         </div>
       </section>
