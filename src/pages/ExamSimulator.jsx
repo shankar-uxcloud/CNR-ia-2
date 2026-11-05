@@ -38,7 +38,7 @@ export default function ExamSimulator() {
 
   const toggleQuestion = (id) => setSelected((old) => old.includes(id) ? old.filter((x) => x !== id) : [...old, id]);
   const startExam = () => {
-    const chosen = QUESTIONS.filter((q) => selected.includes(q.id) && (module === 'all' || String(q.module) === module)).slice(0, 10);
+    const chosen = QUESTIONS.filter((q) => selected.includes(q.id) && (module === 'all' || String(q.module) === module)).slice(0, count);
     if (!chosen.length) { notify('Select at least one question', 'err'); return; }
     setPaper(chosen); setAnswers({}); setFlags({}); setIndex(0); setSecondsLeft(durationSeconds); setSaved(false); setPhase('running');
   };
