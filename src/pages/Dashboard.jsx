@@ -119,6 +119,14 @@ export default function Dashboard() {
         <a href="#/planner" className="card p-4 transition hover:-translate-y-0.5 hover:shadow-lift"><CalendarDays size={18} className="text-brand"/><p className="mt-2 text-xs text-mute">Pending study tasks</p><p className="mt-1 text-2xl font-bold tabular-nums">{plannerTasks.filter(t=>!t.done).length}</p><span className="mt-2 block text-xs font-semibold text-brand">Open study planner →</span></a>
       </section>
 
+      <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Immersive learning lab">
+        <a href="#/environment-lab" className="card group flex items-center gap-4 p-5 transition hover:-translate-y-0.5 hover:shadow-lift sm:col-span-3">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand/10 text-brand"><span className="text-2xl" aria-hidden="true">◎</span></span>
+          <span className="min-w-0 flex-1"><span className="block font-semibold">Explore the 3D Environmental Science Lab</span><span className="mt-1 block text-sm text-mute">Interactive Earth, forest, water-cycle, renewable-energy and biodiversity models.</span></span>
+          <span className="text-sm font-semibold text-brand">Open lab →</span>
+        </a>
+      </section>
+
       <section className="mt-8" aria-labelledby="study-route">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
           <div>
