@@ -254,7 +254,6 @@ export default function Practice() {
   const improvement = previous && evaluation ? Number((evaluation.score - previous.score).toFixed(1)) : null;
 
   if (!question) return null;
-  const improvedDraft = evaluation ? buildImprovedDraft(question, answerMode, evaluation) : '';
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-10">
       <p className="eyebrow">VTU written practice · Smart Answer Evaluation 2.0</p>
