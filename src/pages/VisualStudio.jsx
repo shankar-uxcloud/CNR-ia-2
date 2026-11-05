@@ -112,7 +112,7 @@ export default function VisualStudio() {
   const diagramComplete=(id)=>{completeVisualExercise(id);notify('Diagram practice completed');};
   const markMapDone=()=>{completeVisualMap(topic.id);notify('Mind map completed');};
 
-  return <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
+  return <div className="visual-studio mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
     <p className="eyebrow">Visual understanding · interactive learning</p>
     <h1 className="mt-1 text-3xl font-bold tracking-tight">Visual Learning Studio</h1>
     <p className="mt-2 max-w-3xl text-mute">Explore verified BCV755B concepts through connected maps, process flows, visual cards and existing labelled diagrams. The current studio covers topics represented in the website’s 10-question bank; it is not a claim of complete syllabus coverage.</p>
