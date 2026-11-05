@@ -16,6 +16,7 @@ const Planner = lazy(() => import('./pages/Planner'));
 const ExamSimulator = lazy(() => import('./pages/ExamSimulator'));
 const Analytics = lazy(() => import('./pages/Analytics'));
 const VisualStudio = lazy(() => import('./pages/VisualStudio'));
+const AdditionalNotes = lazy(() => import('./pages/AdditionalNotes'));
 
 function Router({ path }) {
   if (path === '/dashboard') return <Dashboard />;
@@ -27,6 +28,7 @@ function Router({ path }) {
   if (path === '/exam') return <ExamSimulator />;
   if (path === '/analytics') return <Analytics />;
   if (path === '/visual-studio') return <VisualStudio />;
+  if (path === '/additional-notes') return <AdditionalNotes />;
   if (path === '/planner') return <Planner />;
   const m = path.match(/^\/module\/([345])$/);
   if (m) return <Library module={Number(m[1])} />;

@@ -14,7 +14,8 @@ function load() {
       examChecks: s.examChecks || {}, practiceAttempts: s.practiceAttempts || {}, evaluationAttempts: Array.isArray(s.evaluationAttempts) ? s.evaluationAttempts : [],
       revisionChecks: s.revisionChecks || {}, readingChecks: s.readingChecks || {}, quizAttempts: Array.isArray(s.quizAttempts) ? s.quizAttempts : [],
       examAttempts: Array.isArray(s.examAttempts) ? s.examAttempts : [],
-      plannerTasks: Array.isArray(s.plannerTasks) ? s.plannerTasks : [],\n      visualStudio: { ...DEFAULTS.visualStudio, ...(s.visualStudio || {}), viewed: s.visualStudio?.viewed || {}, completedMaps: s.visualStudio?.completedMaps || {}, exercises: s.visualStudio?.exercises || {}, favorites: s.visualStudio?.favorites || {} },
+      plannerTasks: Array.isArray(s.plannerTasks) ? s.plannerTasks : [],
+      visualStudio: { ...DEFAULTS.visualStudio, ...(s.visualStudio || {}), viewed: s.visualStudio?.viewed || {}, completedMaps: s.visualStudio?.completedMaps || {}, exercises: s.visualStudio?.exercises || {}, favorites: s.visualStudio?.favorites || {} },
       settings: { ...DEFAULTS.settings, ...(s.settings || {}) },
     };
   } catch { return DEFAULTS; }
@@ -70,11 +71,16 @@ export function StudyProvider({ children }) {
       return { ...s, practiceAttempts: { ...s.practiceAttempts, [id]: { at: Date.now(), score, total, attempts: (previous?.attempts || 0) + 1 } } };
     }),
     saveEvaluationAttempt: (attempt) => setState((s) => ({ ...s, evaluationAttempts: [{ ...attempt, id: `evaluation-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...(s.evaluationAttempts || [])].slice(0, 100) })),
+    clearEvaluationHistory: (predicate) => setState((s) => ({ ...s, evaluationAttempts: (s.evaluationAttempts || []).filter((attempt) => !predicate(attempt)) })),
     saveQuizAttempt: (attempt) => setState((s) => ({ ...s, quizAttempts: [{ ...attempt, id: `quiz-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...s.quizAttempts].slice(0, 100) })),
     saveExamAttempt: (attempt) => setState((s) => ({ ...s, examAttempts: [{ ...attempt, id: `exam-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...(s.examAttempts || [])].slice(0, 100) })),
     addPlannerTask: (task) => setState((s) => ({ ...s, plannerTasks: [{ ...task, id: `task-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: Date.now(), done: false }, ...s.plannerTasks] })),
     togglePlannerTask: (id) => setState((s) => ({ ...s, plannerTasks: s.plannerTasks.map((t) => t.id === id ? { ...t, done: !t.done, updatedAt: Date.now() } : t) })),
-    deletePlannerTask: (id) => setState((s) => ({ ...s, plannerTasks: s.plannerTasks.filter((t) => t.id !== id) })),\n    markVisualViewed: (id) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, viewed: { ...s.visualStudio.viewed, [id]: s.visualStudio.viewed[id] || Date.now() } } })),\n    completeVisualMap: (id) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, completedMaps: { ...s.visualStudio.completedMaps, [id]: Date.now() } } })),\n    completeVisualExercise: (id) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, exercises: { ...s.visualStudio.exercises, [id]: Date.now() } } })),\n    toggleVisualFavorite: (id) => setState((s) => { const favorites = { ...s.visualStudio.favorites }; if (favorites[id]) delete favorites[id]; else favorites[id] = Date.now(); return { ...s, visualStudio: { ...s.visualStudio, favorites } }; }),
+    deletePlannerTask: (id) => setState((s) => ({ ...s, plannerTasks: s.plannerTasks.filter((t) => t.id !== id) })),
+    markVisualViewed: (id) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, viewed: { ...s.visualStudio.viewed, [id]: s.visualStudio.viewed[id] || Date.now() } } })),
+    completeVisualMap: (id) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, completedMaps: { ...s.visualStudio.completedMaps, [id]: Date.now() } } })),
+    completeVisualExercise: (id) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, exercises: { ...s.visualStudio.exercises, [id]: Date.now() } } })),
+    toggleVisualFavorite: (id) => setState((s) => { const favorites = { ...s.visualStudio.favorites }; if (favorites[id]) delete favorites[id]; else favorites[id] = Date.now(); return { ...s, visualStudio: { ...s.visualStudio, favorites } }; }),
     setSetting: (k, v) => setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } })),
     toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: theme === 'dark' ? 'light' : 'dark' } })),
     resetAll: () => setState((s) => ({ ...DEFAULTS, settings: s.settings })),

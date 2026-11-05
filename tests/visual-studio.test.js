@@ -9,8 +9,8 @@ const questions = read('src/data/questions.js');
 const diagrams = read('src/diagrams/index.js');
 
 test('visual studio concepts are mapped to the ten existing main-bank questions', () => {
-  const qids = [...questions.matchAll(/id: '(q\\d+)'/g)].map((m) => m[1]);
-  const topicQids = [...visual.matchAll(/q:'(q\\d+)'/g)].map((m) => m[1]);
+  const qids = [...questions.matchAll(/id: '(q\d+)'/g)].map((m) => m[1]);
+  const topicQids = [...visual.matchAll(/q:'(q\d+)'/g)].map((m) => m[1]);
   assert.equal(topicQids.length, 10);
   assert.deepEqual([...new Set(topicQids)].sort(), qids.sort());
 });
