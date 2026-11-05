@@ -52,8 +52,8 @@ function Nav({ path, onNavigate }) {
       {items.map((it) => {
         const active = path === it.to || (it.to === '/questions' && path.startsWith('/q/'));
         return (
-          <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={path === it.to ? 'page' : undefined}
-            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${path === it.to ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
+          <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={active ? 'page' : undefined}
+            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
             {it.icon ? <it.icon size={18} aria-hidden="true" /> : <span className="grid h-[18px] w-[18px] place-items-center"><span className="h-2.5 w-2.5 rounded-full" style={{ background: modColor(it.dot) }} /></span>}
             <span className="min-w-0 flex-1">{it.moduleName ? <><span className="block">{it.label}</span><span className="mt-0.5 block truncate text-[11px] font-normal text-mute">{it.moduleName}</span></> : it.label}</span>
             {it.count !== undefined && <span className="rounded-md bg-sunk px-1.5 py-0.5 text-[11px] tabular-nums text-mute">{it.count}</span>}
