@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { Activity, Award, BarChart3, BookOpenCheck, Brain, CalendarDays, ChartNoAxesCombined, Clock3, FileText, Target, TrendingUp } from 'lucide-react';
+import { Activity, Award, BarChart3, BookOpenCheck, Brain, Clock3, FileText, Target, TrendingUp } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER } from '../data/questions';
 import { useStudy } from '../lib/study';
-import { Bar, ModuleBadge, Empty, modColor } from '../components/ui';
+import { Bar, ModuleBadge, modColor } from '../components/ui';
 
 const pct = (n, d) => d ? Math.round((n / d) * 100) : 0;
 const average = (items, pick) => items.length ? Math.round(items.reduce((sum, item) => sum + pick(item), 0) / items.length) : null;
@@ -12,7 +12,7 @@ export default function Analytics() {
   const {
     completed = {}, bookmarks = {}, quizAttempts = [], evaluationAttempts = [],
     examAttempts = [], practiceAttempts = {}, plannerTasks = [], readingChecks = {},
-    revisionChecks = [], recent = [],
+    revisionChecks = {},
   } = useStudy();
 
   const doneIds = QUESTIONS.filter((q) => completed[q.id]);
