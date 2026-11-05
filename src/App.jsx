@@ -13,6 +13,7 @@ const Revision = lazy(() => import('./pages/Revision'));
 const Practice = lazy(() => import('./pages/Practice'));
 const Quiz = lazy(() => import('./pages/Quiz'));
 const Planner = lazy(() => import('./pages/Planner'));
+const ExamSimulator = lazy(() => import('./pages/ExamSimulator'));
 
 function Router({ path }) {
   if (path === '/dashboard') return <Dashboard />;
@@ -21,10 +22,11 @@ function Router({ path }) {
   if (path === '/revision') return <Revision />;
   if (path === '/practice') return <Practice />;
   if (path === '/quiz') return <Quiz />;
+  if (path === '/exam') return <ExamSimulator />;
   if (path === '/planner') return <Planner />;
-  const m = path.match(/^\/module\/([345])$/);
+  const m = path.match(/^\\/module\\/([345])$/);
   if (m) return <Library module={Number(m[1])} />;
-  const q = path.match(/^\/q\/([a-z0-9]+)$/);
+  const q = path.match(/^\\/q\\/([a-z0-9]+)$/);
   if (q) return <Answer key={q[1]} id={q[1]} />;
   return <div className="mx-auto max-w-xl px-4 py-16"><Empty icon={FileQuestion} title="Page not found" text="That page does not exist." action={<a href="#/dashboard" className="btn-primary">Go to dashboard</a>} /></div>;
 }
