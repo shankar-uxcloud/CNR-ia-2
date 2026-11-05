@@ -762,3 +762,7 @@ button[aria-pressed='true'] {
   body::after { display: none !important; }
   .card, [data-theme='dark'] .card { color: #111 !important; background: #fff !important; border-color: #ccc !important; box-shadow: none !important; }
 }
+
+/* Full accent spectrum retained as tokens for future reusable components. */
+:root { --ux-magenta: #ff38d1; --ux-blue: #2979ff; --ux-green: #39ff88; }
+[data-theme='dark'] { --ux-magenta: #ff38d1; --ux-blue: #2979ff; --ux-green: #39ff88; }
