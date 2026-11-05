@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
 export const WIDTHS = [{ label: 'Narrow', px: 640 }, { label: 'Medium', px: 760 }, { label: 'Wide', px: 920 }];
-const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], plannerTasks: [], settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
+const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
 
 function load() {
   try {
@@ -13,6 +13,7 @@ function load() {
       ...DEFAULTS, ...s,
       examChecks: s.examChecks || {}, practiceAttempts: s.practiceAttempts || {}, evaluationAttempts: Array.isArray(s.evaluationAttempts) ? s.evaluationAttempts : [],
       revisionChecks: s.revisionChecks || {}, readingChecks: s.readingChecks || {}, quizAttempts: Array.isArray(s.quizAttempts) ? s.quizAttempts : [],
+      examAttempts: Array.isArray(s.examAttempts) ? s.examAttempts : [],
       plannerTasks: Array.isArray(s.plannerTasks) ? s.plannerTasks : [],
       settings: { ...DEFAULTS.settings, ...(s.settings || {}) },
     };
@@ -70,6 +71,7 @@ export function StudyProvider({ children }) {
     }),
     saveEvaluationAttempt: (attempt) => setState((s) => ({ ...s, evaluationAttempts: [{ ...attempt, id: `evaluation-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...(s.evaluationAttempts || [])].slice(0, 100) })),
     saveQuizAttempt: (attempt) => setState((s) => ({ ...s, quizAttempts: [{ ...attempt, id: `quiz-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...s.quizAttempts].slice(0, 100) })),
+    saveExamAttempt: (attempt) => setState((s) => ({ ...s, examAttempts: [{ ...attempt, id: `exam-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...(s.examAttempts || [])].slice(0, 100) })),
     addPlannerTask: (task) => setState((s) => ({ ...s, plannerTasks: [{ ...task, id: `task-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: Date.now(), done: false }, ...s.plannerTasks] })),
     togglePlannerTask: (id) => setState((s) => ({ ...s, plannerTasks: s.plannerTasks.map((t) => t.id === id ? { ...t, done: !t.done, updatedAt: Date.now() } : t) })),
     deletePlannerTask: (id) => setState((s) => ({ ...s, plannerTasks: s.plannerTasks.filter((t) => t.id !== id) })),
