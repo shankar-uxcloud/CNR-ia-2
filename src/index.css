@@ -156,3 +156,9 @@ body {
   .dg .flow { animation: none; }
 }
 .print-head { display: none; }
+
+/* Visual studio label-recall mode */
+.visual-labels-hidden .dg .tx,
+.visual-labels-hidden .dg .tx-xs,
+.visual-labels-hidden .dg .tx-s,
+.visual-labels-hidden .dg .tx-l { opacity: 0; }
