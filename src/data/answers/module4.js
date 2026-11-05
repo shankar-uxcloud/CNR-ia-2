@@ -211,12 +211,14 @@ export const q07 = {
       blocks: [
         { type: 'p', text: '**Ex-situ conservation** protects species or their genetic material **outside their natural habitats**. It is useful when species are **highly threatened** or need **specialised care or storage**.' },
         { type: 'list', ordered: true, items: [
-          '**Zoological gardens (zoos):** maintain animals and may support captive breeding, education and research.',
-          '**Botanical gardens:** maintain living collections of plant species.',
-          '**Gene banks:** store seeds, genes and DNA for future use (the Module 5 notes also mention seed banks).',
-          '**Pollen culture and tissue culture:** help preserve and multiply plant material.',
-          '**Cryopreservation:** long-term storage of biological material at very low temperatures.',
+          '**Zoological gardens (zoos):** maintain animals outside their natural habitats. As stated in the notes, they may support **captive breeding, education and research**.',
+          '**Botanical gardens:** maintain **living collections of plant species**, helping preserve plant diversity outside natural habitats.',
+          '**Gene banks:** store **seeds, genes and DNA** for future use. The Module 5 notes also identify seed banks as an ex-situ conservation method.',
+          '**Pollen culture:** preserves pollen material for plant conservation and future use.',
+          '**Tissue culture:** helps preserve and multiply plant material under managed conditions.',
+          '**Cryopreservation:** stores biological material for the long term at **very low temperatures**.',
         ] },
+        { type: 'p', text: 'These methods conserve either living organisms (such as animals in zoological gardens and plants in botanical gardens) or biological material (such as seeds, genes, DNA, pollen and tissue). The method selected depends on what is being conserved and whether living care or long-term storage is required.' },
       ],
     },
     {
