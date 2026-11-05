@@ -32,6 +32,8 @@ test('3D canvas interaction exposes orbit, zoom, reset, selection and fullscreen
   }
   assert.match(lab, /canvasRef/);
   assert.match(lab, /hotspotsRef/);
+  assert.match(lab, /CONCEPT_IDS/);
+  assert.match(lab, /aria-pressed=\{selected\?\.id===id\}/);
 });
 
 test('simulation and scenario controls are explicitly qualitative rather than predictive', () => {
