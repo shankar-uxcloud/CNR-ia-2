@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, Layers } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -39,12 +39,13 @@ function Nav({ path, onNavigate }) {
     { to: '/revision', label: 'Revision Mode', icon: Zap },
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
+    { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
     { to: '/planner', label: 'Study Planner', icon: CalendarDays },
   ];
   return (
     <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
       {items.map((it) => {
-        const active = path === it.to || (it.to === '/questions' && path.startsWith('/q/')) ;
+        const active = path === it.to || (it.to === '/questions' && path.startsWith('/q/'));
         return (
           <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={path === it.to ? 'page' : undefined}
             className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${path === it.to ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
@@ -83,7 +84,7 @@ export default function Shell({ path, children }) {
     return () => document.removeEventListener('keydown', k);
   }, [open]);
 
-  const onSearch = (v) => { setQuery(v); if (!/^\/(questions|module)/.test(path)) go('/questions'); };
+  const onSearch = (v) => { setQuery(v); if (!/^\\/(questions|module)/.test(path)) go('/questions'); };
 
   return (
     <div className="min-h-screen">
