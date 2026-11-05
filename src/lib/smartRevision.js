@@ -8,6 +8,7 @@ const dayKey = (value) => {
 };
 const addDays = (key, amount) => { const d = new Date(`${key}T12:00:00`); d.setDate(d.getDate()+amount); return dayKey(d); };
 
+// All topic-level scores are derived only from question-linked saved evidence.
 export function analyseLearning(state = {}, now = Date.now()) {
   const evaluations = Array.isArray(state.evaluationAttempts) ? state.evaluationAttempts : [];
   const quizzes = Array.isArray(state.quizAttempts) ? state.quizAttempts : [];
