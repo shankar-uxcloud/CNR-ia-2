@@ -5,7 +5,7 @@ import { useStudy } from '../lib/study';
 import { ModuleBadge } from '../components/ui';
 
 const formatTime = (seconds) => `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
-const wordCount = (value) => String(value || '').trim() ? String(value).trim().split(/\\s+/).length : 0;
+const wordCount = (value) => String(value || '').trim() ? String(value).trim().split(/\s+/).length : 0;
 
 export default function ExamSimulator() {
   const { examAttempts = [], saveExamAttempt, notify } = useStudy();
