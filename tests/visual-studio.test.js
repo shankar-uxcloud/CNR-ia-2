@@ -43,7 +43,7 @@ test('flow navigation and revision checklist persist learner progress', () => {
   assert.match(visual, /Previous step/);
   assert.match(visual, /Next step/);
   assert.match(visual, /toggleVisualRevision/);
-  assert.match(store, /revision: \{ \}, quizAttempts: \[\]/);
+  assert.match(store, /revision: \{\}, quizAttempts: \[\]/);
 });
 
 test('visual progress persistence is backward-compatible with existing local storage', () => {
