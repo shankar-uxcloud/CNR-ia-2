@@ -233,7 +233,7 @@ function drawScene(ctx,w,h,lesson,view,labels,scenario,step,tick,playing) {
   ctx.save();
   // Ambient radial illumination.
   const light=ctx.createRadialGradient(w*.5,h*.38,10,w*.5,h*.38,Math.max(w,h)*.7);light.addColorStop(0,'rgba(0,229,255,.11)');light.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=light;ctx.fillRect(0,0,w,h);
-  const project=projectFactory(w,h,view.yaw,view.pitch,view.zoom);
+  const project=projectFactory(w,h,view.yaw+(playing?Math.sin(tick/1800)*.025:0),view.pitch,view.zoom);
   if(lesson==='earth')drawEarth(ctx,project,w,h,labels,hotspots);
   if(lesson==='forest')drawForest(ctx,project,w,h,labels,hotspots,scenario);
   if(lesson==='water')drawWater(ctx,project,w,h,labels,hotspots,step,playing,tick);
@@ -241,9 +241,11 @@ function drawScene(ctx,w,h,lesson,view,labels,scenario,step,tick,playing) {
   if(lesson==='biodiversity')drawBiodiversity(ctx,project,w,h,labels,hotspots,scenario);
   if(lesson==='scenarios'){
     drawForest(ctx,project,w,h,labels,hotspots,scenario);
-    const barY=h-58;ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(w*.12,barY,w*.76,5);
-    ctx.fillStyle='#39ff88';ctx.fillRect(w*.12,barY,w*.76*scenario.forest/100,5);
-    ctx.fillStyle='#e8fbff';ctx.font='12px Inter,sans-serif';ctx.textAlign='center';ctx.fillText('Conceptual forest-cover pressure illustration',w/2,barY-9);
+    const rows=[['Forest cover',scenario.forest,'#39ff88'],['Groundwater pressure',scenario.groundwater,'#32c9ff'],['Habitat connectivity',scenario.habitat,'#bd83ff'],['Renewable energy share',scenario.renewables,'#ffbd59']];
+    const bx=w*.58,by=42,bw=Math.min(190,w*.32);
+    ctx.fillStyle='rgba(4,13,28,.78)';ctx.strokeStyle='rgba(0,229,255,.35)';ctx.beginPath();ctx.roundRect(bx-12,by-18,bw+24,rows.length*38+22,12);ctx.fill();ctx.stroke();
+    rows.forEach(([name,value,color],i)=>{const y=by+i*38;ctx.font='10px Inter,sans-serif';ctx.textAlign='left';ctx.fillStyle='#e8fbff';ctx.fillText(name,bx,y);ctx.fillStyle='rgba(255,255,255,.16)';ctx.fillRect(bx,y+7,bw,5);ctx.fillStyle=color;ctx.fillRect(bx,y+7,bw*value/100,5);ctx.textAlign='right';ctx.fillStyle=color;ctx.fillText(value+'%',bx+bw,y);});
+    ctx.fillStyle='#e8fbff';ctx.font='11px Inter,sans-serif';ctx.textAlign='center';ctx.fillText('Conceptual scenario indicators · not measured outcomes',w/2,h-18);
   }
   ctx.restore();
   return hotspots;
@@ -264,9 +266,7 @@ export default function EnvironmentalScienceLab() {
   const explored=visualLab.explored||{},completed=visualLab.completed||{};
   const selectedInfo=selected ? HOTSPOT_INFO[selected.id] || selected.detail : null;
   const resetCamera=useCallback(()=>setView({yaw:-.25,pitch:-.12,zoom:1}),[]);
-  const markExplored=useCallback((id)=>{markLabExplored?.(id);},[markLabExplored]);
-
-  useEffect(()=>{markExplored(active);setSelected(null);setStep(0);setPlaying(false);},[active,markExplored]);
+  useEffect(()=>{markLabExplored?.(active);setSelected(null);setStep(0);setPlaying(false);},[active]);
   useEffect(()=>{
     const canvas=canvasRef.current;if(!canvas)return;
     const ctx=canvas.getContext('2d');if(!ctx)return;
@@ -289,7 +289,7 @@ export default function EnvironmentalScienceLab() {
   const chooseHotspot=(e)=>{
     const rect=canvasRef.current.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
     const found=hotspotsRef.current.map(h=>({...h,d:Math.hypot(h.x-x,h.y-y)})).filter(h=>h.d<h.radius+8).sort((a,b)=>a.d-b.d)[0];
-    if(found){setSelected(found);markExplored(active);}
+    if(found){setSelected(found);markLabExplored?.(active);}
   };
   const changeLesson=id=>{setActive(id);setView({yaw:-.25,pitch:-.12,zoom:1});};
   const updateScenario=(key,value)=>setScenario(s=>({...s,[key]:value}));
