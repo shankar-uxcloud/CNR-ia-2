@@ -15,7 +15,7 @@ test('visual studio concepts are mapped to the ten existing main-bank questions'
   assert.deepEqual([...new Set(topicQids)].sort(), qids.sort());
 });
 
-test('visual studio has six usable learning workspaces and interactive controls', () => {
+test('visual studio has seven usable learning workspaces and interactive controls', () => {
   for (const key of ["mindmap","flows","cards","compare","diagrams","revision","quiz"]) {
     assert.match(visual, new RegExp("tab===['\"]" + key + "['\"]"));
   }
@@ -48,7 +48,7 @@ test('flow navigation and revision checklist persist learner progress', () => {
 
 test('visual progress persistence is backward-compatible with existing local storage', () => {
   assert.match(store, /const KEY = 'vtu-examprep-v1'/);
-  assert.match(store, /visualStudio: \{ viewed: \{\}, completedMaps: \{\}, exercises: \{\}, favorites: \{\} \}/);
+  assert.match(store, /visualStudio: \{ viewed: \{\}, completedMaps: \{\}, exercises: \{\}, favorites: \{\}, revision: \{\}, quizAttempts: \[\] \}/);
   assert.match(store, /markVisualViewed/);
   assert.match(store, /completeVisualMap/);
   assert.match(store, /completeVisualExercise/);
