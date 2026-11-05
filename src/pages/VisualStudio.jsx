@@ -92,7 +92,7 @@ export default function VisualStudio() {
   const [diagramQuizIndex,setDiagramQuizIndex]=useState(0);
   const [compareLeft,setCompareLeft]=useState('m4-biodiversity');
   const [compareRight,setCompareRight]=useState('m4-conservation');
-  const [revisionDone,setRevisionDone]=useState({});
+  const [revisionDone,setRevisionDone]=useState(visualStudio.revision||{});
   const topic=TOPICS.find(t=>t.id===topicId)||TOPICS[0];
   const filtered=useMemo(()=>TOPICS.filter(t=>(module==='all'||String(t.module)===module)&&(kind==='all'||t.kind===kind)&&(!search||[t.title,t.description,t.module,...t.nodes.flat().join(' '),...t.cards.flat().join(' ')].join(' ').toLowerCase().includes(search.toLowerCase()))),[module,kind,search]);
   const setTopic=(id)=>{const next=TOPICS.find(t=>t.id===id);if(!next)return;setTopicId(id);setSelectedNode(0);setExpanded(null);setCardIndex(0);setFlipped(false);setDiagramId(next.diagram||next.diagrams?.[0]||'');markVisualViewed(id);};
@@ -103,6 +103,8 @@ export default function VisualStudio() {
   const compareA=TOPICS.find(t=>t.id===compareLeft)||TOPICS[0];
   const compareB=TOPICS.find(t=>t.id===compareRight)||TOPICS[1];
   const favourites=Object.keys(visualStudio.favorites||{});
+  const recentTopics=Object.entries(visualStudio.viewed||{}).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([id])=>TOPICS.find(t=>t.id===id)).filter(Boolean);
+  const favouriteTopics=favourites.map(id=>TOPICS.find(t=>t.id===id)).filter(Boolean);
   const topicQuestions=TOPICS.map(t=>t.q);
 
   const resetMap=()=>{setZoom(1);setPan({x:0,y:0,dragX:0,dragY:0});setSelectedNode(0);setExpanded(null);};
@@ -122,6 +124,10 @@ export default function VisualStudio() {
       <div className="card p-4"><p className="text-xs text-mute">Favourites</p><p className="mt-1 text-2xl font-bold">{favourites.length}</p></div>
     </div>
 
+    <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <section className="card p-4"><div className="flex items-center justify-between"><h2 className="font-semibold">Recently explored</h2><span className="text-xs text-mute">{recentTopics.length} topics</span></div>{recentTopics.length?<div className="mt-3 flex flex-wrap gap-2">{recentTopics.map(t=><button key={t.id} onClick={()=>setTopic(t.id)} className="chip hover:border-brand hover:text-brand">M{t.module} · {t.title}</button>)}</div>:<p className="mt-2 text-sm text-mute">Your recently viewed topics will appear here as you explore.</p>}</section>
+      <section className="card p-4"><div className="flex items-center justify-between"><h2 className="font-semibold">Favourite lessons</h2><Star size={16} className="text-amber-500"/></div>{favouriteTopics.length?<div className="mt-3 flex flex-wrap gap-2">{favouriteTopics.map(t=><button key={t.id} onClick={()=>setTopic(t.id)} className="chip hover:border-brand hover:text-brand">{t.title}</button>)}</div>:<p className="mt-2 text-sm text-mute">Use the star on a lesson to keep it here for quick revision.</p>}</section>
+    </div>
     <div className="card mt-5 p-4">
       <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
         <label className="relative block"><Search size={16} className="absolute left-3 top-3 text-mute"/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search concepts, processes, examples…" className="h-11 w-full rounded-xl border border-line bg-sunk pl-9 pr-3 text-sm outline-none focus:border-brand"/></label>
