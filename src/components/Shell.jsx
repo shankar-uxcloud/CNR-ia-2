@@ -91,7 +91,7 @@ export default function Shell({ path, children }) {
   useEffect(() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !window.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return;
     let frame = 0, latest = null;
-    const move = (event) => { if (event.pointerType !== 'mouse') return; latest = event; if (frame) return; frame = requestAnimationFrame(() => { frame = 0; const card = latest?.target?.closest?.('.card'); if (!card) return; const rect = card.getBoundingClientRect(); card.style.setProperty('--card-x', `${latest.clientX - rect.left}px`); card.style.setProperty('--card-y', `${latest.clientY - rect.top}px`); card.dataset.energy = 'active'; }); };
+    const move = (event) => { if (event.pointerType !== 'mouse') return; latest = event; if (frame) return; frame = requestAnimationFrame(() => { frame = 0; const card = latest?.target?.closest?.('.card'); if (!card) return; const rect = card.getBoundingClientRect(); card.style.setProperty('--card-x', `${latest.clientX - rect.left}px`); card.style.setProperty('--card-y', `${latest.clientY - rect.top}px`); document.documentElement.style.setProperty('--cursor-x', `${Math.round(latest.clientX / window.innerWidth * 100)}%`); document.documentElement.style.setProperty('--cursor-y', `${Math.round(latest.clientY / window.innerHeight * 100)}%`); card.dataset.energy = 'active'; }); };
     const leave = (event) => { const card = event.target?.closest?.('.card'); if (card && !card.contains(event.relatedTarget)) card.dataset.energy = 'idle'; };
     document.addEventListener('pointermove', move, { passive: true }); document.addEventListener('pointerout', leave, { passive: true });
     return () => { document.removeEventListener('pointermove', move); document.removeEventListener('pointerout', leave); if (frame) cancelAnimationFrame(frame); };
@@ -129,6 +129,7 @@ export default function Shell({ path, children }) {
           <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
+            <div className="flex items-center justify-between gap-2 border-t border-line px-4 py-3"><span className="text-xs text-mute">Cyberverse theme</span><ThemePicker /></div>
           </div>
         </div>
       )}
