@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
 export const WIDTHS = [{ label: 'Narrow', px: 640 }, { label: 'Medium', px: 760 }, { label: 'Wide', px: 920 }];
-const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
+const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: null, cyberTheme: 'ultra-cyber', fontIdx: 2, widthIdx: 1 } };
 
 function load() {
   try {
@@ -32,9 +32,13 @@ export function StudyProvider({ children }) {
   const [query, setQuery] = useState('');
   const [toasts, setToasts] = useState([]);
   const theme = state.settings.theme || preferredTheme();
+  const cyberTheme = state.settings.cyberTheme || 'ultra-cyber';
 
   useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage unavailable */ } }, [state]);
-  useEffect(() => { document.documentElement.setAttribute('data-theme', theme); }, [theme]);
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-neon-theme', cyberTheme);
+  }, [theme, cyberTheme]);
   useEffect(() => {
     const r = document.documentElement.style;
     r.setProperty('--read-size', FONT_SIZES[state.settings.fontIdx] + 'px');
@@ -48,7 +52,7 @@ export function StudyProvider({ children }) {
   }, []);
 
   const api = useMemo(() => ({
-    ...state, theme, focus, setFocus, query, setQuery, toasts, notify,
+    ...state, theme, cyberTheme, focus, setFocus, query, setQuery, toasts, notify,
     isDone: (id) => !!state.completed[id],
     isMarked: (id) => !!state.bookmarks[id],
     toggleDone: (id) => setState((s) => {
