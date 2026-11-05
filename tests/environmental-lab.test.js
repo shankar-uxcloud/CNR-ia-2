@@ -27,7 +27,7 @@ test('lab includes all six syllabus-aligned learning environments', () => {
 });
 
 test('3D canvas interaction exposes orbit, zoom, reset, selection and fullscreen controls', () => {
-  for (const term of ['projectFactory','spherePoint','setPointerCapture','setView','chooseHotspot','requestFullscreen','Zoom in','Zoom out','Reset camera','Toggle fullscreen']) {
+  for (const term of ['projectFactory','spherePoint','setPointerCapture','setView','chooseHotspot','requestFullscreen','Rotate left','Rotate right','Zoom in','Zoom out','Reset camera','Toggle fullscreen']) {
     assert.ok(lab.includes(term), 'missing interaction: ' + term);
   }
   assert.match(lab, /canvasRef/);
