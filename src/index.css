@@ -388,3 +388,21 @@ body {
 @media (prefers-reduced-motion: reduce) {
   [data-theme='dark'] .visual-studio svg[aria-label*="concept map"] line { animation: none !important; }
 }
+
+
+/* 3D Environmental Science Lab controls and accessible canvas surface */
+.lab-control {
+  display: inline-flex; height: 34px; width: 34px; align-items: center; justify-content: center;
+  border: 1px solid rgb(103 210 230 / .3); border-radius: 10px;
+  color: #dffaff; background: rgb(5 17 34 / .88);
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.lab-control:hover { border-color: #00e5ff; background: rgb(0 229 255 / .14); }
+.lab-control:active { transform: scale(.96); }
+.lab-control:focus-visible { outline: 2px solid #00e5ff; outline-offset: 3px; }
+[data-theme='light'] .lab-control { color: #dffaff; background: rgb(5 17 34 / .9); }
+#root :fullscreen { background: #071629; padding: 12px; }
+#root :fullscreen canvas { height: calc(100vh - 24px) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .lab-control { transition: none; }
+}
