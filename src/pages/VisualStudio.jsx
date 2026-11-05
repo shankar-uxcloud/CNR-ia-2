@@ -2,14 +2,11 @@ import { useMemo, useState } from 'react';
 import {
   Search, Network, Workflow, Layers, GitCompareArrows, Image as ImageIcon,
   ChevronRight, ChevronDown, Star, BookOpen, CheckCircle2, ZoomIn, ZoomOut,
-  Maximize2, RotateCcw, Eye, EyeOff, Shuffle, Copy, ArrowRight, Sparkles,
-  Leaf, Waves, Wind, CloudSun, Dna, Globe2, Factory, Recycle, Target
+  Maximize2, RotateCcw, Eye, EyeOff, ArrowRight, Sparkles
 } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER } from '../data/questions';
 import { DIAGRAMS } from '../diagrams';
-import DiagramFrame from '../components/DiagramFrame';
 import { useStudy } from '../lib/study';
-import { Empty } from '../components/ui';
 
 const TOPICS = [
   { id:'m5-greenhouse',module:5,q:'q01',title:'Greenhouse effect and global warming',kind:'process',description:'How incoming solar energy and outgoing infrared radiation interact with greenhouse gases.',nodes:[['Sunlight','Solar energy reaches the Earth’s surface.'],['Earth surface','The surface absorbs energy and warms.'],['Infrared radiation','The warmed surface emits infrared radiation.'],['Greenhouse gases','Some outgoing heat is absorbed and re-emitted by greenhouse gases.'],['Warming','The enhanced greenhouse effect raises average temperature.']],diagram:'greenhouse',cards:[['Greenhouse effect','Natural process in which atmospheric gases absorb and re-emit outgoing infrared radiation.'],['Enhanced greenhouse effect','Additional warming associated with increased greenhouse-gas concentrations.'],['Carbon dioxide','A greenhouse gas released by fossil-fuel combustion and deforestation.'],['Methane','A greenhouse gas associated with sources such as livestock, rice fields and fossil-fuel activities.']],compare:['greenhouse','global-warming'] },
