@@ -1,4 +1,4 @@
-import { QUESTIONS, MODULE_ORDER } from '../data/questions';
+import { QUESTIONS, MODULE_ORDER } from '../data/questions.js';
 const hasDiagram = (answer) => (answer.sections || []).some(section => (section.blocks || []).some(block => block.type === 'diagram') || (section.subsections || []).some(sub => (sub.blocks || []).some(block => block.type === 'diagram')));
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
@@ -7,7 +7,6 @@ const dayKey = (value) => {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 };
 const addDays = (key, amount) => { const d = new Date(`${key}T12:00:00`); d.setDate(d.getDate()+amount); return dayKey(d); };
-const validDate = (v) => Number.isFinite(new Date(v).getTime());
 
 export function analyseLearning(state = {}, now = Date.now()) {
   const evaluations = Array.isArray(state.evaluationAttempts) ? state.evaluationAttempts : [];
