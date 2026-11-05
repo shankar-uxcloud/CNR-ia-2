@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
 export const WIDTHS = [{ label: 'Narrow', px: 640 }, { label: 'Medium', px: 760 }, { label: 'Wide', px: 920 }];
-const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
+const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: null, fontIdx: 2, widthIdx: 1 } };
 
 function load() {
   try {
@@ -16,6 +16,7 @@ function load() {
       examAttempts: Array.isArray(s.examAttempts) ? s.examAttempts : [],
       plannerTasks: Array.isArray(s.plannerTasks) ? s.plannerTasks : [],
       visualStudio: { ...DEFAULTS.visualStudio, ...(s.visualStudio || {}), viewed: s.visualStudio?.viewed || {}, completedMaps: s.visualStudio?.completedMaps || {}, exercises: s.visualStudio?.exercises || {}, favorites: s.visualStudio?.favorites || {}, revision: s.visualStudio?.revision || {}, quizAttempts: Array.isArray(s.visualStudio?.quizAttempts) ? s.visualStudio.quizAttempts : [] },
+      visualLab: { ...DEFAULTS.visualLab, ...(s.visualLab || {}), explored: s.visualLab?.explored || {}, completed: s.visualLab?.completed || {}, scenarioAttempts: Array.isArray(s.visualLab?.scenarioAttempts) ? s.visualLab.scenarioAttempts : [] },
       smartRevision: { ...DEFAULTS.smartRevision, ...(s.smartRevision || {}), tasks: Array.isArray(s.smartRevision?.tasks) ? s.smartRevision.tasks : [], reviews: s.smartRevision?.reviews || {} },
       settings: { ...DEFAULTS.settings, ...(s.settings || {}) },
     };
@@ -84,6 +85,9 @@ export function StudyProvider({ children }) {
     toggleVisualFavorite: (id) => setState((s) => { const favorites = { ...s.visualStudio.favorites }; if (favorites[id]) delete favorites[id]; else favorites[id] = Date.now(); return { ...s, visualStudio: { ...s.visualStudio, favorites } }; }),
     toggleVisualRevision: (id, checked) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, revision: { ...(s.visualStudio.revision || {}), [id]: checked ? Date.now() : 0 } } })),
     saveVisualQuizAttempt: (attempt) => setState((s) => ({ ...s, visualStudio: { ...s.visualStudio, quizAttempts: [{ ...attempt, at: Date.now() }, ...(s.visualStudio.quizAttempts || [])].slice(0, 50) } })),
+    markLabExplored: (id) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, explored: { ...s.visualLab.explored, [id]: s.visualLab.explored[id] || Date.now() } } })),
+    completeLabLesson: (id) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, completed: { ...s.visualLab.completed, [id]: Date.now() } } })),
+    saveLabScenario: (attempt) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, scenarioAttempts: [{ ...attempt, id: `lab-scenario-${Date.now()}`, at: Date.now() }, ...(s.visualLab.scenarioAttempts || [])].slice(0, 100) } })),
     setSmartRevision: (smartRevision) => setState((s) => ({ ...s, smartRevision: { ...DEFAULTS.smartRevision, ...(smartRevision || {}), tasks: Array.isArray(smartRevision?.tasks) ? smartRevision.tasks : [], reviews: smartRevision?.reviews || {} } })),
     setSetting: (k, v) => setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } })),
     toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: theme === 'dark' ? 'light' : 'dark' } })),
