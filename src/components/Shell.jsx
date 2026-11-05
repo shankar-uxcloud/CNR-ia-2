@@ -17,6 +17,18 @@ export function Logo({ light }) {
   );
 }
 
+const CYBER_THEMES = [
+  { value: 'ultra-cyber', label: 'Ultra Cyber Dark' },
+  { value: 'arctic', label: 'Arctic Neon' },
+  { value: 'purple', label: 'Purple Cyberverse' },
+  { value: 'eco', label: 'Eco Neon' },
+];
+
+function ThemePicker({ className = '' }) {
+  const { cyberTheme, setSetting } = useStudy();
+  return <label className={`flex min-w-0 items-center gap-2 ${className}`}><span className="sr-only">Cyberverse colour theme</span><select value={cyberTheme} onChange={(e) => setSetting('cyberTheme', e.target.value)} aria-label="Cyberverse colour theme" className="h-10 min-w-0 max-w-[170px] rounded-xl border border-line bg-panel px-2.5 text-xs font-semibold text-ink outline-none focus:border-brand">{CYBER_THEMES.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>;
+}
+
 export function ThemeBtn({ className = '' }) {
   const { theme, toggleTheme } = useStudy();
   const Icon = theme === 'dark' ? Sun : Moon;
@@ -76,6 +88,14 @@ export default function Shell({ path, children }) {
   const hide = focus && isAnswer;
 
   useEffect(() => { setOpen(false); window.scrollTo(0, 0); }, [path]);
+  useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !window.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return;
+    let frame = 0, latest = null;
+    const move = (event) => { if (event.pointerType !== 'mouse') return; latest = event; if (frame) return; frame = requestAnimationFrame(() => { frame = 0; const card = latest?.target?.closest?.('.card'); if (!card) return; const rect = card.getBoundingClientRect(); card.style.setProperty('--card-x', `${latest.clientX - rect.left}px`); card.style.setProperty('--card-y', `${latest.clientY - rect.top}px`); card.dataset.energy = 'active'; }); };
+    const leave = (event) => { const card = event.target?.closest?.('.card'); if (card && !card.contains(event.relatedTarget)) card.dataset.energy = 'idle'; };
+    document.addEventListener('pointermove', move, { passive: true }); document.addEventListener('pointerout', leave, { passive: true });
+    return () => { document.removeEventListener('pointermove', move); document.removeEventListener('pointerout', leave); if (frame) cancelAnimationFrame(frame); };
+  }, []);
   useEffect(() => { if (!isAnswer) setFocus(false); }, [isAnswer, setFocus]);
   useEffect(() => {
     const s = () => setTop(window.scrollY > 700);
@@ -99,7 +119,7 @@ export default function Shell({ path, children }) {
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
           <Nav path={path} />
-          <div className="flex items-center justify-between border-t border-line px-4 py-3"><span className="text-xs text-mute">Theme</span><ThemeBtn /></div>
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-3"><span className="text-xs text-mute">Theme</span><ThemeBtn /><ThemePicker className="w-full" /></div>
         </aside>
       )}
 
@@ -123,6 +143,7 @@ export default function Shell({ path, children }) {
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
           <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><ThemeBtn /></div>
+          <ThemePicker className="hidden sm:flex" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
       )}
