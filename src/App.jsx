@@ -16,6 +16,7 @@ const Planner = lazy(() => import('./pages/Planner'));
 const ExamSimulator = lazy(() => import('./pages/ExamSimulator'));
 const Analytics = lazy(() => import('./pages/Analytics'));
 const VisualStudio = lazy(() => import('./pages/VisualStudio'));
+const EnvironmentalScienceLab = lazy(() => import('./components/EnvironmentalScienceLab'));
 const SmartRevision = lazy(() => import('./pages/SmartRevision'));
 const AdditionalNotes = lazy(() => import('./pages/AdditionalNotes'));
 
@@ -29,6 +30,7 @@ function Router({ path }) {
   if (path === '/exam') return <ExamSimulator />;
   if (path === '/analytics') return <Analytics />;
   if (path === '/visual-studio') return <VisualStudio />;
+  if (path === '/environment-lab') return <EnvironmentalScienceLab />;
   if (path === '/smart-revision') return <SmartRevision />;
   if (path === '/additional-notes') return <AdditionalNotes />;
   if (path === '/planner') return <Planner />;
