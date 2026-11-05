@@ -40,6 +40,21 @@ export default function Dashboard() {
       <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">Welcome back. Let’s keep preparing.</h1>
       <p className="mt-2 max-w-2xl text-mute">Ten source-based 10-mark answers with labelled diagrams. Mark each one complete as you revise it.</p>
 
+      <section className="cyber-hud mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="Study command centre summary">
+        {[
+          ['Answers mastered', `${done}/10`, 'progress'],
+          ['Saved bookmarks', String(marked.length), 'saved'],
+          ['Quiz attempts', String(quizAttempts.length), 'practice'],
+          ['Pending tasks', String(plannerTasks.filter((task) => !task.done).length), 'planner'],
+        ].map(([label, value, key]) => (
+          <div className="cyber-hud-cell" key={key}>
+            <span className="cyber-hud-label">{label}</span>
+            <strong className="cyber-hud-value">{value}</strong>
+            <span className="cyber-hud-signal" aria-hidden="true" />
+          </div>
+        ))}
+      </section>
+
       <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-5">
         <section className="card min-w-0 p-6 lg:col-span-3" aria-label="Overall progress">
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center">
