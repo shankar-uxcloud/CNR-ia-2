@@ -26,7 +26,8 @@ test('all 10 current questions have both answer-length references and concept ma
 });
 
 test('transparent rubric includes six weighted criteria totalling 100 percent', () => {
-  const rubricText = extractObject(source, 'const evaluateAnswer =', '\n}\n\nconst stripFormatting');
+  const rubricStart = source.includes('const evaluateAnswer =') ? 'const evaluateAnswer =' : 'function evaluateAnswer(';
+  const rubricText = extractObject(source, rubricStart, '\n\nconst stripFormatting');
   assert.match(rubricText, /Concept coverage/);
   assert.match(rubricText, /Technical terminology/);
   assert.match(rubricText, /Answer structure/);
