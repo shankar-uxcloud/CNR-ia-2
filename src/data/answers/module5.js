@@ -51,13 +51,21 @@ export const q01 = {
     {
       id: 'indicators', title: '3. Indicators of Global Warming',
       blocks: [
+        { type: 'p', text: 'Global warming is identified through long-term observations of the atmosphere, land, oceans and the cryosphere (the frozen parts of the Earth). The Module 5 notes list the following indicators:' },
         { type: 'list', ordered: true, items: [
-          '**Rising temperatures:** rising average global and ocean temperatures.',
-          '**Melting ice:** melting glaciers and polar ice sheets, and declining snow cover.',
-          '**Sea-level rise:** caused by melting land ice and **thermal expansion** of seawater.',
-          '**Weather and rainfall changes:** more frequent or intense **heatwaves**, and changes in rainfall, drought and flood patterns.',
-          '**Ocean and ecosystem changes:** ocean warming and **acidification**, **coral bleaching**, and changes in plant flowering, animal migration and species distribution.',
+          '**Air-surface temperature:** long-term changes in the temperature of air near the Earth’s surface.',
+          '**Specific humidity:** changes in the amount of water vapour present in the air.',
+          '**Glaciers:** retreat or loss of glacier ice over time.',
+          '**Snow cover:** reduction or changes in the extent and duration of seasonal snow.',
+          '**Temperature over land:** increase in land-surface and near-surface temperatures.',
+          '**Sea-surface temperature:** warming of the ocean surface.',
+          '**Sea ice:** changes in the extent and condition of ice covering polar seas.',
+          '**Sea level:** rise associated with melting land ice and thermal expansion of seawater.',
+          '**Ocean heat content:** increase in the heat stored in the oceans.',
+          '**Temperature over oceans:** long-term warming of ocean waters.',
         ] },
+        { type: 'p', text: 'Other observable changes described in the notes include more frequent or intense heatwaves, changes in rainfall, drought and flood patterns, ocean acidification, coral bleaching, and changes in plant flowering, animal migration and species distribution.' },
+        { type: 'note', kind: 'added', text: 'The ten-item indicator list follows the Module 5 class notes. The short explanations clarify the terms; the notes do not provide numerical measurements or threshold values for these indicators.' },
       ],
     },
     {
