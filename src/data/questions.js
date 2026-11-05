@@ -1,6 +1,6 @@
-import { q01, q02, q03, q04 } from './answers/module5';
-import { q05, q06, q07, q08 } from './answers/module4';
-import { q09, q10 } from './answers/module3';
+import { q01, q02, q03, q04 } from './answers/module5.js';
+import { q05, q06, q07, q08 } from './answers/module4.js';
+import { q09, q10 } from './answers/module3.js';
 
 export const SUBJECT = {
   code: 'BCV755B',

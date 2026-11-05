@@ -33,6 +33,7 @@ function Nav({ path, onNavigate }) {
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
+    { to: '/smart-revision', label: 'Weakness & Revision', icon: Brain },
     { to: '/additional-notes', label: 'Additional Source Notes', icon: BookOpenText },
     { to: '/questions', label: 'All Questions', icon: ListChecks, count: 10 },
     { to: '/module/3', label: 'Module 3', moduleName: 'Air and Air Pollution', dot: 3, count: 2 },
