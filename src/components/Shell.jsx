@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Brain, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
