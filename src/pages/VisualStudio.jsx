@@ -1,0 +1,161 @@
+import { useMemo, useState } from 'react';
+import {
+  Search, Network, Workflow, Layers, GitCompareArrows, Image as ImageIcon,
+  ChevronRight, ChevronDown, Star, BookOpen, CheckCircle2, ZoomIn, ZoomOut,
+  Maximize2, RotateCcw, Eye, EyeOff, Shuffle, Copy, ArrowRight, Sparkles,
+  Leaf, Waves, Wind, CloudSun, Dna, Globe2, Factory, Recycle, Target
+} from 'lucide-react';
+import { QUESTIONS, MODULES, MODULE_ORDER } from '../data/questions';
+import { DIAGRAMS } from '../diagrams';
+import DiagramFrame from '../components/DiagramFrame';
+import { useStudy } from '../lib/study';
+import { Empty } from '../components/ui';
+
+const TOPICS = [
+  { id:'m5-greenhouse',module:5,q:'q01',title:'Greenhouse effect and global warming',kind:'process',description:'How incoming solar energy and outgoing infrared radiation interact with greenhouse gases.',nodes:[['Sunlight','Solar energy reaches the Earth’s surface.'],['Earth surface','The surface absorbs energy and warms.'],['Infrared radiation','The warmed surface emits infrared radiation.'],['Greenhouse gases','Some outgoing heat is absorbed and re-emitted by greenhouse gases.'],['Warming','The enhanced greenhouse effect raises average temperature.']],diagram:'greenhouse',cards:[['Greenhouse effect','Natural process in which atmospheric gases absorb and re-emit outgoing infrared radiation.'],['Enhanced greenhouse effect','Additional warming associated with increased greenhouse-gas concentrations.'],['Carbon dioxide','A greenhouse gas released by fossil-fuel combustion and deforestation.'],['Methane','A greenhouse gas associated with sources such as livestock, rice fields and fossil-fuel activities.']],compare:['greenhouse','global-warming'] },
+  { id:'m5-impacts',module:5,q:'q02',title:'Effects of global warming',kind:'cause',description:'Connect warming with water, health, agriculture, ecosystems and livelihoods.',nodes:[['Higher temperature','Changes the heat and energy conditions of climate systems.'],['Ice and water','Glacier retreat and sea-level rise affect water availability and coasts.'],['Weather','Heatwaves and changing rainfall can increase stress and hazards.'],['Health and agriculture','Heat stress, disease-vector changes and crop impacts affect people.'],['Biodiversity and economy','Habitat changes, coral bleaching and infrastructure damage affect livelihoods.']],cards:[['Sea-level rise','Melting land ice and expansion of warmer seawater contribute to higher sea level.'],['Glacier retreat','Shrinking Himalayan glaciers can change seasonal river flows.'],['Coral bleaching','Heat stress can cause corals to expel the algae they depend on.'],['Heat stress','High temperatures increase dehydration and health risks.']] },
+  { id:'m5-agreements',module:5,q:'q03',title:'Global environmental agreements',kind:'classification',description:'Group international agreements by the environmental issue they address.',nodes:[['Biodiversity','Convention on Biological Diversity (CBD): conservation, sustainable use and fair benefit sharing.'],['Climate','Paris Agreement and Kyoto Protocol: international climate cooperation.'],['Wildlife trade','CITES: regulation of international trade in listed species.'],['Wetlands','Ramsar Convention: conservation and wise use of wetlands.'],['Migratory species','Convention on Migratory Species: cooperation for migratory wildlife.']],cards:[['CBD','Convention on Biological Diversity; addresses biodiversity conservation, sustainable use and benefit sharing.'],['Paris Agreement','Climate agreement under the UNFCCC, adopted in 2015.'],['CITES','Convention regulating international trade in listed wild fauna and flora.'],['Ramsar Convention','International framework for conservation and wise use of wetlands.']] },
+  { id:'m5-eia',module:5,q:'q04',title:'Environmental Impact Assessment process',kind:'process',description:'Follow the project assessment sequence from screening through monitoring.',nodes:[['Screening','Decide whether assessment is required and identify the applicable category.'],['Scoping','Identify the key environmental issues and studies required.'],['Baseline study','Record existing air, water, soil, biodiversity and community conditions.'],['Impact prediction','Evaluate likely positive and negative effects.'],['Alternatives and mitigation','Compare options and identify ways to avoid or reduce harm.'],['EIA report','Document the project, baseline, impacts and mitigation.'],['Consultation and appraisal','Consider stakeholder feedback and review the proposal.'],['Clearance and monitoring','Decision under applicable rules, followed by compliance monitoring.']],diagram:'eia',cards:[['Screening','Determines whether the project requires an environmental assessment.'],['Scoping','Defines the important issues and study boundaries.'],['Baseline study','Describes environmental conditions before the project.'],['Mitigation','Measures to avoid, minimise or manage harmful impacts.']] },
+  { id:'m4-biodiversity',module:4,q:'q05',title:'Levels and values of biodiversity',kind:'classification',description:'Explore genetic, species and ecosystem diversity and why each matters.',nodes:[['Biodiversity','Variety of life, genes, species and ecosystems.'],['Genetic diversity','Variation in genes within a species; e.g. crop varieties.'],['Species diversity','Variety and relative abundance of species in an area.'],['Ecosystem diversity','Variety of habitats and ecological processes.'],['Values','Ecological, economic, genetic, ethical, aesthetic and climate-regulation values.']],diagram:'conservation',cards:[['Genetic diversity','Variation in genes within the same species.'],['Species diversity','Variety and relative abundance of species.'],['Ecosystem diversity','Variety of habitats, biological communities and ecological processes.'],['Ecological value','Supports pollination, food webs, nutrient cycling and soil fertility.']] },
+  { id:'m4-threats',module:4,q:'q06',title:'Threats and conservation responses',kind:'cause',description:'Relate each major threat to the actions that can reduce biodiversity loss.',nodes:[['Habitat loss','Conversion of habitats for agriculture, mining, roads and development.'],['Pollution','Chemicals, plastics and excess nutrients damage ecosystems.'],['Overexploitation','Excessive hunting, fishing, poaching and timber cutting reduce populations.'],['Invasive species and climate','Introduced species and climate change affect native species and habitats.'],['Conservation response','Protected areas, restoration, sustainable use, pollution control and community participation.']],cards:[['Habitat fragmentation','Breaking a habitat into smaller separated areas can isolate populations.'],['Invasive species','Non-native species that can compete with, prey on or spread disease to native species.'],['Overexploitation','Use of organisms faster than populations can recover.'],['Habitat restoration','Assisting recovery of degraded or damaged ecosystems.']] },
+  { id:'m4-conservation',module:4,q:'q07',title:'In-situ and ex-situ conservation',kind:'comparison',description:'Compare conservation within natural habitats with conservation outside them.',nodes:[['Biodiversity conservation','Protect species, ecosystems and genetic variability.'],['In-situ','Conserve organisms in their natural habitats.'],['Protected areas','National parks, wildlife sanctuaries and biosphere reserves.'],['Ex-situ','Conserve organisms or genetic material outside natural habitats.'],['Managed collections','Zoos, botanical gardens, gene banks and cryopreservation.']],diagram:'conservation',cards:[['In-situ conservation','On-site protection in natural habitats; conserves ecological relationships.'],['Ex-situ conservation','Off-site protection of selected organisms or biological material.'],['Cryopreservation','Long-term storage of biological material at very low temperatures.'],['Biosphere reserve','Large area commonly organised into core, buffer and transition zones.']] },
+  { id:'m4-cycles',module:4,q:'q08',title:'Biogeochemical cycles',kind:'lifecycle',description:'Follow the movement of matter between organisms, air, water and soil.',nodes:[['Carbon cycle','Photosynthesis, food chains, respiration, decomposition and combustion.'],['Nitrogen cycle','Fixation, nitrification, assimilation, decomposition and denitrification.'],['Oxygen cycle','Photosynthesis releases oxygen; respiration and combustion use it.'],['Phosphorus cycle','Weathering, uptake by plants, food chains, decomposition and sedimentation.'],['Water cycle','Evaporation, transpiration, condensation, precipitation, runoff and infiltration.']],diagrams:['carbon','nitrogen','oxygen','phosphorus','water'],cards:[['Photosynthesis','Plants use light energy to convert carbon dioxide and water into organic matter, releasing oxygen.'],['Nitrogen fixation','Conversion of atmospheric nitrogen into usable nitrogen compounds by microorganisms and other natural processes.'],['Denitrification','Process by which nitrate is converted back into nitrogen gas.'],['Evaporation','Solar energy changes liquid water into water vapour.']] },
+  { id:'m3-control',module:3,q:'q09',title:'Air-pollution-control equipment',kind:'comparison',description:'Compare four devices by their operating principles and pollutant-handling mechanisms.',nodes:[['ESP','Electrostatic force charges particles and attracts them to collecting plates.'],['Baghouse filter','Fabric bags retain dust; cleaning sends it to a hopper.'],['Cyclone separator','Centrifugal action moves particles to the outer wall and hopper.'],['Wet scrubber','Liquid contact captures particles and absorbs selected gases.']],diagrams:['esp','baghouse','cyclone','scrubber'],cards:[['Electrostatic precipitator','Uses an electric field to charge particles and attract them to collecting plates.'],['Baghouse filter','Uses fabric filtration to retain dust.'],['Cyclone separator','Uses centrifugal force generated by a rotating gas stream.'],['Wet scrubber','Uses liquid contact to capture particles and absorb selected gases.']] },
+  { id:'m3-ozone',module:3,q:'q10',title:'Ozone depletion mechanism',kind:'process',description:'Explore how ozone-depleting substances contribute to catalytic ozone destruction.',nodes:[['Ozone layer','Stratospheric ozone absorbs much of the Sun’s harmful ultraviolet radiation.'],['Ozone-depleting substances','CFCs and halons can release chlorine or bromine under UV radiation.'],['Radical release','UV radiation breaks down the parent compounds and releases reactive radicals.'],['Catalytic reactions','Chlorine or bromine radicals participate in reactions that destroy ozone and can be regenerated.'],['Control','The Montreal Protocol phases out controlled ozone-depleting substances.']],diagram:'ozone',cards:[['Ozone','A molecule made of three oxygen atoms (O₃), concentrated in the stratospheric ozone layer.'],['CFCs','Chlorofluorocarbons; compounds that can release chlorine radicals in the stratosphere.'],['Montreal Protocol','International agreement to phase out controlled ozone-depleting substances.'],['UV radiation','Ultraviolet radiation drives photochemical breakdown reactions.']] },
+];
+
+const FLOW_TYPES = [
+  {id:'all',label:'All visual types'},{id:'process',label:'Process'},{id:'cause',label:'Cause and effect'},
+  {id:'classification',label:'Classification'},{id:'comparison',label:'Comparison'},{id:'lifecycle',label:'Lifecycle'}
+];
+const MODULE_COLORS = {3:'var(--m3)',4:'var(--m4)',5:'var(--m5)'};
+
+function ConceptMap({topic,selected,onSelect,expanded,setExpanded,zoom,setZoom,pan,setPan}) {
+  const cx=420,cy=235,rx=285,ry=160;
+  const root={x:cx,y:cy};
+  const pts=topic.nodes.map((node,i)=>{
+    const angle=(-Math.PI/2)+(2*Math.PI*i/topic.nodes.length);
+    return {x:cx+Math.cos(angle)*rx,y:cy+Math.sin(angle)*ry,node,i};
+  });
+  const active=expanded;
+  return <div className="relative overflow-hidden rounded-2xl border border-line bg-sunk" style={{height:460,touchAction:'none'}}
+    onPointerDown={(e)=>{if(e.target===e.currentTarget){e.currentTarget.setPointerCapture(e.pointerId);setPan({x:e.clientX-pan.dragX,y:e.clientY-pan.dragY,dragX:e.clientX,dragY:e.clientY});}}}
+    onPointerMove={(e)=>{if(e.currentTarget.hasPointerCapture(e.pointerId))setPan((p)=>({...p,x:e.clientX-p.dragX,y:e.clientY-p.dragY,dragX:e.clientX,dragY:e.clientY}));}}
+    onPointerUp={(e)=>{if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);}}>
+    <svg viewBox="0 0 840 470" role="img" aria-label={topic.title+' concept map'} className="h-full w-full">
+      <g transform={`translate(${pan.x} ${pan.y}) translate(420 235) scale(${zoom}) translate(-420 -235)`}>
+        {pts.map((p)=> <line key={'l'+p.i} x1={root.x} y1={root.y} x2={p.x} y2={p.y} stroke="currentColor" opacity=".25" strokeWidth="2" strokeDasharray="5 5"/>)}
+        {pts.map((p)=> <g key={p.i} className="cursor-pointer" onClick={()=>{onSelect(p.i);setExpanded(active===p.i?null:p.i);}} role="button" tabIndex="0" aria-label={p.node[0]} onKeyDown={(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onSelect(p.i);setExpanded(active===p.i?null:p.i);}}}>
+          <rect x={p.x-82} y={p.y-29} width="164" height="58" rx="14" fill={active===p.i?'#10b981':'var(--c-panel)'} stroke={active===p.i?'#059669':'var(--c-line)'} strokeWidth="2"/>
+          <text x={p.x} y={p.y+4} fontSize="13" textAnchor="middle" fill={active===p.i?'#052e24':'currentColor'} fontWeight="650">{p.node[0].length>22?p.node[0].slice(0,20)+'…':p.node[0]}</text>
+        </g>)}
+        <rect x="315" y="193" width="210" height="84" rx="20" fill="#123b32" stroke="#10b981" strokeWidth="2"/>
+        <text x="420" y="226" fontSize="14" textAnchor="middle" fill="#fff" fontWeight="700">Module {topic.module}</text>
+        <text x="420" y="250" fontSize="13" textAnchor="middle" fill="#d1fae5">{topic.title.length>25?topic.title.slice(0,23)+'…':topic.title}</text>
+      </g>
+    </svg>
+    <div className="absolute bottom-3 right-3 flex gap-1">
+      <button aria-label="Zoom out" onClick={()=>setZoom(v=>Math.max(.65,+(v-.15).toFixed(2)))} className="btn-ghost !p-2 bg-panel"><ZoomOut size={16}/></button>
+      <button aria-label="Zoom in" onClick={()=>setZoom(v=>Math.min(1.8,+(v+.15).toFixed(2)))} className="btn-ghost !p-2 bg-panel"><ZoomIn size={16}/></button>
+      <button aria-label="Reset view" onClick={()=>{setZoom(1);setPan({x:0,y:0,dragX:0,dragY:0});}} className="btn-ghost !p-2 bg-panel"><RotateCcw size={16}/></button>
+      <button aria-label="Fit to screen" onClick={()=>{setZoom(1);setPan({x:0,y:0,dragX:0,dragY:0});}} className="btn-ghost !p-2 bg-panel"><Maximize2 size={16}/></button>
+    </div>
+    <div className="absolute left-3 top-3 rounded-lg bg-panel/90 px-2 py-1 text-[11px] text-mute">Select a node · drag canvas to pan</div>
+  </div>;
+}
+
+function VisualDiagram({id,hideLabels,revealed,setRevealed,topic}) {
+  const item=DIAGRAMS[id];
+  const Component=item?.Component;
+  if(!Component) return <div className="rounded-xl border border-line p-5 text-sm text-mute">No registered diagram is available for this topic.</div>;
+  return <div className="relative rounded-2xl border border-line bg-panel p-3 sm:p-5">
+    <div className="flex flex-wrap items-center justify-between gap-2"><h3 className="font-semibold">{item.title}</h3><button className="btn-ghost" onClick={()=>setRevealed(!revealed)}><Eye size={15}/>{revealed?'Hide practice prompt':'Practise labels'}</button></div>
+    <div className={hideLabels&&!revealed?'pointer-events-none select-none blur-[2px] opacity-75':''}><Component /></div>
+    {hideLabels&&!revealed&&<button className="absolute inset-12 grid place-items-center rounded-xl bg-panel/85 text-sm font-semibold shadow-soft" onClick={()=>setRevealed(true)}>Reveal diagram labels</button>}
+  </div>;
+}
+
+export default function VisualStudio() {
+  const {visualStudio={},markVisualViewed,completeVisualMap,completeVisualExercise,toggleVisualFavorite,notify}=useStudy();
+  const [search,setSearch]=useState('');
+  const [module,setModule]=useState('all');
+  const [kind,setKind]=useState('all');
+  const [tab,setTab]=useState('mindmap');
+  const [topicId,setTopicId]=useState(TOPICS[0].id);
+  const [selectedNode,setSelectedNode]=useState(0);
+  const [expanded,setExpanded]=useState(null);
+  const [zoom,setZoom]=useState(1);
+  const [pan,setPan]=useState({x:0,y:0,dragX:0,dragY:0});
+  const [cardIndex,setCardIndex]=useState(0);
+  const [flipped,setFlipped]=useState(false);
+  const [diagramId,setDiagramId]=useState('');
+  const [labelsVisible,setLabelsVisible]=useState(false);
+  const [revealedLabels,setRevealedLabels]=useState([]);
+  const [compareLeft,setCompareLeft]=useState('m4-biodiversity');
+  const [compareRight,setCompareRight]=useState('m4-conservation');
+  const [revisionDone,setRevisionDone]=useState({});
+  const topic=TOPICS.find(t=>t.id===topicId)||TOPICS[0];
+  const filtered=useMemo(()=>TOPICS.filter(t=>(module==='all'||String(t.module)===module)&&(kind==='all'||t.kind===kind)&&(!search||[t.title,t.description,t.module,...t.nodes.flat().join(' '),...t.cards.flat().join(' ')].join(' ').toLowerCase().includes(search.toLowerCase()))),[module,kind,search]);
+  const setTopic=(id)=>{const next=TOPICS.find(t=>t.id===id);if(!next)return;setTopicId(id);setSelectedNode(0);setExpanded(null);setCardIndex(0);setFlipped(false);setDiagramId(next.diagram||next.diagrams?.[0]||'');markVisualViewed(id);};
+  const currentDiagramIds=topic.diagrams|| (topic.diagram?[topic.diagram]:[]);
+  const currentDiagram=diagramId||currentDiagramIds[0];
+  const activeNode=topic.nodes[selectedNode]||topic.nodes[0];
+  const compareA=TOPICS.find(t=>t.id===compareLeft)||TOPICS[0];
+  const compareB=TOPICS.find(t=>t.id===compareRight)||TOPICS[1];
+  const favourites=Object.keys(visualStudio.favorites||{});
+  const topicQuestions=TOPICS.map(t=>t.q);
+
+  const resetMap=()=>{setZoom(1);setPan({x:0,y:0,dragX:0,dragY:0});setSelectedNode(0);setExpanded(null);};
+  const favoriteConcept=(id)=>{toggleVisualFavorite(id);notify(visualStudio.favorites?.[id]?'Removed from favourites':'Saved to favourites');};
+  const diagramComplete=(id)=>{completeVisualExercise(id);notify('Diagram practice completed');};
+  const markMapDone=()=>{completeVisualMap(topic.id);notify('Mind map completed');};
+
+  return <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
+    <p className="eyebrow">Visual understanding · interactive learning</p>
+    <h1 className="mt-1 text-3xl font-bold tracking-tight">Visual Learning Studio</h1>
+    <p className="mt-2 max-w-3xl text-mute">Explore verified BCV755B concepts through connected maps, process flows, visual cards and existing labelled diagrams. The current studio covers topics represented in the website’s 10-question bank; it is not a claim of complete syllabus coverage.</p>
+
+    <div className="mt-5 grid gap-3 sm:grid-cols-4">
+      <div className="card p-4"><p className="text-xs text-mute">Topics viewed</p><p className="mt-1 text-2xl font-bold">{Object.keys(visualStudio.viewed||{}).length}</p></div>
+      <div className="card p-4"><p className="text-xs text-mute">Mind maps completed</p><p className="mt-1 text-2xl font-bold">{Object.keys(visualStudio.completedMaps||{}).length}</p></div>
+      <div className="card p-4"><p className="text-xs text-mute">Visual exercises</p><p className="mt-1 text-2xl font-bold">{Object.keys(visualStudio.exercises||{}).length}</p></div>
+      <div className="card p-4"><p className="text-xs text-mute">Favourites</p><p className="mt-1 text-2xl font-bold">{favourites.length}</p></div>
+    </div>
+
+    <div className="card mt-5 p-4">
+      <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
+        <label className="relative block"><Search size={16} className="absolute left-3 top-3 text-mute"/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search concepts, processes, examples…" className="h-11 w-full rounded-xl border border-line bg-sunk pl-9 pr-3 text-sm outline-none focus:border-brand"/></label>
+        <select aria-label="Filter module" value={module} onChange={e=>setModule(e.target.value)} className="h-11 rounded-xl border border-line bg-sunk px-3 text-sm"><option value="all">All modules</option>{MODULE_ORDER.map(m=><option key={m} value={m}>Module {m} · {MODULES[m].name}</option>)}</select>
+        <select aria-label="Filter visual type" value={kind} onChange={e=>setKind(e.target.value)} className="h-11 rounded-xl border border-line bg-sunk px-3 text-sm">{FLOW_TYPES.map(x=><option key={x.id} value={x.id}>{x.label}</option>)}</select>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">{filtered.map(t=><button key={t.id} onClick={()=>setTopic(t.id)} className={`rounded-xl border px-3 py-2 text-left text-xs transition ${topic.id===t.id?'border-brand bg-brand/10 text-brand':'border-line hover:bg-sunk'}`}>M{t.module} · {t.title}</button>)}{!filtered.length&&<p className="text-sm text-mute">No visual topics match this search.</p>}</div>
+    </div>
+
+    <div className="mt-5 flex flex-wrap gap-2" role="tablist" aria-label="Visual learning tools">
+      {[['mindmap','Mind maps',Network],['flows','Flow explorer',Workflow],['cards','Learning cards',Layers],['compare','Compare',GitCompareArrows],['diagrams','Diagram practice',ImageIcon],['revision','Quick revision',Sparkles]].map(([id,label,Icon])=><button key={id} role="tab" aria-selected={tab===id} onClick={()=>setTab(id)} className={`rounded-xl px-3 py-2 text-sm font-semibold ${tab===id?'bg-brand text-white':'border border-line bg-panel text-mute hover:text-ink'}`}><Icon className="mr-1.5 inline" size={15}/>{label}</button>)}
+    </div>
+
+    {tab==='mindmap'&&<section className="card mt-4 p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2"><div><p className="eyebrow">Module {topic.module} · {MODULES[topic.module].name}</p><h2 className="text-xl font-bold">{topic.title}</h2></div><button onClick={()=>favoriteConcept(topic.id)} className="btn-ghost"><Star size={16} className={visualStudio.favorites?.[topic.id]?'fill-current text-amber-500':''}/>{visualStudio.favorites?.[topic.id]?'Saved':'Favourite topic'}</button></div>
+      <p className="mt-2 text-sm text-mute">{topic.description}</p>
+      <div className="mt-4"><ConceptMap topic={topic} selected={selectedNode} onSelect={setSelectedNode} expanded={expanded} setExpanded={setExpanded} zoom={zoom} setZoom={setZoom} pan={pan} setPan={setPan}/></div>
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.4fr]">
+        <div className="space-y-2"><h3 className="text-sm font-semibold">Connected concepts</h3>{topic.nodes.map((n,i)=><button key={n[0]} onClick={()=>{setSelectedNode(i);setExpanded(expanded===i?null:i);}} className={`flex w-full items-center gap-2 rounded-xl border p-3 text-left text-sm ${selectedNode===i?'border-brand bg-brand/5':'border-line hover:bg-sunk'}`}><span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-sunk text-xs">{i+1}</span><span className="min-w-0 flex-1 font-medium">{n[0]}</span>{expanded===i?<ChevronDown size={15}/>:<ChevronRight size={15}/>}</button>)}</div>
+        <div className="rounded-2xl border border-line bg-sunk p-4"><p className="eyebrow">Concept explanation</p><h3 className="mt-1 text-lg font-semibold">{activeNode[0]}</h3><p className="mt-2 text-sm leading-6 text-mute">{activeNode[1]}</p><a href={`#/q/${topic.q}`} className="btn-ghost mt-4"><BookOpen size={15}/>Open reference answer <ArrowRight size={14}/></a></div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2"><button onClick={resetMap} className="btn-ghost"><RotateCcw size={15}/>Reset map view</button><button onClick={markMapDone} disabled={!!visualStudio.completedMaps?.[topic.id]} className="btn-primary"><CheckCircle2 size={15}/>{visualStudio.completedMaps?.[topic.id]?'Map completed':'Mark map complete'}</button></div>
+    </section>}
+
+    {tab==='flows'&&<section className="card mt-4 p-5"><div className="flex items-center gap-2"><Workflow size={18} className="text-brand"/><h2 className="font-semibold">Flow and relationship explorer</h2></div><p className="mt-1 text-sm text-mute">Select a concept to follow the sequence or classification used in the reference notes.</p><div className="mt-4 space-y-2">{topic.nodes.map((n,i)=><div key={n[0]} className="flex gap-3"><div className="flex flex-col items-center"><button onClick={()=>setSelectedNode(i)} className={`grid h-9 w-9 place-items-center rounded-xl border text-sm font-bold ${selectedNode===i?'border-brand bg-brand text-white':'border-line bg-panel'}`}>{i+1}</button>{i<topic.nodes.length-1&&<div className="my-1 h-8 w-px bg-line"/>}</div><button onClick={()=>setSelectedNode(i)} className="flex-1 rounded-xl border border-line p-3 text-left hover:bg-sunk"><b className="text-sm">{n[0]}</b><p className="mt-1 text-sm text-mute">{n[1]}</p></button></div>)}</div><button onClick={()=>completeVisualExercise(topic.id+'-flow')} className="btn-primary mt-4"><CheckCircle2 size={15}/>Mark flow explored</button></section>}
+
+    {tab==='cards'&&<section className="card mt-4 p-5"><div className="flex flex-wrap items-center justify-between gap-2"><h2 className="font-semibold">Interactive learning cards</h2><span className="text-xs text-mute">{cardIndex+1} / {topic.cards.length}</span></div><button onClick={()=>setFlipped(!flipped)} aria-pressed={flipped} className="mt-4 flex min-h-64 w-full flex-col items-center justify-center rounded-2xl border border-line bg-sunk p-8 text-center transition hover:border-brand" style={{perspective:1000}}><span className="eyebrow">{flipped?'Explanation':'Key concept · tap to flip'}</span><span className="mt-3 text-2xl font-bold">{topic.cards[cardIndex][flipped?1:0]}</span><span className="mt-4 text-sm text-mute">{flipped?'Tap to return to term':'Reveal the explanation'}</span></button><div className="mt-4 flex justify-between gap-2"><button className="btn-ghost" onClick={()=>{setCardIndex(i=>(i-1+topic.cards.length)%topic.cards.length);setFlipped(false);}}>Previous</button><button className="btn-primary" onClick={()=>{setCardIndex(i=>(i+1)%topic.cards.length);setFlipped(false);}}>Next card</button></div><button onClick={()=>completeVisualExercise(topic.id+'-cards')} className="btn-ghost mt-3"><CheckCircle2 size={15}/>Complete card set</button></section>}
+
+    {tab==='compare'&&<section className="card mt-4 p-5"><h2 className="font-semibold">Concept comparison studio</h2><p className="mt-1 text-sm text-mute">Choose two topics. Compare their source summaries and related diagrams where available.</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><label className="text-sm font-semibold">First concept<select value={compareLeft} onChange={e=>setCompareLeft(e.target.value)} className="mt-2 h-11 w-full rounded-xl border border-line bg-sunk px-3 font-normal">{TOPICS.map(t=><option value={t.id} key={t.id}>{t.title}</option>)}</select></label><label className="text-sm font-semibold">Second concept<select value={compareRight} onChange={e=>setCompareRight(e.target.value)} className="mt-2 h-11 w-full rounded-xl border border-line bg-sunk px-3 font-normal">{TOPICS.map(t=><option value={t.id} key={t.id}>{t.title}</option>)}</select></label></div><div className="mt-4 grid gap-3 md:grid-cols-2">{[compareA,compareB].map(t=><article className="rounded-xl border border-line p-4" key={t.id}><p className="eyebrow">Module {t.module}</p><h3 className="font-semibold">{t.title}</h3><p className="mt-2 text-sm text-mute">{t.description}</p><ul className="mt-3 list-disc space-y-1 pl-5 text-sm">{t.nodes.map(n=><li key={n[0]}><b>{n[0]}:</b> {n[1]}</li>)}</ul><a href={`#/q/${t.q}`} className="btn-ghost mt-3"><BookOpen size={14}/>Reference answer</a></article>)}</div><div className="mt-4 overflow-x-auto"><table className="w-full min-w-[520px] text-sm"><thead><tr className="border-b border-line text-left"><th className="p-3">Comparison</th><th className="p-3">{compareA.title}</th><th className="p-3">{compareB.title}</th></tr></thead><tbody><tr className="border-b border-line"><th className="p-3 text-left">Module</th><td className="p-3">Module {compareA.module}</td><td className="p-3">Module {compareB.module}</td></tr><tr className="border-b border-line"><th className="p-3 text-left">Focus</th><td className="p-3">{compareA.nodes[0][1]}</td><td className="p-3">{compareB.nodes[0][1]}</td></tr><tr><th className="p-3 text-left">Related concepts</th><td className="p-3">{compareA.nodes.slice(1).map(n=>n[0]).join(', ')}</td><td className="p-3">{compareB.nodes.slice(1).map(n=>n[0]).join(', ')}</td></tr></tbody></table></div></section>}
+
+    {tab==='diagrams'&&<section className="card mt-4 p-5"><div className="flex flex-wrap items-center justify-between gap-2"><div><h2 className="font-semibold">Diagram learning mode</h2><p className="mt-1 text-sm text-mute">Use an existing verified diagram and practise identifying its concepts.</p></div><button onClick={()=>favoriteConcept('diagram-'+currentDiagram)} className="btn-ghost"><Star size={15}/>Favourite diagram</button></div><div className="mt-4 flex flex-wrap gap-2">{currentDiagramIds.length?currentDiagramIds.map(id=><button key={id} onClick={()=>{setDiagramId(id);setLabelsVisible(false);setRevealedLabels([]);}} className={`rounded-lg border px-3 py-2 text-xs ${id===currentDiagram?'border-brand bg-brand/10 text-brand':'border-line'}`}>{DIAGRAMS[id]?.title}</button>):<p className="text-sm text-mute">No diagram attached to this topic.</p>}</div>{currentDiagram&&<div className="mt-4"><VisualDiagram id={currentDiagram} hideLabels={!labelsVisible} revealed={labelsVisible} setRevealed={setLabelsVisible} topic={topic}/></div>}<div className="mt-4 flex flex-wrap gap-2"><button onClick={()=>setLabelsVisible(v=>!v)} className="btn-ghost">{labelsVisible?<EyeOff size={15}/>:<Eye size={15}/ >}{labelsVisible?'Hide labels prompt':'Reveal labels'}</button><button onClick={()=>{setRevealedLabels(currentDiagramIds);completeVisualExercise('diagram-'+currentDiagram);notify('Diagram exercise marked complete');}} className="btn-primary"><CheckCircle2 size={15}/>Complete diagram review</button></div><p className="mt-2 text-xs text-mute">The current diagram components are sourced from the existing SVG registry. Label masking is an overlay practice prompt; it does not modify the source diagram or individually hide its SVG text.</p></section>}
+
+    {tab==='revision'&&<section className="card mt-4 p-5"><h2 className="font-semibold">Visual quick revision</h2><p className="mt-1 text-sm text-mute">A compact sweep of the current module’s central ideas and important relationships.</p><div className="mt-4 space-y-3">{topic.nodes.map((n,i)=><label key={n[0]} className="flex items-start gap-3 rounded-xl border border-line p-3"><input type="checkbox" checked={!!revisionDone[topic.id+'-'+i]} onChange={e=>setRevisionDone(s=>({...s,[topic.id+'-'+i]:e.target.checked}))} className="mt-1 h-4 w-4"/><span className="flex-1"><b className="text-sm">{n[0]}</b><span className="mt-1 block text-sm text-mute">{n[1]}</span></span></label>)}</div><button onClick={()=>{completeVisualExercise(topic.id+'-revision');notify('Visual revision completed');}} className="btn-primary mt-4"><CheckCircle2 size={15}/>Complete visual revision</button></section>}
+
+    <div className="mt-5 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-line p-4 text-xs text-mute"><span>Content basis: current BCV755B Module 3, 4 and 5 model answers and registered SVG diagrams.</span><span>Learning progress is saved in this browser.</span></div>
+  </div>;
+}
