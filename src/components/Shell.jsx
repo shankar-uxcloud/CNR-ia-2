@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -31,6 +31,7 @@ function Nav({ path, onNavigate }) {
   const nb = Object.keys(bookmarks).length, done = Object.keys(completed).length;
   const items = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/questions', label: 'All Questions', icon: ListChecks, count: 10 },
     { to: '/module/3', label: 'Module 3', moduleName: 'Air and Air Pollution', dot: 3, count: 2 },
     { to: '/module/4', label: 'Module 4', moduleName: 'Biodiversity and Ecosystem', dot: 4, count: 4 },
