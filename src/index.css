@@ -949,3 +949,29 @@ select[aria-label='Cyberverse colour theme'] option { background: #0b1426; color
 @media print {
   body::before { display: none !important; }
 }
+
+
+/* Data-backed dashboard command strip: no simulated or fabricated telemetry. */
+.cyber-hud-cell {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--ux-line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: var(--ux-panel);
+  box-shadow: var(--ux-glow);
+}
+.cyber-hud-label { display: block; color: var(--ux-muted); font-size: 11px; font-weight: 600; letter-spacing: .045em; }
+.cyber-hud-value { display: block; margin-top: 4px; color: var(--ux-ink); font-size: clamp(1.25rem, 3vw, 1.65rem); font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+.cyber-hud-signal { position: absolute; right: 12px; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--cyber-accent); box-shadow: 0 0 10px var(--cyber-accent); }
+[data-theme='dark'] .cyber-hud-cell {
+  border-color: color-mix(in srgb, var(--cyber-accent) 23%, transparent);
+  background: linear-gradient(145deg, rgb(16 29 51 / .95), rgb(8 17 33 / .96));
+}
+[data-theme='dark'] .cyber-hud-value { color: #f1f8ff; text-shadow: 0 0 18px color-mix(in srgb, var(--cyber-accent) 24%, transparent); }
+[data-theme='dark'] .cyber-hud-signal { animation: cyber-signal 2.8s ease-in-out infinite; }
+@keyframes cyber-signal { 0%, 100% { opacity: .55; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.25); } }
+#root { position: relative; z-index: 1; }
+[data-theme='dark'] body::before { z-index: 0; }
+@media (prefers-reduced-motion: reduce) { [data-theme='dark'] .cyber-hud-signal { animation: none !important; } }
