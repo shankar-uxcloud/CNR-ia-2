@@ -70,6 +70,7 @@ export function StudyProvider({ children }) {
       return { ...s, practiceAttempts: { ...s.practiceAttempts, [id]: { at: Date.now(), score, total, attempts: (previous?.attempts || 0) + 1 } } };
     }),
     saveEvaluationAttempt: (attempt) => setState((s) => ({ ...s, evaluationAttempts: [{ ...attempt, id: `evaluation-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...(s.evaluationAttempts || [])].slice(0, 100) })),
+    clearEvaluationHistory: (predicate) => setState((s) => ({ ...s, evaluationAttempts: (s.evaluationAttempts || []).filter((attempt) => !predicate(attempt)) })),
     saveQuizAttempt: (attempt) => setState((s) => ({ ...s, quizAttempts: [{ ...attempt, id: `quiz-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...s.quizAttempts].slice(0, 100) })),
     saveExamAttempt: (attempt) => setState((s) => ({ ...s, examAttempts: [{ ...attempt, id: `exam-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, at: Date.now() }, ...(s.examAttempts || [])].slice(0, 100) })),
     addPlannerTask: (task) => setState((s) => ({ ...s, plannerTasks: [{ ...task, id: `task-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: Date.now(), done: false }, ...s.plannerTasks] })),
