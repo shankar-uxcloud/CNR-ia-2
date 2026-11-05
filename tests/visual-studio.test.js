@@ -16,7 +16,7 @@ test('visual studio concepts are mapped to the ten existing main-bank questions'
 });
 
 test('visual studio has six usable learning workspaces and interactive controls', () => {
-  for (const key of ["mindmap","flows","cards","compare","diagrams","revision"]) {
+  for (const key of ["mindmap","flows","cards","compare","diagrams","revision","quiz"]) {
     assert.match(visual, new RegExp("tab===['\"]" + key + "['\"]"));
   }
   for (const label of ['Zoom in','Zoom out','Reset view','Fit to screen']) assert.match(visual, new RegExp(label));
@@ -53,4 +53,6 @@ test('visual progress persistence is backward-compatible with existing local sto
   assert.match(store, /completeVisualMap/);
   assert.match(store, /completeVisualExercise/);
   assert.match(store, /toggleVisualFavorite/);
+  assert.match(store, /toggleVisualRevision/);
+  assert.match(store, /saveVisualQuizAttempt/);
 });
