@@ -162,3 +162,229 @@ body {
 .visual-labels-hidden .dg .tx-xs,
 .visual-labels-hidden .dg .tx-s,
 .visual-labels-hidden .dg .tx-l { opacity: 0; }
+
+
+/* =========================================================
+   CNR-IA-2 · NEON FUTURISTIC VISUAL EXPERIENCE 2.0
+   Progressive visual layer: existing React components/data
+   remain the source of truth. No interaction is replaced.
+   ========================================================= */
+:root {
+  --neon-cyan: #00bcd4;
+  --neon-blue: #2979ff;
+  --neon-purple: #9254de;
+  --neon-green: #16a66a;
+  --neon-magenta: #d946a8;
+  --neon-glow: 0 0 0 1px rgb(0 188 212 / .08), 0 8px 28px rgb(0 188 212 / .07);
+}
+[data-theme='dark'] {
+  --c-bg: 7 11 24;
+  --c-panel: 16 24 43;
+  --c-sunk: 19 31 53;
+  --c-line: 43 62 91;
+  --c-ink: 231 240 255;
+  --c-mute: 155 174 201;
+  --c-brand: 0 229 255;
+  --c-cyan: 41 121 255;
+  --c-navy: 5 10 24;
+  --c-shadow: 0 8 24;
+  --m3: 255 184 77;
+  --m4: 57 255 136;
+  --m5: 0 229 255;
+
+  --dg-bg: #0b1427; --dg-ink: #e7f2ff; --dg-line: #42607f; --dg-box: #111e35; --dg-k: #9bb2cd;
+  --dg-g: #39ff88; --dg-g-bg: #10352d; --dg-w: #ffbd59; --dg-w-bg: #392b18;
+  --dg-b: #4c9cff; --dg-b-bg: #10294b; --dg-v: #bd83ff; --dg-v-bg: #2a1c47;
+  --dg-c: #00e5ff; --dg-c-bg: #0b3441; --dg-r: #ff718c; --dg-r-bg: #401d30;
+  --dg-sun: #ffca68; --dg-land: #173b35; --dg-soil: #352a28; --dg-sea: #103a62; --dg-gw: #174a78;
+  --dg-cloud: #243b59; --dg-leaf: #39ff88; --dg-trunk: #a77a55; --dg-plate: #a9bfd8;
+  --dg-hop: #263b58; --dg-bag: #403b31; --dg-tube: #29415f; --dg-str: #241b42;
+  --dg-drop: #32c9ff; --dg-atm: rgba(0,229,255,.12);
+  color-scheme: dark;
+}
+html { scroll-padding-top: 5rem; }
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 8%, rgb(var(--c-cyan) / .055), transparent 34rem),
+    radial-gradient(ellipse at 88% 22%, rgb(var(--c-brand) / .045), transparent 38rem);
+}
+[data-theme='dark'] body {
+  background-image:
+    linear-gradient(rgb(0 229 255 / .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 229 255 / .025) 1px, transparent 1px),
+    radial-gradient(ellipse at 12% 8%, rgb(0 229 255 / .09), transparent 34rem),
+    radial-gradient(ellipse at 88% 22%, rgb(168 85 247 / .075), transparent 38rem);
+  background-size: 44px 44px, 44px 44px, auto, auto;
+  background-attachment: fixed;
+}
+[data-theme='dark'] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 0%, transparent 0 34rem, rgb(2 6 18 / .24) 80rem);
+}
+[data-theme='dark'] .card {
+  border-color: rgb(85 135 180 / .25);
+  background: linear-gradient(145deg, rgb(19 31 53 / .94), rgb(12 21 39 / .96));
+  box-shadow: 0 10px 32px rgb(0 0 0 / .22), inset 0 1px 0 rgb(255 255 255 / .035);
+  backdrop-filter: blur(12px);
+}
+[data-theme='dark'] .card:hover {
+  border-color: rgb(0 229 255 / .38);
+  box-shadow: 0 12px 34px rgb(0 0 0 / .28), 0 0 22px rgb(0 229 255 / .075), inset 0 1px 0 rgb(255 255 255 / .055);
+}
+[data-theme='dark'] aside {
+  background: linear-gradient(180deg, rgb(12 21 39 / .98), rgb(7 13 27 / .98));
+  border-color: rgb(0 229 255 / .18);
+  box-shadow: 8px 0 34px rgb(0 0 0 / .18);
+}
+[data-theme='dark'] header.topbar {
+  background: rgb(7 13 27 / .82);
+  border-color: rgb(0 229 255 / .16);
+  box-shadow: 0 8px 30px rgb(0 0 0 / .12);
+}
+[data-theme='dark'] .btn-primary {
+  color: #03151d;
+  background: linear-gradient(110deg, #00e5ff, #39ffb0);
+  box-shadow: 0 0 18px rgb(0 229 255 / .18);
+}
+[data-theme='dark'] .btn-primary:hover {
+  box-shadow: 0 0 24px rgb(0 229 255 / .32);
+  filter: saturate(1.15) brightness(1.06);
+}
+[data-theme='dark'] .btn-ghost,
+[data-theme='dark'] input,
+[data-theme='dark'] select,
+[data-theme='dark'] textarea {
+  border-color: rgb(93 132 174 / .35);
+  background-color: rgb(15 27 48 / .88);
+}
+[data-theme='dark'] .chip {
+  border-color: rgb(0 229 255 / .22);
+  background: rgb(0 229 255 / .07);
+  color: rgb(190 224 241);
+}
+[data-theme='dark'] .eyebrow { color: #75dff0; }
+[data-theme='dark'] a:focus-visible,
+[data-theme='dark'] button:focus-visible,
+[data-theme='dark'] input:focus-visible,
+[data-theme='dark'] select:focus-visible,
+[data-theme='dark'] textarea:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgb(0 229 255 / .13);
+}
+[data-theme='dark'] .page-enter { animation: neon-page-in .38s ease-out both; }
+@keyframes neon-page-in {
+  from { opacity: 0; transform: translateY(8px); filter: saturate(.7); }
+  to { opacity: 1; transform: translateY(0); filter: saturate(1); }
+}
+[data-theme='dark'] .dg .bx,
+[data-theme='dark'] .dg .ln { filter: drop-shadow(0 0 3px currentColor); }
+[data-theme='dark'] .dg .ln.flow { stroke-dasharray: 7 7; animation: neon-diagram-flow 2.2s linear infinite; }
+@keyframes neon-diagram-flow { to { stroke-dashoffset: -28; } }
+[data-theme='dark'] .dg .bx-g,
+[data-theme='dark'] .dg .bx-c,
+[data-theme='dark'] .dg .bx-b,
+[data-theme='dark'] .dg .bx-v { filter: drop-shadow(0 0 5px currentColor); }
+[data-theme='dark'] .dg .tx { paint-order: stroke; stroke: rgb(7 15 29 / .3); stroke-width: .35px; }
+[data-theme='dark'] .visual-labels-hidden .dg .tx,
+[data-theme='dark'] .visual-labels-hidden .dg .tx-xs,
+[data-theme='dark'] .visual-labels-hidden .dg .tx-s,
+[data-theme='dark'] .visual-labels-hidden .dg .tx-l { opacity: 0; }
+[data-theme='dark'] .visual-studio-node,
+[data-theme='dark'] [class*="visual-node"] { filter: drop-shadow(0 0 7px rgb(0 229 255 / .18)); }
+[data-theme='dark'] .visual-studio-node:hover,
+[data-theme='dark'] [class*="visual-node"]:hover { filter: drop-shadow(0 0 11px rgb(0 229 255 / .34)); }
+[data-theme='dark'] .reading strong.kw {
+  background: linear-gradient(transparent 58%, rgb(0 229 255 / .2) 58%);
+}
+[data-theme='dark'] .progress-bar,
+[data-theme='dark'] [role="progressbar"] { filter: drop-shadow(0 0 5px rgb(0 229 255 / .28)); }
+[data-theme='dark'] .fab { box-shadow: 0 0 22px rgb(0 229 255 / .28); }
+[data-theme='dark'] .skeleton { background-image: linear-gradient(90deg, #14243c 25%, #1b3855 50%, #14243c 75%); }
+[data-theme='dark'] .card a:hover { color: #69eaff; }
+[data-theme='dark'] .card [class~="rounded-xl"][class~="bg-sunk"],
+[data-theme='dark'] .card [class~="rounded-2xl"][class~="bg-sunk"] { box-shadow: inset 0 0 0 1px rgb(0 229 255 / .055); }
+[data-theme='dark'] .card svg[aria-hidden="true"] { transition: filter .2s ease, transform .2s ease; }
+[data-theme='dark'] .card:hover svg[aria-hidden="true"] { filter: drop-shadow(0 0 5px rgb(0 229 255 / .4)); }
+[data-theme='dark'] .reading table th { color: #c6f5ff; background: #142842; }
+[data-theme='dark'] .reading table td { border-color: rgb(90 130 170 / .28); }
+[data-theme='dark'] .reading table tr:nth-child(even) td { background: rgb(0 229 255 / .025); }
+[data-theme='dark'] .diagram-frame,
+[data-theme='dark'] .visual-studio svg { filter: drop-shadow(0 5px 14px rgb(0 0 0 / .18)); }
+[data-theme='dark'] .visual-studio button[aria-pressed="true"],
+[data-theme='dark'] [role="tab"][aria-selected="true"] {
+  border-color: rgb(0 229 255 / .55);
+  background: rgb(0 229 255 / .1);
+  box-shadow: inset 0 0 0 1px rgb(0 229 255 / .08), 0 0 14px rgb(0 229 255 / .1);
+}
+@media (hover: hover) {
+  .card, .btn, .btn-ghost, .btn-primary { transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
+  [data-theme='dark'] .card.group:hover { transform: translateY(-2px); }
+}
+@media (max-width: 640px) {
+  [data-theme='dark'] body { background-size: 32px 32px, 32px 32px, auto, auto; }
+  [data-theme='dark'] .card { backdrop-filter: blur(8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='dark'] .page-enter,
+  [data-theme='dark'] .dg .ln.flow { animation: none !important; }
+  .card, .btn, .btn-ghost, .btn-primary { transition: none !important; }
+}
+@media print {
+  body { background: white !important; background-image: none !important; }
+  [data-theme='dark'] .card { background: white !important; color: black !important; box-shadow: none !important; }
+}
+
+
+/* Holographic concept-map treatment (SVG nodes remain real buttons). */
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] line {
+  stroke: #00e5ff !important;
+  stroke-width: 2.2;
+  opacity: .55 !important;
+  stroke-dasharray: 6 7;
+  filter: drop-shadow(0 0 4px rgb(0 229 255 / .75));
+  animation: neon-map-link 5s linear infinite;
+}
+@keyframes neon-map-link { to { stroke-dashoffset: -52; } }
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] g[role="button"] rect {
+  fill: #10223b !important;
+  stroke: #00bcd4 !important;
+  filter: drop-shadow(0 0 6px rgb(0 229 255 / .26));
+  transition: fill .2s ease, stroke .2s ease, filter .2s ease;
+}
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] g[role="button"]:hover rect,
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] g[role="button"]:focus rect {
+  fill: #153a50 !important;
+  stroke: #39ff88 !important;
+  filter: drop-shadow(0 0 10px rgb(0 229 255 / .65));
+}
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] g[role="button"] text {
+  fill: #e6fbff !important;
+  pointer-events: none;
+}
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] > g > rect[x="315"] {
+  fill: #153b50 !important;
+  stroke: #39ff88 !important;
+  filter: drop-shadow(0 0 12px rgb(57 255 136 / .42));
+}
+[data-theme='dark'] .visual-studio svg[aria-label*="concept map"] > g > text {
+  fill: #eafff5 !important;
+}
+[data-theme='dark'] .visual-studio [role="tab"][aria-selected="true"] {
+  color: #04151c !important;
+  background: linear-gradient(110deg, #00e5ff, #39ffb0) !important;
+  box-shadow: 0 0 18px rgb(0 229 255 / .2);
+}
+[data-theme='dark'] .visual-studio button:hover:not(:disabled) {
+  border-color: rgb(0 229 255 / .42);
+}
+[data-theme='dark'] .visual-studio [class*="border-brand/40"] {
+  box-shadow: inset 0 0 20px rgb(0 229 255 / .045), 0 0 18px rgb(0 229 255 / .07);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='dark'] .visual-studio svg[aria-label*="concept map"] line { animation: none !important; }
+}
