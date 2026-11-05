@@ -26,7 +26,6 @@ export function analyseLearning(state = {}, now = Date.now()) {
       ...practices.map((a) => ({ pct: clamp(Number(a.score) / Math.max(1, Number(a.total) || 1) * 100,0,100), at: a.at || 0 })),
     ];
     const quizQuestionAttempts = quizSeen.length;
-    const quizAccuracy = quizQuestionAttempts ? Math.round((quizQuestionAttempts - quizWrong) / quizQuestionAttempts * 100) : null;
     const scoreAverage = scoreSamples.length ? Math.round(scoreSamples.reduce((n,x)=>n+x.pct,0)/scoreSamples.length) : null;
     const evidence = scoreSamples.length + quizQuestionAttempts;
     const lastRevision = Number(revision[q.id]) || 0;
@@ -37,20 +36,20 @@ export function analyseLearning(state = {}, now = Date.now()) {
     let status = 'Not enough data';
     let reason = 'No saved score or question-level quiz evidence yet. Complete a practice or evaluation to personalise this topic.';
     let score = scoreAverage;
-    if (scoreAverage !== null || quizAccuracy !== null) {
-      score = scoreAverage === null ? quizAccuracy : quizAccuracy === null ? scoreAverage : Math.round(scoreAverage*0.7+quizAccuracy*0.3);
-      if (score < 40 || (quizWrong >= 2 && quizWrong >= quizQuestionAttempts/2)) {
+    if (scoreAverage !== null || quizWrong > 0) {
+      score = scoreAverage;
+      if ((scoreAverage !== null && scoreAverage < 40) || quizWrong >= 2) {
         status = 'Critical revision required';
-        reason = score < 40 ? `Your saved practice/evaluation average is ${scoreAverage}%.` : `You missed this topic ${quizWrong} times in saved quizzes.`;
-      } else if (score < 65 || (!done && evidence >= 2)) {
+        reason = scoreAverage !== null && scoreAverage < 40 ? `Your saved practice/evaluation average is ${scoreAverage}%.` : `You missed this topic ${quizWrong} times in saved quizzes.`;
+      } else if ((scoreAverage !== null && scoreAverage < 65) || (!done && evidence >= 2) || quizWrong === 1) {
         status = 'Needs improvement';
-        reason = score < 65 ? `Your measured performance is ${score}% across saved attempts.` : 'Repeated quiz evidence exists, but the question is not marked complete.';
-      } else if (score >= 80 && done) {
+        reason = scoreAverage !== null && scoreAverage < 65 ? `Your measured performance is ${scoreAverage}% across saved attempts.` : quizWrong === 1 ? 'A saved quiz attempt recorded an incorrect response for this topic; practise it to confirm mastery.' : 'Repeated learning evidence exists, but the question is not marked complete.';
+      } else if (scoreAverage >= 80 && done && quizWrong === 0) {
         status = 'Strong';
-        reason = `Your measured performance is ${score}% and the question is marked complete.`;
+        reason = `Your measured performance is ${scoreAverage}% and the question is marked complete.`;
       } else {
         status = 'Moderate';
-        reason = done ? `Preparation is marked complete; measured performance is ${score}%.` : `Measured performance is ${score}%, but preparation is not marked complete.`;
+        reason = done ? `Preparation is marked complete; measured performance is ${scoreAverage}%.` : `Measured performance is ${scoreAverage}% but preparation is not marked complete.`;
       }
     } else if (done) {
       status = 'Moderate';
@@ -63,7 +62,7 @@ export function analyseLearning(state = {}, now = Date.now()) {
     if (quizWrong) reasons.push(`${quizWrong} incorrect quiz signal(s)`);
     if (!done) reasons.push('question not marked complete');
     if (due) reasons.push('revision due');
-    const priority = clamp((status === 'Critical revision required' ? 55 : status === 'Needs improvement' ? 38 : status === 'Moderate' ? 20 : 5) + (quizWrong*8) + (!done?12:0) + (due?10:0) + (daysSinceRevision !== null && daysSinceRevision >= 7 ? 8:0),0,100);
+    const priority = clamp((status === 'Critical revision required' ? 55 : status === 'Needs improvement' ? 38 : status === 'Moderate' ? 20 : status === 'Not enough data' ? 12 : 5) + (quizWrong*8) + (!done?18:0) + (due?10:0) + (daysSinceRevision !== null && daysSinceRevision >= 7 ? 8:0),0,100);
     return { ...q, status, reason, score, evidence, evalCount: evals.length, fiveMarkCount: evals.filter(a=>a.answerMode==='five').length, tenMarkCount: evals.filter(a=>a.answerMode!=='five').length, quizWrong, done, daysSinceRevision, daysSinceAttempt, due, priority, priorityReasons: reasons };
   });
   const moduleStats = MODULE_ORDER.map(module => {
