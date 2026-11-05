@@ -1,5 +1,5 @@
 import { QUESTIONS, MODULE_ORDER } from '../data/questions';
-import { diagramsOf } from './content';
+const hasDiagram = (answer) => (answer.sections || []).some(section => (section.blocks || []).some(block => block.type === 'diagram') || (section.subsections || []).some(sub => (sub.blocks || []).some(block => block.type === 'diagram')));
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 const dayKey = (value) => {
@@ -93,7 +93,7 @@ export function createRevisionTasks(topics, options = {}) {
     units.push({ questionId:q.id, title:`Revise key concepts: ${q.title}`, kind:'concept', minutes:20, module:q.module });
     units.push({ questionId:q.id, title:`Practise a 5-mark answer: ${q.title}`, kind:'five-mark', minutes:15, module:q.module });
     units.push({ questionId:q.id, title:`Write a 10-mark answer: ${q.title}`, kind:'ten-mark', minutes:30, module:q.module });
-    if (diagramsOf(q.answer).length) units.push({ questionId:q.id, title:`Practise diagrams: ${q.title}`, kind:'diagram', minutes:15, module:q.module });
+    if (hasDiagram(q.answer)) units.push({ questionId:q.id, title:`Practise diagrams: ${q.title}`, kind:'diagram', minutes:15, module:q.module });
   });
   const slots = Array.from({length:days},()=>[]);
   let dayIndex=0, usedMinutes=0;
