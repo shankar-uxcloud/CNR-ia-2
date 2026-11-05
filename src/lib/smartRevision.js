@@ -95,11 +95,14 @@ export function createRevisionTasks(topics, options = {}) {
     units.push({ questionId:q.id, title:`Write a 10-mark answer: ${q.title}`, kind:'ten-mark', minutes:30, module:q.module });
     if (diagramsOf(q.answer).length) units.push({ questionId:q.id, title:`Practise diagrams: ${q.title}`, kind:'diagram', minutes:15, module:q.module });
   });
-  const capacity = Math.max(1,Math.floor(minutes/15));
   const slots = Array.from({length:days},()=>[]);
-  units.forEach((unit,i)=>{
-    const dayIndex = Math.min(days-1,Math.floor(i/capacity));
+  let dayIndex=0, usedMinutes=0;
+  units.forEach((unit)=>{
+    if (unit.minutes > minutes) return;
+    if (usedMinutes + unit.minutes > minutes) { dayIndex += 1; usedMinutes = 0; }
+    if (dayIndex >= days) return;
     slots[dayIndex].push(unit);
+    usedMinutes += unit.minutes;
   });
   const tasks = [];
   slots.forEach((items,index)=>items.forEach((item,j)=>tasks.push({
