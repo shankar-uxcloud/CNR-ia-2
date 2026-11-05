@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Brain, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -33,6 +33,7 @@ function Nav({ path, onNavigate }) {
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
+    { to: '/smart-revision', label: 'Weakness & Revision', icon: Brain },
     { to: '/additional-notes', label: 'Additional Source Notes', icon: BookOpenText },
     { to: '/questions', label: 'All Questions', icon: ListChecks, count: 10 },
     { to: '/module/3', label: 'Module 3', moduleName: 'Air and Air Pollution', dot: 3, count: 2 },
