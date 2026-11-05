@@ -382,7 +382,7 @@ body {
 [data-theme='dark'] .visual-studio button:hover:not(:disabled) {
   border-color: rgb(0 229 255 / .42);
 }
-[data-theme='dark'] .visual-studio .rounded-2xl.border-brand\\/40 {
+[data-theme='dark'] .visual-studio [class*="border-brand/40"] {
   box-shadow: inset 0 0 20px rgb(0 229 255 / .045), 0 0 18px rgb(0 229 255 / .07);
 }
 @media (prefers-reduced-motion: reduce) {
