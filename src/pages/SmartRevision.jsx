@@ -5,6 +5,7 @@ import { useStudy } from '../lib/study';
 import { analyseLearning, createRevisionTasks, dayKey, nextReviewDate, getStudyStreak } from '../lib/smartRevision';
 import { Bar, ModuleBadge } from '../components/ui';
 
+// Recall ratings update the pending follow-up task as well as the saved review record.
 const statusClass = (status) => status==='Critical revision required'?'border-red-500/30 bg-red-500/10 text-red-600':status==='Needs improvement'?'border-amber-500/30 bg-amber-500/10 text-amber-600':status==='Strong'?'border-emerald-500/30 bg-emerald-500/10 text-emerald-600':'border-line bg-sunk text-mute';
 const dateText = (key) => new Date(key+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});
 const today = () => dayKey(new Date());
