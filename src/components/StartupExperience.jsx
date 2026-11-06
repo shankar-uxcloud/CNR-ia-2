@@ -78,13 +78,14 @@ export default function StartupExperience({ children }) {
         if (next === 100) window.clearInterval(timer);
         return next;
       });
-    }, reducedMotion ? 7 : 18);
+    }, reducedMotion ? 24 : 65);
     return () => window.clearInterval(timer);
   }, [ready]);
 
   useEffect(() => {
     if (progress !== 100) return undefined;
-    const timer = window.setTimeout(() => setDismissed(true), 620);
+    // Keep the completed 100% state visible for a full two seconds before fading away.
+    const timer = window.setTimeout(() => setDismissed(true), 2000);
     return () => window.clearTimeout(timer);
   }, [progress]);
 
