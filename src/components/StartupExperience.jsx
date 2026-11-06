@@ -113,7 +113,7 @@ export default function StartupExperience({ children }) {
               <div className="startup-orbit startup-orbit--one" aria-hidden="true"><span /></div>
               <div className="startup-orbit startup-orbit--two" aria-hidden="true"><span /></div>
 
-              <div className="startup-counter" aria-label={`${progress} percent`}>
+              <div className="startup-counter" style={{ "--startup-progress": progress }} aria-label={`${progress} percent`}>
                 <svg className="startup-progress-ring" viewBox="0 0 300 300" aria-hidden="true">
                   <defs>
                     <linearGradient id="startup-progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
