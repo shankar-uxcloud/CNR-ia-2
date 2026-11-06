@@ -44,12 +44,12 @@ function ConceptMap({topic,selected,onSelect,expanded,setExpanded,zoom,setZoom,p
       <g transform={`translate(${pan.x} ${pan.y}) translate(420 235) scale(${zoom}) translate(-420 -235)`}>
         {pts.map((p)=> <line key={'l'+p.i} x1={root.x} y1={root.y} x2={p.x} y2={p.y} stroke="currentColor" opacity=".25" strokeWidth="2" strokeDasharray="5 5"/>)}
         {pts.map((p)=> <g key={p.i} className="cursor-pointer" onClick={()=>{onSelect(p.i);setExpanded(active===p.i?null:p.i);}} role="button" tabIndex="0" aria-label={p.node[0]} onKeyDown={(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onSelect(p.i);setExpanded(active===p.i?null:p.i);}}}>
-          <rect x={p.x-82} y={p.y-29} width="164" height="58" rx="14" fill={active===p.i?'#10b981':'var(--c-panel)'} stroke={active===p.i?'#059669':'var(--c-line)'} strokeWidth="2"/>
-          <text x={p.x} y={p.y+4} fontSize="13" textAnchor="middle" fill={active===p.i?'#052e24':'currentColor'} fontWeight="650">{p.node[0].length>22?p.node[0].slice(0,20)+'…':p.node[0]}</text>
+          <rect x={p.x-82} y={p.y-29} width="164" height="58" rx="14" fill={active===p.i?'var(--diagram-node-active)':'var(--c-panel)'} stroke={active===p.i?'var(--diagram-node-active)':'var(--c-line)'} strokeWidth="2"/>
+          <text x={p.x} y={p.y+4} fontSize="13" textAnchor="middle" fill={active===p.i?'var(--diagram-node-active-ink)':'currentColor'} fontWeight="650">{p.node[0].length>22?p.node[0].slice(0,20)+'…':p.node[0]}</text>
         </g>)}
-        <rect x="315" y="193" width="210" height="84" rx="20" fill="#123b32" stroke="#10b981" strokeWidth="2"/>
-        <text x="420" y="226" fontSize="14" textAnchor="middle" fill="#fff" fontWeight="700">Module {topic.module}</text>
-        <text x="420" y="250" fontSize="13" textAnchor="middle" fill="#d1fae5">{topic.title.length>25?topic.title.slice(0,23)+'…':topic.title}</text>
+        <rect x="315" y="193" width="210" height="84" rx="20" fill="var(--surface-elevated)" stroke="var(--cyber-accent)" strokeWidth="2"/>
+        <text x="420" y="226" fontSize="14" textAnchor="middle" fill="var(--text-primary)" fontWeight="700">Module {topic.module}</text>
+        <text x="420" y="250" fontSize="13" textAnchor="middle" fill="var(--text-secondary)">{topic.title.length>25?topic.title.slice(0,23)+'…':topic.title}</text>
       </g>
     </svg>
     <div className="absolute bottom-3 right-3 flex gap-1">
