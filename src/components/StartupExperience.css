@@ -260,3 +260,39 @@ html[data-theme="light"] .startup-progress-track { background: rgba(48,87,126,.1
   .startup-counter::after,
   .startup-status-indicator i { animation: none; }
 }
+
+
+/* Startup overlay follows the selected neon palette instead of showing a fixed cyan theme. */
+.startup-screen {
+  --startup-cyan: var(--cyber-accent);
+  --startup-blue: var(--cyber-secondary);
+  --startup-mint: var(--cyber-tertiary);
+  background:
+    radial-gradient(ellipse at 50% 46%, color-mix(in srgb, var(--cyber-accent) 9%, transparent), transparent 30rem),
+    radial-gradient(ellipse at 16% 12%, color-mix(in srgb, var(--cyber-secondary) 14%, transparent), transparent 34rem),
+    radial-gradient(ellipse at 86% 84%, color-mix(in srgb, var(--cyber-tertiary) 12%, transparent), transparent 32rem),
+    var(--bg-primary);
+}
+.startup-brand-mark { border-color: color-mix(in srgb, var(--cyber-accent) 44%, transparent); color: var(--cyber-accent); background: linear-gradient(145deg, color-mix(in srgb, var(--cyber-accent) 14%, transparent), color-mix(in srgb, var(--cyber-accent) 3%, transparent)); box-shadow: 0 0 26px color-mix(in srgb, var(--cyber-accent) 12%, transparent), inset 0 0 18px color-mix(in srgb, var(--cyber-accent) 8%, transparent); }
+.startup-brand-mark i, .startup-course-code > span, .startup-status-indicator i { background: var(--cyber-tertiary); box-shadow: 0 0 9px var(--cyber-tertiary); }
+.startup-earth-wrap { color: var(--cyber-accent); filter: drop-shadow(0 0 26px color-mix(in srgb, var(--cyber-accent) 20%, transparent)) drop-shadow(0 0 70px color-mix(in srgb, var(--cyber-secondary) 12%, transparent)); }
+.startup-earth-wrap::before { border-color: color-mix(in srgb, var(--cyber-accent) 20%, transparent); box-shadow: inset 0 0 35px color-mix(in srgb, var(--cyber-accent) 5%, transparent), 0 0 28px color-mix(in srgb, var(--cyber-accent) 8%, transparent); }
+.startup-earth-wrap::after { background: linear-gradient(180deg, transparent 43%, color-mix(in srgb, var(--cyber-accent) 18%, transparent) 50%, transparent 57%); }
+.startup-orbit { border-color: color-mix(in srgb, var(--cyber-secondary) 16%, transparent); }
+.startup-orbit--one span { background: var(--cyber-accent); box-shadow: 0 0 13px 3px color-mix(in srgb, var(--cyber-accent) 55%, transparent); }
+.startup-orbit--two span { background: var(--cyber-tertiary); box-shadow: 0 0 13px 3px color-mix(in srgb, var(--cyber-tertiary) 45%, transparent); }
+.startup-counter::before { border-color: color-mix(in srgb, var(--cyber-accent) 14%, transparent); box-shadow: 0 0 32px color-mix(in srgb, var(--cyber-accent) 7%, transparent), inset 0 0 24px color-mix(in srgb, var(--cyber-secondary) 5%, transparent); }
+.startup-counter::after { border-color: color-mix(in srgb, var(--cyber-tertiary) 24%, transparent); }
+.startup-ring-value { filter: drop-shadow(0 0 7px color-mix(in srgb, var(--cyber-accent) 80%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--cyber-secondary) 30%, transparent)); }
+.startup-progress-ring stop:first-child { stop-color: var(--cyber-accent); }
+.startup-progress-ring stop:nth-child(2) { stop-color: var(--cyber-secondary); }
+.startup-progress-ring stop:last-child { stop-color: var(--cyber-tertiary); }
+.startup-counter-value strong { text-shadow: 0 0 34px color-mix(in srgb, var(--cyber-accent) 22%, transparent); }
+.startup-counter-value span, .startup-hero-caption i { color: var(--cyber-accent); }
+.startup-progress-track span, .startup-edge-progress { background: linear-gradient(90deg, var(--cyber-secondary), var(--cyber-accent) 62%, var(--cyber-tertiary)); }
+.startup-progress-track span { box-shadow: 0 0 15px color-mix(in srgb, var(--cyber-accent) 45%, transparent), 0 0 28px color-mix(in srgb, var(--cyber-secondary) 18%, transparent); }
+.startup-edge-progress { box-shadow: 0 0 16px color-mix(in srgb, var(--cyber-accent) 62%, transparent), 0 0 34px color-mix(in srgb, var(--cyber-secondary) 28%, transparent); }
+.startup-counter-value { text-shadow: 0 0 38px color-mix(in srgb, var(--cyber-accent) 16%, transparent); }
+.startup-footer-brand svg:first-child { color: var(--cyber-tertiary); }
+.startup-footer-brand svg:last-child { color: var(--cyber-secondary); }
+html[data-theme='light'] .startup-screen { --startup-cyan: var(--cyber-accent); --startup-blue: var(--cyber-secondary); --startup-mint: var(--cyber-tertiary); }

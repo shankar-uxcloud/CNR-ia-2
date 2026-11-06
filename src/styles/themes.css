@@ -159,3 +159,34 @@ body {
 }
 #root { position: relative; z-index: 1; min-height: 100vh; }
 :root[data-visual-theme='neon'] body { background-color: var(--neon-bg); }
+
+
+/* Complete palette contract: keep legacy aliases, feedback and SVG focus accents in sync. */
+:root[data-theme='dark'][data-neon-theme='ultra-cyber'] {
+  --neon-cyan: var(--cyber-accent); --neon-blue: var(--cyber-secondary); --neon-purple: var(--cyber-tertiary); --neon-violet: #7c3aed; --neon-green: #39ff88; --neon-magenta: var(--cyber-secondary);
+  --ux-green: #39ff88; --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #04121c;
+  --status-info: #00e5ff; --status-info-bg: #0b2936;
+  --glow-cyan: 0 0 12px rgb(0 245 255 / .2), 0 0 28px rgb(0 245 255 / .1);
+  --glow-purple: 0 0 12px rgb(168 85 247 / .18), 0 0 28px rgb(168 85 247 / .09);
+}
+:root[data-theme='dark'][data-neon-theme='arctic'] {
+  --neon-cyan: var(--cyber-accent); --neon-blue: var(--cyber-secondary); --neon-purple: #8caeff; --neon-violet: #789dff; --neon-green: #b8fff4; --neon-magenta: #b8fff4;
+  --ux-green: #b8fff4; --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #052031;
+  --status-info: #7de8ff; --status-info-bg: #10364a;
+  --glow-cyan: 0 0 12px rgb(125 232 255 / .2), 0 0 28px rgb(125 232 255 / .1);
+  --glow-purple: 0 0 12px rgb(77 157 255 / .18), 0 0 28px rgb(77 157 255 / .09);
+}
+:root[data-theme='dark'][data-neon-theme='purple'] {
+  --neon-cyan: var(--cyber-accent); --neon-blue: #8be9ff; --neon-purple: var(--cyber-accent); --neon-violet: #a78bfa; --neon-green: #86efac; --neon-magenta: var(--cyber-secondary);
+  --ux-green: #86efac; --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #1a0928;
+  --status-info: #c4a1ff; --status-info-bg: #34204d;
+  --glow-cyan: 0 0 12px rgb(192 132 252 / .2), 0 0 28px rgb(192 132 252 / .1);
+  --glow-purple: 0 0 12px rgb(244 114 208 / .18), 0 0 28px rgb(244 114 208 / .09);
+}
+:root[data-theme='dark'][data-neon-theme='eco'] {
+  --neon-cyan: var(--cyber-accent); --neon-blue: #2dd4bf; --neon-purple: #84cc16; --neon-violet: #84cc16; --neon-green: var(--cyber-accent); --neon-magenta: #a3e635;
+  --ux-green: var(--cyber-accent); --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #062013;
+  --status-info: #5eead4; --status-info-bg: #103a32;
+  --glow-cyan: 0 0 12px rgb(74 222 128 / .2), 0 0 28px rgb(74 222 128 / .1);
+  --glow-purple: 0 0 12px rgb(45 212 191 / .18), 0 0 28px rgb(45 212 191 / .09);
+}
