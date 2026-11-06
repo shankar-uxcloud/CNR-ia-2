@@ -94,7 +94,19 @@ select[aria-label='Cyberverse colour theme'] option { color: var(--text-primary)
 [data-theme='dark'] .topbar input:focus { border-color: var(--cyber-accent); box-shadow: 0 0 0 3px var(--focus-ring), 0 0 20px color-mix(in srgb, var(--cyber-accent) 10%, transparent); }
 
 main { min-width: 0; color: var(--text-primary); }
-main :where(.bg-white, .bg-gray-50, .bg-gray-100, .bg-slate-50, .bg-slate-100, .bg-zinc-50, .bg-zinc-100) { color: var(--text-primary); }
+/* Legacy utility compatibility bridge: keep older page markup on the shared theme contract.
+   New components should use semantic classes/tokens directly; status colours remain untouched. */
+main :where(.bg-white, .bg-gray-50, .bg-gray-100, .bg-slate-50, .bg-slate-100, .bg-zinc-50, .bg-zinc-100) {
+  color: var(--text-primary);
+  background-color: var(--surface-primary);
+}
+main :where(.bg-gray-50, .bg-slate-50, .bg-zinc-50) { background-color: var(--surface-secondary); }
+main :where(.text-gray-900, .text-gray-800, .text-slate-900, .text-slate-800, .text-zinc-900, .text-zinc-800) { color: var(--text-primary); }
+main :where(.text-gray-700, .text-gray-600, .text-slate-700, .text-slate-600, .text-zinc-700, .text-zinc-600) { color: var(--text-secondary); }
+main :where(.text-gray-500, .text-gray-400, .text-slate-500, .text-slate-400, .text-zinc-500, .text-zinc-400) { color: var(--text-muted); }
+main :where(.border-gray-100, .border-gray-200, .border-gray-300, .border-slate-100, .border-slate-200, .border-slate-300, .border-zinc-100, .border-zinc-200, .border-zinc-300) { border-color: var(--border-color); }
+[data-theme='dark'] main :where(.shadow, .shadow-sm, .shadow-md, .shadow-lg) { --tw-shadow-color: rgb(0 0 0 / .28); }
+[data-theme='dark'] main :where(.ring-gray-100, .ring-gray-200, .ring-slate-100, .ring-slate-200) { --tw-ring-color: var(--border-color); }
 main table { max-width: 100%; color: var(--text-primary); border-color: var(--border-color); }
 main table :is(th, thead) { color: var(--text-primary); background: var(--table-head-bg); }
 main table :is(td, th) { border-color: var(--border-color); }
