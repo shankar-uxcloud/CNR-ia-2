@@ -5,9 +5,6 @@ function pwaPrecacheManifest() {
   return {
     name: 'cnr-pwa-precache-manifest',
     apply: 'build',
-    generateBundle() {
-      const files = Object.keys(this.getFileName ? this.getModuleIds ? {} : {} : {});
-    },
     generateBundle(_options, bundle) {
       const files = Object.keys(bundle).filter((file) => file !== 'precache-manifest.json');
       this.emitFile({
