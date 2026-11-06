@@ -138,3 +138,9 @@ main table tbody tr:nth-child(even) { background: var(--table-row-alt); }
 [data-theme='dark'] [role='dialog'], [data-theme='dark'] dialog { background-color: var(--surface-primary); border-color: var(--border-color); }
 [role='status'] > div { color: var(--text-primary); background: var(--surface-elevated); border: 1px solid var(--border-color); box-shadow: var(--ux-glow); }
 [role='alert'] { color: var(--text-primary); border-color: var(--border-color); }
+
+/* Landing artwork is a deliberately dark branded entry surface, using shared accent tokens. */
+.landing-hero { background: var(--landing-bg); color: #ffffff; }
+.landing-hero-veil { background: linear-gradient(180deg, rgb(6 16 31 / .6), transparent 55%, rgb(6 16 31 / .8)); }
+.landing-accent-text { color: var(--landing-accent); }
+.landing-cta { color: var(--landing-cta-text); background: var(--landing-accent); }
