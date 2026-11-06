@@ -13,11 +13,15 @@ test('CNR ExamPrep is configured as an installable standalone PWA', () => {
   assert.ok(manifest.icons.some((icon) => icon.src === './pwa-icon.svg' && icon.purpose.includes('maskable')));
 });
 
-test('production build emits an asset list for complete offline precaching', () => {
+test('production build emits a precache manifest and build-versioned service worker', () => {
   const config = read('vite.config.js');
+  const worker = read('src/pwa/sw.js');
   assert.match(config, /generateBundle/);
   assert.match(config, /precache-manifest\.json/);
   assert.match(config, /Object\.keys\(bundle\)/);
+  assert.match(config, /fileName: 'sw\.js'/);
+  assert.match(config, /__BUILD_ID__/);
+  assert.match(worker, /__BUILD_ID__/);
   assert.match(config, /base: '\.\/'/);
 });
 
