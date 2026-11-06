@@ -17,6 +17,10 @@ test('the app loads a single ordered modular design system', () => {
     previous = index;
   }
   assert.doesNotMatch(main, /index\.css|neon-completion\.css/);
+  assert.match(read('src/styles/global.css'), /@tailwind base;/);
+  assert.doesNotMatch(read('src/styles/global.css'), /@tailwind utilities;/);
+  assert.match(read('src/styles/components.css'), /@tailwind components;/);
+  assert.match(utilities, /^@tailwind utilities;/);
 });
 
 test('semantic tokens cover backgrounds, surfaces, text, borders, controls and status', () => {
@@ -32,6 +36,7 @@ test('component states use semantic variables without blanket important override
   }
   const all = [tokens,themes,components,utilities].join('\n');
   assert.doesNotMatch(all, /!important/);
+  assert.match(components, /color-mix\(in srgb, var\(--cyber-accent\) 28%, transparent\)/);
 });
 
 test('responsive, reduced-motion and print behavior are centralized', () => {
