@@ -26,9 +26,9 @@ test('each palette defines a distinct complete semantic surface and text system'
     const block = themes.slice(start, end);
     assert.ok(start >= 0, 'missing palette ' + name);
     for (const token of required) assert.ok(block.includes(token), name + ' missing ' + token);
-    const match = block.match(/--bg-primary:\\s*(#[0-9a-fA-F]+)/);
-    assert.ok(match, name + ' must define a background');
-    backgrounds.push(match[1].toLowerCase());
+    const bg = block.split('--bg-primary: ')[1]?.split(';')[0];
+    assert.ok(bg, name + ' must define a background');
+    backgrounds.push(bg.toLowerCase());
   }
   assert.equal(new Set(backgrounds).size, 4, 'all palette backgrounds must differ');
 });
