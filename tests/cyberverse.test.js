@@ -95,3 +95,16 @@ test('theme picker clearly marks the selected palette without relying on colour 
   assert.ok(shell.includes('theme-picker-check'));
   assert.ok(shell.includes('aria-pressed={cyberTheme === item.value}'));
 });
+
+
+test('startup experience renders an immersive responsive learning-core HUD', () => {
+  const startup = read('src/components/StartupExperience.jsx');
+  const styles = read('src/components/StartupExperience.css');
+  for (const marker of ['startup-hud--left', 'startup-hud--right', 'startup-scanline', 'startup-crosshair', 'startup-hero-statement']) {
+    assert.ok(startup.includes(marker), 'missing startup visual layer: ' + marker);
+    assert.ok(styles.includes('.' + marker), 'missing startup style: ' + marker);
+  }
+  assert.ok(startup.includes('stopColor="var(--cyber-accent)"'));
+  assert.ok(styles.includes('@media (max-width: 700px)'));
+  assert.ok(styles.includes('prefers-reduced-motion: reduce'));
+});
