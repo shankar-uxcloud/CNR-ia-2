@@ -191,11 +191,6 @@ main table tbody tr:nth-child(even) { background: var(--table-row-alt); }
   background: color-mix(in srgb, var(--cyber-accent) 10%, var(--surface-secondary));
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--cyber-accent) 20%, transparent), 0 0 16px color-mix(in srgb, var(--cyber-accent) 12%, transparent);
 }
-.theme-picker-swatch { display: block; flex: 0 0 19px; width: 19px; height: 19px; border: 1px solid rgb(255 255 255 / .28); border-radius: 7px; box-shadow: 0 0 10px color-mix(in srgb, var(--cyber-accent) 15%, transparent); }
+.theme-picker-swatch { display: block; flex: 0 0 19px; width: 19px; height: 19px; border: 1px solid rgb(255 255 255 / .28); border-radius: 7px; }
 .theme-picker-btn:focus-visible { outline: 2px solid var(--cyber-accent); outline-offset: 3px; }
-@media (min-width: 640px) {
-  .theme-picker.sm\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .theme-picker.sm\\:grid-cols-4 .theme-picker-btn { justify-content: center; padding-inline: 7px; }
-  .theme-picker.sm\\:grid-cols-4 .theme-picker-btn span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-}
 @media (prefers-reduced-motion: reduce) { .theme-picker-btn { transition: none; } }
