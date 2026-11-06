@@ -67,8 +67,17 @@ export default function StartupExperience({ children }) {
   useEffect(() => {
     if (!ready || progress >= 100) return undefined;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const timer = window.setInterval(() => {
-      setProgress((current) => Math.min(100, current + 1));
+    let timer;
+    timer = window.setInterval(() => {
+      setProgress((current) => {
+        if (current >= 100) {
+          window.clearInterval(timer);
+          return current;
+        }
+        const next = Math.min(100, current + 1);
+        if (next === 100) window.clearInterval(timer);
+        return next;
+      });
     }, reducedMotion ? 7 : 18);
     return () => window.clearInterval(timer);
   }, [ready]);
