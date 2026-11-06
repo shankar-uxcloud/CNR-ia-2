@@ -34,7 +34,11 @@ test('navigation exposes active state for nested question routes', () => {
 
 test('theme preference remains persisted in the existing study store', () => {
   assert.match(store, /const KEY = 'vtu-examprep-v1'/);
-  assert.match(store, /settings: \{ theme: null/);
+  assert.match(store, /settings: \\{ theme: 'dark'/);
+  assert.match(store, /const theme = state\\.settings\\.theme \\|\\| 'dark'/);
+  const html = read('index.html');
+  assert.match(html, /var mode = settings\\.theme \\|\\| 'dark'/);
+  assert.match(html, /setAttribute\\('data-visual-theme', mode === 'dark' \\? 'neon' : 'light'\\)/);
   assert.match(store, /toggleTheme: \(\) => setState/);
   assert.match(store, /setSetting: \(k, v\)/);
 });
