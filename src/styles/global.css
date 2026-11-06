@@ -1,5 +1,4 @@
 @tailwind base;
-@tailwind utilities;
 
 html { min-width: 320px; }
 body {

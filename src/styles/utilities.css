@@ -1,3 +1,5 @@
+@tailwind utilities;
+
 /* Responsive, motion, overflow and print policies shared by every route. */
 :where(main, section, article, aside, header, footer) { min-width: 0; }
 main :where(.overflow-x-auto, table) { max-width: 100%; }

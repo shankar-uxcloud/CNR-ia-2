@@ -15,7 +15,7 @@
       try {
         var state = JSON.parse(localStorage.getItem('vtu-examprep-v1') || '{}');
         var settings = state.settings || {};
-        var mode = settings.theme || 'dark';
+        var mode = ['dark', 'light'].includes(settings.theme) ? settings.theme : 'dark';
         var palette = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(settings.cyberTheme) ? settings.cyberTheme : 'ultra-cyber';
         var root = document.documentElement;
         root.setAttribute('data-theme', mode);

@@ -18,7 +18,14 @@ function load() {
       visualStudio: { ...DEFAULTS.visualStudio, ...(s.visualStudio || {}), viewed: s.visualStudio?.viewed || {}, completedMaps: s.visualStudio?.completedMaps || {}, exercises: s.visualStudio?.exercises || {}, favorites: s.visualStudio?.favorites || {}, revision: s.visualStudio?.revision || {}, quizAttempts: Array.isArray(s.visualStudio?.quizAttempts) ? s.visualStudio.quizAttempts : [] },
       visualLab: { ...DEFAULTS.visualLab, ...(s.visualLab || {}), explored: s.visualLab?.explored || {}, completed: s.visualLab?.completed || {}, scenarioAttempts: Array.isArray(s.visualLab?.scenarioAttempts) ? s.visualLab.scenarioAttempts : [] },
       smartRevision: { ...DEFAULTS.smartRevision, ...(s.smartRevision || {}), tasks: Array.isArray(s.smartRevision?.tasks) ? s.smartRevision.tasks : [], reviews: s.smartRevision?.reviews || {} },
-      settings: { ...DEFAULTS.settings, ...(s.settings || {}) },
+      settings: (() => {
+        const settings = { ...DEFAULTS.settings, ...(s.settings || {}) };
+        settings.theme = ['dark', 'light'].includes(settings.theme) ? settings.theme : DEFAULTS.settings.theme;
+        settings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(settings.cyberTheme) ? settings.cyberTheme : DEFAULTS.settings.cyberTheme;
+        settings.fontIdx = Number.isInteger(settings.fontIdx) && settings.fontIdx >= 0 && settings.fontIdx < FONT_SIZES.length ? settings.fontIdx : DEFAULTS.settings.fontIdx;
+        settings.widthIdx = Number.isInteger(settings.widthIdx) && settings.widthIdx >= 0 && settings.widthIdx < WIDTHS.length ? settings.widthIdx : DEFAULTS.settings.widthIdx;
+        return settings;
+      })(),
     };
   } catch { return DEFAULTS; }
 }
@@ -97,7 +104,7 @@ export function StudyProvider({ children }) {
     saveLabScenario: (attempt) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, scenarioAttempts: [{ ...attempt, id: `lab-scenario-${Date.now()}`, at: Date.now() }, ...(s.visualLab.scenarioAttempts || [])].slice(0, 100) } })),
     setSmartRevision: (smartRevision) => setState((s) => ({ ...s, smartRevision: { ...DEFAULTS.smartRevision, ...(smartRevision || {}), tasks: Array.isArray(smartRevision?.tasks) ? smartRevision.tasks : [], reviews: smartRevision?.reviews || {} } })),
     setSetting: (k, v) => setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } })),
-    toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: theme === 'dark' ? 'light' : 'dark' } })),
+    toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: s.settings.theme === 'dark' ? 'light' : 'dark' } })),
     resetAll: () => setState((s) => ({ ...DEFAULTS, settings: s.settings })),
   }), [state, theme, focus, query, toasts, notify]);
 
