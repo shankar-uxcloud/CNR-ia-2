@@ -22,7 +22,7 @@ test('production build emits an asset list for complete offline precaching', () 
 });
 
 test('service worker precaches the built app, serves navigation offline and removes old caches', () => {
-  const worker = read('public/sw.js');
+  const worker = read('src/pwa/sw.js');
   assert.match(worker, /cache\.addAll\(urls\)/);
   assert.match(worker, /request\.mode === 'navigate'/);
   assert.match(worker, /cache\.match\(new URL\('index\.html'/);
