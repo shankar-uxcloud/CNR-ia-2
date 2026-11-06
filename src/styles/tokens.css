@@ -53,6 +53,15 @@
   --neon-violet: #7c3aed;
   --neon-green: #39ff88;
   --neon-magenta: #ff38d1;
+  --landing-bg: #06101f;
+  --landing-deep: #081626;
+  --landing-surface-a: #0f3a44;
+  --landing-surface-b: #0a1e30;
+  --landing-surface-c: #0c2e3b;
+  --landing-accent: var(--cyber-accent);
+  --landing-cyan: #22d3ee;
+  --landing-text: #e2e8f0;
+  --landing-cta-text: #04130d;
   --neon-bg: #050816;
   --neon-bg-raised: #080e1d;
   --neon-surface: #0d1729;
