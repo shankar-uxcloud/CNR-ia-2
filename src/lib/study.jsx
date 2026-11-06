@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
 export const WIDTHS = [{ label: 'Narrow', px: 640 }, { label: 'Medium', px: 760 }, { label: 'Wide', px: 920 }];
-const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: null, cyberTheme: 'ultra-cyber', fontIdx: 2, widthIdx: 1 } };
+const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: 'dark', cyberTheme: 'ultra-cyber', fontIdx: 2, widthIdx: 1 } };
 
 function load() {
   try {
@@ -22,7 +22,6 @@ function load() {
     };
   } catch { return DEFAULTS; }
 }
-const preferredTheme = () => (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 const Ctx = createContext(null);
 export const useStudy = () => useContext(Ctx);
 
@@ -31,7 +30,7 @@ export function StudyProvider({ children }) {
   const [focus, setFocus] = useState(false);
   const [query, setQuery] = useState('');
   const [toasts, setToasts] = useState([]);
-  const theme = state.settings.theme || preferredTheme();
+  const theme = state.settings.theme || 'dark';
   const cyberTheme = state.settings.cyberTheme || 'ultra-cyber';
 
   useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage unavailable */ } }, [state]);
