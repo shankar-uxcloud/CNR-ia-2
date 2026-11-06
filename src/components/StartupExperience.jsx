@@ -24,7 +24,6 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     let cancelled = false;
-    let timer;
     const start = async () => {
       try {
         if (document.fonts?.ready) await document.fonts.ready;
@@ -37,14 +36,13 @@ export default function StartupExperience({ children }) {
     start();
     return () => {
       cancelled = true;
-      if (timer) window.clearInterval(timer);
     };
   }, []);
 
   useEffect(() => {
     if (!ready || progress >= 100) return undefined;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const interval = reducedMotion ? 1 : 13;
+    const interval = reducedMotion ? 20 : 22;
     const timer = window.setInterval(() => {
       setProgress((current) => Math.min(100, current + 1));
     }, interval);
