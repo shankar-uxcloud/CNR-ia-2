@@ -32,3 +32,13 @@ test('theme-dependent SVG concept map colors are token-driven', () => {
   assert.match(studio, /var\(--diagram-node-active-ink\)/);
   assert.doesNotMatch(studio, /#10b981|#059669|#052e24|#123b32/);
 });
+
+
+test('legacy light utility surfaces inside routed pages resolve to semantic theme tokens', () => {
+  const components = read('src/styles/components.css');
+  assert.match(components, /main :where\(\.bg-white, \.bg-gray-50/);
+  assert.match(components, /background-color: var\(--surface-primary\)/);
+  assert.match(components, /background-color: var\(--surface-secondary\)/);
+  assert.match(components, /\.text-gray-900[\s\S]*color: var\(--text-primary\)/);
+  assert.match(components, /\.border-gray-100[\s\S]*border-color: var\(--border-color\)/);
+});
