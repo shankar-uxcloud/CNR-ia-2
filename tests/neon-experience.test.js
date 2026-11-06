@@ -6,6 +6,14 @@ const css = ['src/styles/tokens.css','src/styles/themes.css','src/styles/global.
 const shell = read('src/components/Shell.jsx');
 const store = read('src/lib/study.jsx');
 
+test('Neon dark mode is the first-visit default before and after React hydration', () => {
+  assert.ok(store.includes("settings: { theme: 'dark'"));
+  assert.ok(store.includes("const theme = state.settings.theme || 'dark'"));
+  const html = read('index.html');
+  assert.ok(html.includes("var mode = settings.theme || 'dark'"));
+  assert.ok(html.includes("setAttribute('data-visual-theme', mode === 'dark' ? 'neon' : 'light')"));
+});
+
 test('central tokens define the neon spectrum and semantic theme contract', () => {
   for (const token of ['--ux-bg','--ux-panel','--ux-line','--ux-ink','--ux-muted','--ux-cyan','--ux-violet','--bg-primary','--surface-primary','--text-primary','--border-color','--input-bg','--status-success']) {
     assert.ok(css.includes(token), 'missing design token: ' + token);
@@ -34,7 +42,7 @@ test('navigation exposes active state for nested question routes', () => {
 
 test('theme preference remains persisted in the existing study store', () => {
   assert.match(store, /const KEY = 'vtu-examprep-v1'/);
-  assert.match(store, /settings: \{ theme: null/);
+  const html = read('index.html');
   assert.match(store, /toggleTheme: \(\) => setState/);
   assert.match(store, /setSetting: \(k, v\)/);
 });

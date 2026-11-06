@@ -11,20 +11,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
     <script>
-      /* Apply persisted appearance before the first paint to prevent a light-theme flash. */
+      /* Apply the persisted appearance before first paint. Neon dark is the first-visit default. */
       try {
         var state = JSON.parse(localStorage.getItem('vtu-examprep-v1') || '{}');
         var settings = state.settings || {};
-        var mode = settings.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        var mode = settings.theme || 'dark';
         var palette = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(settings.cyberTheme) ? settings.cyberTheme : 'ultra-cyber';
         var root = document.documentElement;
         root.setAttribute('data-theme', mode);
         root.setAttribute('data-neon-theme', palette);
         root.setAttribute('data-visual-theme', mode === 'dark' ? 'neon' : 'light');
       } catch (error) {
-        document.documentElement.setAttribute('data-theme', 'light');
+        document.documentElement.setAttribute('data-theme', 'dark');
         document.documentElement.setAttribute('data-neon-theme', 'ultra-cyber');
-        document.documentElement.setAttribute('data-visual-theme', 'light');
+        document.documentElement.setAttribute('data-visual-theme', 'neon');
       }
     </script>
   </head>
