@@ -84,7 +84,8 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     if (progress !== 100) return undefined;
-    // Keep the completed 100% state visible for a full two seconds before fading away.\n    const timer = window.setTimeout(() => setDismissed(true), 2000);
+    // Keep the completed 100% state visible for a full two seconds before fading away.
+    const timer = window.setTimeout(() => setDismissed(true), 2000);
     return () => window.clearTimeout(timer);
   }, [progress]);
 
