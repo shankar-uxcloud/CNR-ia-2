@@ -69,3 +69,29 @@ test('palette choices preserve light mode and accessible motion fallbacks', () =
   assert.ok(read('src/styles/utilities.css').includes('@media print'));
   assert.ok(read('src/styles/utilities.css').includes('max-width: 767px'));
 });
+
+
+test('all neon modes synchronize legacy accents, diagram focus and feedback tokens', () => {
+  const contract = ['--neon-cyan:', '--neon-blue:', '--neon-purple:', '--ux-green:', '--diagram-node-active:', '--diagram-node-active-ink:', '--status-info:', '--glow-cyan:'];
+  for (const name of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
+    const start = themes.lastIndexOf(`:root[data-theme='dark'][data-neon-theme='${name}']`);
+    const end = themes.indexOf('\\n}', start);
+    const block = themes.slice(start, end);
+    assert.ok(start >= 0, 'missing complete token bridge for ' + name);
+    for (const token of contract) assert.ok(block.includes(token), name + ' missing ' + token);
+  }
+});
+
+test('startup experience uses the active palette instead of fixed cyan artwork', () => {
+  const startup = read('src/components/StartupExperience.css');
+  assert.ok(startup.includes('--startup-cyan: var(--cyber-accent)'));
+  assert.ok(startup.includes('var(--cyber-secondary)'));
+  assert.ok(startup.includes('var(--cyber-tertiary)'));
+  assert.ok(startup.includes('.startup-progress-ring stop:nth-child(2)'));
+  assert.ok(startup.includes('html[data-theme=\'light\'] .startup-screen'));
+});
+
+test('theme picker clearly marks the selected palette without relying on colour alone', () => {
+  assert.ok(shell.includes('theme-picker-check'));
+  assert.ok(shell.includes('aria-pressed={cyberTheme === item.value}'));
+});
