@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
@@ -35,9 +35,13 @@ export function StudyProvider({ children }) {
   const cyberTheme = state.settings.cyberTheme || 'ultra-cyber';
 
   useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage unavailable */ } }, [state]);
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.setAttribute('data-neon-theme', cyberTheme);
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    root.setAttribute('data-neon-theme', cyberTheme);
+    root.setAttribute('data-visual-theme', theme === 'dark' ? 'neon' : 'light');
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#050816' : '#f7f8f6');
   }, [theme, cyberTheme]);
   useEffect(() => {
     const r = document.documentElement.style;
