@@ -75,7 +75,7 @@ test('all neon modes synchronize legacy accents, diagram focus and feedback toke
   const contract = ['--neon-cyan:', '--neon-blue:', '--neon-purple:', '--ux-green:', '--diagram-node-active:', '--diagram-node-active-ink:', '--status-info:', '--glow-cyan:'];
   for (const name of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
     const start = themes.lastIndexOf(`:root[data-theme='dark'][data-neon-theme='${name}']`);
-    const end = themes.indexOf('\\n}', start);
+    const end = themes.indexOf('\n}', start);
     const block = themes.slice(start, end);
     assert.ok(start >= 0, 'missing complete token bridge for ' + name);
     for (const token of contract) assert.ok(block.includes(token), name + ' missing ' + token);
