@@ -122,14 +122,31 @@ export default function StartupExperience({ children }) {
               </div>
               <div className="startup-orbit startup-orbit--one" aria-hidden="true"><span /></div>
               <div className="startup-orbit startup-orbit--two" aria-hidden="true"><span /></div>
+              <div className="startup-scanline" aria-hidden="true" />
+              <div className="startup-crosshair startup-crosshair--one" aria-hidden="true">+</div>
+              <div className="startup-crosshair startup-crosshair--two" aria-hidden="true">+</div>
+              <div className="startup-hud startup-hud--left" aria-hidden="true">
+                <span className="startup-hud-kicker">RESOURCE INTELLIGENCE</span>
+                <strong>EARTH <i> / </i> 01</strong>
+                <span className="startup-hud-line"><i style={{ width: '82%' }} /></span>
+                <small>BIOSPHERE SYSTEMS</small>
+                <small>KNOWLEDGE CORE · ACTIVE</small>
+              </div>
+              <div className="startup-hud startup-hud--right" aria-hidden="true">
+                <span className="startup-hud-kicker">LEARNING PROTOCOL</span>
+                <strong>{String(progress).padStart(3, '0')}<em> / 100</em></strong>
+                <span className="startup-hud-line"><i style={{ width: String(progress) + '%' }} /></span>
+                <small>CONCEPTS SYNCHRONIZED</small>
+                <small>VISUAL ENGINE · ONLINE</small>
+              </div>
 
               <div className="startup-counter" style={{ "--startup-progress": progress }} aria-label={`${progress} percent`}>
                 <svg className="startup-progress-ring" viewBox="0 0 300 300" aria-hidden="true">
                   <defs>
                     <linearGradient id="startup-progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#57e8ff" />
-                      <stop offset="55%" stopColor="#6e9dff" />
-                      <stop offset="100%" stopColor="#8ce8c1" />
+                      <stop offset="0%" stopColor="var(--cyber-accent)" />
+                      <stop offset="55%" stopColor="var(--cyber-secondary)" />
+                      <stop offset="100%" stopColor="var(--cyber-tertiary)" />
                     </linearGradient>
                   </defs>
                   <circle className="startup-ring-base" cx="150" cy="150" r="137" />
@@ -146,6 +163,10 @@ export default function StartupExperience({ children }) {
                 <span className="startup-caption-rule" />
                 <span>LEARN <i>·</i> PRACTISE <i>·</i> EXCEL</span>
                 <span className="startup-caption-rule" />
+              </div>
+              <div className="startup-hero-statement" aria-hidden="true">
+                <span>THE FUTURE IS A SYSTEM WE CAN PROTECT.</span>
+                <i />
               </div>
             </main>
 
