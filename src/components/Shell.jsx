@@ -120,7 +120,7 @@ export default function Shell({ path, children }) {
     return () => document.removeEventListener('keydown', k);
   }, [open]);
 
-  const onSearch = (v) => { setQuery(v); if (!/^\\/(questions|module)/.test(path)) go('/questions'); };
+  const onSearch = (v) => { setQuery(v); if (!/^\/(questions|module)/.test(path)) go('/questions'); };
 
   return (
     <div className="min-h-screen">
