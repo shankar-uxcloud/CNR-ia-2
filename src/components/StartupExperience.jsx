@@ -1,58 +1,54 @@
 import { useEffect, useState } from 'react';
+import { GraduationCap, Leaf, Sparkles } from 'lucide-react';
 import './StartupExperience.css';
 
 const getStage = (value) => {
-  if (value <= 15) return 'Initializing CNR ExamPrep...';
-  if (value <= 30) return 'Preparing your learning environment...';
-  if (value <= 45) return 'Loading VTU study modules...';
-  if (value <= 60) return 'Preparing question banks...';
-  if (value <= 75) return 'Warming up your visual learning workspace...';
-  if (value <= 90) return 'Preparing your study workspace...';
-  if (value < 100) return 'Finalizing your workspace...';
-  return "Ready! Let's Learn.";
+  if (value <= 15) return 'Initializing your study space';
+  if (value <= 30) return 'Setting up your learning environment';
+  if (value <= 45) return 'Getting your VTU modules ready';
+  if (value <= 60) return 'Preparing your question library';
+  if (value <= 75) return 'Getting visual learning ready';
+  if (value <= 90) return 'Organizing your revision workspace';
+  if (value < 100) return 'Almost there';
+  return 'Your study space is ready';
 };
 
 /**
- * The React tree is mounted before this overlay begins its short, sequential
- * reveal. We wait for the browser's font readiness as a real startup signal.
- * The counter is explicitly a presentation sequence, not a fabricated
- * percentage of network assets downloaded.
+ * A short, sequential welcome reveal shown after the React application mounts.
+ * The percentage is a presentation sequence, not a measurement of downloaded
+ * assets. The application remains mounted beneath the overlay throughout.
  */
 export default function StartupExperience({ children }) {
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(1);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    const start = async () => {
+    const prepare = async () => {
       try {
         if (document.fonts?.ready) await document.fonts.ready;
       } catch {
-        // Font loading failure must never block access to the app.
+        // Font readiness is non-critical; never block the application.
       }
-      if (cancelled) return;
-      setReady(true);
+      if (!cancelled) setReady(true);
     };
-    start();
-    return () => {
-      cancelled = true;
-    };
+    prepare();
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
     if (!ready || progress >= 100) return undefined;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const interval = reducedMotion ? 20 : 22;
     const timer = window.setInterval(() => {
       setProgress((current) => Math.min(100, current + 1));
-    }, interval);
+    }, reducedMotion ? 12 : 20);
     return () => window.clearInterval(timer);
   }, [ready, progress]);
 
-  const [dismissed, setDismissed] = useState(false);
   useEffect(() => {
     if (progress !== 100) return undefined;
-    const timer = window.setTimeout(() => setDismissed(true), 420);
+    const timer = window.setTimeout(() => setDismissed(true), 520);
     return () => window.clearTimeout(timer);
   }, [progress]);
 
@@ -60,26 +56,87 @@ export default function StartupExperience({ children }) {
     <>
       {children}
       {!dismissed && (
-        <div className={`startup-screen ${progress === 100 ? 'startup-screen--leaving' : ''}`} role="status" aria-live="polite" aria-label={`Starting CNR ExamPrep, ${progress} percent`}>
-          <div className="startup-stars" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /><i /></div>
-          <div className="startup-orbit startup-orbit--outer" aria-hidden="true" />
-          <div className="startup-orbit startup-orbit--inner" aria-hidden="true" />
-          <div className="startup-content">
-            <div className="startup-brand"><span className="startup-brand-mark">CNR</span><span>EXAMPREP</span></div>
-            <div className="startup-kicker">BCV755B · CONSERVATION OF NATURAL RESOURCES</div>
-            <div className="startup-meter" style={{ '--startup-progress': `${progress}%` }}>
-              <svg className="startup-ring" viewBox="0 0 240 240" aria-hidden="true">
-                <circle className="startup-ring-track" cx="120" cy="120" r="104" />
-                <circle className="startup-ring-value" cx="120" cy="120" r="104" pathLength="100" />
-              </svg>
-              <div className="startup-number" key={progress}><span>{progress}</span><small>%</small></div>
-            </div>
-            <div className="startup-progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="100" aria-valuenow={progress} aria-label="Startup sequence">
-              <span style={{ width: `${progress}%` }} />
-            </div>
-            <div className="startup-status">{getStage(progress)}</div>
-            <div className="startup-footnote">{progress === 100 ? 'Your learning workspace is ready' : 'Preparing your learning workspace'}</div>
-          </div>
+        <div
+          className={`startup-screen ${progress === 100 ? 'startup-screen--leaving' : ''}`}
+          role="status"
+          aria-live="polite"
+          aria-label={`CNR ExamPrep startup sequence, ${progress} percent`}
+        >
+          <div className="startup-ambient startup-ambient--one" aria-hidden="true" />
+          <div className="startup-ambient startup-ambient--two" aria-hidden="true" />
+          <div className="startup-grid" aria-hidden="true" />
+
+          <main className="startup-layout">
+            <section className="startup-intro">
+              <div className="startup-brand">
+                <span className="startup-brand-icon"><GraduationCap size={22} strokeWidth={1.8} /></span>
+                <span className="startup-brand-name">CNR<span>EXAMPREP</span></span>
+              </div>
+
+              <div className="startup-eyebrow"><span /> VTU · BCV755B</div>
+              <h1>Learn with clarity.<br /><em>Prepare with confidence.</em></h1>
+              <p className="startup-description">
+                Your Conservation of Natural Resources learning space is getting ready.
+              </p>
+
+              <div className="startup-subject">
+                <span className="startup-subject-icon"><Leaf size={17} /></span>
+                <span>
+                  <strong>Conservation of Natural Resources</strong>
+                  <small>Visvesvaraya Technological University</small>
+                </span>
+              </div>
+
+              <div className="startup-footer-note"><Sparkles size={14} /> A smarter way to prepare for your exams</div>
+            </section>
+
+            <section className="startup-progress-panel" aria-label="Startup progress">
+              <div className="startup-panel-top">
+                <span className="startup-live-dot" />
+                <span>WORKSPACE INITIALIZATION</span>
+                <span className="startup-version">CNR / 01</span>
+              </div>
+
+              <div className="startup-meter" style={{ '--startup-progress': `${progress}%` }}>
+                <svg className="startup-ring" viewBox="0 0 220 220" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="startup-ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#00E5FF" />
+                      <stop offset="55%" stopColor="#438BFF" />
+                      <stop offset="100%" stopColor="#54F5A6" />
+                    </linearGradient>
+                  </defs>
+                  <circle className="startup-ring-track" cx="110" cy="110" r="96" />
+                  <circle className="startup-ring-progress" cx="110" cy="110" r="96" pathLength="100" />
+                </svg>
+                <div className="startup-number">
+                  <strong>{progress}</strong><span>%</span>
+                </div>
+                <div className="startup-meter-caption">READYING YOUR SPACE</div>
+              </div>
+
+              <div className="startup-progress-meta">
+                <span>{getStage(progress)}</span>
+                <strong>{String(progress).padStart(2, '0')}<small> / 100</small></strong>
+              </div>
+              <div
+                className="startup-progress-track"
+                role="progressbar"
+                aria-valuemin="1"
+                aria-valuemax="100"
+                aria-valuenow={progress}
+                aria-label="Startup sequence"
+              >
+                <span style={{ width: `${progress}%` }} />
+              </div>
+
+              <div className="startup-panel-bottom">
+                <span><i /> {progress === 100 ? 'READY TO BEGIN' : 'PLEASE WAIT A MOMENT'}</span>
+                <span>LEARN · PRACTISE · EXCEL</span>
+              </div>
+            </section>
+          </main>
+          <div className="startup-bottom-line" aria-hidden="true"><span /></div>
         </div>
       )}
     </>
