@@ -1,11 +1,11 @@
 /* CNR-IA-2 · Neon theme engine tokens and ambient treatment.
    Theme state is applied once on <html>; no component owns a competing palette. */
 :root[data-theme='dark'][data-neon-theme='ultra-cyber'] {
-  --cyber-accent: #00e5ff; --cyber-accent-rgb: 0 229 255;
-  --cyber-secondary: #a855f7; --cyber-tertiary: #39ff88;
-  --cyber-edge: rgb(0 229 255 / .28);
-  --c-brand: 0 229 255; --c-cyan: 57 255 136;
-  --ux-cyan: #00e5ff; --ux-violet: #a855f7; --ux-magenta: #ff38d1;
+  --cyber-accent: #00F5FF; --cyber-accent-rgb: 0 245 255;
+  --cyber-secondary: #3B82F6; --cyber-tertiary: #39FF88;
+  --cyber-edge: rgb(0 245 255 / .24);
+  --c-brand: 0 245 255; --c-cyan: 59 130 246;
+  --ux-cyan: #00F5FF; --ux-violet: #A855F7; --ux-magenta: #FF3CAC;
 }
 :root[data-theme='dark'][data-neon-theme='arctic'] {
   --cyber-accent: #8be9ff; --cyber-accent-rgb: 139 233 255;
@@ -50,11 +50,11 @@ body {
 }
 :root[data-theme='dark'] body {
   background-image:
-    radial-gradient(ellipse at var(--cursor-x, 12%) var(--cursor-y, 8%), rgb(var(--cyber-accent-rgb) / .11), transparent 30rem),
-    linear-gradient(rgb(var(--cyber-accent-rgb) / .022) 1px, transparent 1px),
+    radial-gradient(ellipse at var(--cursor-x, 12%) var(--cursor-y, 8%), rgb(var(--cyber-accent-rgb) / .075), transparent 30rem),
+    linear-gradient(rgb(var(--cyber-accent-rgb) / .014) 1px, transparent 1px),
     linear-gradient(90deg, rgb(var(--cyber-accent-rgb) / .022) 1px, transparent 1px),
-    radial-gradient(ellipse at 90% 14%, color-mix(in srgb, var(--cyber-secondary) 15%, transparent), transparent 40rem),
-    radial-gradient(ellipse at 48% 100%, rgb(41 121 255 / .045), transparent 42rem);
+    radial-gradient(ellipse at 90% 14%, color-mix(in srgb, var(--cyber-secondary) 9%, transparent), transparent 40rem),
+    radial-gradient(ellipse at 48% 100%, rgb(59 130 246 / .04), transparent 42rem);
   background-size: auto, 48px 48px, 48px 48px, auto, auto;
   background-attachment: fixed;
 }
@@ -63,9 +63,9 @@ body {
 :root[data-theme='dark'][data-neon-theme='eco'] body {
   background-image:
     radial-gradient(ellipse at var(--cursor-x, 12%) var(--cursor-y, 8%), color-mix(in srgb, var(--cyber-accent) 14%, transparent), transparent 32rem),
-    linear-gradient(color-mix(in srgb, var(--cyber-accent) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--cyber-accent) 1.5%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--cyber-accent) 3%, transparent) 1px, transparent 1px),
-    radial-gradient(ellipse at 90% 12%, color-mix(in srgb, var(--cyber-secondary) 13%, transparent), transparent 38rem);
+    radial-gradient(ellipse at 90% 12%, color-mix(in srgb, var(--cyber-secondary) 8%, transparent), transparent 38rem);
   background-size: auto, 48px 48px, 48px 48px, auto;
 }
 :root[data-theme='dark'] body::before {
@@ -74,14 +74,14 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .34;
+  opacity: .10;
   background-image:
     radial-gradient(1px 1px at 8% 18%, rgb(var(--cyber-accent-rgb) / .8) 98%, transparent),
     radial-gradient(1px 1px at 31% 72%, rgb(var(--cyber-accent-rgb) / .65) 98%, transparent),
     radial-gradient(1.5px 1.5px at 68% 24%, rgb(var(--cyber-accent-rgb) / .7) 98%, transparent),
     radial-gradient(1px 1px at 86% 82%, rgb(var(--cyber-accent-rgb) / .6) 98%, transparent);
   background-size: 173px 191px, 227px 211px, 191px 223px, 241px 197px;
-  animation: cyber-drift 48s linear infinite;
+  animation: cyber-drift 64s linear infinite;
 }
 @keyframes cyber-drift {
   from { background-position: 0 0, 0 0, 0 0, 0 0; }

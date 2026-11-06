@@ -18,8 +18,8 @@ test('central tokens define the neon spectrum and semantic theme contract', () =
   for (const token of ['--ux-bg','--ux-panel','--ux-line','--ux-ink','--ux-muted','--ux-cyan','--ux-violet','--bg-primary','--surface-primary','--text-primary','--border-color','--input-bg','--status-success']) {
     assert.ok(css.includes(token), 'missing design token: ' + token);
   }
-  for (const color of ['#050816','#080e1d','#00e5ff','#2979ff','#a855f7','#39ff88','#ff38d1']) {
-    assert.ok(css.toLowerCase().includes(color), 'missing palette color: ' + color);
+  for (const color of ['#070914','#0D1224','#111A30','#00F5FF','#3B82F6','#A855F7','#39FF88','#FF3CAC']) {
+    assert.ok(css.toLowerCase().includes(color.toLowerCase()), 'missing palette color: ' + color);
   }
   assert.match(css, /data-theme='dark'/);
   assert.match(css, /data-theme='light'/);
