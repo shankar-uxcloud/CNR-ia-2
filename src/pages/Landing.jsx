@@ -41,7 +41,7 @@ const FEATURES = [
 export default function Landing() {
   return (
     <div className="bg-bg">
-      <section className="relative isolate flex min-h-screen flex-col overflow-hidden bg-[var(--landing-bg)] text-white">
+      <section className="relative isolate flex min-h-screen flex-col overflow-hidden landing-hero text-white">
         <HeroArt />
         <div className="absolute inset-0 -z-0 landing-hero-veil" aria-hidden="true" />
         <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
@@ -50,10 +50,10 @@ export default function Landing() {
         </header>
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-5 pb-24 pt-10 sm:px-8">
           <p className="animate-rise inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-1.5 text-xs font-semibold tracking-wider landing-accent-text"><span className="h-1.5 w-1.5 rounded-full landing-cta" />{SUBJECT.code} · VTU 10-MARK EXAMINATION</p>
-          <h1 className="animate-rise mt-6 max-w-3xl text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl" style={{ animationDelay: '80ms' }}>Master Every Concept. <span className="text-emerald-300">Prepare with Confidence.</span></h1>
+          <h1 className="animate-rise mt-6 max-w-3xl text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl" style={{ animationDelay: '80ms' }}>Master Every Concept. <span className="landing-accent-text">Prepare with Confidence.</span></h1>
           <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-white/70" style={{ animationDelay: '160ms' }}>{SUBJECT.name}: ten important questions from Modules 3, 4 and 5 – answered in full 10-mark format from your own study notes, with thirteen labelled diagrams.</p>
           <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '240ms' }}>
-            <a href="#/dashboard" className="inline-flex items-center gap-2 rounded-xl bg-emerald-400 px-6 py-3.5 text-[15px] font-semibold text-[var(--landing-cta-text)] shadow-lift transition hover:brightness-110 active:scale-[.98]">Start Preparing <ArrowRight size={18} /></a>
+            <a href="#/dashboard" className="inline-flex items-center gap-2 rounded-xl landing-cta px-6 py-3.5 text-[15px] font-semibold text-[var(--landing-cta-text)] shadow-lift transition hover:brightness-110 active:scale-[.98]">Start Preparing <ArrowRight size={18} /></a>
             <a href="#/questions" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-6 py-3.5 text-[15px] font-semibold transition hover:bg-white/15">Browse the 10 questions</a>
           </div>
           <dl className="animate-rise mt-14 grid max-w-xl grid-cols-3 gap-6 border-t border-white/15 pt-6" style={{ animationDelay: '320ms' }}>
@@ -106,7 +106,7 @@ export default function Landing() {
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map(([I, t, d]) => <div key={t} className="card p-6"><div className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-brand/12 text-brand"><I size={21} /></div><h3 className="font-semibold">{t}</h3><p className="mt-1 text-sm text-mute">{d}</p></div>)}
         </div>
-        <div className="mt-12 flex flex-col items-center rounded-3xl bg-navy px-6 py-12 text-center text-white"><h2 className="text-2xl font-bold sm:text-3xl">Ready to begin?</h2><p className="mt-2 text-white/65">Open the dashboard and start with Question 1.</p><a href="#/dashboard" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-emerald-400 px-6 py-3 font-semibold text-[var(--landing-cta-text)] hover:bg-emerald-300">Start Preparing <ArrowRight size={18} /></a></div>
+        <div className="mt-12 flex flex-col items-center rounded-3xl bg-navy px-6 py-12 text-center text-white"><h2 className="text-2xl font-bold sm:text-3xl">Ready to begin?</h2><p className="mt-2 text-white/65">Open the dashboard and start with Question 1.</p><a href="#/dashboard" className="mt-6 inline-flex items-center gap-2 rounded-xl landing-cta px-6 py-3 font-semibold text-[var(--landing-cta-text)] hover:brightness-110">Start Preparing <ArrowRight size={18} /></a></div>
         <p className="mt-8 text-center text-xs text-mute">Answers are prepared from your three uploaded Module 3, 4 and 5 study documents. Exam preparation aid only – no marks are guaranteed.</p>
       </section>
     </div>
