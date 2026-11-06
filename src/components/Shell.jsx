@@ -33,7 +33,8 @@ function ThemePicker({ className = '' }) {
           aria-label={`Use ${item.label} theme`} aria-pressed={cyberTheme === item.value}
           className="theme-picker-btn" title={item.label}>
           <span className="theme-picker-swatch" style={{ background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})` }} aria-hidden="true" />
-          <span>{item.label}</span>
+          <span className="theme-picker-label">{item.label}</span>
+          <span className="theme-picker-check" aria-hidden="true">✓</span>
         </button>
       ))}
     </div>
