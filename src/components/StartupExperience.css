@@ -1,7 +1,7 @@
 .startup-screen {
-  --startup-cyan: #57e8ff;
-  --startup-blue: #6e9dff;
-  --startup-mint: #8ce8c1;
+  --startup-cyan: #00F5FF;
+  --startup-blue: #3B82F6;
+  --startup-mint: #39FF88;
   position: fixed;
   inset: 0;
   z-index: 99999;
@@ -10,7 +10,7 @@
   overflow: hidden;
   isolation: isolate;
   color: #eef5ff;
-  background: #07101d;
+  background: radial-gradient(ellipse at 50% 44%, #0D1730 0%, #090E1F 42%, #070914 78%);
   opacity: 1;
   visibility: visible;
   transition: opacity 620ms cubic-bezier(.22,.75,.25,1), visibility 620ms ease;
@@ -78,7 +78,7 @@
 .startup-status-indicator { display: grid; place-items: center; width: 16px; height: 16px; border: 1px solid rgba(140,232,193,.3); border-radius: 50%; }
 .startup-status-indicator i { width: 5px; height: 5px; border-radius: 50%; background: var(--startup-mint); box-shadow: 0 0 8px var(--startup-mint); }
 .startup-progress-track { height: 3px; margin-top: 12px; overflow: hidden; border-radius: 9px; background: rgba(143,174,208,.15); }
-.startup-progress-track span { position: relative; display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #438dff, #57e8ff 62%, #8ce8c1); box-shadow: 0 0 13px rgba(87,232,255,.55); transition: width 90ms linear; }
+.startup-progress-track span { position: relative; display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #3B82F6, #00F5FF 62%, #39FF88); box-shadow: 0 0 13px rgba(87,232,255,.55); transition: width 90ms linear; }
 .startup-progress-track span::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation: startup-progress-sheen 1.8s ease-in-out infinite; }
 .startup-status-bottom { margin-top: 9px; color: #7187a1; font-size: 9px; }
 .startup-status-bottom > span:first-child { animation: startup-status-in 260ms ease both; }
@@ -86,7 +86,7 @@
 .startup-footer-brand { display: flex; align-items: center; gap: 9px; color: #6f879f; font-size: 8px; font-weight: 700; letter-spacing: .15em; }
 .startup-footer-brand svg:first-child { color: var(--startup-mint); }
 .startup-footer-brand svg:last-child { color: #9d9aff; }
-.startup-edge-progress { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; height: 2px; transform-origin: left center; background: linear-gradient(90deg, #438dff, #57e8ff, #8ce8c1); box-shadow: 0 0 12px rgba(87,232,255,.5); transition: transform 90ms linear; }
+.startup-edge-progress { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; height: 2px; transform-origin: left center; background: linear-gradient(90deg, #3B82F6, #00F5FF, #39FF88); box-shadow: 0 0 12px rgba(87,232,255,.5); transition: transform 90ms linear; }
 @keyframes startup-earth-drift { from { transform: translate3d(0, 4px, 0) rotate(-3deg); } to { transform: translate3d(0, -5px, 0) rotate(3deg); } }
 @keyframes startup-progress-sheen { from { transform: translateX(-110%); } to { transform: translateX(110%); } }
 @keyframes startup-status-in { from { opacity: .25; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
@@ -139,3 +139,124 @@ html[data-theme="light"] .startup-counter-label { color: #55718c; }
 html[data-theme="light"] .startup-status-heading { color: #435d78; }
 html[data-theme="light"] .startup-status-heading strong { color: #1c3854; }
 html[data-theme="light"] .startup-progress-track { background: rgba(48,87,126,.14); }
+
+
+/* Cinematic holographic startup pass — visual-only enhancement. */
+.startup-screen {
+  background:
+    radial-gradient(ellipse at 50% 46%, rgb(0 245 255 / .075), transparent 30rem),
+    radial-gradient(ellipse at 16% 12%, rgb(59 130 246 / .12), transparent 34rem),
+    radial-gradient(ellipse at 86% 84%, rgb(168 85 247 / .09), transparent 32rem),
+    #070914;
+}
+.startup-backdrop-grid {
+  opacity: .18;
+  background-size: 56px 56px;
+  animation: startup-grid-drift 34s linear infinite;
+}
+.startup-glow--cyan { animation: startup-glow-breathe 9s ease-in-out infinite alternate; }
+.startup-glow--violet { animation: startup-glow-breathe 12s ease-in-out -4s infinite alternate-reverse; }
+.startup-earth-wrap {
+  position: absolute;
+  opacity: .46;
+  filter: drop-shadow(0 0 26px rgb(0 245 255 / .2)) drop-shadow(0 0 70px rgb(59 130 246 / .12));
+  transform-style: preserve-3d;
+}
+.startup-earth-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -7%;
+  border: 1px solid rgb(0 245 255 / .18);
+  border-radius: 50%;
+  box-shadow: inset 0 0 35px rgb(0 245 255 / .045), 0 0 28px rgb(0 245 255 / .07);
+  pointer-events: none;
+  animation: startup-halo-pulse 5s ease-in-out infinite;
+}
+.startup-earth-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, transparent 43%, rgb(0 245 255 / .16) 50%, transparent 57%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: startup-scan-sweep 6.5s cubic-bezier(.45,0,.55,1) infinite;
+}
+.startup-earth { animation: startup-globe-turn 26s ease-in-out infinite alternate; }
+.startup-orbit--one { animation: startup-orbit-spin 32s linear infinite; }
+.startup-orbit--two { animation: startup-orbit-spin 46s linear infinite reverse; }
+.startup-orbit--one span { box-shadow: 0 0 13px 3px rgb(0 245 255 / .55); }
+.startup-orbit--two span { background: #A855F7; box-shadow: 0 0 13px 3px rgb(168 85 247 / .42); }
+.startup-counter { isolation: isolate; }
+.startup-counter::before,
+.startup-counter::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+.startup-counter::before {
+  inset: -5%;
+  border: 1px solid rgb(0 245 255 / .12);
+  box-shadow: 0 0 32px rgb(0 245 255 / .06), inset 0 0 24px rgb(59 130 246 / .045);
+  animation: startup-halo-pulse 4.8s ease-in-out infinite;
+}
+.startup-counter::after {
+  inset: -1.5%;
+  border: 1px dashed rgb(168 85 247 / .2);
+  transform: rotate(-14deg);
+  animation: startup-orbit-spin 54s linear infinite;
+}
+.startup-ring-value {
+  stroke-width: 2.6;
+  filter: drop-shadow(0 0 7px rgb(0 245 255 / .8)) drop-shadow(0 0 18px rgb(59 130 246 / .3));
+}
+.startup-counter-value strong { text-shadow: 0 0 34px rgb(0 245 255 / .2); }
+.startup-progress-track { height: 4px; background: rgb(148 163 184 / .13); }
+.startup-progress-track span { box-shadow: 0 0 15px rgb(0 245 255 / .45), 0 0 28px rgb(59 130 246 / .18); }
+.startup-progress-track span::after { animation-duration: 1.35s; }
+.startup-status-indicator i { animation: startup-signal-pulse 1.8s ease-in-out infinite; }
+.startup-brand-mark { border-color: rgb(0 245 255 / .42); box-shadow: 0 0 26px rgb(0 245 255 / .12), inset 0 0 18px rgb(0 245 255 / .08); }
+.startup-edge-progress { height: 2px; box-shadow: 0 0 16px rgb(0 245 255 / .62), 0 0 34px rgb(59 130 246 / .28); }
+
+@keyframes startup-grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: 56px 56px; }
+}
+@keyframes startup-glow-breathe {
+  from { opacity: .72; transform: scale(.94); }
+  to { opacity: 1; transform: scale(1.08); }
+}
+@keyframes startup-halo-pulse {
+  0%, 100% { opacity: .45; transform: scale(.985); }
+  50% { opacity: .95; transform: scale(1.015); }
+}
+@keyframes startup-scan-sweep {
+  0%, 12% { transform: translateY(-58%) rotate(-12deg); opacity: 0; }
+  30% { opacity: .85; }
+  62%, 100% { transform: translateY(58%) rotate(-12deg); opacity: 0; }
+}
+@keyframes startup-globe-turn {
+  0% { transform: perspective(900px) rotateY(-13deg) rotateZ(-3deg); }
+  100% { transform: perspective(900px) rotateY(13deg) rotateZ(3deg); }
+}
+@keyframes startup-orbit-spin { to { rotate: 360deg; } }
+@keyframes startup-signal-pulse {
+  0%, 100% { opacity: .55; box-shadow: 0 0 5px rgb(57 255 136 / .55); }
+  50% { opacity: 1; box-shadow: 0 0 12px rgb(57 255 136 / .95), 0 0 22px rgb(57 255 136 / .3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startup-backdrop-grid,
+  .startup-glow--cyan,
+  .startup-glow--violet,
+  .startup-earth,
+  .startup-earth-wrap::before,
+  .startup-earth-wrap::after,
+  .startup-orbit--one,
+  .startup-orbit--two,
+  .startup-counter::before,
+  .startup-counter::after,
+  .startup-status-indicator i { animation: none; }
+}
