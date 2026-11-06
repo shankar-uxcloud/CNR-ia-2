@@ -25,3 +25,6 @@ SVG components in `src/diagrams/` (shared helpers in `kit.jsx`), registered in `
 ## Source mapping
 Q01←M5 Q1 · Q02←M5 Q3 (+Q6 detail) · Q03←M5 Q7 · Q04←M5 Q8 (+Q9 categories) · Q05←M4 Q1 + Q7 · Q06←M4 Q2 (+M5 Q6) · Q07←M4 Q3 · Q08←M4 Q10 · Q09←M3 Q7 · Q10←M3 Q9 + Q10
 The uploaded documents contain no page numbers or figures, so none are cited.
+
+
+ https://shankar-uxcloud.github.io/CNR-ia-2/
