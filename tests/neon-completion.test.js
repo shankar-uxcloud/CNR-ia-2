@@ -1,36 +1,41 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+const read = (p) => fs.readFileSync(new URL('../' + p, import.meta.url), 'utf8');
+const main = read('src/main.jsx');
+const tokens = read('src/styles/tokens.css');
+const themes = read('src/styles/themes.css');
+const components = read('src/styles/components.css');
+const utilities = read('src/styles/utilities.css');
 
-const css = fs.readFileSync(new URL('../src/neon-completion.css', import.meta.url), 'utf8');
-const main = fs.readFileSync(new URL('../src/main.jsx', import.meta.url), 'utf8');
-
-test('Neon Completion 6.0 is loaded after the established design system', () => {
-  assert.match(main, /import '\.\/neon-completion\.css'/);
-  assert.match(main, /import '\.\/index\.css'/);
-  assert.ok(main.indexOf("import './index.css'") < main.indexOf("import './neon-completion.css'"));
-});
-
-test('global neon tokens and shared surfaces cover the complete interface', () => {
-  for (const token of ['--neon-bg:', '--neon-surface:', '--neon-cyan:', '--neon-purple:', '--neon-green:', '--neon-magenta:', '--neon-text:', '--neon-muted:']) {
-    assert.ok(css.includes(token), 'missing design token ' + token);
+test('the app loads a single ordered modular design system', () => {
+  const imports = ["./styles/global.css","./styles/tokens.css","./styles/themes.css","./styles/components.css","./styles/utilities.css"];
+  let previous = -1;
+  for (const path of imports) {
+    const index = main.indexOf(`import '${path}'`);
+    assert.ok(index > previous, 'missing or out-of-order stylesheet: ' + path);
+    previous = index;
   }
-  for (const selector of ['.card', 'aside', 'header.topbar', 'input,select,textarea', 'main table', '[role=\'dialog\']', '[role=\'alert\']', '.reading', '.visual-studio', '.lab-control', '.skeleton']) {
-    assert.ok(css.includes(selector), 'missing coverage for ' + selector);
+  assert.doesNotMatch(main, /index\.css|neon-completion\.css/);
+});
+
+test('semantic tokens cover backgrounds, surfaces, text, borders, controls and status', () => {
+  for (const token of ['--bg-primary','--bg-secondary','--surface-primary','--surface-elevated','--text-primary','--text-muted','--border-color','--input-bg','--button-primary-bg','--status-success','--status-warning','--status-danger']) {
+    assert.ok(tokens.includes(token), 'missing semantic token ' + token);
   }
+  for (const palette of ['ultra-cyber','arctic','purple','eco']) assert.ok(themes.includes(`data-neon-theme='${palette}'`));
 });
 
-test('neon completion preserves accessibility, responsive behavior and print output', () => {
-  assert.match(css, /:focus-visible/);
-  assert.match(css, /prefers-reduced-motion: reduce/);
-  assert.match(css, /max-width: 767px/);
-  assert.match(css, /@media print/);
-  assert.match(css, /color-scheme: dark/);
+test('component states use semantic variables without blanket important overrides', () => {
+  for (const selector of ['.card','aside nav a[aria-current','header.topbar','input','select','textarea','main table','.reading','.visual-studio','.lab-control','[role=\'dialog\']','[role=\'status\']']) {
+    assert.ok(components.includes(selector), 'missing component treatment ' + selector);
+  }
+  const all = [tokens,themes,components,utilities].join('\n');
+  assert.doesNotMatch(all, /!important/);
 });
 
-test('legacy utility surfaces are normalized only within dark themed content', () => {
-  assert.match(css, /\[data-theme='dark'\] main/);
-  assert.match(css, /bg-white/);
-  assert.match(css, /text-gray-900/);
-  assert.match(css, /border-gray-200/);
+test('responsive, reduced-motion and print behavior are centralized', () => {
+  assert.match(utilities, /max-width: 767px/);
+  assert.match(utilities, /prefers-reduced-motion: reduce/);
+  assert.match(utilities, /@media print/);
 });
