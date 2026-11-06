@@ -1,3 +1,5 @@
+@tailwind components;
+
 /* CNR-IA-2 · shared component skin.
    Components consume semantic tokens; no page-specific theme override is needed. */
 @layer components {
