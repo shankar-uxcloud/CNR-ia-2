@@ -8,7 +8,7 @@ import { Bar, modColor } from './ui';
 export function Logo({ light }) {
   return (
     <a href="#/" className="flex items-center gap-2.5" aria-label="VTU ExamPrep home">
-      <span className="grid h-9 w-9 place-items-center rounded-xl bg-navy text-[rgb(52_211_153)] ring-1 ring-white/10"><Leaf size={19} aria-hidden="true" /></span>
+      <span className="grid h-9 w-9 place-items-center rounded-xl bg-navy text-[var(--cyber-accent)] ring-1 ring-white/10"><Leaf size={19} aria-hidden="true" /></span>
       <span className="leading-tight">
         <span className={`block text-[15px] font-bold tracking-tight ${light ? 'text-white' : ''}`}>VTU EXAMPREP</span>
         <span className={`block text-[11px] font-medium ${light ? 'text-white/60' : 'text-mute'}`}>{SUBJECT.code}</span>
