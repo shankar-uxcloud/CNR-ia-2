@@ -4,7 +4,7 @@ import './StartupExperience.css';
 
 function getStage(value) {
   if (value <= 15) return 'Establishing your study space';
-  if (value <= 30) return 'Preparing your learning environment';
+  if (value <= 30) return 'Preparing your learning space';
   if (value <= 45) return 'Organizing the study workspace';
   if (value <= 60) return 'Setting up your practice space';
   if (value <= 75) return 'Preparing visual learning tools';
