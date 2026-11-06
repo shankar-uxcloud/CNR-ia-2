@@ -1,34 +1,115 @@
-/* CNR-IA-2 · Neon theme engine tokens and ambient treatment.
-   Theme state is applied once on <html>; no component owns a competing palette. */
+/* CNR-IA-2 · palette-aware neon theme engine.
+   Each palette owns the complete semantic surface system, not only its accent. */
 :root[data-theme='dark'][data-neon-theme='ultra-cyber'] {
-  --cyber-accent: #00F5FF; --cyber-accent-rgb: 0 245 255;
-  --cyber-secondary: #3B82F6; --cyber-tertiary: #39FF88;
-  --cyber-edge: rgb(0 245 255 / .24);
-  --c-brand: 0 245 255; --c-cyan: 59 130 246;
-  --ux-cyan: #00F5FF; --ux-violet: #A855F7; --ux-magenta: #FF3CAC;
+  color-scheme: dark;
+  --cyber-accent: #00f5ff; --cyber-accent-rgb: 0 245 255;
+  --cyber-secondary: #ff3cac; --cyber-tertiary: #a855f7;
+  --cyber-edge: rgb(0 245 255 / .28);
+  --cyber-glass: rgb(17 16 35 / .84);
+  --cyber-panel-shadow: 0 14px 38px rgb(0 0 0 / .34), 0 0 24px rgb(0 245 255 / .045);
+  --bg-primary: #080812; --bg-secondary: #10101f;
+  --surface-primary: #111121; --surface-secondary: #17162b; --surface-elevated: #201b35;
+  --text-primary: #f4f2ff; --text-secondary: #c5c1dc; --text-muted: #918da9;
+  --border-color: rgb(151 133 196 / .22); --border-active: #00f5ff;
+  --input-bg: #0d0d1c; --input-border: rgb(151 133 196 / .3);
+  --focus-ring: rgb(0 245 255 / .2);
+  --button-primary-bg: #00d9e8; --button-primary-text: #061018;
+  --button-secondary-bg: #20172e;
+  --table-head-bg: #201b35; --table-row-alt: rgb(0 245 255 / .035); --code-bg: #0d0d1c;
+  --status-info: #00e5ff; --status-info-bg: #0b2936;
+  --c-bg: 8 8 18; --c-panel: 17 17 33; --c-sunk: 23 22 43; --c-line: 75 67 105;
+  --c-ink: 244 242 255; --c-mute: 145 141 169; --c-brand: 0 245 255; --c-cyan: 255 60 172;
+  --c-navy: 8 8 18; --c-shadow: 0 0 0;
+  --ux-cyan: #00f5ff; --ux-violet: #a855f7; --ux-magenta: #ff3cac; --ux-blue: #3b82f6;
+  --neon-bg: #080812; --neon-bg-raised: #10101f; --neon-surface: #111121; --neon-surface-raised: #201b35;
+  --neon-text: #f4f2ff; --neon-muted: #918da9;
+  --landing-bg: #080812; --landing-deep: #10101f; --landing-surface-a: #351b43; --landing-surface-b: #101b35; --landing-surface-c: #152b38;
+  --landing-accent: #00f5ff; --landing-cyan: #ff3cac; --landing-text: #f4f2ff; --landing-cta-text: #061018;
+  --ux-glow: 0 12px 34px rgb(0 0 0 / .3), 0 0 22px rgb(0 245 255 / .07);
 }
 :root[data-theme='dark'][data-neon-theme='arctic'] {
-  --cyber-accent: #8be9ff; --cyber-accent-rgb: 139 233 255;
-  --cyber-secondary: #8caeff; --cyber-tertiary: #c0f7ee;
-  --cyber-edge: rgb(139 233 255 / .3);
-  --c-brand: 139 210 255; --c-cyan: 157 224 255;
-  --ux-cyan: #8be9ff; --ux-violet: #8caeff; --ux-magenta: #c5d9ff;
+  color-scheme: dark;
+  --cyber-accent: #7de8ff; --cyber-accent-rgb: 125 232 255;
+  --cyber-secondary: #4d9dff; --cyber-tertiary: #b8fff4;
+  --cyber-edge: rgb(125 232 255 / .3);
+  --cyber-glass: rgb(10 30 50 / .86);
+  --cyber-panel-shadow: 0 14px 38px rgb(0 0 0 / .32), 0 0 26px rgb(77 157 255 / .06);
+  --bg-primary: #061321; --bg-secondary: #0a1e32;
+  --surface-primary: #0b2035; --surface-secondary: #0e2942; --surface-elevated: #143650;
+  --text-primary: #eafaff; --text-secondary: #b8d9e8; --text-muted: #82a9bd;
+  --border-color: rgb(104 190 222 / .22); --border-active: #7de8ff;
+  --input-bg: #081a2b; --input-border: rgb(104 190 222 / .3);
+  --focus-ring: rgb(125 232 255 / .22);
+  --button-primary-bg: #65dfff; --button-primary-text: #052031;
+  --button-secondary-bg: #10314b;
+  --table-head-bg: #143650; --table-row-alt: rgb(125 232 255 / .035); --code-bg: #081a2b;
+  --status-info: #7de8ff; --status-info-bg: #10364a;
+  --c-bg: 6 19 33; --c-panel: 11 32 53; --c-sunk: 14 41 66; --c-line: 52 91 116;
+  --c-ink: 234 250 255; --c-mute: 130 169 189; --c-brand: 125 232 255; --c-cyan: 77 157 255;
+  --c-navy: 6 19 33; --c-shadow: 0 0 0;
+  --ux-cyan: #7de8ff; --ux-violet: #8caeff; --ux-magenta: #b8fff4; --ux-blue: #4d9dff;
+  --neon-bg: #061321; --neon-bg-raised: #0a1e32; --neon-surface: #0b2035; --neon-surface-raised: #143650;
+  --neon-text: #eafaff; --neon-muted: #82a9bd;
+  --landing-bg: #061321; --landing-deep: #0a1e32; --landing-surface-a: #10445a; --landing-surface-b: #0c2c4b; --landing-surface-c: #10404b;
+  --landing-accent: #7de8ff; --landing-cyan: #4d9dff; --landing-text: #eafaff; --landing-cta-text: #052031;
+  --ux-glow: 0 12px 34px rgb(0 0 0 / .28), 0 0 24px rgb(77 157 255 / .08);
 }
 :root[data-theme='dark'][data-neon-theme='purple'] {
+  color-scheme: dark;
   --cyber-accent: #c084fc; --cyber-accent-rgb: 192 132 252;
   --cyber-secondary: #f472d0; --cyber-tertiary: #8be9ff;
-  --cyber-edge: rgb(192 132 252 / .3);
-  --c-brand: 192 132 252; --c-cyan: 244 114 208;
-  --ux-cyan: #c084fc; --ux-violet: #a78bfa; --ux-magenta: #f472d0;
+  --cyber-edge: rgb(192 132 252 / .32);
+  --cyber-glass: rgb(28 16 48 / .86);
+  --cyber-panel-shadow: 0 14px 38px rgb(0 0 0 / .34), 0 0 26px rgb(192 132 252 / .065);
+  --bg-primary: #10091e; --bg-secondary: #1a1030;
+  --surface-primary: #1d1233; --surface-secondary: #261740; --surface-elevated: #321e50;
+  --text-primary: #fbf4ff; --text-secondary: #ddc9f0; --text-muted: #ad91c5;
+  --border-color: rgb(190 139 231 / .24); --border-active: #c084fc;
+  --input-bg: #160d28; --input-border: rgb(190 139 231 / .32);
+  --focus-ring: rgb(192 132 252 / .22);
+  --button-primary-bg: #c084fc; --button-primary-text: #1a0928;
+  --button-secondary-bg: #2b1943;
+  --table-head-bg: #321e50; --table-row-alt: rgb(192 132 252 / .04); --code-bg: #160d28;
+  --status-info: #c4a1ff; --status-info-bg: #34204d;
+  --c-bg: 16 9 30; --c-panel: 29 18 51; --c-sunk: 38 23 64; --c-line: 91 62 119;
+  --c-ink: 251 244 255; --c-mute: 173 145 197; --c-brand: 192 132 252; --c-cyan: 244 114 208;
+  --c-navy: 16 9 30; --c-shadow: 0 0 0;
+  --ux-cyan: #c084fc; --ux-violet: #a78bfa; --ux-magenta: #f472d0; --ux-blue: #8be9ff;
+  --neon-bg: #10091e; --neon-bg-raised: #1a1030; --neon-surface: #1d1233; --neon-surface-raised: #321e50;
+  --neon-text: #fbf4ff; --neon-muted: #ad91c5;
+  --landing-bg: #10091e; --landing-deep: #1a1030; --landing-surface-a: #46245f; --landing-surface-b: #281843; --landing-surface-c: #3c1c48;
+  --landing-accent: #c084fc; --landing-cyan: #f472d0; --landing-text: #fbf4ff; --landing-cta-text: #1a0928;
+  --ux-glow: 0 12px 34px rgb(0 0 0 / .3), 0 0 24px rgb(192 132 252 / .08);
 }
 :root[data-theme='dark'][data-neon-theme='eco'] {
+  color-scheme: dark;
   --cyber-accent: #4ade80; --cyber-accent-rgb: 74 222 128;
   --cyber-secondary: #2dd4bf; --cyber-tertiary: #bef264;
   --cyber-edge: rgb(74 222 128 / .3);
-  --c-brand: 74 222 128; --c-cyan: 45 212 191;
-  --ux-cyan: #2dd4bf; --ux-violet: #84cc16; --ux-magenta: #a3e635;
+  --cyber-glass: rgb(9 32 22 / .86);
+  --cyber-panel-shadow: 0 14px 38px rgb(0 0 0 / .32), 0 0 26px rgb(74 222 128 / .055);
+  --bg-primary: #07170f; --bg-secondary: #0c2118;
+  --surface-primary: #0e281c; --surface-secondary: #143323; --surface-elevated: #1b402b;
+  --text-primary: #effff4; --text-secondary: #c0e5cb; --text-muted: #8eb79b;
+  --border-color: rgb(100 190 128 / .22); --border-active: #4ade80;
+  --input-bg: #091d14; --input-border: rgb(100 190 128 / .3);
+  --focus-ring: rgb(74 222 128 / .2);
+  --button-primary-bg: #4ade80; --button-primary-text: #062013;
+  --button-secondary-bg: #173b29;
+  --table-head-bg: #1b402b; --table-row-alt: rgb(74 222 128 / .035); --code-bg: #091d14;
+  --status-info: #5eead4; --status-info-bg: #103a32;
+  --c-bg: 7 23 15; --c-panel: 14 40 28; --c-sunk: 20 51 35; --c-line: 52 91 65;
+  --c-ink: 239 255 244; --c-mute: 142 183 155; --c-brand: 74 222 128; --c-cyan: 45 212 191;
+  --c-navy: 7 23 15; --c-shadow: 0 0 0;
+  --ux-cyan: #2dd4bf; --ux-violet: #84cc16; --ux-magenta: #a3e635; --ux-blue: #4ade80;
+  --neon-bg: #07170f; --neon-bg-raised: #0c2118; --neon-surface: #0e281c; --neon-surface-raised: #1b402b;
+  --neon-text: #effff4; --neon-muted: #8eb79b;
+  --landing-bg: #07170f; --landing-deep: #0c2118; --landing-surface-a: #174b31; --landing-surface-b: #123a2b; --landing-surface-c: #21452c;
+  --landing-accent: #4ade80; --landing-cyan: #2dd4bf; --landing-text: #effff4; --landing-cta-text: #062013;
+  --ux-glow: 0 12px 34px rgb(0 0 0 / .28), 0 0 24px rgb(74 222 128 / .07);
 }
 :root[data-theme='light'] {
+  color-scheme: light;
   --cyber-accent: #087f9f; --cyber-accent-rgb: 8 127 159;
   --cyber-secondary: #7044c8; --cyber-tertiary: #12865b;
   --cyber-glass: rgb(255 255 255 / .82);
@@ -38,35 +119,24 @@
   --border-active: var(--cyber-accent);
   --button-primary-bg: var(--cyber-accent);
   --diagram-node-active: var(--cyber-accent);
+  --landing-accent: var(--cyber-accent);
+  --landing-cyan: var(--cyber-secondary);
+  --ux-cyan: var(--cyber-accent);
+  --ux-violet: var(--cyber-tertiary);
+  --ux-magenta: var(--cyber-secondary);
+  --ux-blue: var(--cyber-secondary);
 }
-
 html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   background-image:
-    radial-gradient(ellipse at 12% 8%, color-mix(in srgb, var(--cyber-accent) 7%, transparent), transparent 34rem),
-    radial-gradient(ellipse at 88% 22%, color-mix(in srgb, var(--cyber-secondary) 5%, transparent), transparent 38rem);
-}
-:root[data-theme='dark'] body {
-  background-image:
-    radial-gradient(ellipse at var(--cursor-x, 12%) var(--cursor-y, 8%), rgb(var(--cyber-accent-rgb) / .075), transparent 30rem),
-    linear-gradient(rgb(var(--cyber-accent-rgb) / .014) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--cyber-accent-rgb) / .022) 1px, transparent 1px),
-    radial-gradient(ellipse at 90% 14%, color-mix(in srgb, var(--cyber-secondary) 9%, transparent), transparent 40rem),
-    radial-gradient(ellipse at 48% 100%, rgb(59 130 246 / .04), transparent 42rem);
-  background-size: auto, 48px 48px, 48px 48px, auto, auto;
-  background-attachment: fixed;
-}
-:root[data-theme='dark'][data-neon-theme='arctic'] body,
-:root[data-theme='dark'][data-neon-theme='purple'] body,
-:root[data-theme='dark'][data-neon-theme='eco'] body {
-  background-image:
-    radial-gradient(ellipse at var(--cursor-x, 12%) var(--cursor-y, 8%), color-mix(in srgb, var(--cyber-accent) 14%, transparent), transparent 32rem),
+    radial-gradient(ellipse at var(--cursor-x, 12%) var(--cursor-y, 8%), color-mix(in srgb, var(--cyber-accent) 12%, transparent), transparent 32rem),
+    radial-gradient(ellipse at 90% 12%, color-mix(in srgb, var(--cyber-secondary) 10%, transparent), transparent 38rem),
     linear-gradient(color-mix(in srgb, var(--cyber-accent) 1.5%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--cyber-accent) 3%, transparent) 1px, transparent 1px),
-    radial-gradient(ellipse at 90% 12%, color-mix(in srgb, var(--cyber-secondary) 8%, transparent), transparent 38rem);
-  background-size: auto, 48px 48px, 48px 48px, auto;
+    linear-gradient(90deg, color-mix(in srgb, var(--cyber-accent) 2%, transparent) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+  background-attachment: fixed;
 }
 :root[data-theme='dark'] body::before {
   content: "";
@@ -74,7 +144,7 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .10;
+  opacity: .09;
   background-image:
     radial-gradient(1px 1px at 8% 18%, rgb(var(--cyber-accent-rgb) / .8) 98%, transparent),
     radial-gradient(1px 1px at 31% 72%, rgb(var(--cyber-accent-rgb) / .65) 98%, transparent),

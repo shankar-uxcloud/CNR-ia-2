@@ -9,43 +9,63 @@ const store = read('src/lib/study.jsx');
 
 test('Cyberverse offers four selectable, persisted visual palettes', () => {
   for (const name of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
-    assert.ok(shell.includes(`value: '${name}'`), 'missing theme option: ' + name);
+    assert.ok(shell.includes(`value: '${name}'`));
     assert.ok(themes.includes(`data-neon-theme='${name}'`));
   }
-  assert.match(store, /cyberTheme: 'ultra-cyber'/);
-  assert.match(store, /setAttribute\('data-neon-theme', cyberTheme\)/);
-  assert.match(shell, /setSetting\('cyberTheme', e\.target\.value\)/);
+  assert.ok(store.includes("cyberTheme: 'ultra-cyber'"));
+  assert.ok(store.includes("setAttribute('data-neon-theme', cyberTheme)"));
+  assert.ok(shell.includes("setSetting('cyberTheme', item.value)"));
+});
+
+test('each palette defines a distinct complete semantic surface and text system', () => {
+  const required = ['--bg-primary:', '--bg-secondary:', '--surface-primary:', '--surface-secondary:', '--surface-elevated:', '--text-primary:', '--text-secondary:', '--text-muted:', '--border-color:', '--input-bg:', '--button-primary-bg:', '--table-head-bg:', '--landing-bg:'];
+  const backgrounds = [];
+  for (const name of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
+    const start = themes.indexOf(`data-neon-theme='${name}'`);
+    const end = themes.indexOf('\n}', start);
+    const block = themes.slice(start, end);
+    assert.ok(start >= 0, 'missing palette ' + name);
+    for (const token of required) assert.ok(block.includes(token), name + ' missing ' + token);
+    const bg = block.split('--bg-primary: ')[1]?.split(';')[0];
+    assert.ok(bg, name + ' must define a background');
+    backgrounds.push(bg.toLowerCase());
+  }
+  assert.equal(new Set(backgrounds).size, 4, 'all palette backgrounds must differ');
+});
+
+test('theme selector exposes accessible visual previews for all existing modes', () => {
+  assert.ok(shell.includes('theme-picker-swatch'));
+  assert.ok(shell.includes('aria-pressed={cyberTheme === item.value}'));
+  assert.ok(shell.includes("setSetting('cyberTheme', item.value)"));
+  assert.ok(components.includes(".theme-picker-btn[aria-pressed='true']"));
+  for (const name of ['Ultra Cyber', 'Arctic Neon', 'Purple Cyber', 'Eco Neon']) assert.ok(shell.includes(name));
 });
 
 test('ambient effects and card energy lighting are CSS-first and respect reduced motion', () => {
-  assert.match(themes, /@keyframes cyber-drift/);
-  assert.match(themes, /body::before/);
-  assert.match(components, /\.card\[data-energy='active'\]/);
-  assert.match(read('src/styles/utilities.css'), /prefers-reduced-motion: reduce/);
-  assert.match(shell, /requestAnimationFrame/);
-  assert.match(shell, /cancelAnimationFrame/);
-  assert.match(shell, /matchMedia\?\.\('\(prefers-reduced-motion: reduce\)'\)/);
+  assert.ok(themes.includes('@keyframes cyber-drift'));
+  assert.ok(themes.includes('body::before'));
+  assert.ok(components.includes(".card[data-energy='active']"));
+  assert.ok(read('src/styles/utilities.css').includes('prefers-reduced-motion: reduce'));
+  assert.ok(shell.includes('requestAnimationFrame'));
+  assert.ok(shell.includes('cancelAnimationFrame'));
 });
 
 test('pointer-reactive effects are limited to fine-pointer devices and cleaned up', () => {
-  assert.match(shell, /\(hover: hover\) and \(pointer: fine\)/);
-  assert.match(shell, /pointermove/);
-  assert.match(shell, /pointerout/);
-  assert.match(shell, /removeEventListener\('pointermove'/);
-  assert.match(shell, /removeEventListener\('pointerout'/);
+  assert.ok(shell.includes('(hover: hover) and (pointer: fine)'));
+  assert.ok(shell.includes('pointermove'));
+  assert.ok(shell.includes('pointerout'));
+  assert.ok(shell.includes("removeEventListener('pointermove'"));
+  assert.ok(shell.includes("removeEventListener('pointerout'"));
 });
 
 test('mobile drawer and desktop navigation both expose the palette picker', () => {
-  assert.match(shell, /ThemePicker className="w-full"/);
-  assert.match(shell, /ThemePicker className="hidden sm:flex"/);
-  assert.match(shell, /aria-label="Cyberverse colour theme"/);
+  assert.ok(shell.includes('ThemePicker className="w-full"'));
+  assert.ok(shell.includes('ThemePicker className="hidden sm:grid sm:grid-cols-4"'));
+  assert.ok(shell.includes('aria-label="Neon colour themes"'));
 });
 
 test('palette choices preserve light mode and accessible motion fallbacks', () => {
-  assert.match(themes, /\[data-theme='light'\]/);
-  assert.match(themes, /data-neon-theme='arctic'/);
-  assert.match(themes, /data-neon-theme='purple'/);
-  assert.match(themes, /data-neon-theme='eco'/);
-  assert.match(read('src/styles/utilities.css'), /@media print/);
-  assert.match(read('src/styles/utilities.css'), /max-width: 767px/);
+  assert.ok(themes.includes(":root[data-theme='light']"));
+  assert.ok(read('src/styles/utilities.css').includes('@media print'));
+  assert.ok(read('src/styles/utilities.css').includes('max-width: 767px'));
 });

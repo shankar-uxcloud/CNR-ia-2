@@ -18,15 +18,26 @@ export function Logo({ light }) {
 }
 
 const CYBER_THEMES = [
-  { value: 'ultra-cyber', label: 'Ultra Cyber Dark' },
-  { value: 'arctic', label: 'Arctic Neon' },
-  { value: 'purple', label: 'Purple Cyberverse' },
-  { value: 'eco', label: 'Eco Neon' },
+  { value: 'ultra-cyber', label: 'Ultra Cyber', colors: ['#00f5ff', '#ff3cac'] },
+  { value: 'arctic', label: 'Arctic Neon', colors: ['#7de8ff', '#4d9dff'] },
+  { value: 'purple', label: 'Purple Cyber', colors: ['#c084fc', '#f472d0'] },
+  { value: 'eco', label: 'Eco Neon', colors: ['#4ade80', '#2dd4bf'] },
 ];
 
 function ThemePicker({ className = '' }) {
   const { cyberTheme, setSetting } = useStudy();
-  return <label className={`flex min-w-0 items-center gap-2 ${className}`}><span className="sr-only">Cyberverse colour theme</span><select value={cyberTheme} onChange={(e) => setSetting('cyberTheme', e.target.value)} aria-label="Cyberverse colour theme" className="h-10 min-w-0 max-w-[170px] rounded-xl border border-line bg-panel px-2.5 text-xs font-semibold text-ink outline-none focus:border-brand">{CYBER_THEMES.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>;
+  return (
+    <div className={`theme-picker ${className}`} role="group" aria-label="Neon colour themes">
+      {CYBER_THEMES.map((item) => (
+        <button key={item.value} type="button" onClick={() => setSetting('cyberTheme', item.value)}
+          aria-label={`Use ${item.label} theme`} aria-pressed={cyberTheme === item.value}
+          className="theme-picker-btn" title={item.label}>
+          <span className="theme-picker-swatch" style={{ background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})` }} aria-hidden="true" />
+          <span>{item.label}</span>
+        </button>
+      ))}
+    </div>
+  );
 }
 
 export function ThemeBtn({ className = '' }) {
@@ -119,7 +130,7 @@ export default function Shell({ path, children }) {
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
           <Nav path={path} />
-          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-3"><span className="text-xs text-mute">Theme</span><ThemeBtn /><ThemePicker className="w-full" /></div>
+          <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><ThemeBtn /></div><ThemePicker className="w-full" /></div>
         </aside>
       )}
 
@@ -129,7 +140,7 @@ export default function Shell({ path, children }) {
           <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
-            <div className="flex items-center justify-between gap-2 border-t border-line px-4 py-3"><span className="text-xs text-mute">Cyberverse theme</span><ThemePicker /></div>
+            <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><ThemeBtn /></div><ThemePicker className="w-full" /></div>
           </div>
         </div>
       )}
@@ -144,7 +155,7 @@ export default function Shell({ path, children }) {
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
           <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><ThemeBtn /></div>
-          <ThemePicker className="hidden sm:flex" />
+          <ThemePicker className="hidden sm:grid sm:grid-cols-4" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
       )}
