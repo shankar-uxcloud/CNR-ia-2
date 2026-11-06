@@ -10,7 +10,7 @@ test('Neon dark mode is the first-visit default before and after React hydration
   assert.ok(store.includes("settings: { theme: 'dark'"));
   assert.ok(store.includes("const theme = state.settings.theme || 'dark'"));
   const html = read('index.html');
-  assert.ok(html.includes("var mode = settings.theme || 'dark'"));
+  assert.ok(html.includes("var mode = ['dark', 'light'].includes(settings.theme) ? settings.theme : 'dark'"));
   assert.ok(html.includes("setAttribute('data-visual-theme', mode === 'dark' ? 'neon' : 'light')"));
 });
 
