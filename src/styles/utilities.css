@@ -1,0 +1,44 @@
+/* Responsive, motion, overflow and print policies shared by every route. */
+:where(main, section, article, aside, header, footer) { min-width: 0; }
+main :where(.overflow-x-auto, table) { max-width: 100%; }
+@media (hover: hover) and (pointer: fine) {
+  .card.group:hover { transform: translateY(-2px); }
+}
+@media (max-width: 767px) {
+  [data-theme='dark'] .card { backdrop-filter: blur(8px); }
+  main :where(button, .btn) { min-height: 40px; }
+  main table { display: block; overflow-x: auto; }
+  [data-theme='dark'] body { background-size: auto, 32px 32px, 32px 32px, auto, auto; }
+  [data-theme='dark'] body::before { opacity: .22; animation-duration: 60s; }
+}
+@media (max-width: 420px) {
+  .reading { overflow-wrap: anywhere; }
+  .cyber-hud-cell { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms; animation-iteration-count: 1; transition-duration: .001ms; }
+  [data-theme='dark'] body::before, .dg .flow, .cyber-hud-signal { animation: none; }
+  .page-enter { animation: none; }
+}
+@media print {
+  :root, [data-theme='dark'] {
+    color-scheme: light;
+    --bg-primary: #ffffff; --bg-secondary: #f4f4f4; --surface-primary: #ffffff; --surface-secondary: #f8f8f8; --surface-elevated: #ffffff;
+    --text-primary: #111111; --text-secondary: #333333; --text-muted: #555555; --border-color: #cccccc; --border-active: #555555;
+    --c-bg: 255 255 255; --c-panel: 255 255 255; --c-sunk: 244 244 244; --c-line: 205 205 205; --c-ink: 0 0 0; --c-mute: 70 70 70; --c-brand: 4 120 87; --c-shadow: 0 0 0;
+    --dg-bg:#ffffff; --dg-ink:#111111; --dg-line:#777777; --dg-box:#ffffff; --dg-k:#444444;
+  }
+  body { background: #ffffff; background-image: none; color: #111111; }
+  body::before { display: none; }
+  .no-print, aside, header.topbar, .progress-bar, .fab { display: none; }
+  main { margin: 0; padding: 0; }
+  .reading { max-width: 100%; font-size: 11.5pt; line-height: 1.55; }
+  .sect-body[hidden] { display: block; }
+  .sect-btn svg { display: none; }
+  .avoid-break { break-inside: avoid; }
+  .diagram-frame { break-inside: avoid; box-shadow: none; }
+  .print-head { display: block; }
+  a { color: inherit; text-decoration: none; }
+  .card { color: #111111; background: #ffffff; border-color: #cccccc; box-shadow: none; }
+}

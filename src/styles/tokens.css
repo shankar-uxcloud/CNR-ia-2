@@ -1,0 +1,167 @@
+/* CNR-IA-2 · NEON ROOT DESIGN TOKENS
+   All theme-dependent UI values live here. Component CSS consumes semantic aliases. */
+:root {
+  color-scheme: light;
+  --bg-primary: #f7f8f6;
+  --bg-secondary: #eef2f0;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f7faf9;
+  --surface-elevated: #ffffff;
+  --text-primary: #0c1426;
+  --text-secondary: #526176;
+  --text-muted: #718096;
+  --border-color: #e0e6e4;
+  --border-active: #087f9f;
+  --input-bg: #ffffff;
+  --input-border: #d5dfdf;
+  --focus-ring: rgb(8 127 159 / .2);
+  --button-primary-bg: #087f9f;
+  --button-primary-text: #ffffff;
+  --button-secondary-bg: #f1f5f5;
+  --overlay-bg: rgb(8 18 32 / .56);
+  --table-head-bg: #eef2f0;
+  --table-row-alt: #f8fbfa;
+  --code-bg: #edf3f5;
+  --status-success: #087f5b;
+  --status-success-bg: #e8f8f1;
+  --status-warning: #b45309;
+  --status-warning-bg: #fff7e8;
+  --status-danger: #b91c1c;
+  --status-danger-bg: #fef0f0;
+  --status-info: #087f9f;
+  --status-info-bg: #e8f7fb;
+
+  --c-bg: 247 248 246;
+  --c-panel: 255 255 255;
+  --c-sunk: 238 242 240;
+  --c-line: 224 230 228;
+  --c-ink: 12 20 38;
+  --c-mute: 98 112 132;
+  --c-brand: 8 127 159;
+  --c-cyan: 8 145 178;
+  --c-navy: 11 18 38;
+  --c-shadow: 11 18 38;
+  --m3: 180 110 20;
+  --m4: 5 150 105;
+  --m5: 8 145 178;
+  --read-size: 18px;
+  --read-width: 760px;
+
+  --neon-cyan: #00e5ff;
+  --neon-blue: #2979ff;
+  --neon-purple: #a855f7;
+  --neon-violet: #7c3aed;
+  --neon-green: #39ff88;
+  --neon-magenta: #ff38d1;
+  --landing-bg: #06101f;
+  --landing-deep: #081626;
+  --landing-surface-a: #0f3a44;
+  --landing-surface-b: #0a1e30;
+  --landing-surface-c: #0c2e3b;
+  --landing-accent: var(--cyber-accent);
+  --landing-cyan: #22d3ee;
+  --landing-text: #e2e8f0;
+  --landing-cta-text: #04130d;
+  --neon-bg: #050816;
+  --neon-bg-raised: #080e1d;
+  --neon-surface: #0d1729;
+  --neon-surface-raised: #111f36;
+  --neon-text: #f1f5ff;
+  --neon-muted: #a7b4ce;
+  --neon-radius: 16px;
+  --radius-small: 8px;
+  --radius-medium: 14px;
+  --radius-large: 20px;
+  --transition-fast: 180ms ease;
+  --transition-normal: 280ms ease;
+  --glow-cyan: 0 0 10px rgb(0 229 255 / .2), 0 0 25px rgb(0 229 255 / .1);
+  --glow-purple: 0 0 10px rgb(168 85 247 / .2), 0 0 25px rgb(168 85 247 / .1);
+
+  /* Existing component aliases retained for compatibility during migration. */
+  --ux-bg: var(--bg-primary);
+  --ux-panel: var(--surface-primary);
+  --ux-line: var(--border-color);
+  --ux-ink: var(--text-primary);
+  --ux-muted: var(--text-muted);
+  --ux-cyan: var(--neon-cyan);
+  --ux-violet: var(--neon-purple);
+  --ux-magenta: var(--neon-magenta);
+  --ux-blue: var(--neon-blue);
+  --ux-green: var(--neon-green);
+  --ux-glow: 0 8px 28px rgb(8 24 42 / .08);
+  --cyber-accent: #087f9f;
+  --cyber-accent-rgb: 8 127 159;
+  --cyber-secondary: #7044c8;
+  --cyber-tertiary: #12865b;
+  --cyber-glass: rgb(255 255 255 / .82);
+  --cyber-edge: rgb(8 127 159 / .2);
+  --cyber-panel-shadow: 0 10px 30px rgb(8 24 42 / .08);
+  --diagram-node-active: #087f9f;
+  --diagram-node-active-ink: #ffffff;
+
+  /* SVG learning-diagram semantic palette. These are diagram meaning, not UI chrome. */
+  --dg-bg: #fbfcfb; --dg-ink: #0f172a; --dg-line: #94a3b8; --dg-box: #ffffff; --dg-k: #475569;
+  --dg-g: #059669; --dg-g-bg: #e8f8f1; --dg-w: #ea580c; --dg-w-bg: #fff1e6; --dg-b: #2563eb; --dg-b-bg: #e8f0fe;
+  --dg-v: #7c3aed; --dg-v-bg: #f1ecfe; --dg-c: #0891b2; --dg-c-bg: #e3f6fa; --dg-r: #dc2626; --dg-r-bg: #fdecec;
+  --dg-sun: #f59e0b; --dg-land: #dbe7d2; --dg-soil: #ece0cf; --dg-sea: #bcd9f2; --dg-gw: #a9c9ea; --dg-cloud: #ffffff;
+  --dg-leaf: #4ade80; --dg-trunk: #8b6b4a; --dg-plate: #64748b; --dg-hop: #e2e8f0; --dg-bag: #f3ead2; --dg-tube: #cbd5e1;
+  --dg-str: #f3f0fd; --dg-drop: #93c5fd; --dg-atm: rgba(8,145,178,.10);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-primary: #050816;
+  --bg-secondary: #080e1d;
+  --surface-primary: #0d1729;
+  --surface-secondary: #101c31;
+  --surface-elevated: #15233d;
+  --text-primary: #f1f5ff;
+  --text-secondary: #c3d0e5;
+  --text-muted: #9aabc5;
+  --border-color: rgb(120 163 205 / .22);
+  --border-active: var(--cyber-accent);
+  --input-bg: #081222;
+  --input-border: rgb(120 163 205 / .3);
+  --focus-ring: color-mix(in srgb, var(--cyber-accent) 22%, transparent);
+  --button-primary-bg: var(--cyber-accent);
+  --button-primary-text: #04121c;
+  --button-secondary-bg: #111f36;
+  --overlay-bg: rgb(2 6 18 / .76);
+  --table-head-bg: #12243c;
+  --table-row-alt: rgb(0 229 255 / .035);
+  --code-bg: #091426;
+  --status-success: #39ff88;
+  --status-success-bg: #10352d;
+  --status-warning: #ffbd59;
+  --status-warning-bg: #392b18;
+  --status-danger: #ff718c;
+  --status-danger-bg: #401d30;
+  --status-info: #00e5ff;
+  --status-info-bg: #0b3441;
+
+  --c-bg: 5 8 22;
+  --c-panel: 13 23 41;
+  --c-sunk: 16 29 49;
+  --c-line: 43 62 91;
+  --c-ink: 241 245 255;
+  --c-mute: 167 180 206;
+  --c-brand: 0 229 255;
+  --c-cyan: 57 255 136;
+  --c-navy: 5 10 24;
+  --c-shadow: 0 8 24;
+  --m3: 255 189 89;
+  --m4: 57 255 136;
+  --m5: 0 229 255;
+
+  --dg-bg: #0b1427; --dg-ink: #e7f2ff; --dg-line: #42607f; --dg-box: #111e35; --dg-k: #9bb2cd;
+  --dg-g: #39ff88; --dg-g-bg: #10352d; --dg-w: #ffbd59; --dg-w-bg: #392b18;
+  --dg-b: #4c9cff; --dg-b-bg: #10294b; --dg-v: #bd83ff; --dg-v-bg: #2a1c47;
+  --dg-c: #00e5ff; --dg-c-bg: #0b3441; --dg-r: #ff718c; --dg-r-bg: #401d30;
+  --dg-sun: #ffca68; --dg-land: #173b35; --dg-soil: #352a28; --dg-sea: #103a62; --dg-gw: #174a78;
+  --dg-cloud: #243b59; --dg-leaf: #39ff88; --dg-trunk: #a77a55; --dg-plate: #a9bfd8;
+  --dg-hop: #263b58; --dg-bag: #403b31; --dg-tube: #29415f; --dg-str: #241b42;
+  --dg-drop: #32c9ff; --dg-atm: rgba(0,229,255,.12);
+  --diagram-node-active: var(--cyber-accent);
+  --diagram-node-active-ink: #04121c;
+  --ux-glow: 0 10px 32px rgb(0 0 0 / .22);
+}
