@@ -60,7 +60,7 @@ test('pointer-reactive effects are limited to fine-pointer devices and cleaned u
 
 test('mobile drawer and desktop navigation both expose the palette picker', () => {
   assert.ok(shell.includes('ThemePicker className="w-full"'));
-  assert.ok(shell.includes('ThemePicker className="hidden sm:grid sm:grid-cols-4"'));
+  assert.ok(shell.includes('ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden"'));
   assert.ok(shell.includes('aria-label="Neon colour themes"'));
 });
 
