@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { Leaf } from 'lucide-react';
 import './StartupExperience.css';
 
-/**
- * A short, lightweight welcome transition. This is a visual startup sequence,
- * not a measurement of network or download progress.
- */
+/** Full-viewport branded welcome transition; progress is visual, not network progress. */
 export default function StartupExperience({ children }) {
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -13,11 +10,9 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     let cancelled = false;
-    Promise.resolve(document.fonts?.ready)
-      .catch(() => undefined)
-      .finally(() => {
-        if (!cancelled) setReady(true);
-      });
+    Promise.resolve(document.fonts?.ready).catch(() => undefined).finally(() => {
+      if (!cancelled) setReady(true);
+    });
     return () => { cancelled = true; };
   }, []);
 
@@ -29,18 +24,18 @@ export default function StartupExperience({ children }) {
       return undefined;
     }
     const started = Date.now();
-    const duration = 1150;
+    const duration = 1350;
     const timer = window.setInterval(() => {
       const next = Math.min(100, Math.round(((Date.now() - started) / duration) * 100));
       setProgress(next);
       if (next >= 100) window.clearInterval(timer);
-    }, 20);
+    }, 24);
     return () => window.clearInterval(timer);
   }, [ready, progress >= 100]);
 
   useEffect(() => {
     if (progress < 100) return undefined;
-    const timer = window.setTimeout(() => setDismissed(true), 180);
+    const timer = window.setTimeout(() => setDismissed(true), 260);
     return () => window.clearTimeout(timer);
   }, [progress]);
 
@@ -54,22 +49,35 @@ export default function StartupExperience({ children }) {
           aria-live="polite"
           aria-label={`CNR ExamPrep is starting, ${progress} percent`}
         >
-          <div className="startup-content">
-            <div className="startup-logo" aria-hidden="true">
-              <Leaf size={34} strokeWidth={1.7} />
+          <div className="startup-ambient startup-ambient--one" aria-hidden="true" />
+          <div className="startup-ambient startup-ambient--two" aria-hidden="true" />
+          <div className="startup-grain" aria-hidden="true" />
+          <main className="startup-stage">
+            <div className="startup-brand">
+              <div className="startup-logo" aria-hidden="true">
+                <Leaf size={43} strokeWidth={1.45} />
+              </div>
+              <p className="startup-eyebrow">CONSERVATION OF NATURAL RESOURCES</p>
+              <h1>CNR <span>ExamPrep</span></h1>
+              <p className="startup-subtitle">A smarter way to prepare. A greener way to think.</p>
             </div>
-            <p className="startup-eyebrow">CONSERVATION OF NATURAL RESOURCES</p>
-            <h1>CNR <span>ExamPrep</span></h1>
-            <p className="startup-subtitle">Your study space is getting ready</p>
-            <div className="startup-progress" role="progressbar" aria-label="Startup progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress}>
-              <span style={{ width: `${progress}%` }} />
+            <div className="startup-loader">
+              <div className="startup-progress-heading">
+                <span>{progress === 100 ? 'Your workspace is ready' : 'Preparing your workspace'}</span>
+                <strong>{String(progress).padStart(2, '0')}<small>%</small></strong>
+              </div>
+              <div className="startup-progress" role="progressbar" aria-label="Startup progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress}>
+                <span style={{ width: `${progress}%` }} />
+              </div>
+              <div className="startup-progress-foot">
+                <span className="startup-live-dot" />
+                <span>LEARN <i>·</i> PRACTISE <i>·</i> EXCEL</span>
+                <span>VTU · BCV755B</span>
+              </div>
             </div>
-            <div className="startup-progress-meta">
-              <span>{progress === 100 ? 'Ready to learn' : 'Preparing your workspace'}</span>
-              <strong>{progress}%</strong>
-            </div>
-          </div>
-          <span className="startup-bottom-note">LEARN · PRACTISE · EXCEL</span>
+          </main>
+          <span className="startup-corner startup-corner--tl" aria-hidden="true" />
+          <span className="startup-corner startup-corner--br" aria-hidden="true" />
         </div>
       )}
     </>
