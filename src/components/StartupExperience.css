@@ -1,5 +1,5 @@
 .startup-screen{--ink:#f2fff5;--muted:#c0d8c8;position:fixed;inset:0;z-index:2147483000;min-height:100vh;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding:max(22px,env(safe-area-inset-top)) max(5vw,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(5vw,env(safe-area-inset-left));color:var(--ink);background:radial-gradient(ellipse at 50% 48%,#174c35 0%,#0b281c 48%,#06150f 100%);opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
-.startup-screen--complete{animation:startup-finish 2s ease both}
+
 .startup-screen *{box-sizing:border-box}
 .startup-brand{width:min(1240px,100%);margin:0 auto;display:flex;align-items:center;gap:13px;position:relative;z-index:2}
 .startup-brand-mark{width:43px;height:43px;border:1px solid #78dca0;border-radius:14px;display:grid;place-items:center;color:#9df0b6;background:#ffffff0b;box-shadow:0 0 30px #51d88930}
@@ -36,7 +36,7 @@
 @keyframes landscape-drift{from{transform:scale(1)}to{transform:scale(1.045)}}
 @keyframes tree-sway{from{rotate:-1.2deg}to{rotate:1.2deg}}
 @keyframes ambient{from{transform:translate3d(-2%,0,0) scale(.9)}to{transform:translate3d(5%,8%,0) scale(1.1)}}
-@keyframes startup-finish{0%{opacity:1}100%{opacity:0;visibility:hidden;pointer-events:none}}
+
 @media(max-width:650px){.startup-screen{padding-left:18px;padding-right:18px}.startup-brand-mark{width:38px;height:38px}.startup-brand strong{font-size:16px}.startup-brand small{font-size:7px;letter-spacing:.11em}.startup-content{gap:15px}.startup-scene{height:clamp(280px,48vh,420px);border-radius:20px}.startup-scene-shade{background:linear-gradient(90deg,#071c14b8,transparent 100%),linear-gradient(0deg,#06180ebf,transparent 75%)}.startup-scene-copy{left:22px;right:18px;bottom:25px}.startup-scene-copy h1{font-size:clamp(30px,8vw,43px)}.startup-scene-copy p{font-size:12px}.startup-caption{font-size:9px;letter-spacing:.12em}.startup-footer{font-size:7px;letter-spacing:.1em}}
 @media(max-height:650px) and (min-width:651px){.startup-scene{height:42vh}.startup-content{gap:10px}.startup-progress-panel{margin-top:0}.startup-scene-copy{bottom:25px}}
 @media(prefers-reduced-motion:reduce){.startup-screen,.startup-screen *,.startup-screen *:before,.startup-screen *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
