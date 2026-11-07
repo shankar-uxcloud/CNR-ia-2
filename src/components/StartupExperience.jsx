@@ -77,11 +77,11 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     if (progress >= 99) return undefined;
-    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const timer = window.setInterval(() => {
+    // One cancellable step per render keeps the counter sequential in Strict Mode.
+    const timer = window.setTimeout(() => {
       setProgress(value => Math.min(99, value + 1));
-    }, prefersReducedMotion ? 50 : 32);
-    return () => window.clearInterval(timer);
+    }, 125);
+    return () => window.clearTimeout(timer);
   }, [progress]);
 
   useEffect(() => {
