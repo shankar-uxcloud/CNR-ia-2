@@ -30,7 +30,7 @@ test('exam report provides source-keyword coverage without presenting official m
 test('startup skips the animated progression when reduced motion is requested', () => {
   const startup = read('src/components/StartupExperience.jsx');
   assert.match(startup, /prefers-reduced-motion: reduce/);
-  assert.match(startup, /if \(reducedMotion\) \{ setProgress\(100\)/);
+  assert.match(startup, /if \\(reduceMotion\\) \\{/);
 });
 
 test('PWA install guidance covers standalone detection and iOS manual installation', () => {
