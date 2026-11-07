@@ -111,7 +111,7 @@ export default function StartupExperience({ children }) {
             </div>
             <div className="startup-caption" key={`caption-${sceneIndex}`}><span>{scene.caption}</span><span className="startup-caption-line"/></div>
             <div className="startup-progress-panel">
-              <div className="startup-progress-top"><span>{progress === 100 ? 'Your learning environment is ready!' : 'Preparing your learning environment...'}</span><strong>{progress}<small>%</small></strong></div>
+              <div className="startup-progress-top"><span>{progress === 100 ? 'Your Learning Environment Is Ready!' : 'Preparing your learning environment...'}</span><strong>{progress}<small>%</small></strong></div>
               <div className="startup-progress-track" role="progressbar" aria-label="Startup sequence" aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress}><span style={{width:`${progress}%`}}/></div>
               <div className="startup-progress-bottom"><span><i/> CNR LEARNING EXPERIENCE</span><span>{String(progress).padStart(2,'0')} / 100</span></div>
             </div>
