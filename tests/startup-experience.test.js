@@ -4,37 +4,34 @@ import fs from 'node:fs';
 
 const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('startup sequence begins at one and advances one point at a time to one hundred', () => {
+test('startup sequence is short and advances to completion', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /useState\(1\)/);
-  assert.match(source, /Math\.min\(100, current \+ 1\)/);
+  assert.match(source, /useState\(0\)/);
+  assert.match(source, /const duration = 1150/);
+  assert.match(source, /Math\.min\(100/);
   assert.match(source, /progress >= 100/);
-  assert.match(source, /progress !== 100/);
+  assert.match(source, /setDismissed\(true\)/);
 });
 
-test('percentage, circular arc and horizontal progress use the same progress value', () => {
+test('progress indicator exposes an accessible, synchronized value', () => {
   const source = read('src/components/StartupExperience.jsx');
-  const styles = read('src/components/StartupExperience.css');
-  assert.match(source, /String\(progress\)\.padStart/);
-  assert.match(source, /"--startup-progress": progress/);
-  assert.match(source, /width: `\$\{progress\}%`/);
   assert.match(source, /aria-valuenow=\{progress\}/);
-  assert.match(styles, /stroke-dashoffset: calc\(100 - var\(--startup-progress, 1\)\)/);
+  assert.match(source, /width: `\$\{progress\}%`/);
+  assert.match(source, /\{progress\}%/);
 });
 
-test('startup experience includes the holographic Earth, theme and responsive treatments', () => {
+test('startup screen uses simple leaf branding and avoids decorative clutter', () => {
   const source = read('src/components/StartupExperience.jsx');
   const styles = read('src/components/StartupExperience.css');
-  assert.match(source, /function HolographicEarth/);
-  assert.match(source, /<HolographicEarth/);
-  assert.match(styles, /html\[data-theme="light"\]/);
-  assert.match(styles, /max-width: 700px/);
+  assert.match(source, /<Leaf/);
+  assert.doesNotMatch(source, /HolographicEarth|GraduationCap|startup-earth|startup-orbit/);
+  assert.match(styles, /startup-logo/);
+  assert.match(styles, /max\(24px, env\(safe-area-inset-top\)\)/);
   assert.match(styles, /prefers-reduced-motion: reduce/);
 });
 
-test('startup status copy avoids claiming that remote assets have downloaded', () => {
+test('startup copy does not claim remote assets have downloaded', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /Preparing your learning space/);
-  assert.match(source, /startup animation, not a claim about network\/download progress/);
-  assert.doesNotMatch(source, /Synchronizing your learning workspace/);
+  assert.match(source, /visual startup sequence/);
+  assert.doesNotMatch(source, /downloaded|synchronizing/i);
 });
