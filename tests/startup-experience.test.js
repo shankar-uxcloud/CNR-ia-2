@@ -4,12 +4,12 @@ import fs from 'node:fs';
 
 const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('startup sequence is short and advances to completion', () => {
+test('startup progress waits for document readiness and completes promptly', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /useState\(0\)/);
-  assert.match(source, /const duration = 1150/);
-  assert.match(source, /Math\.min\(100/);
-  assert.match(source, /progress >= 100/);
+  assert.match(source, /useState\(8\)/);
+  assert.match(source, /setProgress\(100\)/);
+  assert.match(source, /Math\.min\(92/);
+  assert.match(source, /if \(ready\)/);
   assert.match(source, /setDismissed\(true\)/);
 });
 
