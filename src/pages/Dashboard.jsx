@@ -33,7 +33,8 @@ export default function Dashboard() {
   const avgQuiz = quizAttempts.length ? Math.round(quizAttempts.reduce((n, a) => n + (a.total ? a.score / a.total : 0), 0) / quizAttempts.length * 100) : null;
   const weakIds = [...new Set(quizAttempts.flatMap(a => a.wrongQuestionIds || []))];
   const weakQuestions = QUESTIONS.filter(q => weakIds.includes(q.id));
-  const todayKey = new Date().toLocaleDateString('en-CA');
+  const todayDate = new Date();
+  const todayKey = [todayDate.getFullYear(), String(todayDate.getMonth() + 1).padStart(2, '0'), String(todayDate.getDate()).padStart(2, '0')].join('-');
   const dueTasks = plannerTasks.filter((task) => !task.done && task.due && task.due <= todayKey)
     .sort((a, b) => a.due.localeCompare(b.due));
   const focusQuestions = weakQuestions.filter((q) => !completed[q.id]).slice(0, 2);
