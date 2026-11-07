@@ -103,6 +103,39 @@ export function StudyProvider({ children }) {
     completeLabLesson: (id) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, completed: { ...s.visualLab.completed, [id]: Date.now() } } })),
     saveLabScenario: (attempt) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, scenarioAttempts: [{ ...attempt, id: `lab-scenario-${Date.now()}`, at: Date.now() }, ...(s.visualLab.scenarioAttempts || [])].slice(0, 100) } })),
     setSmartRevision: (smartRevision) => setState((s) => ({ ...s, smartRevision: { ...DEFAULTS.smartRevision, ...(smartRevision || {}), tasks: Array.isArray(smartRevision?.tasks) ? smartRevision.tasks : [], reviews: smartRevision?.reviews || {} } })),
+    exportBackup: () => JSON.stringify({ app: 'vtu-examprep', version: 1, exportedAt: new Date().toISOString(), data: state }, null, 2),
+    importBackup: (raw) => {
+      try {
+        const backup = JSON.parse(raw);
+        if (backup?.app !== 'vtu-examprep' || backup?.version !== 1 || !backup.data || typeof backup.data !== 'object' || Array.isArray(backup.data)) {
+          notify('This is not a supported VTU ExamPrep backup', 'err');
+          return false;
+        }
+        const data = backup.data;
+        const record = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+        const restored = {
+          ...DEFAULTS, ...data,
+          completed: record(data.completed), bookmarks: record(data.bookmarks),
+          recent: Array.isArray(data.recent) ? data.recent : [],
+          examChecks: record(data.examChecks), practiceAttempts: record(data.practiceAttempts),
+          evaluationAttempts: Array.isArray(data.evaluationAttempts) ? data.evaluationAttempts : [],
+          revisionChecks: record(data.revisionChecks), readingChecks: record(data.readingChecks),
+          quizAttempts: Array.isArray(data.quizAttempts) ? data.quizAttempts : [],
+          examAttempts: Array.isArray(data.examAttempts) ? data.examAttempts : [],
+          plannerTasks: Array.isArray(data.plannerTasks) ? data.plannerTasks : [],
+          visualStudio: { ...DEFAULTS.visualStudio, ...record(data.visualStudio) },
+          visualLab: { ...DEFAULTS.visualLab, ...record(data.visualLab) },
+          smartRevision: { ...DEFAULTS.smartRevision, ...record(data.smartRevision) },
+          settings: { ...DEFAULTS.settings, ...record(data.settings) },
+        };
+        setState(restored);
+        notify('Backup restored successfully');
+        return true;
+      } catch {
+        notify('Could not read this backup file', 'err');
+        return false;
+      }
+    },
     setSetting: (k, v) => setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } })),
     toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: s.settings.theme === 'dark' ? 'light' : 'dark' } })),
     resetAll: () => setState((s) => ({ ...DEFAULTS, settings: s.settings })),
