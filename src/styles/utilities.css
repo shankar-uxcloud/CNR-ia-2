@@ -112,7 +112,7 @@ main :where(.reading) { width: 100%; }
   .page-enter :where(.reading) { font-size: clamp(.96rem, 3.8vw, var(--read-size)); line-height: 1.7; }
   .page-enter :where(.reading th, .reading td) { padding: .5rem .6rem; }
   .topbar { height: 3.75rem; }
-  .topbar > .theme-picker { display: none !important; }
+  .topbar > .theme-picker { display: none; }
   .topbar .btn-ghost { white-space: nowrap; }
   .fab { right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); }
   .diagram-frame { overflow-x: auto; }
@@ -132,7 +132,7 @@ main :where(.reading) { width: 100%; }
 /* Tablets: retain breathing room and defer desktop two-column workspaces. */
 @media (min-width: 640px) and (max-width: 1023px) {
   .page-enter > .mx-auto[class*="max-w-"] { width: 100%; max-width: 900px; padding-left: 1.5rem; padding-right: 1.5rem; }
-  .topbar > .theme-picker { display: none !important; }
+  .topbar > .theme-picker { display: none; }
   .page-enter :where(.grid[class*="lg:grid-cols-"], .grid[class*="xl:grid-cols-"]) { grid-template-columns: minmax(0, 1fr); }
   .page-enter :where(.flex.gap-10) { gap: 1.5rem; }
 }
