@@ -8,6 +8,7 @@ test('startup counter advances one integer at a time and waits for app readiness
   const source = read('src/components/StartupExperience.jsx');
   assert.match(source, /useState\(1\)/);
   assert.match(source, /Math\.min\(99, value \+ 1\)/);
+  assert.match(source, /}, 125\)/);
   assert.match(source, /setAppReady\(true\)/);
   assert.match(source, /progress !== 99 \|\| !appReady/);
   assert.match(source, /setProgress\(100\)/);
@@ -19,6 +20,7 @@ test('startup screen holds at 100 percent for two seconds before fading', () => 
   assert.match(source, /setTimeout\(\(\) => setLeaving\(true\), 2000\)/);
   assert.match(source, /setTimeout\(\(\) => setDismissed\(true\), 650\)/);
   assert.match(styles, /startup-screen--leaving/);
+  assert.match(styles, /scene-in 1\.05s/);
 });
 
 test('CNR scenes cover conservation topics and expose accessible progress', () => {
