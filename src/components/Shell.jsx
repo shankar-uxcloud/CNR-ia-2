@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText, Sparkles, Database } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -8,10 +8,28 @@ import { Bar, modColor } from './ui';
 export function Logo({ light }) {
   return (
     <a href="#/" className="flex items-center gap-2.5" aria-label="VTU ExamPrep home">
-      <span className="grid h-9 w-9 place-items-center rounded-xl bg-navy text-[var(--cyber-accent)] ring-1 ring-white/10"><Leaf size={19} aria-hidden="true" /></span>
+      <svg viewBox="0 0 48 48" className="h-10 w-10 shrink-0 drop-shadow-[0_0_10px_rgba(34,211,238,.22)]" role="img" aria-label="CNR ExamPrep emblem">
+        <defs>
+          <linearGradient id="cnr-book" x1="5" y1="8" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#22d3ee" /><stop offset=".55" stopColor="#38bdf8" /><stop offset="1" stopColor="#4ade80" />
+          </linearGradient>
+          <linearGradient id="cnr-orbit" x1="5" y1="4" x2="43" y2="44" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#a78bfa" /><stop offset=".52" stopColor="#22d3ee" /><stop offset="1" stopColor="#4ade80" />
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="46" height="46" rx="14" fill="#071326" stroke="url(#cnr-orbit)" strokeOpacity=".65" />
+        <path d="M7 14.5c6-2.1 11.3-.8 17 3.1v19c-5.7-3.8-11-5.1-17-3.1v-19Z" fill="#0e2940" stroke="url(#cnr-book)" strokeWidth="1.8" strokeLinejoin="round"/>
+        <path d="M41 14.5c-6-2.1-11.3-.8-17 3.1v19c5.7-3.8 11-5.1 17-3.1v-19Z" fill="#102c3c" stroke="url(#cnr-book)" strokeWidth="1.8" strokeLinejoin="round"/>
+        <path d="M24 17.8v18.8" stroke="#d8f7ff" strokeOpacity=".9" strokeWidth="1.4"/>
+        <path d="M11 20.5c3.1-.5 6.2.1 9 1.8M11 25c3.1-.5 6.2.1 9 1.8M28 22.3c2.8-1.7 5.9-2.3 9-1.8M28 26.8c2.8-1.7 5.9-2.3 9-1.8" fill="none" stroke="#b8edff" strokeOpacity=".75" strokeWidth="1.2" strokeLinecap="round"/>
+        <path d="m16.5 11 7.5-4 7.5 4-7.5 4-7.5-4Z" fill="#a78bfa" stroke="#d8c7ff" strokeWidth="1.1" strokeLinejoin="round"/>
+        <path d="M31.5 12.5v5.2" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round"/>
+        <circle cx="31.5" cy="18.5" r="1.6" fill="#fbbf24"/>
+        <circle cx="24" cy="17.8" r="1.7" fill="#22d3ee" stroke="#071326" strokeWidth=".7"/>
+      </svg>
       <span className="leading-tight">
-        <span className={`block text-[15px] font-bold tracking-tight ${light ? 'text-white' : ''}`}>VTU EXAMPREP</span>
-        <span className={`block text-[11px] font-medium ${light ? 'text-white/60' : 'text-mute'}`}>{SUBJECT.code}</span>
+        <span className={`block text-[15px] font-extrabold tracking-[.055em] ${light ? 'text-white' : ''}`}>VTU <span className="bg-gradient-to-r from-cyan-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent">EXAMPREP</span></span>
+        <span className={`block text-[10px] font-semibold tracking-[.12em] uppercase ${light ? 'text-white/60' : 'text-mute'}`}>CNR · {SUBJECT.code}</span>
       </span>
     </a>
   );
