@@ -91,9 +91,15 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     if (progress !== 100) return undefined;
-    const timer = window.setTimeout(() => setDismissed(true), 2000);
+    const timer = window.setTimeout(() => setLeaving(true), 2000);
     return () => window.clearTimeout(timer);
   }, [progress]);
+
+  useEffect(() => {
+    if (!leaving) return undefined;
+    const timer = window.setTimeout(() => setDismissed(true), 650);
+    return () => window.clearTimeout(timer);
+  }, [leaving]);
 
   return (
     <>
