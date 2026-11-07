@@ -167,16 +167,16 @@ export default function Shell({ path, children }) {
       )}
 
       {!hide && (
-        <header className="topbar sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-line bg-bg/85 px-4 backdrop-blur lg:ml-64 lg:px-8">
+        <header className="topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:ml-64 lg:px-6 2xl:px-8">
           <button className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-panel lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><Menu size={18} /></button>
           <div className="lg:hidden"><Logo /></div>
-          <div className="relative ml-auto hidden w-full max-w-md md:block">
+          <div className="relative ml-auto hidden w-full max-w-lg xl:block">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-mute" aria-hidden="true" />
             <input value={query} onChange={(e) => onSearch(e.target.value)} placeholder="Search questions or keywords…" aria-label="Search questions"
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
           <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><ThemeBtn /></div>
-          <ThemePicker className="hidden sm:grid sm:grid-cols-4" />
+          <ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
       )}
