@@ -1,13 +1,14 @@
 .startup-screen{--ink:#f2fff5;--muted:#c0d8c8;--s-green:#72e2a0;position:fixed;inset:0;z-index:2147483000;min-height:100vh;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding:max(22px,env(safe-area-inset-top)) max(5vw,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(5vw,env(safe-area-inset-left));color:var(--ink);background:radial-gradient(ellipse at 50% 48%,#174c35 0%,#0b281c 48%,#06150f 100%);opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
 
-.startup-screen *{box-sizing:border-box}\n.startup-screen--leaving{opacity:0;visibility:hidden;pointer-events:none}
+.startup-screen *{box-sizing:border-box}
+.startup-screen--leaving{opacity:0;visibility:hidden;pointer-events:none}
 .startup-brand{width:min(1240px,100%);margin:0 auto;display:flex;align-items:center;gap:13px;position:relative;z-index:2}
 .startup-brand-mark{width:43px;height:43px;border:1px solid #78dca0;border-radius:14px;display:grid;place-items:center;color:#9df0b6;background:#ffffff0b;box-shadow:0 0 30px #51d88930}
 .startup-brand strong{display:block;font-size:18px;letter-spacing:-.04em}.startup-brand strong i{font-style:normal;color:#8fe9aa}
 .startup-brand small{display:block;margin-top:3px;color:#9ab9a6;font-size:8px;font-weight:800;letter-spacing:.17em}
 .startup-brand>b{margin-left:auto;padding:8px 12px;border:1px solid #b5e9c12e;border-radius:30px;color:#c4ebcf;font-size:10px;letter-spacing:.14em}
 .startup-content{width:min(1120px,100%);margin:auto;display:flex;flex-direction:column;align-items:center;gap:18px;padding:20px 0}
-.startup-scene{width:100%;height:clamp(260px,48vh,470px);position:relative;overflow:hidden;border:1px solid #b7e9c32b;border-radius:28px;background:#174632;box-shadow:0 28px 100px #0005;animation:scene-in .75s cubic-bezier(.2,.8,.2,1) both}
+.startup-scene{width:100%;height:clamp(260px,48vh,470px);position:relative;overflow:hidden;border:1px solid #b7e9c32b;border-radius:28px;background:#174632;box-shadow:0 28px 100px #0005;animation:scene-in 1.05s ease-in-out both}
 .startup-scene-glow{position:absolute;inset:-30%;background:radial-gradient(ellipse at 50% 65%,#b3f1a72b,transparent 55%);z-index:1;pointer-events:none}
 .startup-landscape{width:100%;height:100%;display:block;animation:landscape-drift 12s ease-in-out infinite alternate}
 .startup-tree{transform-box:fill-box;transform-origin:bottom center;animation:tree-sway 5s ease-in-out infinite alternate}
@@ -24,7 +25,7 @@
 .startup-progress-top strong{font-size:clamp(28px,4vw,42px);line-height:1;font-variant-numeric:tabular-nums;color:#f2fff5;letter-spacing:-.06em}
 .startup-progress-top strong small{font-size:14px;color:#8fe9aa;margin-left:2px}
 .startup-progress-track{height:7px;border-radius:20px;background:#ffffff20;overflow:hidden;box-shadow:inset 0 1px 3px #0005}
-.startup-progress-track span{height:100%;display:block;border-radius:inherit;background:linear-gradient(90deg,#36a966,#8ee9a9,#d3f8b9);box-shadow:0 0 18px #76e6a2a6;transition:width .12s linear}
+.startup-progress-track span{height:100%;display:block;border-radius:inherit;background:linear-gradient(90deg,#36a966,#8ee9a9,#d3f8b9);box-shadow:0 0 18px #76e6a2a6;transition:width .14s linear}
 .startup-progress-bottom{display:flex;justify-content:space-between;margin-top:11px;color:#8da997;font-size:8px;font-weight:800;letter-spacing:.16em}
 .startup-progress-bottom i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#8de9a7;box-shadow:0 0 10px #8de9a7;margin-right:7px}
 .startup-footer{width:min(1240px,100%);margin:0 auto;display:flex;justify-content:space-between;color:#789886;font-size:8px;font-weight:800;letter-spacing:.2em}
@@ -41,4 +42,7 @@
 @media(max-height:650px) and (min-width:651px){.startup-scene{height:42vh}.startup-content{gap:10px}.startup-progress-panel{margin-top:0}.startup-scene-copy{bottom:25px}}
 @media(prefers-reduced-motion:reduce){.startup-screen,.startup-screen *,.startup-screen *:before,.startup-screen *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(prefers-reduced-motion:reduce){.startup-progress-track span{transition:none}}
-\n@media (prefers-reduced-motion: reduce) { .startup-screen, .startup-screen * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }\n\nhtml[data-theme='light'] .startup-screen, [data-theme='light'] .startup-screen { --ink:#153b25; --muted:#466b53; background:radial-gradient(ellipse at 50% 48%,#e4f5e8 0%,#d2ead9 48%,#f5fbf6 100%); }\n
+
+@media (prefers-reduced-motion: reduce) { .startup-screen, .startup-screen * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+html[data-theme='light'] .startup-screen, [data-theme='light'] .startup-screen { --ink:#153b25; --muted:#466b53; background:radial-gradient(ellipse at 50% 48%,#e4f5e8 0%,#d2ead9 48%,#f5fbf6 100%); }
