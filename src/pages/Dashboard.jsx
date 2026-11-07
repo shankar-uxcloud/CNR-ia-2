@@ -18,7 +18,7 @@ function MiniRow({ q }) {
 }
 
 export default function Dashboard() {
-  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, revisionChecks = {}, readingChecks = {}, quizAttempts = [], plannerTasks = [], resetAll, notify } = useStudy();
+  const { completed, bookmarks, recent, practiceAttempts = {}, examChecks = {}, revisionChecks = {}, readingChecks = {}, quizAttempts = [], plannerTasks = [], togglePlannerTask, resetAll, notify } = useStudy();
   const done = Object.keys(completed).length;
   const [v, setV] = useState(0);
   useEffect(() => { const t = setTimeout(() => setV(done / 10), 80); return () => clearTimeout(t); }, [done]);
@@ -33,6 +33,12 @@ export default function Dashboard() {
   const avgQuiz = quizAttempts.length ? Math.round(quizAttempts.reduce((n, a) => n + (a.total ? a.score / a.total : 0), 0) / quizAttempts.length * 100) : null;
   const weakIds = [...new Set(quizAttempts.flatMap(a => a.wrongQuestionIds || []))];
   const weakQuestions = QUESTIONS.filter(q => weakIds.includes(q.id));
+  const todayDate = new Date();
+  const todayKey = [todayDate.getFullYear(), String(todayDate.getMonth() + 1).padStart(2, '0'), String(todayDate.getDate()).padStart(2, '0')].join('-');
+  const dueTasks = plannerTasks.filter((task) => !task.done && task.due && task.due <= todayKey)
+    .sort((a, b) => a.due.localeCompare(b.due));
+  const focusQuestions = weakQuestions.filter((q) => !completed[q.id]).slice(0, 2);
+  const dailyFocusQuestion = focusQuestions[0] || next;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
@@ -53,6 +59,44 @@ export default function Dashboard() {
             <span className="cyber-hud-signal" aria-hidden="true" />
           </div>
         ))}
+      </section>
+
+      <section className="card mt-5 overflow-hidden" aria-labelledby="daily-focus-title">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-4">
+          <div>
+            <p className="eyebrow">Your next best actions</p>
+            <h2 id="daily-focus-title" className="mt-1 text-lg font-bold">Today’s focus</h2>
+          </div>
+          <a href="#/planner" className="text-xs font-semibold text-brand hover:underline">Open planner →</a>
+        </div>
+        <div className="grid gap-4 p-5 md:grid-cols-2">
+          <div>
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <h3 className="text-sm font-semibold">Tasks due</h3>
+              <span className="rounded-full bg-sunk px-2.5 py-1 text-xs tabular-nums text-mute">{dueTasks.length} pending</span>
+            </div>
+            {dueTasks.length ? <div className="space-y-2">
+              {dueTasks.slice(0, 3).map((task) => (
+                <div key={task.id} className="flex items-start gap-2 rounded-xl bg-sunk px-3 py-2.5">
+                  <button type="button" onClick={() => togglePlannerTask(task.id)} aria-label={`Complete ${task.title}`} className="mt-0.5 shrink-0 text-brand"><Circle size={17}/></button>
+                  <span className="min-w-0 flex-1 text-sm font-medium">{task.title}<span className="mt-0.5 block text-xs text-mute">{task.due < todayKey ? 'Overdue' : 'Due today'}</span></span>
+                </div>
+              ))}
+            </div> : <div className="rounded-xl bg-sunk px-3 py-3">
+              <p className="text-sm font-medium">No overdue or due-today tasks</p>
+              <p className="mt-1 text-xs text-mute">You’re clear for today. Add a small revision goal when you’re ready.</p>
+            </div>}
+          </div>
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Recommended revision</h3>
+            {dailyFocusQuestion ? <a href={`#/q/${dailyFocusQuestion.id}`} className="group block rounded-xl border border-line p-3 transition hover:border-brand">
+              <span className="flex items-center justify-between gap-2"><ModuleBadge m={dailyFocusQuestion.module}/><ArrowRight size={15} className="text-mute transition group-hover:translate-x-0.5"/></span>
+              <span className="mt-2 block text-sm font-semibold">{dailyFocusQuestion.code} · {dailyFocusQuestion.title}</span>
+              <span className="mt-1 block text-xs text-mute">{focusQuestions.length ? 'Suggested from topics missed in your saved quizzes.' : 'Your next incomplete answer in the study sequence.'}</span>
+            </a> : <p className="rounded-xl bg-sunk p-3 text-sm text-mute">All study answers are complete. Use Revision Mode for a final review.</p>}
+            <a href="#/quiz" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline">Test your recall <ArrowRight size={13}/></a>
+          </div>
+        </div>
       </section>
 
       <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-5">

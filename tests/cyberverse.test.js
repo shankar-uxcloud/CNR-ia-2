@@ -108,3 +108,14 @@ test('startup experience renders an immersive responsive learning-core HUD', () 
   assert.ok(styles.includes('@media (max-width: 700px)'));
   assert.ok(styles.includes('prefers-reduced-motion: reduce'));
 });
+
+
+test('dashboard daily focus surfaces due tasks and a data-backed revision recommendation', () => {
+  const dashboard = read('src/pages/Dashboard.jsx');
+  assert.ok(dashboard.includes('Today’s focus'));
+  assert.ok(dashboard.includes('task.due <= todayKey'));
+  assert.ok(dashboard.includes('togglePlannerTask(task.id)'));
+  assert.ok(dashboard.includes('Suggested from topics missed in your saved quizzes.'));
+  assert.ok(dashboard.includes('Your next incomplete answer in the study sequence.'));
+  assert.ok(dashboard.includes('href="#/planner"'));
+});
