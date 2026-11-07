@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText, Sparkles } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Leaf, Minimize2, FileText, Sparkles, Database } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -70,6 +70,7 @@ function Nav({ path, onNavigate }) {
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
     { to: '/study-coach', label: 'AI Study Coach', icon: Sparkles },
+    { to: '/data-backup', label: 'Backup & Restore', icon: Database },
     { to: '/planner', label: 'Study Planner', icon: CalendarDays },
   ];
   return (
