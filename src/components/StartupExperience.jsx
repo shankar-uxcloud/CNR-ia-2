@@ -51,7 +51,8 @@ function Landscape({ scene }) {
 export default function StartupExperience({ children }) {
   const [progress, setProgress] = useState(1);
   const [appReady, setAppReady] = useState(false);
-  const [leaving, setLeaving] = useState(false);\n  const [dismissed, setDismissed] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const sceneIndex = useMemo(() => sceneFor(progress), [progress]);
   const scene = scenes[sceneIndex];
 
