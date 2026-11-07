@@ -117,3 +117,25 @@ html[data-theme="light"] .startup-title span, [data-theme="light"] .startup-titl
     animation: none !important; transition: none !important;
   }
 }
+
+.startup-logo-ring {
+  position: absolute; inset: -15px; border: 1px solid rgba(116,235,164,.42);
+  border-radius: 48px; transform: scale(.78) rotate(-18deg); opacity: 0;
+  animation: startup-ring-reveal 1.25s .38s cubic-bezier(.16,1,.3,1) forwards;
+  box-shadow: 0 0 28px rgba(82,221,137,.12), inset 0 0 22px rgba(82,221,137,.06);
+}
+.startup-hud { position:absolute; left:50%; transform:translateX(-50%); width:min(86vw,1100px);
+  display:flex; justify-content:space-between; gap:16px; color:var(--s-soft); opacity:.62;
+  font-size:8px; font-weight:800; letter-spacing:.19em; pointer-events:none; }
+.startup-hud--top { top:max(34px,env(safe-area-inset-top)); }
+@keyframes startup-ring-reveal { 0% { opacity:0; transform:scale(.72) rotate(-18deg); } 65% { opacity:.9; } 100% { opacity:.48; transform:scale(1) rotate(0); } }
+@media (max-width:600px) {
+  .startup-logo-ring { inset:-11px; border-radius:39px; }
+  .startup-hud { width:calc(100% - 52px); font-size:7px; letter-spacing:.1em; }
+}
+@media (max-width:380px) {
+  .startup-hud span:last-child { display:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .startup-logo-ring { animation:none; opacity:.48; transform:none; }
+}
