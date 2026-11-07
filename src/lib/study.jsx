@@ -113,20 +113,43 @@ export function StudyProvider({ children }) {
         }
         const data = backup.data;
         const record = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+        const visualStudio = record(data.visualStudio);
+        const visualLab = record(data.visualLab);
+        const smartRevision = record(data.smartRevision);
+        const incomingSettings = record(data.settings);
+        const restoredSettings = { ...DEFAULTS.settings, ...incomingSettings };
+        restoredSettings.theme = ['dark', 'light'].includes(restoredSettings.theme) ? restoredSettings.theme : DEFAULTS.settings.theme;
+        restoredSettings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(restoredSettings.cyberTheme) ? restoredSettings.cyberTheme : DEFAULTS.settings.cyberTheme;
+        restoredSettings.fontIdx = Number.isInteger(restoredSettings.fontIdx) && restoredSettings.fontIdx >= 0 && restoredSettings.fontIdx < FONT_SIZES.length ? restoredSettings.fontIdx : DEFAULTS.settings.fontIdx;
+        restoredSettings.widthIdx = Number.isInteger(restoredSettings.widthIdx) && restoredSettings.widthIdx >= 0 && restoredSettings.widthIdx < WIDTHS.length ? restoredSettings.widthIdx : DEFAULTS.settings.widthIdx;
         const restored = {
           ...DEFAULTS, ...data,
           completed: record(data.completed), bookmarks: record(data.bookmarks),
-          recent: Array.isArray(data.recent) ? data.recent : [],
+          recent: Array.isArray(data.recent) ? data.recent.filter((id) => typeof id === 'string') : [],
           examChecks: record(data.examChecks), practiceAttempts: record(data.practiceAttempts),
           evaluationAttempts: Array.isArray(data.evaluationAttempts) ? data.evaluationAttempts : [],
           revisionChecks: record(data.revisionChecks), readingChecks: record(data.readingChecks),
           quizAttempts: Array.isArray(data.quizAttempts) ? data.quizAttempts : [],
           examAttempts: Array.isArray(data.examAttempts) ? data.examAttempts : [],
           plannerTasks: Array.isArray(data.plannerTasks) ? data.plannerTasks : [],
-          visualStudio: { ...DEFAULTS.visualStudio, ...record(data.visualStudio) },
-          visualLab: { ...DEFAULTS.visualLab, ...record(data.visualLab) },
-          smartRevision: { ...DEFAULTS.smartRevision, ...record(data.smartRevision) },
-          settings: { ...DEFAULTS.settings, ...record(data.settings) },
+          visualStudio: {
+            ...DEFAULTS.visualStudio, ...visualStudio,
+            viewed: record(visualStudio.viewed), completedMaps: record(visualStudio.completedMaps),
+            exercises: record(visualStudio.exercises), favorites: record(visualStudio.favorites),
+            revision: record(visualStudio.revision),
+            quizAttempts: Array.isArray(visualStudio.quizAttempts) ? visualStudio.quizAttempts : [],
+          },
+          visualLab: {
+            ...DEFAULTS.visualLab, ...visualLab,
+            explored: record(visualLab.explored), completed: record(visualLab.completed),
+            scenarioAttempts: Array.isArray(visualLab.scenarioAttempts) ? visualLab.scenarioAttempts : [],
+          },
+          smartRevision: {
+            ...DEFAULTS.smartRevision, ...smartRevision,
+            tasks: Array.isArray(smartRevision.tasks) ? smartRevision.tasks : [],
+            reviews: record(smartRevision.reviews),
+          },
+          settings: restoredSettings,
         };
         setState(restored);
         notify('Backup restored successfully');
