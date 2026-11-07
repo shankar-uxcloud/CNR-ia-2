@@ -84,3 +84,77 @@ main :where(.reading) { width: 100%; }
   .topbar .theme-toggle { width: 2.25rem; }
   .dashboard-content { padding-left: .75rem; padding-right: .75rem; }
 }
+
+/* Device-first layout pass: make every route usable, not only the dashboard. */
+#root, .min-h-screen, main, .page-enter { min-width: 0; }
+.page-enter { width: 100%; overflow-wrap: break-word; }
+.page-enter > * { box-sizing: border-box; }
+.page-enter :where(.card, section, article, aside, form, fieldset) { min-width: 0; }
+.page-enter :where(h1, h2, h3, p, label, a, button, span) { overflow-wrap: anywhere; }
+.page-enter :where(input, select, textarea) { min-width: 0; max-width: 100%; }
+.page-enter :where(textarea) { resize: vertical; }
+.page-enter :where(pre) { max-width: 100%; overflow-x: auto; }
+.page-enter :where(canvas, iframe, video, img, svg) { max-width: 100%; }
+.page-enter :where(.reading) { overflow-wrap: anywhere; }
+.page-enter :where(.reading table) { display: block; max-width: 100%; overflow-x: auto; }
+.page-enter :where(.reading th, .reading td) { min-width: 7rem; }
+
+/* Common page shells use the same safe gutters at every viewport. */
+@media (max-width: 639px) {
+  main:not(:has(.startup-screen)) { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .page-enter > .mx-auto[class*="max-w-"] { width: 100%; padding-left: 1rem; padding-right: 1rem; }
+  .page-enter .card { padding-left: clamp(.875rem, 4vw, 1.25rem); padding-right: clamp(.875rem, 4vw, 1.25rem); }
+  .page-enter :where(.flex.items-center.justify-between) { flex-wrap: wrap; }
+  .page-enter :where(.grid[class*="sm:grid-cols-2"]) { grid-template-columns: minmax(0, 1fr); }
+  .page-enter :where(.grid[class*="sm:grid-cols-3"], .grid[class*="sm:grid-cols-4"], .grid[class*="md:grid-cols-2"], .grid[class*="lg:grid-cols-2"], .grid[class*="xl:grid-cols-"]) { grid-template-columns: minmax(0, 1fr); }
+  .page-enter :where(.grid[class*="grid-cols-"]) { min-width: 0; }
+  .page-enter :where(.flex.gap-10, .flex.gap-8) { gap: 1rem; }
+  .page-enter :where(.reading) { font-size: clamp(.96rem, 3.8vw, var(--read-size)); line-height: 1.7; }
+  .page-enter :where(.reading th, .reading td) { padding: .5rem .6rem; }
+  .topbar { height: 3.75rem; }
+  .topbar > .theme-picker { display: none !important; }
+  .topbar .btn-ghost { white-space: nowrap; }
+  .fab { right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .diagram-frame { overflow-x: auto; }
+  .diagram-frame > svg { min-width: 0; }
+}
+
+/* Small phones: protect the header and controls from horizontal overflow. */
+@media (max-width: 380px) {
+  .topbar { gap: .35rem; padding-left: .5rem; padding-right: .5rem; }
+  .topbar .h-10.w-10 { width: 2.25rem; height: 2.25rem; }
+  .topbar .leading-tight { max-width: 9.5rem; }
+  .topbar .leading-tight > span:first-child { font-size: 13px; }
+  .page-enter > .mx-auto[class*="max-w-"] { padding-left: .75rem; padding-right: .75rem; }
+  .page-enter :where(.btn, .btn-primary, .btn-ghost) { gap: .35rem; padding-left: .65rem; padding-right: .65rem; font-size: .78rem; }
+}
+
+/* Tablets: retain breathing room and defer desktop two-column workspaces. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .page-enter > .mx-auto[class*="max-w-"] { width: 100%; max-width: 900px; padding-left: 1.5rem; padding-right: 1.5rem; }
+  .topbar > .theme-picker { display: none !important; }
+  .page-enter :where(.grid[class*="lg:grid-cols-"], .grid[class*="xl:grid-cols-"]) { grid-template-columns: minmax(0, 1fr); }
+  .page-enter :where(.flex.gap-10) { gap: 1.5rem; }
+}
+
+/* Laptop: avoid narrow side-by-side panels beside the fixed navigation rail. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .page-enter > .mx-auto[class*="max-w-"] { max-width: 100%; padding-left: clamp(1.25rem, 2.5vw, 2rem); padding-right: clamp(1.25rem, 2.5vw, 2rem); }
+  .page-enter :where(.grid[class*="xl:grid-cols-"]) { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Large desktop: cap reading widths while letting dashboards use the full canvas. */
+@media (min-width: 1280px) {
+  .page-enter > .mx-auto[class*="max-w-"] { margin-left: auto; margin-right: auto; }
+}
+@media (min-width: 1600px) {
+  .page-enter > .mx-auto[class*="max-w-"] { max-width: min(100% - 5rem, 1600px); }
+}
+
+/* Touch devices should not inherit hover-only movement or tiny hit targets. */
+@media (hover: none), (pointer: coarse) {
+  .page-enter :where(button, a, input, select, summary) { -webkit-tap-highlight-color: transparent; }
+  .page-enter :where(button, .btn, .btn-primary, .btn-ghost) { min-height: 2.625rem; }
+  .card.group:hover { transform: none; }
+}
+
