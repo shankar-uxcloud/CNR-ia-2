@@ -51,7 +51,7 @@ function Landscape({ scene }) {
 export default function StartupExperience({ children }) {
   const [progress, setProgress] = useState(1);
   const [appReady, setAppReady] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [leaving, setLeaving] = useState(false);\n  const [dismissed, setDismissed] = useState(false);
   const sceneIndex = useMemo(() => sceneFor(progress), [progress]);
   const scene = scenes[sceneIndex];
 
@@ -98,7 +98,7 @@ export default function StartupExperience({ children }) {
     <>
       {children}
       {!dismissed && (
-        <div className={`startup-screen ${progress === 100 ? 'startup-screen--complete' : ''} ${dismissed ? 'startup-screen--leaving' : ''}`}
+        <div className={`startup-screen ${leaving ? 'startup-screen--leaving' : ''}`}
           role="status" aria-live="polite" aria-label={`CNR ExamPrep startup ${progress}%`}>
           <div className="startup-atmosphere" aria-hidden="true"><span/><span/><span/></div>
           <header className="startup-brand"><span className="startup-brand-mark"><Leaf size={22}/></span><span><strong>CNR <i>ExamPrep</i></strong><small>CONSERVATION OF NATURAL RESOURCES</small></span><b>BCV755B</b></header>
