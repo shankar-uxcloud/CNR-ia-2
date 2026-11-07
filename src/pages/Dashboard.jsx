@@ -41,9 +41,9 @@ export default function Dashboard() {
   const dailyFocusQuestion = focusQuestions[0] || next;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
+    <div className="dashboard-content mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10 2xl:px-10">
       <p className="eyebrow">BCV755B · Conservation of Natural Resources</p>
-      <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">Welcome back. Let’s keep preparing.</h1>
+      <h1 className="dashboard-title mt-1 text-3xl font-bold tracking-tight sm:text-4xl xl:text-[2.75rem]">Welcome back. Let’s keep preparing.</h1>
       <p className="mt-2 max-w-2xl text-mute">Ten source-based 10-mark answers with labelled diagrams. Mark each one complete as you revise it.</p>
 
       <section className="cyber-hud mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="Study command centre summary">
@@ -99,8 +99,8 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-5">
-        <section className="card min-w-0 p-6 lg:col-span-3" aria-label="Overall progress">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:gap-5 xl:grid-cols-5">
+        <section className="card min-w-0 p-4 sm:p-6 xl:col-span-3" aria-label="Overall progress">
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center">
             <ProgressRing value={v} size={168} stroke={13}>
               <span className="text-4xl font-bold tabular-nums">{Math.round((done / 10) * 100)}%</span><span className="text-xs text-mute">overall</span>
@@ -126,7 +126,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <section className="card relative min-w-0 overflow-hidden p-6 lg:col-span-2" aria-label="Continue learning">
+        <section className="card relative min-w-0 overflow-hidden p-4 sm:p-6 xl:col-span-2" aria-label="Continue learning">
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand/10 blur-2xl" aria-hidden="true" />
           <p className="eyebrow">Continue learning</p>
           {next ? (
@@ -141,12 +141,12 @@ export default function Dashboard() {
           )}
         </section>
 
-        <section className="card min-w-0 p-4 lg:col-span-3" aria-label="Quick access">
+        <section className="card min-w-0 p-3 sm:p-4 xl:col-span-3" aria-label="Quick access">
           <h2 className="px-3 pb-2 pt-1 text-sm font-semibold">Quick access · all 10 questions</h2>
           <div className="grid grid-cols-1 gap-x-2 sm:grid-cols-2">{QUESTIONS.map((q) => <MiniRow key={q.id} q={q} />)}</div>
         </section>
 
-        <div className="min-w-0 space-y-5 lg:col-span-2">
+        <div className="min-w-0 space-y-4 sm:space-y-5 xl:col-span-2">
           <section className="card p-4" aria-label="Bookmarked questions">
             <div className="flex items-center justify-between px-3 pb-2 pt-1"><h2 className="flex items-center gap-2 text-sm font-semibold"><Bookmark size={15} />Bookmarked</h2><a href="#/bookmarks" className="text-xs font-semibold text-brand hover:underline">View all</a></div>
             {marked.length ? marked.slice(0, 4).map((q) => <MiniRow key={q.id} q={q} />) : <p className="px-3 pb-3 text-sm text-mute">No bookmarks yet. Save answers you want to revisit.</p>}
