@@ -44,3 +44,43 @@ main :where(.overflow-x-auto, table) { max-width: 100%; }
   a { color: inherit; text-decoration: none; }
   .card { color: #111111; background: #ffffff; border-color: #cccccc; box-shadow: none; }
 }
+
+
+/* Responsive foundation: phone, tablet, laptop and wide-desktop layouts. */
+.page-enter,
+.page-enter > * { min-width: 0; max-width: 100%; }
+.page-enter :where(img, video, canvas, svg) { max-width: 100%; }
+.page-enter :where(pre, code) { overflow-wrap: anywhere; }
+.dashboard-content { width: 100%; }
+.dashboard-title { font-size: clamp(1.65rem, 3.4vw, 2.75rem); line-height: 1.12; text-wrap: balance; }
+.topbar { padding-left: max(.75rem, env(safe-area-inset-left)); padding-right: max(.75rem, env(safe-area-inset-right)); }
+.topbar > * { min-width: 0; }
+main { width: 100%; }
+main :where(.card, .diagram-frame, [role='tabpanel']) { min-width: 0; }
+main :where(table) { width: 100%; }
+main :where(.reading) { width: 100%; }
+@media (max-width: 639px) {
+  .dashboard-content { padding-top: 1.25rem; padding-bottom: 2rem; }
+  .dashboard-content .card { border-radius: 1rem; }
+  .dashboard-content .cyber-hud-cell { padding: 10px; }
+  .dashboard-content .cyber-hud-label { font-size: 10px; line-height: 1.35; }
+  .dashboard-content .cyber-hud-value { font-size: clamp(1.15rem, 6vw, 1.45rem); }
+  .topbar .theme-picker { display: none; }
+  .page-enter :where(.grid) { min-width: 0; }
+  main :where(button, .btn, a.chip) { touch-action: manipulation; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .dashboard-content { max-width: 900px; }
+  .topbar .theme-picker { max-width: 290px; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .dashboard-content { max-width: 1100px; }
+}
+@media (min-width: 1600px) {
+  .dashboard-content { max-width: 1440px; }
+}
+@media (max-width: 359px) {
+  .topbar { gap: .375rem; padding-left: .5rem; padding-right: .5rem; }
+  .topbar .theme-toggle { width: 2.25rem; }
+  .dashboard-content { padding-left: .75rem; padding-right: .75rem; }
+}
