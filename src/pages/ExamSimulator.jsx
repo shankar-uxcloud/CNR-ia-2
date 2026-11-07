@@ -6,6 +6,12 @@ import { ModuleBadge } from '../components/ui';
 
 const formatTime = (seconds) => `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
 const wordCount = (value) => String(value || '').trim() ? String(value).trim().split(/\s+/).length : 0;
+const keywordCoverage = (question, answer) => {
+  const text = String(answer || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ');
+  const keywords = question.answer?.keywords || [];
+  const matched = keywords.filter((keyword) => text.includes(String(keyword).toLowerCase().replace(/[^a-z0-9 ]/g, ' ')));
+  return { matched, total: keywords.length, percent: keywords.length ? Math.round(matched.length / keywords.length * 100) : 0 };
+};
 
 export default function ExamSimulator() {
   const { examAttempts = [], saveExamAttempt, notify } = useStudy();
@@ -47,7 +53,7 @@ export default function ExamSimulator() {
     saveExamAttempt({
       module, durationMinutes: duration, elapsedSeconds: durationSeconds - secondsLeft,
       questionCount: paper.length, answeredCount: answered, flaggedCount: flagged, totalWords,
-      responses: paper.map((q) => ({ questionId: q.id, title: q.title, wordCount: wordCount(answers[q.id]), answer: answers[q.id] || '' })),
+      responses: paper.map((q) => ({ questionId: q.id, title: q.title, wordCount: wordCount(answers[q.id]), answer: answers[q.id] || '', keywordCoverage: keywordCoverage(q, answers[q.id]) })),
       timedOut: secondsLeft === 0,
     });
     setSaved(true); notify('Exam report saved');
@@ -104,7 +110,7 @@ export default function ExamSimulator() {
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8 sm:py-10">
       <p className="eyebrow">Attempt submitted</p><h1 className="mt-1 text-3xl font-bold">Exam report</h1><p className="mt-2 text-mute">Your written answers are ready for manual review. This report measures completion, not answer correctness.</p>
       <section className="card mt-6 p-5"><div className="grid gap-3 sm:grid-cols-4"><div className="rounded-xl bg-sunk p-3"><p className="text-xs text-mute">Answered</p><p className="mt-1 text-2xl font-bold">{answered}/{paper.length}</p></div><div className="rounded-xl bg-sunk p-3"><p className="text-xs text-mute">Unanswered</p><p className="mt-1 text-2xl font-bold">{paper.length-answered}</p></div><div className="rounded-xl bg-sunk p-3"><p className="text-xs text-mute">Words written</p><p className="mt-1 text-2xl font-bold">{totalWords}</p></div><div className="rounded-xl bg-sunk p-3"><p className="text-xs text-mute">Flagged</p><p className="mt-1 text-2xl font-bold">{flagged}</p></div></div>
-        <div className="mt-5 space-y-3">{paper.map((q,i) => <div key={q.id} className="rounded-xl border border-line p-4"><div className="flex flex-wrap items-center justify-between gap-2"><b>{q.code} · {q.title}</b><span className="text-xs text-mute">{wordCount(answers[q.id])} words {flags[q.id]?'· Flagged':''}</span></div><p className="mt-2 text-sm text-mute">{q.question}</p><details className="mt-3"><summary className="cursor-pointer text-sm font-semibold text-brand">Review my written answer</summary><p className="mt-2 whitespace-pre-wrap rounded-lg bg-sunk p-3 text-sm leading-relaxed">{answers[q.id] || 'No answer submitted.'}</p></details></div>)}</div>
+        <div className="mt-5 rounded-xl border border-line bg-sunk p-4"><b className="text-sm">Smart answer review · keyword coverage</b><p className="mt-1 text-xs text-mute">Practice feedback only — this is not official VTU marking.</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{paper.map((q) => { const score = keywordCoverage(q, answers[q.id]); return <div key={q.id} className="rounded-lg bg-panel p-3"><div className="flex justify-between gap-2 text-sm"><span className="font-medium">{q.code} · {q.title}</span><b>{score.percent}%</b></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-sunk"><div className="h-full rounded-full bg-brand" style={{ width: score.percent + "%" }} /></div><p className="mt-2 text-xs text-mute">{score.matched.length} of {score.total} source keywords detected</p></div>; })}</div><p className="mt-3 text-xs text-mute">Keyword coverage cannot judge explanation quality, accuracy or award marks.</p></div><div className="mt-5 space-y-3">{paper.map((q,i) => <div key={q.id} className="rounded-xl border border-line p-4"><div className="flex flex-wrap items-center justify-between gap-2"><b>{q.code} · {q.title}</b><span className="text-xs text-mute">{wordCount(answers[q.id])} words {flags[q.id]?'· Flagged':''}</span></div><p className="mt-2 text-sm text-mute">{q.question}</p><details className="mt-3"><summary className="cursor-pointer text-sm font-semibold text-brand">Review my written answer</summary><p className="mt-2 whitespace-pre-wrap rounded-lg bg-sunk p-3 text-sm leading-relaxed">{answers[q.id] || 'No answer submitted.'}</p></details></div>)}</div>
         <div className="mt-5 flex flex-wrap gap-2"><button onClick={save} disabled={saved} className="btn-primary"><Save size={16}/>{saved?'Report saved':'Save exam report'}</button><button onClick={reset} className="btn-ghost"><RotateCcw size={16}/>Create another paper</button></div>
       </section>
       <div className="mt-4 flex items-start gap-2 text-xs text-mute"><CheckCircle2 size={15} className="mt-0.5 shrink-0 text-brand"/>Your report and written responses are stored in this browser only after you select Save exam report. The simulator does not auto-grade long answers.</div>
