@@ -77,9 +77,10 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     if (progress >= 99) return undefined;
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const timer = window.setInterval(() => {
       setProgress(value => Math.min(99, value + 1));
-    }, 32);
+    }, prefersReducedMotion ? 50 : 32);
     return () => window.clearInterval(timer);
   }, [progress]);
 
