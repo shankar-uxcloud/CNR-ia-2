@@ -103,6 +103,62 @@ export function StudyProvider({ children }) {
     completeLabLesson: (id) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, completed: { ...s.visualLab.completed, [id]: Date.now() } } })),
     saveLabScenario: (attempt) => setState((s) => ({ ...s, visualLab: { ...s.visualLab, scenarioAttempts: [{ ...attempt, id: `lab-scenario-${Date.now()}`, at: Date.now() }, ...(s.visualLab.scenarioAttempts || [])].slice(0, 100) } })),
     setSmartRevision: (smartRevision) => setState((s) => ({ ...s, smartRevision: { ...DEFAULTS.smartRevision, ...(smartRevision || {}), tasks: Array.isArray(smartRevision?.tasks) ? smartRevision.tasks : [], reviews: smartRevision?.reviews || {} } })),
+    exportBackup: () => JSON.stringify({ app: 'vtu-examprep', version: 1, exportedAt: new Date().toISOString(), data: state }, null, 2),
+    importBackup: (raw) => {
+      try {
+        const backup = JSON.parse(raw);
+        if (backup?.app !== 'vtu-examprep' || backup?.version !== 1 || !backup.data || typeof backup.data !== 'object' || Array.isArray(backup.data)) {
+          notify('This is not a supported VTU ExamPrep backup', 'err');
+          return false;
+        }
+        const data = backup.data;
+        const record = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+        const visualStudio = record(data.visualStudio);
+        const visualLab = record(data.visualLab);
+        const smartRevision = record(data.smartRevision);
+        const incomingSettings = record(data.settings);
+        const restoredSettings = { ...DEFAULTS.settings, ...incomingSettings };
+        restoredSettings.theme = ['dark', 'light'].includes(restoredSettings.theme) ? restoredSettings.theme : DEFAULTS.settings.theme;
+        restoredSettings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(restoredSettings.cyberTheme) ? restoredSettings.cyberTheme : DEFAULTS.settings.cyberTheme;
+        restoredSettings.fontIdx = Number.isInteger(restoredSettings.fontIdx) && restoredSettings.fontIdx >= 0 && restoredSettings.fontIdx < FONT_SIZES.length ? restoredSettings.fontIdx : DEFAULTS.settings.fontIdx;
+        restoredSettings.widthIdx = Number.isInteger(restoredSettings.widthIdx) && restoredSettings.widthIdx >= 0 && restoredSettings.widthIdx < WIDTHS.length ? restoredSettings.widthIdx : DEFAULTS.settings.widthIdx;
+        const restored = {
+          ...DEFAULTS, ...data,
+          completed: record(data.completed), bookmarks: record(data.bookmarks),
+          recent: Array.isArray(data.recent) ? data.recent.filter((id) => typeof id === 'string') : [],
+          examChecks: record(data.examChecks), practiceAttempts: record(data.practiceAttempts),
+          evaluationAttempts: Array.isArray(data.evaluationAttempts) ? data.evaluationAttempts : [],
+          revisionChecks: record(data.revisionChecks), readingChecks: record(data.readingChecks),
+          quizAttempts: Array.isArray(data.quizAttempts) ? data.quizAttempts : [],
+          examAttempts: Array.isArray(data.examAttempts) ? data.examAttempts : [],
+          plannerTasks: Array.isArray(data.plannerTasks) ? data.plannerTasks : [],
+          visualStudio: {
+            ...DEFAULTS.visualStudio, ...visualStudio,
+            viewed: record(visualStudio.viewed), completedMaps: record(visualStudio.completedMaps),
+            exercises: record(visualStudio.exercises), favorites: record(visualStudio.favorites),
+            revision: record(visualStudio.revision),
+            quizAttempts: Array.isArray(visualStudio.quizAttempts) ? visualStudio.quizAttempts : [],
+          },
+          visualLab: {
+            ...DEFAULTS.visualLab, ...visualLab,
+            explored: record(visualLab.explored), completed: record(visualLab.completed),
+            scenarioAttempts: Array.isArray(visualLab.scenarioAttempts) ? visualLab.scenarioAttempts : [],
+          },
+          smartRevision: {
+            ...DEFAULTS.smartRevision, ...smartRevision,
+            tasks: Array.isArray(smartRevision.tasks) ? smartRevision.tasks : [],
+            reviews: record(smartRevision.reviews),
+          },
+          settings: restoredSettings,
+        };
+        setState(restored);
+        notify('Backup restored successfully');
+        return true;
+      } catch {
+        notify('Could not read this backup file', 'err');
+        return false;
+      }
+    },
     setSetting: (k, v) => setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } })),
     toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: s.settings.theme === 'dark' ? 'light' : 'dark' } })),
     resetAll: () => setState((s) => ({ ...DEFAULTS, settings: s.settings })),
