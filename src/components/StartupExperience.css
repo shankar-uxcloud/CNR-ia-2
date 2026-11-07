@@ -1,4 +1,4 @@
-.startup-screen{--ink:#f2fff5;--muted:#c0d8c8;position:fixed;inset:0;z-index:2147483000;min-height:100vh;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding:max(22px,env(safe-area-inset-top)) max(5vw,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(5vw,env(safe-area-inset-left));color:var(--ink);background:radial-gradient(ellipse at 50% 48%,#174c35 0%,#0b281c 48%,#06150f 100%);opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
+.startup-screen{--ink:#f2fff5;--muted:#c0d8c8;--s-green:#72e2a0;position:fixed;inset:0;z-index:2147483000;min-height:100vh;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding:max(22px,env(safe-area-inset-top)) max(5vw,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(5vw,env(safe-area-inset-left));color:var(--ink);background:radial-gradient(ellipse at 50% 48%,#174c35 0%,#0b281c 48%,#06150f 100%);opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
 
 .startup-screen *{box-sizing:border-box}\n.startup-screen--leaving{opacity:0;visibility:hidden;pointer-events:none}
 .startup-brand{width:min(1240px,100%);margin:0 auto;display:flex;align-items:center;gap:13px;position:relative;z-index:2}
@@ -41,3 +41,4 @@
 @media(max-height:650px) and (min-width:651px){.startup-scene{height:42vh}.startup-content{gap:10px}.startup-progress-panel{margin-top:0}.startup-scene-copy{bottom:25px}}
 @media(prefers-reduced-motion:reduce){.startup-screen,.startup-screen *,.startup-screen *:before,.startup-screen *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(prefers-reduced-motion:reduce){.startup-progress-track span{transition:none}}
+\n@media (prefers-reduced-motion: reduce) { .startup-screen, .startup-screen * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }\n\nhtml[data-theme='light'] .startup-screen, [data-theme='light'] .startup-screen { --ink:#153b25; --muted:#466b53; background:radial-gradient(ellipse at 50% 48%,#e4f5e8 0%,#d2ead9 48%,#f5fbf6 100%); }\n
