@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { DatabaseBackup, Download, Upload, ShieldCheck, AlertTriangle, FileJson } from 'lucide-react';
+import { Download, Upload, ShieldCheck, AlertTriangle, FileJson } from 'lucide-react';
 import { useStudy } from '../lib/study';
 
 export default function DataBackup() {
