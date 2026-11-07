@@ -48,3 +48,20 @@ test('dashboard surfaces the new coach and smart exam tools', () => {
   assert.match(dashboard, /AI Study Coach/);
   assert.match(dashboard, /Smart Exam Simulator/);
 });
+
+
+test('study progress can be exported and safely restored from a versioned local backup', () => {
+  const store = read('src/lib/study.jsx');
+  const page = read('src/pages/DataBackup.jsx');
+  const app = read('src/App.jsx');
+  const shell = read('src/components/Shell.jsx');
+  assert.match(store, /exportBackup: \(\) => JSON\.stringify/);
+  assert.match(store, /backup\?\.app !== 'vtu-examprep'/);
+  assert.match(store, /backup\?\.version !== 1/);
+  assert.match(store, /importBackup: \(raw\)/);
+  assert.match(page, /URL\.createObjectURL/);
+  assert.match(page, /window\.confirm/);
+  assert.match(page, /5 \* 1024 \* 1024/);
+  assert.match(app, /path === '\/data-backup'/);
+  assert.match(shell, /Backup & Restore/);
+});
