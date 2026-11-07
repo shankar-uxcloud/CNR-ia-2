@@ -6,7 +6,7 @@ const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), '
 
 test('startup progress waits for document readiness and completes promptly', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /useState\(8\)/);
+  assert.match(source, /useState\\(4\\)/);
   assert.match(source, /setProgress\(100\)/);
   assert.match(source, /Math\.min\(92/);
   assert.match(source, /if \(ready\)/);
@@ -15,9 +15,9 @@ test('startup progress waits for document readiness and completes promptly', () 
 
 test('progress indicator exposes an accessible, synchronized value', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /aria-valuenow=\{progress\}/);
-  assert.match(source, /width: `\$\{progress\}%`/);
-  assert.match(source, /\{progress\}%/);
+  assert.match(source, /aria-valuenow=\\{Math.round(progress)\\}/);
+  assert.match(source, /width: `\$\\{Math.round(progress)\\}%`/);
+  assert.match(source, /\\{Math.round(progress)\\}%/);
 });
 
 test('startup screen uses simple leaf branding and avoids decorative clutter', () => {
