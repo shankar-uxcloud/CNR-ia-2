@@ -84,7 +84,7 @@ test('all neon modes synchronize legacy accents, diagram focus and feedback toke
 
 test('startup experience uses the simple leaf palette and adapts to light and dark themes', () => {
   const startup = read('src/components/StartupExperience.css');
-  assert.ok(startup.includes('--s-green: #72e2a0'));
+  assert.ok(startup.includes('--s-green:#72e2a0'));
   assert.ok(startup.includes('data-theme=\'light\''));
   assert.ok(startup.includes('prefers-reduced-motion: reduce'));
 });
