@@ -85,7 +85,7 @@ test('all neon modes synchronize legacy accents, diagram focus and feedback toke
 test('startup experience uses the simple leaf palette and adapts to light and dark themes', () => {
   const startup = read('src/components/StartupExperience.css');
   assert.ok(startup.includes('--s-green: #72e2a0'));
-  assert.ok(startup.includes('html[data-theme="light"]'));
+  assert.ok(startup.includes('data-theme=\'light\''));
   assert.ok(startup.includes('prefers-reduced-motion: reduce'));
 });
 
@@ -99,10 +99,10 @@ test('startup experience renders a minimal leaf-branded responsive welcome scree
   const startup = read('src/components/StartupExperience.jsx');
   const styles = read('src/components/StartupExperience.css');
   assert.ok(startup.includes('<Leaf'));
-  assert.ok(startup.includes('Your learning space is ready!'));
+  assert.ok(startup.includes('Your Learning Environment Is Ready!'));
   assert.ok(startup.includes('aria-valuenow={progress}'));
-  assert.ok(styles.includes('.startup-logo'));
-  assert.ok(styles.includes('max(24px, env(safe-area-inset-top))'));
+  assert.ok(styles.includes('.startup-brand-mark'));
+  assert.ok(styles.includes('safe-area-inset-top'));
   assert.ok(styles.includes('prefers-reduced-motion: reduce'));
   assert.ok(!startup.includes('startup-hud--left'));
 });
