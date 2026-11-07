@@ -21,6 +21,7 @@ const VisualStudio = lazy(() => import('./pages/VisualStudio'));
 const EnvironmentalScienceLab = lazy(() => import('./components/EnvironmentalScienceLab'));
 const SmartRevision = lazy(() => import('./pages/SmartRevision'));
 const AdditionalNotes = lazy(() => import('./pages/AdditionalNotes'));
+const StudyCoach = lazy(() => import('./pages/StudyCoach'));
 
 function Router({ path }) {
   if (path === '/dashboard') return <Dashboard />;
@@ -35,6 +36,7 @@ function Router({ path }) {
   if (path === '/environment-lab') return <EnvironmentalScienceLab />;
   if (path === '/smart-revision') return <SmartRevision />;
   if (path === '/additional-notes') return <AdditionalNotes />;
+  if (path === '/study-coach') return <StudyCoach />;
   if (path === '/planner') return <Planner />;
   const m = path.match(/^\/module\/([345])$/);
   if (m) return <Library module={Number(m[1])} />;
