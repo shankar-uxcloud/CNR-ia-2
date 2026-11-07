@@ -44,3 +44,15 @@ test('responsive, reduced-motion and print behavior are centralized', () => {
   assert.match(utilities, /prefers-reduced-motion: reduce/);
   assert.match(utilities, /@media print/);
 });
+
+test('premium neon outlines cover cards, controls, navigation, tabs and keyboard focus', () => {
+  for (const selector of ["[data-theme='dark'] .card", ".btn-ghost", ".chip", "aside nav a", "input", ".visual-studio", ".cyber-hud-cell"]) {
+    assert.ok(components.includes(selector), 'missing neon treatment for ' + selector);
+  }
+  assert.ok(components.includes('@keyframes neon-border-flow'));
+  assert.ok(components.includes('.card[data-energy=\'active\']'));
+  assert.ok(components.includes('prefers-reduced-motion: reduce'));
+  assert.ok(components.includes('var(--cyber-secondary)'));
+  assert.ok(components.includes('var(--cyber-tertiary)'));
+});
+
