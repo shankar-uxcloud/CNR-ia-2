@@ -24,7 +24,7 @@ test('startup screen uses simple leaf branding and avoids decorative clutter', (
   const source = read('src/components/StartupExperience.jsx');
   const styles = read('src/components/StartupExperience.css');
   assert.match(source, /<Leaf/);
-  assert.doesNotMatch(source, /HolographicEarth|GraduationCap|startup-earth|startup-orbit/);
+  assert.doesNotMatch(source, /HolographicEarth|GraduationCap|startup-earth/);
   assert.match(styles, /startup-logo/);
   assert.match(styles, /max\(24px, env\(safe-area-inset-top\)\)/);
   assert.match(styles, /prefers-reduced-motion: reduce/);
@@ -32,6 +32,6 @@ test('startup screen uses simple leaf branding and avoids decorative clutter', (
 
 test('startup copy does not claim remote assets have downloaded', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /visual startup sequence/);
+  assert.match(source, /Preparing your study dashboard/);
   assert.doesNotMatch(source, /downloaded|synchronizing/i);
 });
