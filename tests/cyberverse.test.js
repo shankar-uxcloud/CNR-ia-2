@@ -82,13 +82,11 @@ test('all neon modes synchronize legacy accents, diagram focus and feedback toke
   }
 });
 
-test('startup experience uses the active palette instead of fixed cyan artwork', () => {
+test('startup experience uses the simple leaf palette and adapts to light and dark themes', () => {
   const startup = read('src/components/StartupExperience.css');
-  assert.ok(startup.includes('--startup-cyan: var(--cyber-accent)'));
-  assert.ok(startup.includes('var(--cyber-secondary)'));
-  assert.ok(startup.includes('var(--cyber-tertiary)'));
-  assert.ok(startup.includes('.startup-progress-ring stop:nth-child(2)'));
-  assert.ok(startup.includes('html[data-theme=\'light\'] .startup-screen'));
+  assert.ok(startup.includes('--startup-green: #35b978'));
+  assert.ok(startup.includes('html[data-theme="dark"]'));
+  assert.ok(startup.includes('prefers-reduced-motion: reduce'));
 });
 
 test('theme picker clearly marks the selected palette without relying on colour alone', () => {
@@ -97,16 +95,16 @@ test('theme picker clearly marks the selected palette without relying on colour 
 });
 
 
-test('startup experience renders an immersive responsive learning-core HUD', () => {
+test('startup experience renders a minimal leaf-branded responsive welcome screen', () => {
   const startup = read('src/components/StartupExperience.jsx');
   const styles = read('src/components/StartupExperience.css');
-  for (const marker of ['startup-hud--left', 'startup-hud--right', 'startup-scanline', 'startup-crosshair', 'startup-hero-statement']) {
-    assert.ok(startup.includes(marker), 'missing startup visual layer: ' + marker);
-    assert.ok(styles.includes('.' + marker), 'missing startup style: ' + marker);
-  }
-  assert.ok(startup.includes('stopColor="var(--cyber-accent)"'));
-  assert.ok(styles.includes('@media (max-width: 700px)'));
+  assert.ok(startup.includes('<Leaf'));
+  assert.ok(startup.includes('Your study space is getting ready'));
+  assert.ok(startup.includes('aria-valuenow={progress}'));
+  assert.ok(styles.includes('.startup-logo'));
+  assert.ok(styles.includes('max(24px, env(safe-area-inset-top))'));
   assert.ok(styles.includes('prefers-reduced-motion: reduce'));
+  assert.ok(!startup.includes('startup-hud--left'));
 });
 
 
