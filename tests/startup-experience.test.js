@@ -80,3 +80,18 @@ test('cinematic blur intensity follows the full loading percentage without blurr
   assert.match(styles, /startup-landscape,.startup-scene-copy,.startup-caption,.startup-progress-panel/);
   assert.match(styles, /prefers-reduced-motion:reduce/);
 });
+
+
+test('startup scenes include distinct atmospheric treatments for CNR ecosystems', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  const styles = read('src/components/StartupExperience.css');
+  for (const scene of ['forest','water','energy','soil','wildlife','earth']) {
+    assert.ok(source.includes('startup-scene--' + scene), 'missing scene class: ' + scene);
+    assert.ok(styles.includes('.startup-scene--' + scene), 'missing scene treatment: ' + scene);
+  }
+  assert.match(source, /startup-environment-effects/);
+  assert.match(styles, /water-ripple/);
+  assert.match(styles, /environment-orbit/);
+  assert.match(styles, /environment-breathe/);
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+});
