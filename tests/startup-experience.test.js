@@ -48,3 +48,22 @@ test('startup sequence does not claim to download or synchronize remote assets',
   const source = read('src/components/StartupExperience.jsx');
   assert.doesNotMatch(source, /downloaded|synchronizing/i);
 });
+
+
+test('startup visuals inherit the active palette without creating a separate theme system', () => {
+  const styles = read('src/components/StartupExperience.css');
+  const source = read('src/components/StartupExperience.jsx');
+  for (const token of ['--cyber-accent','--cyber-secondary','--cyber-tertiary']) assert.ok(styles.includes(token));
+  assert.match(source, /startup-scene--earth/);
+  assert.match(source, /startup-scene-hud/);
+  assert.match(styles, /data-theme='light'/);
+  assert.match(styles, /startup-hud-orbit/);
+  assert.match(styles, /startup-progress-sheen/);
+});
+
+test('startup enhancements retain reduced-motion and compact viewport support', () => {
+  const styles = read('src/components/StartupExperience.css');
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+  assert.match(styles, /max-height:560px/);
+  assert.match(styles, /max-width:650px/);
+});
