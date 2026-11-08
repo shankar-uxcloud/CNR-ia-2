@@ -201,3 +201,65 @@ html[data-theme='light'] .startup-footer,[data-theme='light'] .startup-footer{co
 @media(prefers-reduced-motion:reduce){
   .startup-screen::after,.startup-scene-depth,.startup-scene-glow,.startup-scene-hud{transition:none}
 }
+
+
+/* Environmental universe layers: scene-specific, lightweight CSS motion. */
+.startup-environment-effects{
+  position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+  opacity:.82;mix-blend-mode:screen;
+}
+.startup-environment-effects:before,
+.startup-environment-effects:after{
+  content:"";position:absolute;inset:-12%;
+  background:radial-gradient(ellipse at 50% 82%,color-mix(in srgb,var(--startup-accent) 24%,transparent),transparent 48%);
+  filter:blur(22px);opacity:.65;
+}
+.startup-environment-effects:after{
+  background:radial-gradient(ellipse at 78% 18%,color-mix(in srgb,var(--startup-secondary) 18%,transparent),transparent 36%);
+  animation:environment-breathe 8s ease-in-out infinite alternate;
+}
+.startup-environment-orb{
+  position:absolute;width:clamp(90px,18vw,210px);aspect-ratio:1;border-radius:50%;
+  top:8%;right:12%;border:1px solid color-mix(in srgb,var(--startup-accent) 35%,transparent);
+  box-shadow:0 0 35px color-mix(in srgb,var(--startup-accent) 18%,transparent),inset 0 0 30px color-mix(in srgb,var(--startup-accent) 10%,transparent);
+  opacity:.4;animation:environment-orb 18s linear infinite;
+}
+.startup-environment-wave{
+  position:absolute;left:-15%;right:-15%;bottom:9%;height:24%;
+  border-top:1px solid color-mix(in srgb,var(--startup-accent) 35%,transparent);
+  border-radius:50%;opacity:0;
+}
+.startup-environment-grid{
+  position:absolute;left:0;right:0;bottom:0;height:35%;opacity:0;
+  background:repeating-linear-gradient(90deg,transparent 0 48px,color-mix(in srgb,var(--startup-accent) 12%,transparent) 49px 50px),
+             linear-gradient(0deg,color-mix(in srgb,var(--startup-accent) 12%,transparent),transparent);
+  mask-image:linear-gradient(0deg,#000,transparent);
+}
+.startup-scene--forest .startup-environment-orb{top:13%;right:16%;border-color:#a8ed9a66;box-shadow:0 0 50px #78df8c55,inset 0 0 35px #8fe9aa22}
+.startup-scene--forest .startup-environment-effects:before{background:radial-gradient(ellipse at 50% 70%,#70e69b30,transparent 56%)}
+.startup-scene--water .startup-environment-wave{opacity:.75;bottom:12%;height:28%;border-color:#a6f4f4a8;box-shadow:0 -10px 32px #5ce2e933;animation:water-ripple 5s ease-in-out infinite}
+.startup-scene--water .startup-environment-wave:before,.startup-scene--water .startup-environment-wave:after{content:"";position:absolute;inset:20% 8% auto;height:40%;border-top:1px solid #b9ffff70;border-radius:50%;transform:translateY(14px)}
+.startup-scene--water .startup-environment-wave:after{inset:42% 18% auto;transform:translateY(18px)}
+.startup-scene--water .startup-environment-orb{border-color:#8deeff80;box-shadow:0 0 42px #61dff044,inset 0 0 30px #7deaff25}
+.startup-scene--energy .startup-environment-grid{opacity:.8}
+.startup-scene--energy .startup-environment-orb{border-radius:12px;transform:rotate(45deg);border-color:#e5f9c888;box-shadow:0 0 45px #b8ef9c55}
+.startup-scene--soil .startup-environment-grid{opacity:.45;height:24%;background:repeating-linear-gradient(90deg,transparent 0 70px,#c99b6540 71px 72px)}
+.startup-scene--soil .startup-environment-wave{opacity:.45;border-color:#d6b17a88;bottom:17%;height:17%;transform:rotate(-4deg)}
+.startup-scene--wildlife .startup-environment-orb{width:clamp(65px,11vw,130px);top:18%;right:24%;border-style:dashed;border-color:#d6f5a688}
+.startup-scene--wildlife .startup-environment-effects:before{background:radial-gradient(ellipse at 72% 66%,#c2ed8c30,transparent 46%)}
+.startup-scene--earth .startup-environment-orb{width:clamp(210px,34vw,390px);top:50%;right:auto;left:50%;transform:translate(-50%,-50%) rotateX(64deg);border-width:2px;border-color:color-mix(in srgb,var(--startup-accent) 65%,transparent);box-shadow:0 0 28px var(--startup-glow),inset 0 0 22px var(--startup-glow);opacity:.75}
+.startup-scene--earth .startup-environment-wave{opacity:.7;left:27%;right:27%;bottom:20%;height:55%;border:1px solid color-mix(in srgb,var(--startup-secondary) 42%,transparent);transform:rotate(-24deg);animation:environment-orbit 22s linear infinite}
+.startup-scene--earth .startup-environment-grid{opacity:.4;height:48%}
+@keyframes environment-breathe{from{opacity:.28;transform:scale(.96)}to{opacity:.75;transform:scale(1.05)}}
+@keyframes environment-orb{to{rotate:360deg}}
+@keyframes water-ripple{0%,100%{transform:translateY(0) scaleX(.96);opacity:.35}50%{transform:translateY(-10px) scaleX(1.04);opacity:.8}}
+@keyframes environment-orbit{to{transform:rotate(336deg)}}
+@media(max-width:650px){
+  .startup-environment-effects{opacity:.58}
+  .startup-environment-orb{width:clamp(70px,22vw,125px);right:7%;top:7%}
+  .startup-scene--earth .startup-environment-orb{width:clamp(180px,62vw,270px);right:auto;left:50%;top:43%}
+  .startup-scene--earth .startup-environment-wave{left:17%;right:17%;bottom:29%}
+}
+@media(prefers-reduced-motion:reduce){
+  .startup-environment-effects:after,.startup-environment-orb,.startup-environment-wave{animation:none}
+}
