@@ -163,3 +163,41 @@ html[data-theme='light'] .startup-footer,[data-theme='light'] .startup-footer{co
   .startup-screen::after,.startup-scene-depth,.startup-scene-glow,
   .startup-scene-hud,.startup-atmosphere span{transition:none}
 }
+
+
+/* Refined percentage-driven cinematic depth and bokeh atmosphere. */
+.startup-screen{
+  --startup-depth-blur:2px;
+  --startup-depth-progress:1%;
+}
+.startup-screen::after{
+  background:
+    radial-gradient(ellipse at 12% 18%,color-mix(in srgb,var(--startup-accent) 19%,transparent),transparent 34%),
+    radial-gradient(ellipse at 88% 82%,color-mix(in srgb,var(--startup-secondary) 16%,transparent),transparent 37%),
+    radial-gradient(ellipse at 52% 48%,color-mix(in srgb,var(--startup-tertiary) 11%,transparent),transparent 52%),
+    radial-gradient(circle at 24% 72%,#ffffff12 0 2px,transparent 3px),
+    radial-gradient(circle at 76% 28%,#ffffff16 0 2px,transparent 3px),
+    radial-gradient(circle at 63% 82%,#ffffff10 0 1.5px,transparent 3px);
+  filter:blur(calc(22px + var(--startup-depth-blur) * 2.5));
+}
+.startup-scene-depth{
+  background:
+    radial-gradient(ellipse at 16% 22%,color-mix(in srgb,var(--startup-accent) 27%,transparent),transparent 42%),
+    radial-gradient(ellipse at 84% 76%,color-mix(in srgb,var(--startup-secondary) 22%,transparent),transparent 44%),
+    radial-gradient(ellipse at 50% 52%,color-mix(in srgb,var(--startup-tertiary) 12%,transparent),transparent 55%),
+    linear-gradient(135deg,#d7fff01a,transparent 42%,#d7fff012);
+  filter:blur(calc(13px + var(--startup-depth-blur) * 1.8));
+}
+.startup-scene--earth .startup-scene-depth{
+  background:
+    radial-gradient(circle at 50% 49%,color-mix(in srgb,var(--startup-accent) 25%,transparent),transparent 27%),
+    radial-gradient(ellipse at 50% 54%,color-mix(in srgb,var(--startup-secondary) 17%,transparent),transparent 58%),
+    radial-gradient(ellipse at 50% 78%,color-mix(in srgb,var(--startup-tertiary) 15%,transparent),transparent 54%);
+}
+@media(max-width:650px){
+  .startup-screen::after{filter:blur(30px);opacity:.48}
+  .startup-scene-depth{filter:blur(16px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .startup-screen::after,.startup-scene-depth,.startup-scene-glow,.startup-scene-hud{transition:none}
+}
