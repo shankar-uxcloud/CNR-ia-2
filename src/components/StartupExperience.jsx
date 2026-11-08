@@ -107,13 +107,13 @@ export default function StartupExperience({ children }) {
     <>
       {children}
       {!dismissed && (
-        <div className={`startup-screen ${leaving ? 'startup-screen--leaving' : ''} ${prefersReducedMotion ? 'startup-screen--reduced-motion' : ''}`}
+        <div style={{'--startup-depth-blur': `${1.4 + (progress % 16) / 12}px`}} className={`startup-screen ${leaving ? 'startup-screen--leaving' : ''} ${prefersReducedMotion ? 'startup-screen--reduced-motion' : ''}`}
           role="status" aria-live="polite" aria-label={`CNR ExamPrep startup ${progress}%`}>
           <div className="startup-atmosphere" aria-hidden="true"><span/><span/><span/></div>
           <header className="startup-brand"><span className="startup-brand-mark"><Leaf size={22}/></span><span><strong>CNR <i>ExamPrep</i></strong><small>CONSERVATION OF NATURAL RESOURCES</small></span><b>BCV755B</b></header>
           <main className="startup-content">
             <div className={`startup-scene ${sceneIndex >= 6 ? 'startup-scene--earth' : ''}`} key={sceneIndex}>
-              <div className="startup-scene-glow"/><div className="startup-scene-hud" aria-hidden="true"><span className="startup-hud-corner startup-hud-corner--tl"/><span className="startup-hud-corner startup-hud-corner--tr"/><span className="startup-hud-corner startup-hud-corner--bl"/><span className="startup-hud-corner startup-hud-corner--br"/><span className="startup-hud-scan"/><span className="startup-hud-orbit"/></div>
+              <div className="startup-scene-glow"/><div className="startup-scene-depth" aria-hidden="true"/><div className="startup-scene-hud" aria-hidden="true"><span className="startup-hud-corner startup-hud-corner--tl"/><span className="startup-hud-corner startup-hud-corner--tr"/><span className="startup-hud-corner startup-hud-corner--bl"/><span className="startup-hud-corner startup-hud-corner--br"/><span className="startup-hud-scan"/><span className="startup-hud-orbit"/></div>
               <Landscape scene={sceneIndex}/>
               <div className="startup-scene-shade"/>
               <div className="startup-scene-copy"><span className="startup-scene-kicker">NATURE • KNOWLEDGE • SUSTAINABILITY</span><h1>{scene.title}</h1><p>{scene.detail}</p></div>
