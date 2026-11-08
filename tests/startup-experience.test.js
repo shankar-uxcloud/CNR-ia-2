@@ -67,3 +67,16 @@ test('startup enhancements retain reduced-motion and compact viewport support', 
   assert.match(styles, /max-height:560px/);
   assert.match(styles, /max-width:650px/);
 });
+
+
+test('cinematic blur intensity follows the full loading percentage without blurring foreground content', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  const styles = read('src/components/StartupExperience.css');
+  assert.match(source, /progress \/ 100/);
+  assert.match(source, /startup-depth-progress/);
+  assert.match(styles, /startup-scene-depth/);
+  assert.match(styles, /startup-screen::after/);
+  assert.match(styles, /startup-scene--earth \.startup-scene-depth/);
+  assert.match(styles, /startup-landscape,.startup-scene-copy,.startup-caption,.startup-progress-panel/);
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+});
