@@ -102,3 +102,64 @@ html[data-theme='light'] .startup-scene-copy h1,[data-theme='light'] .startup-sc
 html[data-theme='light'] .startup-progress-top,[data-theme='light'] .startup-progress-top{color:#345344}
 html[data-theme='light'] .startup-progress-top strong,[data-theme='light'] .startup-progress-top strong{color:#173d2b}
 html[data-theme='light'] .startup-footer,[data-theme='light'] .startup-footer{color:color-mix(in srgb,var(--cyber-accent) 65%,#526b5d)}
+
+
+/* Continuous cinematic depth: blur only atmospheric layers, never readable UI. */
+.startup-screen{
+  --startup-depth-blur:2px;
+}
+.startup-screen::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-4%;
+  pointer-events:none;
+  opacity:.62;
+  background:
+    radial-gradient(ellipse at 18% 22%,color-mix(in srgb,var(--startup-accent) 20%,transparent),transparent 36%),
+    radial-gradient(ellipse at 82% 78%,color-mix(in srgb,var(--startup-secondary) 17%,transparent),transparent 38%),
+    radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--startup-tertiary) 10%,transparent),transparent 54%);
+  filter:blur(calc(24px + var(--startup-depth-blur) * 3));
+  transition:filter .8s ease,opacity .8s ease;
+}
+.startup-scene-depth{
+  position:absolute;
+  z-index:0;
+  inset:-5%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 16% 22%,color-mix(in srgb,var(--startup-accent) 28%,transparent),transparent 42%),
+    radial-gradient(ellipse at 84% 76%,color-mix(in srgb,var(--startup-secondary) 22%,transparent),transparent 44%),
+    linear-gradient(135deg,#d7fff01a,transparent 42%,#d7fff012);
+  filter:blur(calc(15px + var(--startup-depth-blur) * 2));
+  opacity:.9;
+  transform:scale(1.04);
+  transition:filter .9s ease,opacity .9s ease;
+}
+.startup-scene-glow{
+  filter:blur(calc(5px + var(--startup-depth-blur)));
+  opacity:.9;
+  transition:filter .9s ease,opacity .9s ease;
+}
+.startup-scene-hud{
+  filter:blur(.45px);
+  opacity:.7;
+  transition:filter .9s ease,opacity .9s ease;
+}
+.startup-atmosphere span{
+  filter:blur(calc(62px + var(--startup-depth-blur) * 5));
+  transition:filter 1s ease;
+}
+/* Foreground scene artwork, captions, progress and typography stay crisp. */
+.startup-landscape,.startup-scene-copy,.startup-caption,.startup-progress-panel,
+.startup-brand,.startup-footer{
+  filter:none;
+}
+@media(max-width:650px){
+  .startup-scene-depth{filter:blur(calc(12px + var(--startup-depth-blur) * 1.5))}
+  .startup-atmosphere span{filter:blur(48px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .startup-screen::after,.startup-scene-depth,.startup-scene-glow,
+  .startup-scene-hud,.startup-atmosphere span{transition:none}
+}
