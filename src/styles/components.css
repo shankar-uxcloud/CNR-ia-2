@@ -471,3 +471,124 @@ aside nav a[aria-current='page'] { font-weight: 700; }
     transition-duration: .01ms !important;
   }
 }
+
+
+/* CNR NEON FLOW · continuously travelling perimeter light.
+   Theme colours come from the existing --cyber-accent/--cyber-secondary tokens. */
+@property --cnr-orbit-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes cnr-neon-orbit {
+  to { --cnr-orbit-angle: 360deg; }
+}
+@keyframes cnr-neon-breathe {
+  0%, 100% { opacity: .48; filter: blur(3px); }
+  50% { opacity: .82; filter: blur(5px); }
+}
+
+/* A narrow conic-gradient highlight traces the perimeter without covering content. */
+.card {
+  --cnr-orbit-angle: 0deg;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  padding: 1.25px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .58;
+  background: conic-gradient(
+    from var(--cnr-orbit-angle),
+    transparent 0deg,
+    transparent 205deg,
+    color-mix(in srgb, var(--cyber-accent) 18%, transparent) 238deg,
+    var(--cyber-accent) 268deg,
+    var(--cyber-secondary) 286deg,
+    color-mix(in srgb, var(--cyber-accent) 30%, transparent) 306deg,
+    transparent 335deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: cnr-neon-orbit 12s linear infinite;
+  transition: opacity 220ms ease;
+}
+.card:hover::before,
+.card[data-energy='active']::before { opacity: .95; }
+
+/* Buttons receive a restrained travelling highlight, especially on primary actions. */
+.btn-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .42;
+  background: linear-gradient(112deg, transparent 12%, color-mix(in srgb, white 35%, transparent) 48%, transparent 66%);
+  background-size: 220% 100%;
+  background-position: 180% 0;
+  animation: cnr-button-sweep 5.5s ease-in-out infinite;
+}
+@keyframes cnr-button-sweep {
+  0%, 62% { background-position: 180% 0; opacity: .12; }
+  82% { opacity: .5; }
+  100% { background-position: -40% 0; opacity: .12; }
+}
+
+/* Active navigation gets a moving accent rail; ordinary links stay calm. */
+aside nav a[aria-current='page'] {
+  position: relative;
+  overflow: hidden;
+}
+aside nav a[aria-current='page']::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 2px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, transparent, var(--cyber-accent), var(--cyber-secondary), transparent);
+  background-size: 100% 220%;
+  animation: cnr-nav-energy 3.2s ease-in-out infinite;
+  box-shadow: 0 0 10px var(--cyber-accent);
+}
+@keyframes cnr-nav-energy {
+  0%, 100% { background-position: 0 100%; opacity: .55; }
+  50% { background-position: 0 0; opacity: 1; }
+}
+
+/* Theme-aware focus and selected states share the same existing theme tokens. */
+:where(button, [role='button'], [role='tab'], a):focus-visible {
+  outline-color: var(--cyber-accent);
+  box-shadow: 0 0 0 3px var(--focus-ring), 0 0 16px color-mix(in srgb, var(--cyber-accent) 22%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover::before { animation-duration: 5s; }
+  .btn-primary:hover::after { animation-duration: 2.8s; }
+}
+
+/* Touch devices keep the visual edge but avoid expensive hover/animation intensity. */
+@media (max-width: 767px) {
+  .card::before { opacity: .36; animation-duration: 18s; }
+  .btn-primary::after { animation-duration: 8s; opacity: .25; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card::before,
+  .btn-primary::after,
+  aside nav a[aria-current='page']::after {
+    animation: none !important;
+    opacity: .35;
+  }
+}
