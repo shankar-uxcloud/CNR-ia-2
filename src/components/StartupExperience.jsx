@@ -13,6 +13,8 @@ const scenes = [
   { title: 'Ready to Make a Difference?', caption: 'Your Learning Environment Is Ready!', detail: 'Explore, learn and become a guardian of natural resources.' },
 ];
 
+const sceneClasses = ['startup-scene--forest','startup-scene--forest','startup-scene--water','startup-scene--energy','startup-scene--soil','startup-scene--wildlife','startup-scene--earth','startup-scene--earth'];
+
 const sceneFor = value => value === 100 ? 7 : value >= 90 ? 6 : value >= 75 ? 5 : value >= 60 ? 4 : value >= 45 ? 3 : value >= 30 ? 2 : value >= 15 ? 1 : 0;
 
 function Landscape({ scene }) {
@@ -112,7 +114,7 @@ export default function StartupExperience({ children }) {
           <div className="startup-atmosphere" aria-hidden="true"><span/><span/><span/></div>
           <header className="startup-brand"><span className="startup-brand-mark"><Leaf size={22}/></span><span><strong>CNR <i>ExamPrep</i></strong><small>CONSERVATION OF NATURAL RESOURCES</small></span><b>BCV755B</b></header>
           <main className="startup-content">
-            <div className={`startup-scene startup-scene--${sceneIndex === 2 ? 'water' : sceneIndex === 3 ? 'energy' : sceneIndex === 4 ? 'soil' : sceneIndex === 5 ? 'wildlife' : sceneIndex >= 6 ? 'earth' : 'forest'} ${sceneIndex >= 6 ? 'startup-scene--earth' : ''}`} key={sceneIndex}>
+            <div className={`startup-scene ${sceneClasses[sceneIndex]} ${sceneIndex >= 6 ? 'startup-scene--earth' : ''}`} key={sceneIndex}>
               <div className="startup-scene-glow"/><div className="startup-scene-depth" aria-hidden="true"/><div className="startup-environment-effects" aria-hidden="true"><span className="startup-environment-orb"/><span className="startup-environment-wave"/><span className="startup-environment-grid"/></div><div className="startup-scene-hud" aria-hidden="true"><span className="startup-hud-corner startup-hud-corner--tl"/><span className="startup-hud-corner startup-hud-corner--tr"/><span className="startup-hud-corner startup-hud-corner--bl"/><span className="startup-hud-corner startup-hud-corner--br"/><span className="startup-hud-scan"/><span className="startup-hud-orbit"/></div>
               <div className="startup-scene-telemetry" aria-hidden="true"><span>BIOSPHERE SYSTEM</span><strong>0{sceneIndex+1}<i>/08</i></strong><span className="startup-telemetry-bars"><i/><i/><i/><i/><i/></span></div>
               <Landscape scene={sceneIndex}/>
