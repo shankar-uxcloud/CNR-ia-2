@@ -95,3 +95,23 @@ test('startup scenes include distinct atmospheric treatments for CNR ecosystems'
   assert.match(styles, /environment-breathe/);
   assert.match(styles, /prefers-reduced-motion:reduce/);
 });
+
+
+test('cinematic biosphere loading adds scene telemetry and theme-aware perimeter lighting', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  const styles = read('src/components/StartupExperience.css');
+  assert.match(source, /startup-scene-telemetry/);
+  assert.match(source, /BIOSPHERE SYSTEM/);
+  assert.match(source, /sceneIndex\+1/);
+  assert.match(styles, /cnr-startup-perimeter/);
+  assert.match(styles, /--startup-accent/);
+  assert.match(styles, /startup-telemetry-bars/);
+});
+
+test('new startup motion remains disabled for reduced-motion users and scales on mobile', () => {
+  const styles = read('src/components/StartupExperience.css');
+  assert.match(styles, /\.startup-scene:after/);
+  assert.match(styles, /max-width:650px/);
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+  assert.match(styles, /startup-scene-telemetry/);
+});
