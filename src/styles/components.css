@@ -465,10 +465,9 @@ aside nav a[aria-current='page'] { font-weight: 700; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
+    scroll-behavior: auto;
+    animation: none;
+    transition: none;
   }
 }
 
@@ -588,7 +587,7 @@ aside nav a[aria-current='page']::after {
   .card::before,
   .btn-primary::after,
   aside nav a[aria-current='page']::after {
-    animation: none !important;
+    animation: none;
     opacity: .35;
   }
 }
