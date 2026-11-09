@@ -263,3 +263,134 @@ html[data-theme='light'] .startup-footer,[data-theme='light'] .startup-footer{co
 @media(prefers-reduced-motion:reduce){
   .startup-environment-effects:after,.startup-environment-orb,.startup-environment-wave{animation:none}
 }
+
+
+/* CNR FUTURE BIOSPHERE · refined visual layer for the existing startup sequence.
+   Palette is inherited from the website's active theme tokens. */
+@property --cnr-startup-orbit {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes cnr-startup-perimeter { to { --cnr-startup-orbit: 360deg; } }
+@keyframes cnr-startup-bars {
+  0%,100% { opacity:.35; transform:scaleY(.55); }
+  50% { opacity:1; transform:scaleY(1); }
+}
+@keyframes cnr-startup-signal {
+  0%,100% { opacity:.45; box-shadow:0 0 5px var(--startup-accent); }
+  50% { opacity:1; box-shadow:0 0 12px var(--startup-accent),0 0 22px var(--startup-glow); }
+}
+
+/* A single travelling highlight traces the landscape frame; the illustration stays clear. */
+.startup-scene { --cnr-startup-orbit:0deg; }
+.startup-scene:after {
+  content:"";
+  position:absolute;
+  z-index:5;
+  inset:0;
+  padding:1.25px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:conic-gradient(from var(--cnr-startup-orbit),
+    transparent 0deg,transparent 250deg,
+    color-mix(in srgb,var(--startup-accent) 18%,transparent) 278deg,
+    var(--startup-accent) 300deg,
+    color-mix(in srgb,var(--startup-secondary) 78%,transparent) 315deg,
+    transparent 342deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  opacity:.72;
+  animation:cnr-startup-perimeter 14s linear infinite;
+}
+.startup-scene:hover:after { opacity:.95; }
+
+/* Minimal environmental telemetry gives each scene a purposeful research-station feel. */
+.startup-scene-telemetry {
+  position:absolute;
+  z-index:4;
+  top:clamp(20px,3vw,34px);
+  right:clamp(22px,4vw,46px);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:5px;
+  color:#eafff0;
+  font:800 8px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;
+  letter-spacing:.16em;
+  text-shadow:0 1px 12px #00170d99;
+  pointer-events:none;
+}
+.startup-scene-telemetry strong {
+  color:var(--startup-accent);
+  font-size:clamp(21px,3vw,30px);
+  line-height:1;
+  letter-spacing:-.06em;
+  text-shadow:0 0 18px var(--startup-glow);
+  font-variant-numeric:tabular-nums;
+}
+.startup-scene-telemetry strong i {
+  color:#d9f7e2;
+  font-size:9px;
+  font-style:normal;
+  letter-spacing:.12em;
+  margin-left:3px;
+}
+.startup-telemetry-bars { display:flex;align-items:center;gap:3px;height:13px;margin-top:2px; }
+.startup-telemetry-bars i {
+  display:block;width:3px;height:100%;border-radius:4px;
+  background:var(--startup-accent);
+  box-shadow:0 0 8px var(--startup-glow);
+  transform-origin:bottom;
+  animation:cnr-startup-bars 1.15s ease-in-out infinite;
+}
+.startup-telemetry-bars i:nth-child(2){animation-delay:.12s}
+.startup-telemetry-bars i:nth-child(3){animation-delay:.24s}
+.startup-telemetry-bars i:nth-child(4){animation-delay:.36s}
+.startup-telemetry-bars i:nth-child(5){animation-delay:.48s}
+
+/* Sharper foreground, richer atmospheric edge lighting and a more deliberate progress rail. */
+.startup-progress-panel {
+  position:relative;
+}
+.startup-progress-track {
+  position:relative;
+  box-shadow:inset 0 1px 4px #0008,0 0 0 1px color-mix(in srgb,var(--startup-accent) 12%,transparent),0 0 20px var(--startup-glow);
+}
+.startup-progress-track span {
+  background-size:200% 100%;
+  animation:startup-progress-colorflow 5s linear infinite;
+}
+@keyframes startup-progress-colorflow {
+  from { background-position:0% 50%; }
+  to { background-position:200% 50%; }
+}
+.startup-progress-bottom i { animation:cnr-startup-signal 2.4s ease-in-out infinite; }
+.startup-brand-mark { position:relative; }
+.startup-brand-mark:after {
+  content:"";
+  position:absolute;
+  inset:-5px;
+  border:1px solid color-mix(in srgb,var(--startup-accent) 38%,transparent);
+  border-radius:17px;
+  opacity:.6;
+  animation:cnr-startup-perimeter 9s linear infinite;
+}
+.startup-screen .startup-caption-line {
+  box-shadow:0 0 10px var(--startup-glow);
+}
+@media(max-width:650px) {
+  .startup-scene-telemetry { top:18px;right:20px;font-size:7px; }
+  .startup-scene-telemetry strong { font-size:21px; }
+  .startup-scene:after { opacity:.5;animation-duration:22s; }
+}
+@media(max-height:560px) {
+  .startup-scene-telemetry { top:14px;right:20px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .startup-scene:after,.startup-telemetry-bars i,.startup-progress-track span,
+  .startup-progress-bottom i,.startup-brand-mark:after { animation:none!important; }
+  .startup-scene:after { opacity:.38; }
+}
