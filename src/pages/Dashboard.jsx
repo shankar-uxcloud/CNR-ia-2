@@ -4,6 +4,7 @@ import { QUESTIONS, MODULES, MODULE_ORDER, byId, byModule } from '../data/questi
 import { useStudy } from '../lib/study';
 import { iconFor } from '../lib/icons';
 import { ProgressRing, Bar, ModuleBadge, modColor, Empty } from '../components/ui';
+import PlanetPulse from '../components/PlanetPulse';
 
 function MiniRow({ q }) {
   const { isDone } = useStudy();
@@ -60,6 +61,8 @@ export default function Dashboard() {
           </div>
         ))}
       </section>
+
+      <PlanetPulse />
 
       <section className="card mt-5 overflow-hidden" aria-labelledby="daily-focus-title">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-4">
