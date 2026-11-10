@@ -65,3 +65,21 @@ test('study progress can be exported and safely restored from a versioned local 
   assert.match(app, /path === '\/data-backup'/);
   assert.match(shell, /Backup & Restore/);
 });
+
+
+test('Planet Pulse adds an interactive environmental explorer to the dashboard', () => {
+  const dashboard = read('src/pages/Dashboard.jsx');
+  const explorer = read('src/components/PlanetPulse.jsx');
+  const styles = read('src/components/PlanetPulse.css');
+  assert.match(dashboard, /import PlanetPulse from '..\/components\/PlanetPulse'/);
+  assert.match(dashboard, /<PlanetPulse \/>/);
+  assert.match(explorer, /CNR PLANET PULSE/);
+  assert.match(explorer, /aria-pressed={active === id}/);
+  assert.match(explorer, /Forest systems/);
+  assert.match(explorer, /Water security/);
+  assert.match(explorer, /Clean energy/);
+  assert.match(explorer, /Living networks/);
+  assert.match(styles, /--cyber-accent/);
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+  assert.match(styles, /max-width:480px/);
+});

@@ -1,0 +1,41 @@
+.planet-pulse{position:relative;border-color:color-mix(in srgb,var(--cyber-accent) 28%,var(--border-color));background:radial-gradient(ellipse at 80% 45%,color-mix(in srgb,var(--cyber-accent) 10%,transparent),transparent 46%),linear-gradient(125deg,var(--surface-primary),color-mix(in srgb,var(--surface-secondary) 70%,var(--surface-primary)));box-shadow:inset 0 1px 0 color-mix(in srgb,var(--cyber-accent) 14%,transparent),0 16px 48px #00000012}
+.planet-pulse-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);min-height:410px}
+.planet-pulse-copy{position:relative;z-index:2;padding:clamp(22px,3.5vw,42px)}
+.planet-pulse-kicker,.planet-pulse-live{display:inline-flex;align-items:center;gap:7px;font-size:9px;font-weight:800;letter-spacing:.16em}
+.planet-pulse-kicker{color:var(--cyber-accent)}
+.planet-pulse-live{padding:5px 8px;border:1px solid var(--border-color);border-radius:99px;color:var(--text-muted);letter-spacing:.1em}
+.planet-pulse-live i,.planet-pulse-signal i{width:6px;height:6px;border-radius:50%;background:var(--cyber-accent);box-shadow:0 0 10px var(--cyber-accent)}
+.planet-pulse-copy h2{margin-top:22px;font-size:clamp(29px,4vw,47px);font-weight:850;line-height:1.04;letter-spacing:-.055em;color:var(--text-primary)}
+.planet-pulse-copy h2 span{color:var(--cyber-accent);text-shadow:0 0 24px color-mix(in srgb,var(--cyber-accent) 25%,transparent)}
+.planet-pulse-intro{max-width:510px;margin-top:13px;font-size:13px;line-height:1.7;color:var(--text-secondary)}
+.planet-pulse-missions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:22px;max-width:550px}
+.planet-pulse-mission{display:flex;align-items:center;gap:9px;min-width:0;padding:11px 12px;border:1px solid var(--border-color);border-radius:12px;background:var(--surface-secondary);color:var(--text-secondary);font-size:12px;font-weight:650;text-align:left;transition:transform .2s,border-color .2s,box-shadow .2s,color .2s}
+.planet-pulse-mission:hover{transform:translateY(-2px);border-color:var(--cyber-accent);color:var(--text-primary);box-shadow:0 0 18px color-mix(in srgb,var(--cyber-accent) 12%,transparent)}
+.planet-pulse-mission.is-active{border-color:var(--cyber-accent);background:color-mix(in srgb,var(--cyber-accent) 11%,var(--surface-secondary));color:var(--text-primary);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cyber-accent) 18%,transparent),0 0 18px color-mix(in srgb,var(--cyber-accent) 12%,transparent)}
+.planet-pulse-mission>svg:first-child{flex:none;color:var(--cyber-accent)}
+.planet-pulse-mission .mission-arrow{margin-left:auto;flex:none;opacity:.55}
+.planet-pulse-detail{display:flex;align-items:flex-start;gap:11px;margin-top:13px;padding:13px;border:1px solid color-mix(in srgb,var(--cyber-accent) 28%,var(--border-color));border-radius:14px;background:color-mix(in srgb,var(--surface-secondary) 85%,transparent)}
+.planet-pulse-detail-icon{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:10px;background:color-mix(in srgb,var(--cyber-accent) 13%,transparent);color:var(--cyber-accent)}
+.planet-pulse-detail p{font-size:9px;font-weight:800;letter-spacing:.13em;color:var(--cyber-accent)}
+.planet-pulse-detail h3{margin-top:2px;font-size:14px;font-weight:750;color:var(--text-primary)}
+.planet-pulse-detail span{display:block;margin-top:4px;font-size:11px;line-height:1.55;color:var(--text-secondary)}
+.planet-pulse-detail>a{display:inline-flex;align-items:center;gap:4px;flex:none;margin-left:auto;font-size:10px;font-weight:750;color:var(--cyber-accent)}
+.planet-pulse-art{position:relative;display:grid;place-items:center;min-height:390px;overflow:hidden;background:radial-gradient(ellipse at center,color-mix(in srgb,var(--cyber-accent) 15%,transparent),transparent 62%)}
+.planet-pulse-visual{position:relative;display:grid;place-items:center;width:min(100%,390px);aspect-ratio:1}
+.planet-pulse-halo{position:absolute;width:65%;aspect-ratio:1;border-radius:50%;background:var(--cyber-accent);opacity:.1;filter:blur(48px);animation:planet-halo 5s ease-in-out infinite}
+.planet-pulse-earth{position:relative;z-index:2;width:74%;filter:drop-shadow(0 0 18px color-mix(in srgb,var(--cyber-accent) 38%,transparent));animation:planet-float 7s ease-in-out infinite}
+.planet-pulse-orbit{position:absolute;z-index:1;width:88%;height:35%;border:1px solid color-mix(in srgb,var(--cyber-accent) 40%,transparent);border-radius:50%;transform:rotate(-27deg)}
+.planet-pulse-orbit.orbit-two{width:98%;height:48%;transform:rotate(58deg);border-style:dashed;opacity:.55}
+.planet-pulse-orbit.orbit-three{width:72%;height:72%;border-style:dotted;opacity:.3}
+.planet-pulse-orbit i{position:absolute;top:50%;left:-4px;width:7px;height:7px;border-radius:50%;background:var(--cyber-accent);box-shadow:0 0 14px var(--cyber-accent)}
+.planet-pulse-orbit.orbit-two i{left:auto;right:12%;background:var(--cyber-secondary)}
+.planet-pulse-coordinate{position:absolute;z-index:3;font:700 8px ui-monospace,monospace;letter-spacing:.13em;color:var(--text-muted)}
+.coordinate-top{top:14%;right:2%}.coordinate-bottom{bottom:12%;left:4%}
+.planet-pulse-signal{position:absolute;z-index:3;top:10%;left:0;display:flex;align-items:center;gap:8px;font:800 8px ui-monospace,monospace;letter-spacing:.12em;color:var(--text-muted)}
+.planet-pulse-art-note{position:absolute;bottom:20px;display:flex;align-items:center;gap:7px;font-size:10px;color:var(--text-muted)}
+.planet-pulse-art-note svg{color:var(--cyber-accent)}
+@keyframes planet-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+@keyframes planet-halo{0%,100%{opacity:.07;transform:scale(.92)}50%{opacity:.16;transform:scale(1.08)}}
+@media(max-width:800px){.planet-pulse-grid{grid-template-columns:1fr}.planet-pulse-art{min-height:290px;grid-row:1}.planet-pulse-visual{max-width:310px}.planet-pulse-copy{padding-top:8px}}
+@media(max-width:480px){.planet-pulse-art{min-height:250px}.planet-pulse-missions{grid-template-columns:1fr}.planet-pulse-detail{flex-wrap:wrap}.planet-pulse-detail>a{margin-left:45px}.planet-pulse-coordinate{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.planet-pulse-earth,.planet-pulse-halo{animation:none}.planet-pulse-mission{transition:none}}
