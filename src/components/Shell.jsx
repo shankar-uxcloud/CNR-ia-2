@@ -72,6 +72,7 @@ function Nav({ path, onNavigate }) {
   const { bookmarks, completed } = useStudy();
   const nb = Object.keys(bookmarks).length, done = Object.keys(completed).length;
   const items = [
+    { to: '/ecoweb', label: 'EcoWeb Architect', icon: Network },
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },

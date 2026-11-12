@@ -23,6 +23,7 @@ const SmartRevision = lazy(() => import('./pages/SmartRevision'));
 const AdditionalNotes = lazy(() => import('./pages/AdditionalNotes'));
 const StudyCoach = lazy(() => import('./pages/StudyCoach'));
 const DataBackup = lazy(() => import('./pages/DataBackup'));
+const EcoWebArchitect = lazy(() => import('./pages/EcoWebArchitect'));
 
 function Router({ path }) {
   if (path === '/dashboard') return <Dashboard />;
@@ -39,6 +40,7 @@ function Router({ path }) {
   if (path === '/additional-notes') return <AdditionalNotes />;
   if (path === '/study-coach') return <StudyCoach />;
   if (path === '/data-backup') return <DataBackup />;
+  if (path === '/ecoweb') return <EcoWebArchitect />;
   if (path === '/planner') return <Planner />;
   const m = path.match(/^\/module\/([345])$/);
   if (m) return <Library module={Number(m[1])} />;
