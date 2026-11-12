@@ -188,7 +188,7 @@ main { box-sizing: border-box; min-width: 0; }
   text-wrap: balance;
 }
 .page-enter :where(h2, h3) { max-width: 100%; line-height: 1.28; text-wrap: pretty; }
-.page-enter :where(p, li, td, th, label) { overflow-wrap: break-word; }
+.page-enter :where(h1, h2, h3, p, li, td, th, label) { overflow-wrap: break-word; }
 .page-enter :where(a, button, span) { min-width: 0; overflow-wrap: break-word; }
 .page-enter :where(button, .btn, .btn-primary, .btn-ghost) { max-width: 100%; white-space: normal; text-wrap: balance; }
 .page-enter :where(input, select, textarea) { box-sizing: border-box; min-width: 0; max-width: 100%; }
