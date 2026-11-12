@@ -29,7 +29,7 @@ test('every registered learning route is rendered inside the shared page layout 
   for (const route of routes) assert.ok(app.includes(route), `Missing route: ${route}`);
   assert.match(app, /<Shell path={path}>/);
   assert.match(shell, /className="page-enter"/);
-  assert.match(app, /path === '\/'/);
+  assert.ok(app.includes("path === '/'"));
   assert.match(app, /\/module\/\(\[345\]\)/);
   assert.match(app, /\/q\/\(\[a-z0-9\]\+\)/);
 });
