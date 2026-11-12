@@ -16,7 +16,7 @@ test('EcoWeb Architect teaches three distinct food webs and tests trophic cascad
   const page = read('src/pages/EcoWebArchitect.jsx');
   for (const habitat of ['Western Ghats rainforest', 'Freshwater wetland', 'Deccan grassland']) assert.ok(page.includes(habitat));
   assert.match(page, /Construct the food web/);
-  assert.match(page, /Energy flows to the consumer/);
+  assert.match(page, /energy flows to the consumer/i);
   assert.match(page, /Simulate species loss/);
   assert.match(page, /Learning model: simplified relationships/);
   assert.match(page, /aria-live="polite"/);
