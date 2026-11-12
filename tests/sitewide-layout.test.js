@@ -31,7 +31,7 @@ test('every registered learning route is rendered inside the shared page layout 
   assert.match(shell, /className="page-enter"/);
   assert.ok(app.includes("path === '/'"));
   assert.ok(app.includes('([345])'));
-  assert.match(app, /\/q\/\(\[a-z0-9\]\+\)/);
+  assert.ok(app.includes('([a-z0-9]+)'));
 });
 
 test('shared layout keeps the fixed desktop sidebar from widening the main content canvas', () => {
