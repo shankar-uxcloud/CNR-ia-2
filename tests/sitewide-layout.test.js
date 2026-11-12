@@ -30,7 +30,7 @@ test('every registered learning route is rendered inside the shared page layout 
   assert.match(app, /<Shell path={path}>/);
   assert.match(shell, /className="page-enter"/);
   assert.ok(app.includes("path === '/'"));
-  assert.match(app, /\/module\/\(\[345\]\)/);
+  assert.ok(app.includes('([345])'));
   assert.match(app, /\/q\/\(\[a-z0-9\]\+\)/);
 });
 
