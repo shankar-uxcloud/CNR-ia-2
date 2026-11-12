@@ -158,3 +158,65 @@ main :where(.reading) { width: 100%; }
   .card.group:hover { transform: none; }
 }
 
+/* Site-wide alignment contract.
+   Keep the fixed navigation rail and the content canvas on the same width system. */
+:root {
+  --page-gutter: clamp(1rem, 2.6vw, 2rem);
+  --page-vertical-space: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+#root { width: 100%; min-width: 320px; }
+main { box-sizing: border-box; min-width: 0; }
+.page-enter {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin-inline: auto;
+}
+.page-enter > .mx-auto[class*="max-w-"] {
+  box-sizing: border-box;
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+  padding-block: var(--page-vertical-space);
+}
+.page-enter :where(.grid) { min-width: 0; align-items: stretch; }
+.page-enter :where(.grid > *, .flex > *) { min-width: 0; }
+.page-enter :where(h1) {
+  max-width: 100%;
+  font-size: clamp(1.65rem, 2.6vw, 2.25rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.page-enter :where(h2, h3) { max-width: 100%; line-height: 1.28; text-wrap: pretty; }
+.page-enter :where(p, li, td, th, label) { overflow-wrap: break-word; }
+.page-enter :where(a, button, span) { min-width: 0; overflow-wrap: break-word; }
+.page-enter :where(button, .btn, .btn-primary, .btn-ghost) { max-width: 100%; white-space: normal; text-wrap: balance; }
+.page-enter :where(input, select, textarea) { box-sizing: border-box; min-width: 0; max-width: 100%; }
+.page-enter :where(img, video, canvas, iframe, svg) { max-width: 100%; }
+.page-enter :where(table) { border-collapse: separate; }
+.page-enter :where(.overflow-x-auto) { min-width: 0; overscroll-behavior-x: contain; }
+.page-enter :where(.card) { box-sizing: border-box; }
+
+/* The main element has an explicit width: compensate for its desktop rail offset. */
+@media (min-width: 1024px) {
+  .min-h-screen > main[class~="lg:ml-64"] { width: calc(100% - 16rem); }
+}
+@media (max-width: 639px) {
+  .page-enter > .mx-auto[class*="max-w-"] {
+    padding-inline: .875rem;
+    padding-block: 1.5rem;
+  }
+  .page-enter :where(.grid[class*="sm:grid-cols-"], .grid[class*="md:grid-cols-"], .grid[class*="lg:grid-cols-"], .grid[class*="xl:grid-cols-"]) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .page-enter :where(.card) { border-radius: 1rem; }
+  .page-enter :where(.flex.items-center.justify-between) { row-gap: .75rem; }
+  .page-enter :where(.btn, .btn-primary, .btn-ghost) { min-height: 2.625rem; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .page-enter > .mx-auto[class*="max-w-"] { padding-inline: 1.5rem; }
+  .page-enter :where(.grid[class*="xl:grid-cols-"]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1600px) {
+  .page-enter > .mx-auto[class*="max-w-"] { padding-inline: 2rem; }
+}
