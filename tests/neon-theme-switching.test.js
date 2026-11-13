@@ -72,3 +72,25 @@ test('light neon palettes switch the complete surface and typography system', ()
     assert.ok(block.includes('--diagram-node-active: var(--cyber-accent)'));
   }
 });
+
+
+test('dark neon palettes each own distinct background and surface tokens', () => {
+  const themes = read('src/styles/themes.css');
+  const tokens = ['--bg-primary', '--bg-secondary', '--surface-primary', '--surface-secondary', '--cyber-accent', '--c-brand'];
+  const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
+  const blocks = palettes.map((name) => {
+    const selector = `:root[data-theme='dark'][data-neon-theme='${name}']`;
+    const start = themes.indexOf(selector);
+    assert.notEqual(start, -1, `Missing dark palette: ${name}`);
+    const next = themes.indexOf('\\n:root[', start + selector.length);
+    return themes.slice(start, next === -1 ? themes.length : next);
+  });
+  for (const token of tokens) {
+    const values = blocks.map((block, index) => {
+      const declaration = block.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
+      assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
+      return declaration.slice(token.length + 1).trim();
+    });
+    assert.equal(new Set(values).size, palettes.length, `${token} should differ across dark palettes`);
+  }
+});
