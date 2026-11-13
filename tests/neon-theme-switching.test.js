@@ -46,3 +46,29 @@ test('all neon palettes define distinct readable light-mode accents', () => {
     assert.ok(paletteBlock.includes('--diagram-node-active: var(--cyber-accent)'), `Diagrams do not follow ${name}`);
   }
 });
+
+
+test('light neon palettes switch the complete surface and typography system', () => {
+  const themes = read('src/styles/themes.css');
+  const tokens = ['--bg-primary', '--bg-secondary', '--surface-primary', '--surface-secondary', '--text-primary', '--border-color', '--button-primary-bg', '--c-brand'];
+  const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
+  const blocks = palettes.map((name) => {
+    const selector = `:root[data-theme='light'][data-neon-theme='${name}']`;
+    const start = themes.indexOf(selector);
+    assert.notEqual(start, -1, `Missing complete light palette: ${name}`);
+    const next = themes.indexOf('\\n:root[', start + selector.length);
+    return themes.slice(start, next === -1 ? themes.length : next);
+  });
+  for (const token of tokens) {
+    const values = blocks.map((block, index) => {
+      const match = block.match(new RegExp(token.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + ':\\\\s*([^;]+)'));
+      assert.ok(match, `Missing ${token} in ${palettes[index]}`);
+      return match[1].trim();
+    });
+    assert.equal(new Set(values).size, palettes.length, `${token} should visibly differ across light palettes`);
+  }
+  for (const block of blocks) {
+    assert.match(block, /--button-primary-text: #ffffff/);
+    assert.match(block, /--diagram-node-active: var\\(--cyber-accent\\)/);
+  }
+});
