@@ -46,3 +46,53 @@ test('all neon palettes define distinct readable light-mode accents', () => {
     assert.ok(paletteBlock.includes('--diagram-node-active: var(--cyber-accent)'), `Diagrams do not follow ${name}`);
   }
 });
+
+
+test('light neon palettes switch the complete surface and typography system', () => {
+  const themes = read('src/styles/themes.css');
+  const tokens = ['--bg-primary', '--bg-secondary', '--surface-primary', '--surface-secondary', '--text-primary', '--border-color', '--cyber-accent', '--c-brand'];
+  const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
+  const blocks = palettes.map((name) => {
+    const selector = `:root[data-theme='light'][data-neon-theme='${name}']`;
+    const start = themes.indexOf(selector);
+    assert.notEqual(start, -1, `Missing complete light palette: ${name}`);
+    const next = themes.indexOf('\n:root[', start + selector.length);
+    return themes.slice(start, next === -1 ? themes.length : next);
+  });
+  for (const token of tokens) {
+    const values = blocks.map((block, index) => {
+      const body = block.slice(block.indexOf('{') + 1);
+      const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
+      assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
+      return declaration.slice(token.length + 1).trim();
+    });
+    assert.equal(new Set(values).size, palettes.length, `${token} should visibly differ across light palettes`);
+  }
+  for (const block of blocks) {
+    assert.ok(block.includes('--button-primary-text: #ffffff'));
+    assert.ok(block.includes('--diagram-node-active: var(--cyber-accent)'));
+  }
+});
+
+
+test('dark neon palettes each own distinct background and surface tokens', () => {
+  const themes = read('src/styles/themes.css');
+  const tokens = ['--bg-primary', '--bg-secondary', '--surface-primary', '--surface-secondary', '--cyber-accent', '--c-brand'];
+  const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
+  const blocks = palettes.map((name) => {
+    const selector = `:root[data-theme='dark'][data-neon-theme='${name}']`;
+    const start = themes.indexOf(selector);
+    assert.notEqual(start, -1, `Missing dark palette: ${name}`);
+    const next = themes.indexOf('\n:root[', start + selector.length);
+    return themes.slice(start, next === -1 ? themes.length : next);
+  });
+  for (const token of tokens) {
+    const values = blocks.map((block, index) => {
+      const body = block.slice(block.indexOf('{') + 1);
+      const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
+      assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
+      return declaration.slice(token.length + 1).trim();
+    });
+    assert.equal(new Set(values).size, palettes.length, `${token} should differ across dark palettes`);
+  }
+});
