@@ -50,7 +50,7 @@ test('all neon palettes define distinct readable light-mode accents', () => {
 
 test('light neon palettes switch the complete surface and typography system', () => {
   const themes = read('src/styles/themes.css');
-  const tokens = ['--bg-primary', '--bg-secondary', '--surface-primary', '--surface-secondary', '--text-primary', '--border-color', '--button-primary-bg', '--c-brand'];
+  const tokens = ['--bg-primary', '--bg-secondary', '--surface-primary', '--surface-secondary', '--text-primary', '--border-color', '--cyber-accent', '--c-brand'];
   const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
   const blocks = palettes.map((name) => {
     const selector = `:root[data-theme='light'][data-neon-theme='${name}']`;
