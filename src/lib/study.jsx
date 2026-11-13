@@ -159,7 +159,15 @@ export function StudyProvider({ children }) {
         return false;
       }
     },
-    setSetting: (k, v) => setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } })),
+    setSetting: (k, v) => {
+      // Keep the root palette selector in sync in the same click that changes
+      // the selected neon theme; the layout effect below remains the source of
+      // truth for persisted settings and full appearance synchronization.
+      if (k === 'cyberTheme' && ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(v)) {
+        document.documentElement.setAttribute('data-neon-theme', v);
+      }
+      setState((s) => ({ ...s, settings: { ...s.settings, [k]: v } }));
+    },
     toggleTheme: () => setState((s) => ({ ...s, settings: { ...s.settings, theme: s.settings.theme === 'dark' ? 'light' : 'dark' } })),
     resetAll: () => setState((s) => ({ ...DEFAULTS, settings: s.settings })),
   }), [state, theme, focus, query, toasts, notify]);
