@@ -56,7 +56,7 @@ test('light neon palettes switch the complete surface and typography system', ()
     const selector = `:root[data-theme='light'][data-neon-theme='${name}']`;
     const start = themes.indexOf(selector);
     assert.notEqual(start, -1, `Missing complete light palette: ${name}`);
-    const next = themes.indexOf('\\n:root[', start + selector.length);
+    const next = themes.indexOf('\n:root[', start + selector.length);
     return themes.slice(start, next === -1 ? themes.length : next);
   });
   for (const token of tokens) {
@@ -82,7 +82,7 @@ test('dark neon palettes each own distinct background and surface tokens', () =>
     const selector = `:root[data-theme='dark'][data-neon-theme='${name}']`;
     const start = themes.indexOf(selector);
     assert.notEqual(start, -1, `Missing dark palette: ${name}`);
-    const next = themes.indexOf('\\n:root[', start + selector.length);
+    const next = themes.indexOf('\n:root[', start + selector.length);
     return themes.slice(start, next === -1 ? themes.length : next);
   });
   for (const token of tokens) {
