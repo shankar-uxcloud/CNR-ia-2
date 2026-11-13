@@ -87,7 +87,8 @@ test('dark neon palettes each own distinct background and surface tokens', () =>
   });
   for (const token of tokens) {
     const values = blocks.map((block, index) => {
-      const declaration = block.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
+      const body = block.slice(block.indexOf('{') + 1);
+      const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
       assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
       return declaration.slice(token.length + 1).trim();
     });
