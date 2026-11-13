@@ -25,3 +25,24 @@ test('choosing a neon palette updates the root selector immediately and persists
   assert.match(study, /useLayoutEffect\(\(\) => \{[\s\S]*root\.setAttribute\('data-neon-theme', cyberTheme\)/);
   assert.match(study, /\['ultra-cyber', 'arctic', 'purple', 'eco'\]\.includes\(v\)/);
 });
+
+test('all neon palettes define distinct readable light-mode accents', () => {
+  const themes = read('src/styles/themes.css');
+  const lightAccents = {
+    'ultra-cyber': '#087f9f',
+    arctic: '#087da0',
+    purple: '#7541b8',
+    eco: '#16834a',
+  };
+
+  for (const [name, accent] of Object.entries(lightAccents)) {
+    const selector = `:root[data-theme='light'][data-neon-theme='${name}']`;
+    const start = themes.indexOf(selector);
+    assert.notEqual(start, -1, `Missing light-mode selector for ${name}`);
+    const next = themes.indexOf('\n:root[', start + selector.length);
+    const paletteBlock = themes.slice(start, next === -1 ? themes.length : next);
+    assert.ok(paletteBlock.includes(`--cyber-accent: ${accent}`), `Missing light accent for ${name}`);
+    assert.ok(paletteBlock.includes('--button-primary-bg: var(--cyber-accent)'), `Primary controls do not follow ${name}`);
+    assert.ok(paletteBlock.includes('--diagram-node-active: var(--cyber-accent)'), `Diagrams do not follow ${name}`);
+  }
+});
