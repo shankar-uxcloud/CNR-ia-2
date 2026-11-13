@@ -115,6 +115,61 @@
   --cyber-glass: rgb(255 255 255 / .82);
   --cyber-edge: rgb(8 127 159 / .2);
 }
+/* Light mode keeps its readable light surfaces, but each selected neon palette
+   supplies its own accent family instead of falling back to the same default teal. */
+:root[data-theme='light'][data-neon-theme='ultra-cyber'] {
+  --cyber-accent: #087f9f; --cyber-accent-rgb: 8 127 159;
+  --cyber-secondary: #c02678; --cyber-tertiary: #7044c8;
+  --cyber-edge: rgb(8 127 159 / .24);
+  --border-active: var(--cyber-accent); --button-primary-bg: var(--cyber-accent);
+  --focus-ring: rgb(8 127 159 / .2); --status-info: #087f9f; --status-info-bg: #e8f7fb;
+  --c-brand: 8 127 159; --c-cyan: 192 38 120;
+  --neon-cyan: var(--cyber-accent); --neon-blue: var(--cyber-secondary); --neon-purple: var(--cyber-tertiary);
+  --ux-cyan: var(--cyber-accent); --ux-violet: var(--cyber-tertiary); --ux-magenta: var(--cyber-secondary); --ux-blue: #2563eb;
+  --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
+  --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
+  --glow-cyan: 0 0 10px rgb(8 127 159 / .16), 0 0 22px rgb(8 127 159 / .08);
+}
+:root[data-theme='light'][data-neon-theme='arctic'] {
+  --cyber-accent: #087da0; --cyber-accent-rgb: 8 125 160;
+  --cyber-secondary: #2563c9; --cyber-tertiary: #0f766e;
+  --cyber-edge: rgb(8 125 160 / .24);
+  --border-active: var(--cyber-accent); --button-primary-bg: var(--cyber-accent);
+  --focus-ring: rgb(8 125 160 / .2); --status-info: #087da0; --status-info-bg: #e8f7fc;
+  --c-brand: 8 125 160; --c-cyan: 37 99 201;
+  --neon-cyan: var(--cyber-accent); --neon-blue: var(--cyber-secondary); --neon-purple: #0f766e;
+  --ux-cyan: var(--cyber-accent); --ux-violet: #2563c9; --ux-magenta: #0f766e; --ux-blue: var(--cyber-secondary);
+  --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
+  --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
+  --glow-cyan: 0 0 10px rgb(8 125 160 / .16), 0 0 22px rgb(8 125 160 / .08);
+}
+:root[data-theme='light'][data-neon-theme='purple'] {
+  --cyber-accent: #7541b8; --cyber-accent-rgb: 117 65 184;
+  --cyber-secondary: #b42378; --cyber-tertiary: #2563a8;
+  --cyber-edge: rgb(117 65 184 / .24);
+  --border-active: var(--cyber-accent); --button-primary-bg: var(--cyber-accent);
+  --focus-ring: rgb(117 65 184 / .2); --status-info: #7541b8; --status-info-bg: #f3edfc;
+  --c-brand: 117 65 184; --c-cyan: 180 35 120;
+  --neon-cyan: var(--cyber-accent); --neon-blue: #2563a8; --neon-purple: var(--cyber-accent);
+  --ux-cyan: var(--cyber-accent); --ux-violet: #7044c8; --ux-magenta: var(--cyber-secondary); --ux-blue: #2563a8;
+  --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
+  --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
+  --glow-cyan: 0 0 10px rgb(117 65 184 / .16), 0 0 22px rgb(117 65 184 / .08);
+}
+:root[data-theme='light'][data-neon-theme='eco'] {
+  --cyber-accent: #16834a; --cyber-accent-rgb: 22 131 74;
+  --cyber-secondary: #087f78; --cyber-tertiary: #648b16;
+  --cyber-edge: rgb(22 131 74 / .24);
+  --border-active: var(--cyber-accent); --button-primary-bg: var(--cyber-accent);
+  --focus-ring: rgb(22 131 74 / .2); --status-info: #087f78; --status-info-bg: #e8f7f0;
+  --c-brand: 22 131 74; --c-cyan: 8 127 120;
+  --neon-cyan: var(--cyber-accent); --neon-blue: #087f78; --neon-purple: #648b16;
+  --ux-cyan: var(--cyber-accent); --ux-violet: #648b16; --ux-magenta: #087f78; --ux-blue: #087f78;
+  --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
+  --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
+  --glow-cyan: 0 0 10px rgb(22 131 74 / .16), 0 0 22px rgb(22 131 74 / .08);
+}
+
 :root[data-theme='dark'] {
   --border-active: var(--cyber-accent);
   --button-primary-bg: var(--cyber-accent);
