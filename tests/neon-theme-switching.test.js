@@ -61,14 +61,14 @@ test('light neon palettes switch the complete surface and typography system', ()
   });
   for (const token of tokens) {
     const values = blocks.map((block, index) => {
-      const match = block.match(new RegExp(token.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + ':\\\\s*([^;]+)'));
-      assert.ok(match, `Missing ${token} in ${palettes[index]}`);
-      return match[1].trim();
+      const declaration = block.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
+      assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
+      return declaration.slice(token.length + 1).trim();
     });
     assert.equal(new Set(values).size, palettes.length, `${token} should visibly differ across light palettes`);
   }
   for (const block of blocks) {
-    assert.match(block, /--button-primary-text: #ffffff/);
-    assert.match(block, /--diagram-node-active: var\\(--cyber-accent\\)/);
+    assert.ok(block.includes('--button-primary-text: #ffffff'));
+    assert.ok(block.includes('--diagram-node-active: var(--cyber-accent)'));
   }
 });
