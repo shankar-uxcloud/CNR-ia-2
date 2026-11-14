@@ -268,7 +268,7 @@
   --neon-bg: #1c1030; --neon-bg-raised: #2a1742;
   --neon-surface: #321d4c; --neon-surface-raised: #40245d;
   --neon-text: #fff7ff; --neon-muted: #cbb1df;
-  --neon-violet: #7044c8; --neon-green: #7541b8; --neon-magenta: #b42378;
+  --neon-violet: #7c3aed; --neon-green: #7541b8; --neon-magenta: #b42378;
   --landing-bg: #1c1030; --landing-deep: #2a1742;
   --landing-surface-a: #51266a; --landing-surface-b: #321e55; --landing-surface-c: #4b1f55;
   --landing-text: #fff7ff; --landing-cta-text: #ffffff;
@@ -278,7 +278,7 @@
   --neon-green: #7541b8;
   --neon-magenta: #b42378;
   --ux-blue: #2563a8;
-  --ux-violet: #a78bfa;
+  --ux-violet: #7c3aed;
   --ux-green: #7541b8;
   --ux-magenta: #b42378;
 }
