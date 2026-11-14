@@ -135,7 +135,7 @@ test('all eight palette modes define the legacy tokens used by landing and share
 test('landing and shared surface styles consume palette tokens rather than fixed palette colours', () => {
   const themes = read('src/styles/themes.css');
   const components = read('src/styles/components.css');
-  assert.match(themes, /body\s*\{[\s\\S]*background-color:\s*var\(--bg-primary\)/);
-  assert.match(components, /\\.landing-hero\s*\{[^}]*background:\s*var\(--landing-bg\)/);
-  assert.match(components, /\\.cyber-hud-cell\s*\{[^}]*box-shadow:\s*var\(--ux-glow\)/);
+  assert.match(themes, /body\s*\{[\s\S]*background-color:\s*var\(--bg-primary\)/);
+  assert.match(components, /\.landing-hero\s*\{[^}]*background:\s*var\(--landing-bg\)/);
+  assert.match(components, /\.cyber-hud-cell\s*\{[^}]*box-shadow:\s*var\(--ux-glow\)/);
 });
