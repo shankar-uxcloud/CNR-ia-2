@@ -149,9 +149,9 @@ test('every palette owns the complete neon accent alias family in both modes', (
 
   for (const mode of modes) {
     const blocks = palettes.map((name) => {
-      const selector = \`:root[data-theme='\${mode}'][data-neon-theme='\${name}']\`;
+      const selector = `:root[data-theme='${mode}'][data-neon-theme='${name}']`;
       const start = themes.indexOf(selector);
-      assert.notEqual(start, -1, \`Missing \${mode}/\${name} selector\`);
+      assert.notEqual(start, -1, `Missing ${mode}/${name} selector`);
       const next = themes.indexOf('\n:root[', start + selector.length);
       return themes.slice(start, next === -1 ? themes.length : next);
     });
@@ -159,10 +159,10 @@ test('every palette owns the complete neon accent alias family in both modes', (
     for (const token of aliases) {
       const values = blocks.map((block, index) => {
         const declarations = block.replace(/\/\*[\s\S]*?\*\//g, '').split(';').map((part) => part.trim()).filter((part) => part.startsWith(token + ':'));
-        assert.ok(declarations.length, \`Missing \${token} in \${mode}/\${palettes[index]}\`);
+        assert.ok(declarations.length, `Missing ${token} in ${mode}/${palettes[index]}`);
         return declarations.at(-1).slice(token.length + 1).replace(/;$/, '').trim();
       });
-      assert.equal(new Set(values).size, palettes.length, \`\${mode} \${token} must be unique per palette\`);
+      assert.equal(new Set(values).size, palettes.length, `${mode} ${token} must be unique per palette`);
     }
   }
 });
