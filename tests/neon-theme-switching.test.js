@@ -61,7 +61,7 @@ test('light neon palettes switch the complete surface and typography system', ()
   });
   for (const token of tokens) {
     const values = blocks.map((block, index) => {
-      const body = block.slice(block.indexOf('{') + 1);
+      const body = block.slice(block.indexOf('{') + 1).replace(/\/\*[\s\S]*?\*\//g, '');
       const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
       assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
       return declaration.slice(token.length + 1).trim();
@@ -88,7 +88,7 @@ test('dark neon palettes each own distinct background and surface tokens', () =>
   });
   for (const token of tokens) {
     const values = blocks.map((block, index) => {
-      const body = block.slice(block.indexOf('{') + 1);
+      const body = block.slice(block.indexOf('{') + 1).replace(/\/\*[\s\S]*?\*\//g, '');
       const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
       assert.ok(declaration, `Missing ${token} in ${palettes[index]}`);
       return declaration.slice(token.length + 1).trim();
@@ -121,7 +121,7 @@ test('all eight palette modes define the legacy tokens used by landing and share
 
     for (const token of tokens) {
       const values = blocks.map((block, index) => {
-        const body = block.slice(block.indexOf('{') + 1);
+        const body = block.slice(block.indexOf('{') + 1).replace(/\/\*[\s\S]*?\*\//g, '');
         const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
         assert.ok(declaration, `Missing ${token} in ${mode}/${palettes[index]}`);
         return declaration.slice(token.length + 1).trim();
