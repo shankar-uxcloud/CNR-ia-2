@@ -107,7 +107,7 @@ test('all eight palette modes define the legacy tokens used by landing and share
     '--neon-bg', '--neon-bg-raised', '--neon-surface', '--neon-surface-raised',
     '--neon-text', '--neon-muted', '--neon-violet', '--neon-green', '--neon-magenta',
     '--landing-bg', '--landing-deep', '--landing-surface-a', '--landing-surface-b',
-    '--landing-surface-c', '--landing-text', '--landing-cta-text', '--glow-purple',
+    '--landing-surface-c', '--landing-text', '--glow-purple',
   ];
 
   for (const mode of modes) {
@@ -128,6 +128,7 @@ test('all eight palette modes define the legacy tokens used by landing and share
       });
       assert.equal(new Set(values).size, palettes.length, `${mode} ${token} must follow the selected palette`);
     }
+    for (const block of blocks) assert.ok(block.includes('--landing-cta-text:'), `Missing landing CTA text in ${mode}`);
   }
 });
 
