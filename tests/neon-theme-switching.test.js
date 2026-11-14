@@ -139,3 +139,30 @@ test('landing and shared surface styles consume palette tokens rather than fixed
   assert.match(components, /\.landing-hero\s*\{[^}]*background:\s*var\(--landing-bg\)/);
   assert.match(components, /\.cyber-hud-cell\s*\{[^}]*box-shadow:\s*var\(--ux-glow\)/);
 });
+
+
+test('every palette owns the complete neon accent alias family in both modes', () => {
+  const themes = read('src/styles/themes.css');
+  const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
+  const modes = ['light', 'dark'];
+  const aliases = ['--neon-cyan', '--neon-blue', '--neon-purple', '--neon-violet', '--neon-green', '--neon-magenta', '--ux-cyan', '--ux-blue', '--ux-violet', '--ux-green', '--ux-magenta'];
+
+  for (const mode of modes) {
+    const blocks = palettes.map((name) => {
+      const selector = `:root[data-theme='${mode}'][data-neon-theme='${name}']`;
+      const start = themes.indexOf(selector);
+      assert.notEqual(start, -1, `Missing ${mode}/${name} selector`);
+      const next = themes.indexOf('\\n:root[', start + selector.length);
+      return themes.slice(start, next === -1 ? themes.length : next);
+    });
+
+    for (const token of aliases) {
+      const values = blocks.map((block, index) => {
+        const declarations = [...block.matchAll(new RegExp('(?:^|\\\\n)\\\\s*' + token + '\\\\s*:\\\\s*([^;]+);', 'g'))];
+        assert.ok(declarations.length, `Missing ${token} in ${mode}/${palettes[index]}`);
+        return declarations.at(-1)[1].trim();
+      });
+      assert.equal(new Set(values).size, palettes.length, `${mode} ${token} must be unique per palette`);
+    }
+  }
+});
