@@ -28,6 +28,15 @@
   --ux-glow: 0 12px 34px rgb(0 0 0 / .3), 0 0 22px rgb(0 245 255 / .07);
   --neon-violet: #7c3aed; --neon-green: #39ff88; --neon-magenta: #ff3cac;
   --glow-purple: 0 0 12px color-mix(in srgb, #ff3cac 18%, transparent), 0 0 26px color-mix(in srgb, #00f5ff 8%, transparent);
+  --neon-cyan: #00f5ff;
+  --neon-blue: #3b82f6;
+  --neon-purple: #a855f7;
+  --neon-green: #39ff88;
+  --neon-magenta: #ff3cac;
+  --ux-blue: #3b82f6;
+  --ux-violet: #a855f7;
+  --ux-green: #39ff88;
+  --ux-magenta: #ff3cac;
 }
 :root[data-theme='dark'][data-neon-theme='arctic'] {
   color-scheme: dark;
@@ -57,6 +66,15 @@
   --ux-glow: 0 12px 34px rgb(0 0 0 / .28), 0 0 24px rgb(77 157 255 / .08);
   --neon-violet: #789dff; --neon-green: #b8fff4; --neon-magenta: #b8fff4;
   --glow-purple: 0 0 12px color-mix(in srgb, #4d9dff 18%, transparent), 0 0 26px color-mix(in srgb, #7de8ff 8%, transparent);
+  --neon-cyan: #7de8ff;
+  --neon-blue: #4d9dff;
+  --neon-purple: #8caeff;
+  --neon-green: #b8fff4;
+  --neon-magenta: #b8fff4;
+  --ux-blue: #4d9dff;
+  --ux-violet: #8caeff;
+  --ux-green: #b8fff4;
+  --ux-magenta: #b8fff4;
 }
 :root[data-theme='dark'][data-neon-theme='purple'] {
   color-scheme: dark;
@@ -86,6 +104,15 @@
   --ux-glow: 0 12px 34px rgb(0 0 0 / .3), 0 0 24px rgb(192 132 252 / .08);
   --neon-violet: #a78bfa; --neon-green: #86efac; --neon-magenta: #f472d0;
   --glow-purple: 0 0 12px color-mix(in srgb, #f472d0 18%, transparent), 0 0 26px color-mix(in srgb, #c084fc 8%, transparent);
+  --neon-cyan: #c084fc;
+  --neon-blue: #8be9ff;
+  --neon-purple: #a78bfa;
+  --neon-green: #86efac;
+  --neon-magenta: #f472d0;
+  --ux-blue: #8be9ff;
+  --ux-violet: #a78bfa;
+  --ux-green: #86efac;
+  --ux-magenta: #f472d0;
 }
 :root[data-theme='dark'][data-neon-theme='eco'] {
   color-scheme: dark;
@@ -115,6 +142,15 @@
   --ux-glow: 0 12px 34px rgb(0 0 0 / .28), 0 0 24px rgb(74 222 128 / .07);
   --neon-violet: #84cc16; --neon-green: #4ade80; --neon-magenta: #a3e635;
   --glow-purple: 0 0 12px color-mix(in srgb, #2dd4bf 18%, transparent), 0 0 26px color-mix(in srgb, #4ade80 8%, transparent);
+  --neon-cyan: #2dd4bf;
+  --neon-blue: #4ade80;
+  --neon-purple: #bef264;
+  --neon-green: #4ade80;
+  --neon-magenta: #a3e635;
+  --ux-blue: #4ade80;
+  --ux-violet: #bef264;
+  --ux-green: #4ade80;
+  --ux-magenta: #a3e635;
 }
 :root[data-theme='light'] {
   color-scheme: light;
@@ -140,8 +176,8 @@
   --c-bg: 241 251 253; --c-panel: 251 254 255; --c-sunk: 232 246 250; --c-line: 207 229 235;
   --c-ink: 16 42 53; --c-mute: 113 137 149; --c-brand: 8 127 159; --c-cyan: 192 38 120; --c-shadow: 16 42 53;
   --border-active: var(--cyber-accent); --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
-  --neon-cyan: var(--cyber-accent); --neon-blue: var(--cyber-secondary); --neon-purple: var(--cyber-tertiary);
-  --ux-cyan: var(--cyber-accent); --ux-violet: var(--cyber-tertiary); --ux-magenta: var(--cyber-secondary); --ux-blue: #2563eb;
+  --neon-cyan: #087f9f; --neon-blue: var(--cyber-secondary); --neon-purple: var(--cyber-tertiary);
+  --ux-cyan: #087f9f; --ux-violet: var(--cyber-tertiary); --ux-magenta: var(--cyber-secondary); --ux-blue: #2563eb;
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(8 127 159 / .16), 0 0 22px rgb(8 127 159 / .08);
   /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
@@ -157,6 +193,14 @@
   --landing-surface-a: #174b5c; --landing-surface-b: #153448; --landing-surface-c: #38213e;
   --landing-text: #f1fbff; --landing-cta-text: #ffffff;
   --glow-purple: 0 0 10px rgb(8 127 159 / .11), 0 0 22px color-mix(in srgb, #c02678 10%, transparent);
+  --neon-blue: #2563eb;
+  --neon-purple: #a855f7;
+  --neon-green: #087f9f;
+  --neon-magenta: #c02678;
+  --ux-blue: #2563eb;
+  --ux-violet: #a855f7;
+  --ux-green: #087f9f;
+  --ux-magenta: #c02678;
 }
 :root[data-theme='light'][data-neon-theme='arctic'] {
   --cyber-accent: #087da0; --cyber-accent-rgb: 8 125 160;
@@ -172,8 +216,8 @@
   --c-bg: 240 247 255; --c-panel: 251 253 255; --c-sunk: 230 241 255; --c-line: 207 222 240;
   --c-ink: 16 36 60; --c-mute: 113 139 165; --c-brand: 8 125 160; --c-cyan: 37 99 201; --c-shadow: 16 36 60;
   --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
-  --neon-cyan: var(--cyber-accent); --neon-blue: var(--cyber-secondary); --neon-purple: #0f766e;
-  --ux-cyan: var(--cyber-accent); --ux-violet: #2563c9; --ux-magenta: #0f766e; --ux-blue: var(--cyber-secondary);
+  --neon-cyan: #087da0; --neon-blue: var(--cyber-secondary); --neon-purple: #0f766e;
+  --ux-cyan: #087da0; --ux-violet: #2563c9; --ux-magenta: #0f766e; --ux-blue: var(--cyber-secondary);
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(8 125 160 / .16), 0 0 22px rgb(8 125 160 / .08);
   /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
@@ -184,11 +228,19 @@
   --neon-bg: #071c30; --neon-bg-raised: #0d2b45;
   --neon-surface: #103650; --neon-surface-raised: #174663;
   --neon-text: #effaff; --neon-muted: #a6c9dc;
-  --neon-violet: #0f766e; --neon-green: #087da0; --neon-magenta: #2563c9;
+  --neon-violet: #2563c9; --neon-green: #087da0; --neon-magenta: #2563c9;
   --landing-bg: #071c30; --landing-deep: #0d2b45;
   --landing-surface-a: #14516b; --landing-surface-b: #163b62; --landing-surface-c: #174e5b;
   --landing-text: #effaff; --landing-cta-text: #ffffff;
   --glow-purple: 0 0 10px rgb(37 99 201 / .12), 0 0 22px color-mix(in srgb, #2563c9 10%, transparent);
+  --neon-blue: #2563c9;
+  --neon-purple: #4d9dff;
+  --neon-green: #0f766e;
+  --neon-magenta: #0f766e;
+  --ux-blue: #2563c9;
+  --ux-violet: #4d9dff;
+  --ux-green: #0f766e;
+  --ux-magenta: #0f766e;
 }
 :root[data-theme='light'][data-neon-theme='purple'] {
   --cyber-accent: #7541b8; --cyber-accent-rgb: 117 65 184;
@@ -204,8 +256,8 @@
   --c-bg: 250 246 255; --c-panel: 254 252 255; --c-sunk: 241 234 250; --c-line: 225 212 240;
   --c-ink: 45 29 67; --c-mute: 137 122 154; --c-brand: 117 65 184; --c-cyan: 180 35 120; --c-shadow: 45 29 67;
   --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
-  --neon-cyan: var(--cyber-accent); --neon-blue: #2563a8; --neon-purple: var(--cyber-accent);
-  --ux-cyan: var(--cyber-accent); --ux-violet: #7044c8; --ux-magenta: var(--cyber-secondary); --ux-blue: #2563a8;
+  --neon-cyan: #7541b8; --neon-blue: #2563a8; --neon-purple: var(--cyber-accent);
+  --ux-cyan: #7541b8; --ux-violet: #7044c8; --ux-magenta: var(--cyber-secondary); --ux-blue: #2563a8;
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(117 65 184 / .16), 0 0 22px rgb(117 65 184 / .08);
   /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
@@ -216,11 +268,19 @@
   --neon-bg: #1c1030; --neon-bg-raised: #2a1742;
   --neon-surface: #321d4c; --neon-surface-raised: #40245d;
   --neon-text: #fff7ff; --neon-muted: #cbb1df;
-  --neon-violet: #2563a8; --neon-green: #7541b8; --neon-magenta: #b42378;
+  --neon-violet: #7044c8; --neon-green: #7541b8; --neon-magenta: #b42378;
   --landing-bg: #1c1030; --landing-deep: #2a1742;
   --landing-surface-a: #51266a; --landing-surface-b: #321e55; --landing-surface-c: #4b1f55;
   --landing-text: #fff7ff; --landing-cta-text: #ffffff;
   --glow-purple: 0 0 10px rgb(180 35 120 / .12), 0 0 22px color-mix(in srgb, #b42378 10%, transparent);
+  --neon-blue: #2563a8;
+  --neon-purple: #a78bfa;
+  --neon-green: #7541b8;
+  --neon-magenta: #b42378;
+  --ux-blue: #2563a8;
+  --ux-violet: #a78bfa;
+  --ux-green: #7541b8;
+  --ux-magenta: #b42378;
 }
 :root[data-theme='light'][data-neon-theme='eco'] {
   --cyber-accent: #16834a; --cyber-accent-rgb: 22 131 74;
@@ -236,8 +296,8 @@
   --c-bg: 242 251 245; --c-panel: 251 254 252; --c-sunk: 230 245 235; --c-line: 208 231 215;
   --c-ink: 23 53 38; --c-mute: 120 144 128; --c-brand: 22 131 74; --c-cyan: 8 127 120; --c-shadow: 23 53 38;
   --diagram-node-active: var(--cyber-accent); --diagram-node-active-ink: #ffffff;
-  --neon-cyan: var(--cyber-accent); --neon-blue: #087f78; --neon-purple: #648b16;
-  --ux-cyan: var(--cyber-accent); --ux-violet: #648b16; --ux-magenta: #087f78; --ux-blue: #087f78;
+  --neon-cyan: #16834a; --neon-blue: #087f78; --neon-purple: #648b16;
+  --ux-cyan: #16834a; --ux-violet: #648b16; --ux-magenta: #087f78; --ux-blue: #087f78;
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(22 131 74 / .16), 0 0 22px rgb(22 131 74 / .08);
   /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
@@ -253,6 +313,14 @@
   --landing-surface-a: #205c39; --landing-surface-b: #174331; --landing-surface-c: #354a24;
   --landing-text: #f1fff5; --landing-cta-text: #ffffff;
   --glow-purple: 0 0 10px rgb(8 127 120 / .12), 0 0 22px color-mix(in srgb, #087f78 10%, transparent);
+  --neon-blue: #087f78;
+  --neon-purple: #648b16;
+  --neon-green: #16834a;
+  --neon-magenta: #087f78;
+  --ux-blue: #087f78;
+  --ux-violet: #648b16;
+  --ux-green: #16834a;
+  --ux-magenta: #087f78;
 }
 
 :root[data-theme='dark'] {
