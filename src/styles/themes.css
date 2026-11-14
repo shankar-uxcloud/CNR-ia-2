@@ -136,6 +136,19 @@
   --ux-cyan: var(--cyber-accent); --ux-violet: var(--cyber-tertiary); --ux-magenta: var(--cyber-secondary); --ux-blue: #2563eb;
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(8 127 159 / .16), 0 0 22px rgb(8 127 159 / .08);
+  /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
+  --cyber-edge: rgb(8 127 159 / .24);
+  --cyber-glass: rgb(255 255 255 / .9);
+  --cyber-panel-shadow: 0 10px 28px rgb(8 127 159 / .11), 0 2px 8px rgb(15 35 48 / .06);
+  --ux-glow: 0 8px 24px rgb(8 127 159 / .11);
+  --neon-bg: #09202b; --neon-bg-raised: #10313e;
+  --neon-surface: #123744; --neon-surface-raised: #194957;
+  --neon-text: #f1fbff; --neon-muted: #a8c8d3;
+  --neon-violet: #7044c8; --neon-green: #087f9f; --neon-magenta: #c02678;
+  --landing-bg: #09202b; --landing-deep: #10313e;
+  --landing-surface-a: #174b5c; --landing-surface-b: #153448; --landing-surface-c: #38213e;
+  --landing-text: #f1fbff; --landing-cta-text: #ffffff;
+  --glow-purple: 0 0 10px rgb(8 127 159 / .11), 0 0 22px color-mix(in srgb, #c02678 10%, transparent);
 }
 :root[data-theme='light'][data-neon-theme='arctic'] {
   --cyber-accent: #087da0; --cyber-accent-rgb: 8 125 160;
@@ -155,6 +168,19 @@
   --ux-cyan: var(--cyber-accent); --ux-violet: #2563c9; --ux-magenta: #0f766e; --ux-blue: var(--cyber-secondary);
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(8 125 160 / .16), 0 0 22px rgb(8 125 160 / .08);
+  /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
+  --cyber-edge: rgb(8 125 160 / .25);
+  --cyber-glass: rgb(255 255 255 / .9);
+  --cyber-panel-shadow: 0 10px 28px rgb(37 99 201 / .12), 0 2px 8px rgb(15 35 48 / .06);
+  --ux-glow: 0 8px 24px rgb(37 99 201 / .12);
+  --neon-bg: #071c30; --neon-bg-raised: #0d2b45;
+  --neon-surface: #103650; --neon-surface-raised: #174663;
+  --neon-text: #effaff; --neon-muted: #a6c9dc;
+  --neon-violet: #0f766e; --neon-green: #087da0; --neon-magenta: #2563c9;
+  --landing-bg: #071c30; --landing-deep: #0d2b45;
+  --landing-surface-a: #14516b; --landing-surface-b: #163b62; --landing-surface-c: #174e5b;
+  --landing-text: #effaff; --landing-cta-text: #ffffff;
+  --glow-purple: 0 0 10px rgb(37 99 201 / .12), 0 0 22px color-mix(in srgb, #2563c9 10%, transparent);
 }
 :root[data-theme='light'][data-neon-theme='purple'] {
   --cyber-accent: #7541b8; --cyber-accent-rgb: 117 65 184;
@@ -174,6 +200,19 @@
   --ux-cyan: var(--cyber-accent); --ux-violet: #7044c8; --ux-magenta: var(--cyber-secondary); --ux-blue: #2563a8;
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(117 65 184 / .16), 0 0 22px rgb(117 65 184 / .08);
+  /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
+  --cyber-edge: rgb(117 65 184 / .26);
+  --cyber-glass: rgb(255 255 255 / .9);
+  --cyber-panel-shadow: 0 10px 28px rgb(180 35 120 / .12), 0 2px 8px rgb(15 35 48 / .06);
+  --ux-glow: 0 8px 24px rgb(180 35 120 / .12);
+  --neon-bg: #1c1030; --neon-bg-raised: #2a1742;
+  --neon-surface: #321d4c; --neon-surface-raised: #40245d;
+  --neon-text: #fff7ff; --neon-muted: #cbb1df;
+  --neon-violet: #2563a8; --neon-green: #7541b8; --neon-magenta: #b42378;
+  --landing-bg: #1c1030; --landing-deep: #2a1742;
+  --landing-surface-a: #51266a; --landing-surface-b: #321e55; --landing-surface-c: #4b1f55;
+  --landing-text: #fff7ff; --landing-cta-text: #ffffff;
+  --glow-purple: 0 0 10px rgb(180 35 120 / .12), 0 0 22px color-mix(in srgb, #b42378 10%, transparent);
 }
 :root[data-theme='light'][data-neon-theme='eco'] {
   --cyber-accent: #16834a; --cyber-accent-rgb: 22 131 74;
@@ -193,6 +232,19 @@
   --ux-cyan: var(--cyber-accent); --ux-violet: #648b16; --ux-magenta: #087f78; --ux-blue: #087f78;
   --landing-accent: var(--cyber-accent); --landing-cyan: var(--cyber-secondary);
   --glow-cyan: 0 0 10px rgb(22 131 74 / .16), 0 0 22px rgb(22 131 74 / .08);
+  /* Legacy aliases used by the landing hero, glass cards and HUD surfaces. */
+  --cyber-edge: rgb(22 131 74 / .25);
+  --cyber-glass: rgb(255 255 255 / .9);
+  --cyber-panel-shadow: 0 10px 28px rgb(8 127 120 / .12), 0 2px 8px rgb(15 35 48 / .06);
+  --ux-glow: 0 8px 24px rgb(8 127 120 / .12);
+  --neon-bg: #0b2418; --neon-bg-raised: #123522;
+  --neon-surface: #19432c; --neon-surface-raised: #215537;
+  --neon-text: #f1fff5; --neon-muted: #afd1b8;
+  --neon-violet: #648b16; --neon-green: #16834a; --neon-magenta: #087f78;
+  --landing-bg: #0b2418; --landing-deep: #123522;
+  --landing-surface-a: #205c39; --landing-surface-b: #174331; --landing-surface-c: #354a24;
+  --landing-text: #f1fff5; --landing-cta-text: #ffffff;
+  --glow-purple: 0 0 10px rgb(8 127 120 / .12), 0 0 22px color-mix(in srgb, #087f78 10%, transparent);
 }
 
 :root[data-theme='dark'] {
