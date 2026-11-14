@@ -47,7 +47,11 @@ export function StudyProvider({ children }) {
     root.setAttribute('data-neon-theme', cyberTheme);
     root.setAttribute('data-visual-theme', theme === 'dark' ? 'neon' : 'light');
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#050816' : '#f7f8f6');
+    if (themeColor) {
+      // Keep the browser chrome aligned with the actual selected palette and mode.
+      const pageColor = getComputedStyle(root).getPropertyValue('--bg-primary').trim();
+      themeColor.setAttribute('content', pageColor || (theme === 'dark' ? '#050816' : '#f7f8f6'));
+    }
   }, [theme, cyberTheme]);
   useEffect(() => {
     const r = document.documentElement.style;
