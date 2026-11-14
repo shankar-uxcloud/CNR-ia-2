@@ -122,9 +122,9 @@ test('all eight palette modes define the legacy tokens used by landing and share
     for (const token of tokens) {
       const values = blocks.map((block, index) => {
         const body = block.slice(block.indexOf('{') + 1).replace(/\/\*[\s\S]*?\*\//g, '');
-        const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
-        assert.ok(declaration, `Missing ${token} in ${mode}/${palettes[index]}`);
-        return declaration.slice(token.length + 1).trim();
+        const declarations = body.split(';').map((part) => part.trim()).filter((part) => part.startsWith(token + ':'));
+        assert.ok(declarations.length, `Missing ${token} in ${mode}/${palettes[index]}`);
+        return declarations.at(-1).slice(token.length + 1).trim();
       });
       assert.equal(new Set(values).size, palettes.length, `${mode} ${token} must follow the selected palette`);
     }
@@ -158,7 +158,7 @@ test('every palette owns the complete neon accent alias family in both modes', (
 
     for (const token of aliases) {
       const values = blocks.map((block, index) => {
-        const declarations = block.split(/\r?\n/).map((line) => line.trim()).filter((line) => line.startsWith(token + ':'));
+        const declarations = block.replace(/\/\*[\s\S]*?\*\//g, '').split(';').map((part) => part.trim()).filter((part) => part.startsWith(token + ':'));
         assert.ok(declarations.length, \`Missing \${token} in \${mode}/\${palettes[index]}\`);
         return declarations.at(-1).slice(token.length + 1).replace(/;$/, '').trim();
       });
