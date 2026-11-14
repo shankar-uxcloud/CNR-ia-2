@@ -96,3 +96,45 @@ test('dark neon palettes each own distinct background and surface tokens', () =>
     assert.equal(new Set(values).size, palettes.length, `${token} should differ across dark palettes`);
   }
 });
+
+
+test('all eight palette modes define the legacy tokens used by landing and shared surfaces', () => {
+  const themes = read('src/styles/themes.css');
+  const palettes = ['ultra-cyber', 'arctic', 'purple', 'eco'];
+  const modes = ['light', 'dark'];
+  const tokens = [
+    '--cyber-edge', '--cyber-panel-shadow', '--ux-glow',
+    '--neon-bg', '--neon-bg-raised', '--neon-surface', '--neon-surface-raised',
+    '--neon-text', '--neon-muted', '--neon-violet', '--neon-green', '--neon-magenta',
+    '--landing-bg', '--landing-deep', '--landing-surface-a', '--landing-surface-b',
+    '--landing-surface-c', '--landing-text', '--landing-cta-text', '--glow-purple',
+  ];
+
+  for (const mode of modes) {
+    const blocks = palettes.map((name) => {
+      const selector = `:root[data-theme='${mode}'][data-neon-theme='${name}']`;
+      const start = themes.indexOf(selector);
+      assert.notEqual(start, -1, `Missing ${mode} palette selector for ${name}`);
+      const next = themes.indexOf('\\n:root[', start + selector.length);
+      return themes.slice(start, next === -1 ? themes.length : next);
+    });
+
+    for (const token of tokens) {
+      const values = blocks.map((block, index) => {
+        const body = block.slice(block.indexOf('{') + 1);
+        const declaration = body.split(';').map((part) => part.trim()).find((part) => part.startsWith(token + ':'));
+        assert.ok(declaration, `Missing ${token} in ${mode}/${palettes[index]}`);
+        return declaration.slice(token.length + 1).trim();
+      });
+      assert.equal(new Set(values).size, palettes.length, `${mode} ${token} must follow the selected palette`);
+    }
+  }
+});
+
+test('landing and shared surface styles consume palette tokens rather than fixed palette colours', () => {
+  const themes = read('src/styles/themes.css');
+  const components = read('src/styles/components.css');
+  assert.match(themes, /body\\s*\\{[\\s\\S]*background-color:\\s*var\\(--bg-primary\\)/);
+  assert.match(components, /\\.landing-hero\\s*\\{[^}]*background:\\s*var\\(--landing-bg\\)/);
+  assert.match(components, /\\.cyber-hud-cell\\s*\\{[^}]*box-shadow:\\s*var\\(--ux-glow\\)/);
+});
