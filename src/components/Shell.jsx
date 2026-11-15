@@ -176,7 +176,7 @@ export default function Shell({ path, children }) {
           <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
-            <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><ThemeBtn /></div><ThemePicker className="w-full" /></div>
+            <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><GlassModeBtn /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
           </div>
         </div>
       )}
