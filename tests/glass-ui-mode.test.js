@@ -18,7 +18,7 @@ test('glass UI can be enabled and disabled from desktop and mobile appearance co
   assert.match(shell, /setSetting\('uiMode', active \? 'standard' : 'glass'\)/);
   assert.match(shell, /aria-pressed=\{active\}/);
   assert.match(shell, /aria-label=\{active \? 'Switch to standard surfaces' : 'Enable glass interface'\}/);
-  assert.equal((shell.match(/<GlassModeBtn\/>/g) || []).length, 2);
+  assert.equal((shell.match(/<GlassModeBtn(?:\s[^>]*)?\s*\/>/g) || []).length, 3);
   assert.match(shell, /<GlassModeBtn className="h-9 px-2\.5"\/>/);
 });
 
