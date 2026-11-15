@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 const KEY = 'vtu-examprep-v1';
 export const FONT_SIZES = [16, 17, 18, 20, 22];
 export const WIDTHS = [{ label: 'Narrow', px: 640 }, { label: 'Medium', px: 760 }, { label: 'Wide', px: 920 }];
-const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: 'dark', cyberTheme: 'ultra-cyber', fontIdx: 2, widthIdx: 1 } };
+const DEFAULTS = { completed: {}, bookmarks: {}, recent: [], examChecks: {}, practiceAttempts: {}, evaluationAttempts: [], revisionChecks: {}, readingChecks: {}, quizAttempts: [], examAttempts: [], plannerTasks: [], visualStudio: { viewed: {}, completedMaps: {}, exercises: {}, favorites: {}, revision: {}, quizAttempts: [] }, visualLab: { explored: {}, completed: {}, scenarioAttempts: [] }, smartRevision: { tasks: [], settings: null, reviews: {} }, settings: { theme: 'dark', cyberTheme: 'ultra-cyber', uiMode: 'standard', fontIdx: 2, widthIdx: 1 } };
 
 function load() {
   try {
@@ -22,6 +22,7 @@ function load() {
         const settings = { ...DEFAULTS.settings, ...(s.settings || {}) };
         settings.theme = ['dark', 'light'].includes(settings.theme) ? settings.theme : DEFAULTS.settings.theme;
         settings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(settings.cyberTheme) ? settings.cyberTheme : DEFAULTS.settings.cyberTheme;
+        settings.uiMode = ['standard', 'glass'].includes(settings.uiMode) ? settings.uiMode : DEFAULTS.settings.uiMode;
         settings.fontIdx = Number.isInteger(settings.fontIdx) && settings.fontIdx >= 0 && settings.fontIdx < FONT_SIZES.length ? settings.fontIdx : DEFAULTS.settings.fontIdx;
         settings.widthIdx = Number.isInteger(settings.widthIdx) && settings.widthIdx >= 0 && settings.widthIdx < WIDTHS.length ? settings.widthIdx : DEFAULTS.settings.widthIdx;
         return settings;
@@ -39,6 +40,7 @@ export function StudyProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   const theme = state.settings.theme || 'dark';
   const cyberTheme = state.settings.cyberTheme || 'ultra-cyber';
+  const uiMode = state.settings.uiMode || 'standard';
 
   useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage unavailable */ } }, [state]);
   useLayoutEffect(() => {
@@ -46,13 +48,14 @@ export function StudyProvider({ children }) {
     root.setAttribute('data-theme', theme);
     root.setAttribute('data-neon-theme', cyberTheme);
     root.setAttribute('data-visual-theme', theme === 'dark' ? 'neon' : 'light');
+    root.setAttribute('data-ui-mode', uiMode);
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
       // Keep the browser chrome aligned with the actual selected palette and mode.
       const pageColor = getComputedStyle(root).getPropertyValue('--bg-primary').trim();
       themeColor.setAttribute('content', pageColor || (theme === 'dark' ? '#050816' : '#f7f8f6'));
     }
-  }, [theme, cyberTheme]);
+  }, [theme, cyberTheme, uiMode]);
   useEffect(() => {
     const r = document.documentElement.style;
     r.setProperty('--read-size', FONT_SIZES[state.settings.fontIdx] + 'px');
@@ -124,6 +127,7 @@ export function StudyProvider({ children }) {
         const restoredSettings = { ...DEFAULTS.settings, ...incomingSettings };
         restoredSettings.theme = ['dark', 'light'].includes(restoredSettings.theme) ? restoredSettings.theme : DEFAULTS.settings.theme;
         restoredSettings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(restoredSettings.cyberTheme) ? restoredSettings.cyberTheme : DEFAULTS.settings.cyberTheme;
+        restoredSettings.uiMode = ['standard', 'glass'].includes(restoredSettings.uiMode) ? restoredSettings.uiMode : DEFAULTS.settings.uiMode;
         restoredSettings.fontIdx = Number.isInteger(restoredSettings.fontIdx) && restoredSettings.fontIdx >= 0 && restoredSettings.fontIdx < FONT_SIZES.length ? restoredSettings.fontIdx : DEFAULTS.settings.fontIdx;
         restoredSettings.widthIdx = Number.isInteger(restoredSettings.widthIdx) && restoredSettings.widthIdx >= 0 && restoredSettings.widthIdx < WIDTHS.length ? restoredSettings.widthIdx : DEFAULTS.settings.widthIdx;
         const restored = {
