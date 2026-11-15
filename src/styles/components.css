@@ -755,7 +755,7 @@ aside nav a[aria-current='page']::after {
 :root[data-ui-mode='glass'] .card {
   position: relative;
   isolation: isolate;
-  overflow: clip;
+  overflow: visible;
   border-color: var(--glass-line);
   border-radius: var(--glass-radius);
   background:
