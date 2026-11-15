@@ -6,7 +6,7 @@ const css = fs.readFileSync(new URL('../src/styles/components.css', import.meta.
 
 test('Glassmorphism 2.0 defines five reusable material levels', () => {
   for (const material of ['glass-crystal', 'glass-frosted', 'glass-deep', 'glass-ambient', 'glass-elevated']) {
-    assert.match(css, new RegExp('\\\\.?' + material));
+    assert.ok(css.includes('.' + material), `missing ${material} material`);
   }
 });
 
