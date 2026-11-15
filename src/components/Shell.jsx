@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database, Layers3 } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -65,6 +65,20 @@ export function ThemeBtn({ className = '' }) {
   return (
     <button onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} title="Toggle theme"
       className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel hover:bg-sunk active:scale-95 ${className}`}><Icon size={18} /></button>
+  );
+}
+
+export function GlassModeBtn({ className = '' }) {
+  const { settings, setSetting } = useStudy();
+  const active = settings.uiMode === 'glass';
+  return (
+    <button type="button" onClick={() => setSetting('uiMode', active ? 'standard' : 'glass')}
+      aria-label={active ? 'Switch to standard surfaces' : 'Enable glass interface'}
+      aria-pressed={active} title={active ? 'Glass UI enabled' : 'Enable Glass UI'}
+      className={`inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-line bg-panel px-3 text-xs font-semibold text-ink transition hover:border-brand hover:bg-sunk active:scale-95 ${className}`}>
+      <Layers3 size={16} aria-hidden="true" />
+      <span>{active ? 'Glass on' : 'Glass UI'}</span>
+    </button>
   );
 }
 
@@ -152,7 +166,7 @@ export default function Shell({ path, children }) {
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
           <Nav path={path} />
-          <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><ThemeBtn /></div><ThemePicker className="w-full" /></div>
+          <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><GlassModeBtn /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
         </aside>
       )}
 
@@ -176,7 +190,7 @@ export default function Shell({ path, children }) {
             <input value={query} onChange={(e) => onSearch(e.target.value)} placeholder="Search questions or keywords…" aria-label="Search questions"
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
-          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><ThemeBtn /></div>
+          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><GlassModeBtn className="h-9 px-2.5" /><ThemeBtn /></div>
           <ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
