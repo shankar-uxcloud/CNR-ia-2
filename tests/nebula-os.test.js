@@ -8,12 +8,12 @@ const shell = read('../src/components/Shell.jsx');
 const css = read('../src/styles/components.css');
 
 test('Nebula is a supported persisted UI mode and invalid modes still fall back safely', () => {
-  assert.equal((study.match(/\['standard', 'glass', 'aurora', 'nebula'\]/g) || []).length, 2);
-  assert.match(study, /settings\.uiMode = \['standard', 'glass', 'aurora', 'nebula'\]/);
-  assert.match(study, /restoredSettings\.uiMode = \['standard', 'glass', 'aurora', 'nebula'\]/);
+  assert.equal((study.match(/\['standard', 'glass', 'nebula'\]/g) || []).length, 2);
+  assert.match(study, /settings\.uiMode = \['standard', 'glass', 'nebula'\]/);
+  assert.match(study, /restoredSettings\.uiMode = \['standard', 'glass', 'nebula'\]/);
 });
 
-test('Appearance selector exposes all four modes and uses the existing settings action', () => {
+test('Appearance selector exposes all implemented modes and uses the existing settings action', () => {
   for (const mode of ['standard', 'glass', 'nebula']) assert.ok(shell.includes(`value: '${mode}'`));
   assert.match(shell, /setSetting\('uiMode', value\)/);
   assert.match(shell, /aria-pressed=\{settings\.uiMode === value\}/);
