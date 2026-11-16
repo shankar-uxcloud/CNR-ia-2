@@ -71,7 +71,6 @@ export function ThemeBtn({ className = '' }) {
 const UI_MODES = [
   { value: 'standard', label: 'Standard', icon: Layers3 },
   { value: 'glass', label: 'Glass', icon: Layers3 },
-  { value: 'aurora', label: 'Aurora', icon: Sparkles },
   { value: 'nebula', label: 'Nebula OS', icon: Orbit },
 ];
 
