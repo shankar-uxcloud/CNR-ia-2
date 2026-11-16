@@ -185,7 +185,7 @@ export default function Shell({ path, children }) {
           <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
-            <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><GlassModeBtn /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
+            <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><AppearanceModePicker /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
           </div>
         </div>
       )}
@@ -199,7 +199,7 @@ export default function Shell({ path, children }) {
             <input value={query} onChange={(e) => onSearch(e.target.value)} placeholder="Search questions or keywords…" aria-label="Search questions"
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
-          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><AppearanceModePicker /><ThemeBtn /></div>
+          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><ThemeBtn /></div>
           <ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
