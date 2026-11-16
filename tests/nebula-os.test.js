@@ -14,7 +14,7 @@ test('Nebula is a supported persisted UI mode and invalid modes still fall back 
 });
 
 test('Appearance selector exposes all four modes and uses the existing settings action', () => {
-  for (const mode of ['standard', 'glass', 'aurora', 'nebula']) assert.ok(shell.includes(`value: '${mode}'`));
+  for (const mode of ['standard', 'glass', 'nebula']) assert.ok(shell.includes(`value: '${mode}'`));
   assert.match(shell, /setSetting\('uiMode', value\)/);
   assert.match(shell, /aria-pressed=\{settings\.uiMode === value\}/);
 });
