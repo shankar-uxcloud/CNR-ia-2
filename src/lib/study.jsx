@@ -22,7 +22,7 @@ function load() {
         const settings = { ...DEFAULTS.settings, ...(s.settings || {}) };
         settings.theme = ['dark', 'light'].includes(settings.theme) ? settings.theme : DEFAULTS.settings.theme;
         settings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(settings.cyberTheme) ? settings.cyberTheme : DEFAULTS.settings.cyberTheme;
-        settings.uiMode = ['standard', 'glass'].includes(settings.uiMode) ? settings.uiMode : DEFAULTS.settings.uiMode;
+        settings.uiMode = ['standard', 'glass', 'aurora', 'nebula'].includes(settings.uiMode) ? settings.uiMode : DEFAULTS.settings.uiMode;
         settings.fontIdx = Number.isInteger(settings.fontIdx) && settings.fontIdx >= 0 && settings.fontIdx < FONT_SIZES.length ? settings.fontIdx : DEFAULTS.settings.fontIdx;
         settings.widthIdx = Number.isInteger(settings.widthIdx) && settings.widthIdx >= 0 && settings.widthIdx < WIDTHS.length ? settings.widthIdx : DEFAULTS.settings.widthIdx;
         return settings;
@@ -127,7 +127,7 @@ export function StudyProvider({ children }) {
         const restoredSettings = { ...DEFAULTS.settings, ...incomingSettings };
         restoredSettings.theme = ['dark', 'light'].includes(restoredSettings.theme) ? restoredSettings.theme : DEFAULTS.settings.theme;
         restoredSettings.cyberTheme = ['ultra-cyber', 'arctic', 'purple', 'eco'].includes(restoredSettings.cyberTheme) ? restoredSettings.cyberTheme : DEFAULTS.settings.cyberTheme;
-        restoredSettings.uiMode = ['standard', 'glass'].includes(restoredSettings.uiMode) ? restoredSettings.uiMode : DEFAULTS.settings.uiMode;
+        restoredSettings.uiMode = ['standard', 'glass', 'aurora', 'nebula'].includes(restoredSettings.uiMode) ? restoredSettings.uiMode : DEFAULTS.settings.uiMode;
         restoredSettings.fontIdx = Number.isInteger(restoredSettings.fontIdx) && restoredSettings.fontIdx >= 0 && restoredSettings.fontIdx < FONT_SIZES.length ? restoredSettings.fontIdx : DEFAULTS.settings.fontIdx;
         restoredSettings.widthIdx = Number.isInteger(restoredSettings.widthIdx) && restoredSettings.widthIdx >= 0 && restoredSettings.widthIdx < WIDTHS.length ? restoredSettings.widthIdx : DEFAULTS.settings.widthIdx;
         const restored = {
