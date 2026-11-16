@@ -68,17 +68,26 @@ export function ThemeBtn({ className = '' }) {
   );
 }
 
-export function GlassModeBtn({ className = '' }) {
+const UI_MODES = [
+  { value: 'standard', label: 'Standard', icon: Layers3 },
+  { value: 'glass', label: 'Glass', icon: Layers3 },
+  { value: 'aurora', label: 'Aurora', icon: Sparkles },
+  { value: 'nebula', label: 'Nebula OS', icon: Orbit },
+];
+
+export function AppearanceModePicker({ className = '' }) {
   const { settings, setSetting } = useStudy();
-  const active = settings.uiMode === 'glass';
   return (
-    <button type="button" onClick={() => setSetting('uiMode', active ? 'standard' : 'glass')}
-      aria-label={active ? 'Switch to standard surfaces' : 'Enable glass interface'}
-      aria-pressed={active} title={active ? 'Glass UI enabled' : 'Enable Glass UI'}
-      className={`inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-line bg-panel px-3 text-xs font-semibold text-ink transition hover:border-brand hover:bg-sunk active:scale-95 ${className}`}>
-      <Layers3 size={16} aria-hidden="true" />
-      <span>{active ? 'Glass on' : 'Glass UI'}</span>
-    </button>
+    <div className={`appearance-mode-picker ${className}`} role="group" aria-label="Interface mode">
+      {UI_MODES.map(({ value, label, icon: Icon }) => (
+        <button key={value} type="button" onClick={() => setSetting('uiMode', value)}
+          aria-label={`Use ${label} interface`} aria-pressed={settings.uiMode === value}
+          className="appearance-mode-option">
+          <Icon size={14} aria-hidden="true" />
+          <span>{label}</span>
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -166,7 +175,7 @@ export default function Shell({ path, children }) {
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
           <Nav path={path} />
-          <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><GlassModeBtn /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
+          <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><AppearanceModePicker /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
         </aside>
       )}
 
@@ -190,7 +199,7 @@ export default function Shell({ path, children }) {
             <input value={query} onChange={(e) => onSearch(e.target.value)} placeholder="Search questions or keywords…" aria-label="Search questions"
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
-          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><GlassModeBtn className="h-9 px-2.5" /><ThemeBtn /></div>
+          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><AppearanceModePicker /><ThemeBtn /></div>
           <ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
