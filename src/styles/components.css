@@ -882,3 +882,162 @@ aside nav a[aria-current='page']::after {
     backdrop-filter: none;
   }
 }
+
+
+/* ==========================================================================
+   NEBULA OS 1.0 — cosmic spatial learning interface
+   Independent UI mode; accent values always come from the active neon palette.
+   ========================================================================== */
+:root[data-ui-mode='nebula'] {
+  --nebula-void: color-mix(in srgb, var(--bg-primary) 92%, #030611);
+  --nebula-panel: color-mix(in srgb, var(--surface-primary) 88%, #10172f);
+  --nebula-line: color-mix(in srgb, var(--cyber-accent) 28%, var(--border-color));
+  --nebula-glow: color-mix(in srgb, var(--cyber-accent) 22%, transparent);
+  --nebula-halo: color-mix(in srgb, var(--cyber-secondary) 18%, transparent);
+  --nebula-radius: 20px;
+  --nebula-shadow: 0 18px 48px rgb(0 0 0 / .16), inset 0 1px 0 rgb(255 255 255 / .07);
+}
+:root[data-theme='dark'][data-ui-mode='nebula'] {
+  --nebula-void: color-mix(in srgb, var(--bg-primary) 94%, #02040d);
+  --nebula-panel: color-mix(in srgb, var(--surface-primary) 84%, #111b36);
+  --nebula-shadow: 0 22px 58px rgb(0 0 0 / .34), inset 0 1px 0 rgb(255 255 255 / .06);
+}
+:root[data-theme='light'][data-ui-mode='nebula'] {
+  --nebula-void: color-mix(in srgb, var(--bg-primary) 94%, #dce8ff);
+  --nebula-panel: color-mix(in srgb, var(--surface-primary) 92%, #e7edff);
+  --nebula-shadow: 0 14px 38px rgb(37 53 92 / .09), inset 0 1px 0 rgb(255 255 255 / .9);
+}
+:root[data-ui-mode='nebula'] body {
+  background-color: var(--nebula-void);
+  background-image:
+    radial-gradient(ellipse 46rem 32rem at 4% 4%, var(--nebula-glow), transparent 72%),
+    radial-gradient(ellipse 42rem 30rem at 96% 18%, var(--nebula-halo), transparent 72%),
+    radial-gradient(ellipse 38rem 26rem at 54% 100%, color-mix(in srgb, var(--cyber-tertiary) 11%, transparent), transparent 74%);
+  background-attachment: fixed;
+}
+:root[data-ui-mode='nebula'] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .38;
+  background-image:
+    radial-gradient(1px 1px at 12% 24%, var(--cyber-accent) 98%, transparent),
+    radial-gradient(1px 1px at 74% 16%, var(--cyber-secondary) 98%, transparent),
+    radial-gradient(1.5px 1.5px at 42% 68%, var(--cyber-accent) 98%, transparent),
+    radial-gradient(1px 1px at 88% 82%, var(--cyber-tertiary) 98%, transparent);
+  background-size: 197px 211px, 251px 233px, 223px 197px, 271px 241px;
+  animation: nebula-star-drift 100s linear infinite;
+}
+@keyframes nebula-star-drift {
+  from { background-position: 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: 197px 211px, -251px 233px, 223px -197px, -271px 241px; }
+}
+:root[data-ui-mode='nebula'] .card {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--nebula-line);
+  border-radius: var(--nebula-radius);
+  background:
+    radial-gradient(ellipse at 100% 0%, var(--nebula-halo), transparent 56%),
+    linear-gradient(145deg, var(--nebula-panel), var(--surface-primary));
+  box-shadow: var(--nebula-shadow);
+  backdrop-filter: none;
+  transition: transform 240ms cubic-bezier(.2,.7,.2,1), border-color 240ms ease, box-shadow 240ms ease;
+}
+:root[data-ui-mode='nebula'] .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cyber-accent) 62%, white), transparent);
+  opacity: .62;
+}
+:root[data-ui-mode='nebula'] .card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--cyber-accent) 52%, var(--border-color));
+  box-shadow: 0 22px 56px rgb(0 0 0 / .18), 0 0 28px color-mix(in srgb, var(--cyber-accent) 12%, transparent), inset 0 1px 0 rgb(255 255 255 / .1);
+}
+:root[data-ui-mode='nebula'] aside {
+  background: linear-gradient(180deg, var(--nebula-panel), var(--bg-secondary));
+  border-color: var(--nebula-line);
+  box-shadow: 12px 0 44px rgb(0 0 0 / .12);
+}
+:root[data-ui-mode='nebula'] header.topbar {
+  background: color-mix(in srgb, var(--surface-primary) 90%, transparent);
+  border-color: var(--nebula-line);
+  box-shadow: 0 10px 34px rgb(0 0 0 / .09);
+}
+:root[data-ui-mode='nebula'] aside nav a[aria-current='page'] {
+  border: 1px solid var(--nebula-line);
+  border-radius: 12px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--cyber-accent) 15%, transparent), color-mix(in srgb, var(--cyber-secondary) 9%, transparent));
+  box-shadow: inset 3px 0 var(--cyber-accent), 0 0 22px color-mix(in srgb, var(--cyber-accent) 9%, transparent);
+}
+:root[data-ui-mode='nebula'] .btn-primary {
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 45%, transparent);
+  background: linear-gradient(115deg, var(--cyber-accent), var(--cyber-secondary));
+  box-shadow: 0 8px 26px color-mix(in srgb, var(--cyber-accent) 20%, transparent);
+}
+:root[data-ui-mode='nebula'] .chip,
+:root[data-ui-mode='nebula'] .diagram-frame,
+:root[data-ui-mode='nebula'] .cyber-hud-cell {
+  border-color: var(--nebula-line);
+  background: color-mix(in srgb, var(--surface-secondary) 88%, var(--nebula-halo));
+}
+:root[data-ui-mode='nebula'] .reading {
+  color: var(--text-primary);
+  text-shadow: none;
+}
+:root[data-ui-mode='nebula'] .reading h2,
+:root[data-ui-mode='nebula'] .reading h3 {
+  text-shadow: 0 0 22px color-mix(in srgb, var(--cyber-accent) 12%, transparent);
+}
+:root[data-ui-mode='nebula'] :where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--cyber-accent);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+.appearance-mode-picker { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.appearance-mode-option {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 34px; padding: 6px 9px; border: 1px solid var(--border-color);
+  border-radius: 10px; color: var(--text-secondary); background: var(--surface-secondary);
+  font-size: 11px; font-weight: 650; transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+.appearance-mode-option[aria-pressed='true'] {
+  color: var(--cyber-accent); border-color: var(--border-active);
+  background: color-mix(in srgb, var(--cyber-accent) 11%, var(--surface-primary));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--cyber-accent) 9%, transparent);
+}
+.appearance-mode-option:focus-visible { outline: 2px solid var(--cyber-accent); outline-offset: 2px; }
+@media (max-width: 1023px) {
+  .appearance-mode-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .appearance-mode-option { padding-inline: 5px; font-size: 10px; }
+}
+@media (max-width: 420px) {
+  .appearance-mode-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-ui-mode='nebula'] body::after { animation: none; }
+  :root[data-ui-mode='nebula'] .card,
+  .appearance-mode-option { transition: none; }
+  :root[data-ui-mode='nebula'] .card:hover { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-ui-mode='nebula'] .card,
+  :root[data-ui-mode='nebula'] aside,
+  :root[data-ui-mode='nebula'] header.topbar { backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  :root[data-ui-mode='nebula'] .card,
+  :root[data-ui-mode='nebula'] aside,
+  :root[data-ui-mode='nebula'] header.topbar,
+  .appearance-mode-option {
+    color: CanvasText; background: Canvas; border: 1px solid CanvasText; box-shadow: none;
+  }
+}
