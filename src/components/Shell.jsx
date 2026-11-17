@@ -54,7 +54,7 @@ function ThemeBtn({ className = '' }) {
   );
 }
 
-function AppearanceDropdown() {
+function AppearanceDropdown({ className = '' }) {
   const { settings, cyberTheme, setSetting } = useStudy();
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef(null);
@@ -88,7 +88,7 @@ function AppearanceDropdown() {
   };
 
   return (
-    <div className="appearance-dropdown" ref={rootRef}>
+    <div className={`appearance-dropdown ${className}`} ref={rootRef}>
       <button ref={triggerRef} type="button" className="appearance-dropdown-trigger"
         aria-label={`Appearance settings. Current interface: ${activeMode.label}. Current palette: ${activePalette.label}`}
         aria-haspopup="dialog" aria-expanded={isOpen} aria-controls="appearance-dropdown-panel"
@@ -252,7 +252,7 @@ export default function Shell({ path, children }) {
             <input value={query} onChange={(e) => onSearch(e.target.value)} placeholder="Search questions or keywords…" aria-label="Search questions"
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
-          <AppearanceDropdown />
+          <AppearanceDropdown className="ml-auto" />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
       )}
