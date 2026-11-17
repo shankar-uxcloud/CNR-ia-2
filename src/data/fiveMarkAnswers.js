@@ -3,125 +3,143 @@
 // These are separate from, and do not replace, the detailed 10-mark answers.
 export const FIVE_MARK_ANSWERS = {
   q01: [
-    { id: 'intro', title: 'Meaning of Global Warming', blocks: [{ type: 'p', text: '**Global warming** is the long-term rise in the average temperature of the Earth due to an increase in heat-trapping greenhouse gases in the atmosphere.' }] },
-    { id: 'points', title: 'Greenhouse Effect and Main Causes', blocks: [{ type: 'list', ordered: true, items: [
-      '**Greenhouse effect:** Sunlight warms the Earth; the surface releases heat as infrared radiation. Greenhouse gases absorb and re-emit part of this heat, warming the lower atmosphere.',
-      '**Carbon dioxide (CO₂):** Released mainly by burning coal, oil and gas, power generation, vehicles and deforestation.',
-      '**Methane (CH₄):** Released from sources such as rice fields, livestock, wetlands and fossil-fuel activities.',
-      '**Nitrous oxide (N₂O):** Associated with fertiliser use, some industrial processes and burning organic matter.',
-      '**Deforestation:** Reduces the number of trees that absorb atmospheric carbon dioxide.'
+    { id: 'intro', title: '1. Definition', blocks: [{ type: 'p', text: '**Global warming** is the gradual increase in the average temperature of the Earth due to the increased concentration of greenhouse gases in the atmosphere.' }] },
+    { id: 'mechanism', title: '2. Greenhouse Effect', blocks: [{ type: 'list', ordered: true, items: [
+      'The Sun sends short-wave radiation towards the Earth.',
+      'The Earth absorbs this energy and releases heat as long-wave infrared radiation.',
+      'Greenhouse gases absorb and re-radiate part of this heat, warming the lower atmosphere.'
     ] }] },
-    { id: 'indicators', title: 'Indicators', blocks: [{ type: 'list', items: ['Increase in air and ocean surface temperatures.','Melting glaciers, reduced snow cover and shrinking sea ice.','Rise in sea level and ocean heat content.','Changes in rainfall patterns and more frequent heat extremes.'] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Reducing greenhouse-gas emissions, conserving forests and using energy efficiently help limit human-induced global warming.' }] }
+    { id: 'gases', title: '3. Major Greenhouse Gases and Sources', blocks: [{ type: 'list', items: [
+      '**Carbon dioxide (CO₂):** Burning coal, petrol and diesel, industries and deforestation.',
+      '**Methane (CH₄):** Rice fields, livestock, landfills and fossil-fuel activities.',
+      '**Nitrous oxide (N₂O):** Chemical fertilisers and certain industrial processes.',
+      '**Other gases:** Water vapour, ozone and fluorinated gases also contribute to the greenhouse effect.'
+    ] }] },
+    { id: 'indicators', title: '4. Indicators of Global Warming', blocks: [{ type: 'list', items: [
+      'Increase in average air and ocean temperatures.',
+      'Melting of glaciers and reduction in snow and sea-ice cover.',
+      'Rise in sea level.',
+      'Changes in rainfall patterns and increased heatwaves.'
+    ] }] },
+    { id: 'conclusion', title: '5. Conclusion', blocks: [{ type: 'p', text: 'Reducing greenhouse-gas emissions, conserving forests and using energy efficiently help control global warming.' }] }
   ],
   q02: [
-    { id: 'intro', title: 'Introduction', blocks: [{ type: 'p', text: 'Global warming raises average temperatures and changes rainfall, ice cover and ocean conditions. These changes affect natural systems and human life.' }] },
-    { id: 'effects', title: 'Major Effects', blocks: [{ type: 'list', ordered: true, items: [
-      '**Heatwaves:** Higher temperatures increase heat stress, dehydration and health risks.',
-      '**Changing rainfall:** Irregular monsoons can cause droughts in some areas and floods in others.',
-      '**Sea-level rise:** Melting land ice and the expansion of warmer seawater increase coastal flooding and erosion risks.',
-      '**Glacier retreat:** Himalayan glacier loss can affect seasonal river flows and future water availability.',
-      '**Health impacts:** Heat and changing conditions can increase heat-related illness and risks from some vector-borne diseases.',
-      '**Biodiversity loss:** Habitat changes, coral bleaching and altered migration can disturb ecosystems.',
-      '**Agriculture:** Heat stress, droughts, floods and pests can reduce crop yields and affect food security.'
+    { id: 'intro', title: '1. Introduction', blocks: [{ type: 'p', text: 'Global warming increases the Earth’s average temperature and disturbs climate, water resources, agriculture and natural ecosystems.' }] },
+    { id: 'effects', title: '2. Major Effects of Global Warming', blocks: [{ type: 'list', ordered: true, items: [
+      '**Rise in temperature and heatwaves:** Causes heat stress and health problems, especially among vulnerable people.',
+      '**Changes in rainfall:** Irregular monsoons may cause droughts in some regions and floods in others.',
+      '**Melting of glaciers and sea-level rise:** Himalayan glacier retreat affects water availability; rising seas threaten coastal areas.',
+      '**Effects on agriculture:** High temperature, water shortage and extreme weather can reduce crop yield and affect food security.',
+      '**Effects on biodiversity and health:** Habitat changes, coral bleaching and increased heat-related and vector-borne health risks affect living organisms and people.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Global warming affects water, health, agriculture, biodiversity and settlements. Emission reduction and adaptation measures are both necessary.' }] }
+    { id: 'conclusion', title: '3. Conclusion', blocks: [{ type: 'p', text: 'Global warming affects human health, agriculture, water resources and biodiversity. Emission reduction and climate adaptation are necessary to reduce its effects.' }] }
   ],
   q03: [
-    { id: 'intro', title: 'Introduction', blocks: [{ type: 'p', text: 'Environmental problems cross national boundaries. International agreements and organisations help countries cooperate to conserve biodiversity and address climate change.' }] },
-    { id: 'efforts', title: 'Major Global Efforts', blocks: [{ type: 'list', ordered: true, items: [
-      '**Earth Summit, Rio (1992):** Led to the adoption of the Convention on Biological Diversity.',
-      '**Convention on Biological Diversity (CBD):** Promotes biodiversity conservation, sustainable use and fair sharing of benefits from genetic resources.',
-      '**Paris Agreement (2015):** Seeks to keep the rise in global average temperature well below 2°C and pursue efforts to limit it to 1.5°C.',
-      '**Kyoto Protocol:** Established greenhouse-gas reduction commitments for participating countries under its framework.',
-      '**CITES:** Regulates international trade in listed wild animals and plants to help prevent threats to their survival.',
-      '**Ramsar Convention:** Promotes conservation and wise use of wetlands.',
-      '**UNEP and IUCN:** Support environmental cooperation, awareness and assessment of species extinction risk.'
+    { id: 'intro', title: '1. Introduction', blocks: [{ type: 'p', text: 'Environmental problems are global in nature. Countries work together through international agreements and organisations to protect biodiversity and control climate change.' }] },
+    { id: 'agreements', title: '2. Important Global Efforts and Agreements', blocks: [{ type: 'list', ordered: true, items: [
+      '**Earth Summit (Rio, 1992):** Promoted global environmental protection and led to major agreements including the Convention on Biological Diversity.',
+      '**Convention on Biological Diversity (CBD):** Aims at biodiversity conservation, sustainable use and fair sharing of benefits from genetic resources.',
+      '**Kyoto Protocol (1997):** Established emission-reduction commitments for developed countries under the climate-change framework.',
+      '**Paris Agreement (2015):** Aims to keep global temperature rise well below 2°C and pursue efforts to limit it to 1.5°C.',
+      '**CITES:** Controls international trade in endangered wild animals and plants.',
+      '**Ramsar Convention:** Promotes conservation and wise use of wetlands.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'International cooperation, protected areas, habitat restoration, sustainable resource use and community participation are important for effective conservation.' }] }
+    { id: 'organisations', title: '3. International Organisations', blocks: [{ type: 'list', items: [
+      '**UNEP:** Coordinates environmental activities and supports international cooperation.',
+      '**IUCN:** Assesses the conservation status of species and supports nature conservation.'
+    ] }] },
+    { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'International agreements, environmental organisations and cooperation among countries are important for conserving biodiversity and protecting the global environment.' }] }
   ],
   q04: [
-    { id: 'intro', title: 'Definition', blocks: [{ type: 'p', text: '**Environmental Impact Assessment (EIA)** is a systematic process used to identify, predict and evaluate the likely environmental impacts of a proposed project before approval and implementation.' }] },
-    { id: 'objectives', title: 'Objectives and Need', blocks: [{ type: 'list', items: [
-      'Prevent or reduce environmental degradation and protect human health.',
-      'Conserve biodiversity and promote sustainable use of natural resources.',
-      'Identify impacts such as air and water pollution, noise, deforestation and habitat loss.',
-      'Compare project alternatives and plan suitable mitigation measures.',
-      'Encourage transparency and public participation in decision-making.'
+    { id: 'intro', title: '1. Definition', blocks: [{ type: 'p', text: '**Environmental Impact Assessment (EIA)** is a systematic process of identifying, predicting and evaluating the environmental effects of a proposed project before it is approved and implemented.' }] },
+    { id: 'objectives', title: '2. Objectives / Need of EIA', blocks: [{ type: 'list', items: [
+      'To identify and reduce harmful environmental impacts.',
+      'To protect human health, biodiversity and natural resources.',
+      'To study alternatives and select a suitable project option.',
+      'To plan pollution-control and mitigation measures.',
+      'To involve the public in environmental decision-making.'
     ] }] },
-    { id: 'steps', title: 'Major Steps in EIA', blocks: [{ type: 'list', ordered: true, items: [
-      '**Screening and scoping:** Decide whether EIA is required and identify key issues.',
-      '**Baseline study:** Record existing air, water, soil, biodiversity and community conditions.',
-      '**Impact assessment:** Predict and evaluate likely positive and negative impacts.',
-      '**Mitigation and EIA report:** Consider alternatives and document measures to avoid or reduce harm.',
-      '**Public consultation and appraisal:** Obtain stakeholder feedback and review the proposal.',
-      '**Clearance and monitoring:** Make the decision under applicable rules and monitor compliance.'
+    { id: 'steps', title: '3. Major Steps in EIA', blocks: [{ type: 'list', ordered: true, items: [
+      '**Screening:** Determines whether the proposed project requires EIA.',
+      '**Scoping:** Identifies the important environmental issues to be studied.',
+      '**Baseline study:** Collects information about existing air, water, soil and ecological conditions.',
+      '**Impact prediction and evaluation:** Identifies and assesses possible positive and negative impacts.',
+      '**Mitigation and EIA report:** Suggests measures to avoid or reduce impacts and prepares the report.',
+      '**Public consultation, appraisal and monitoring:** Obtains public views, reviews the report and monitors compliance after approval.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'EIA supports informed project decisions by identifying environmental risks early and requiring suitable mitigation and monitoring.' }] }
+    { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'EIA helps authorities make informed decisions and ensures that development projects consider environmental protection.' }] }
   ],
   q05: [
-    { id: 'intro', title: 'Definition', blocks: [{ type: 'p', text: '**Biodiversity** is the variety of life, including plants, animals, microorganisms, genetic differences within species and the ecosystems they form.' }] },
-    { id: 'levels', title: 'Three Levels of Biodiversity', blocks: [{ type: 'list', ordered: true, items: [
-      '**Genetic diversity:** Variation in genes within one species; for example, different varieties of rice, wheat and mango.',
-      '**Species diversity:** Variety and relative abundance of species in an area, such as plants, birds, insects and mammals in a forest.',
-      '**Ecosystem diversity:** Variety of habitats and ecological systems, such as forests, grasslands, deserts, wetlands, rivers and oceans.'
+    { id: 'intro', title: '1. Definition', blocks: [{ type: 'p', text: '**Biodiversity** is the variety of living organisms, including plants, animals and microorganisms, and the ecosystems in which they live.' }] },
+    { id: 'levels', title: '2. Three Levels of Biodiversity', blocks: [{ type: 'list', ordered: true, items: [
+      '**Genetic diversity:** Variation of genes within the same species. Example: different varieties of rice and mango.',
+      '**Species diversity:** Variety of different species present in a particular area. Example: plants, birds, insects and animals in a forest.',
+      '**Ecosystem diversity:** Variety of ecosystems or habitats such as forests, grasslands, deserts, wetlands and oceans.'
     ] }] },
-    { id: 'values', title: 'Values / Importance', blocks: [{ type: 'list', items: [
-      '**Ecological value:** Supports food chains, pollination, nutrient cycling, soil fertility and ecosystem balance.',
-      '**Economic value:** Provides food, timber, fuelwood, medicines, fisheries, raw materials and tourism.',
-      '**Genetic value:** Supplies useful genetic material for crop improvement, disease resistance and adaptation.',
-      '**Ethical and aesthetic value:** Has cultural significance and provides natural beauty, recreation and ecotourism.'
+    { id: 'values', title: '3. Values of Biodiversity', blocks: [{ type: 'list', items: [
+      '**Ecological value:** Maintains food chains, pollination, nutrient cycling and ecosystem balance.',
+      '**Economic value:** Provides food, timber, medicines, fuel and other useful products.',
+      '**Genetic value:** Provides genetic material for crop improvement and disease resistance.',
+      '**Ethical value:** Every living organism has a right to exist and should be protected.',
+      '**Aesthetic value:** Provides natural beauty, recreation and ecotourism.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Conserving genetic, species and ecosystem diversity is essential for ecological stability and human well-being.' }] }
+    { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'All three levels and values of biodiversity are important for ecological stability and human welfare. Therefore, biodiversity must be conserved.' }] }
   ],
   q06: [
-    { id: 'intro', title: 'Introduction', blocks: [{ type: 'p', text: 'Biodiversity is threatened by natural disturbances and human activities that damage habitats, reduce populations and may lead to extinction.' }] },
-    { id: 'threats', title: 'Major Threats', blocks: [{ type: 'list', ordered: true, items: [
-      '**Habitat loss and fragmentation:** Forests and other habitats are converted for agriculture, mining, roads, dams and urban development.',
-      '**Pollution:** Pesticides, chemicals, plastics and excess nutrients damage land and aquatic ecosystems.',
-      '**Overexploitation:** Excessive fishing, hunting, poaching and timber cutting reduce species populations.',
-      '**Invasive species:** Introduced species may compete with, prey on or spread disease to native species.',
-      '**Climate change and natural disturbances:** Changing temperature and rainfall, floods, droughts and other events affect habitats and survival.'
+    { id: 'intro', title: '1. Introduction', blocks: [{ type: 'p', text: 'Biodiversity is threatened by human activities and environmental changes that destroy habitats, reduce species populations and may cause extinction.' }] },
+    { id: 'threats', title: '2. Major Threats to Biodiversity', blocks: [{ type: 'list', ordered: true, items: [
+      '**Habitat destruction and fragmentation:** Forests are cleared for agriculture, industries, roads, dams and urban development.',
+      '**Pollution:** Air, water and soil pollution, pesticides and plastics harm plants and animals.',
+      '**Overexploitation:** Excessive hunting, fishing, poaching and cutting of trees reduce species populations.',
+      '**Invasive species:** Non-native species compete with native species and disturb ecosystems.',
+      '**Climate change:** Changes in temperature and rainfall affect habitats, breeding and survival of species.'
     ] }] },
-    { id: 'measures', title: 'Conservation Measures', blocks: [{ type: 'list', items: [
-      'Protect and manage national parks, wildlife sanctuaries and biosphere reserves.',
-      'Restore degraded habitats and reconnect fragmented areas.',
-      'Promote sustainable agriculture, fishing and forestry.',
-      'Control pollution, invasive species, poaching and illegal wildlife trade.',
-      'Encourage research, education and participation of local communities.'
+    { id: 'measures', title: '3. Measures for Biodiversity Conservation', blocks: [{ type: 'list', items: [
+      'Protect forests and establish national parks, wildlife sanctuaries and biosphere reserves.',
+      'Restore damaged habitats and prevent deforestation.',
+      'Control pollution, poaching and illegal wildlife trade.',
+      'Promote sustainable use of forests, fisheries and other resources.',
+      'Create public awareness and encourage community participation.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Habitat protection, sustainable resource use, restoration and community participation are essential to reduce biodiversity loss.' }] }
+    { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'Habitat protection, pollution control and sustainable use of natural resources are essential for conserving biodiversity.' }] }
   ],
   q07: [
-    { id: 'intro', title: 'Meaning', blocks: [{ type: 'p', text: 'Biodiversity conservation protects species, ecosystems and genetic variation. The two main approaches are **in-situ (on-site)** and **ex-situ (off-site)** conservation.' }] },
-    { id: 'insitu', title: '1. In-situ Conservation', blocks: [{ type: 'p', text: 'It protects plants and animals **in their natural habitats**, allowing them to survive, reproduce and interact within their ecosystems.' }, { type: 'list', items: [
-      '**National parks:** Protected areas for wildlife and ecosystems; examples include Bandipur, Sundarbans and Kaziranga.',
-      '**Wildlife sanctuaries:** Areas established to protect wildlife and habitats; example: Dandeli Wildlife Sanctuary.',
-      '**Biosphere reserves:** Large protected areas commonly arranged into core, buffer and transition zones.'
-    ] }] },
-    { id: 'exsitu', title: '2. Ex-situ Conservation', blocks: [{ type: 'p', text: 'It protects species **outside their natural habitats** under managed conditions.' }, { type: 'list', items: [
-      '**Zoos and botanical gardens:** Maintain and care for animal and plant species.',
-      '**Seed banks and gene banks:** Store seeds or genetic material for future conservation and use.',
-      '**Cryopreservation:** Preserves biological material at very low temperatures for long-term storage.'
-    ] }] },
-    { id: 'difference', title: 'Difference and Conclusion', blocks: [{ type: 'p', text: '**In-situ** conserves organisms within natural ecosystems, whereas **ex-situ** conserves them outside those ecosystems. Both methods complement each other and help protect biodiversity for future generations.' }] }
+    { id: 'intro', title: '1. Introduction', blocks: [{ type: 'p', text: 'Biodiversity conservation is carried out by two main methods: **in-situ conservation** and **ex-situ conservation**.' }] },
+    { id: 'insitu', title: '2. In-situ Conservation', blocks: [
+      { type: 'p', text: 'In-situ conservation means protecting plants and animals **in their natural habitats**.' },
+      { type: 'list', items: [
+        '**National parks:** Protect wildlife and natural ecosystems. Example: Bandipur National Park.',
+        '**Wildlife sanctuaries:** Protect wild animals and their habitats. Example: Dandeli Wildlife Sanctuary.',
+        '**Biosphere reserves:** Large protected areas with core, buffer and transition zones.'
+      ] }
+    ] },
+    { id: 'exsitu', title: '3. Ex-situ Conservation', blocks: [
+      { type: 'p', text: 'Ex-situ conservation means protecting endangered plants and animals **outside their natural habitats**.' },
+      { type: 'list', items: [
+        '**Zoos:** Protect and breed wild animals under controlled conditions.',
+        '**Botanical gardens:** Maintain and conserve different plant species.',
+        '**Seed banks and gene banks:** Store seeds and genetic materials for future use.',
+        '**Cryopreservation:** Preserves seeds, cells or tissues at very low temperatures.'
+      ] }
+    ] },
+    { id: 'difference', title: '4. Difference and Conclusion', blocks: [{ type: 'p', text: '**In-situ** conservation protects organisms in their natural environment, whereas **ex-situ** conservation protects them outside it. Both methods are necessary for effective biodiversity conservation.' }] }
   ],
   q08: [
-    { id: 'intro', title: 'Definition', blocks: [{ type: 'p', text: '**Biogeochemical cycles** are natural pathways through which essential elements and water move between living organisms and the air, water and soil.' }] },
-    { id: 'cycles', title: 'Major Cycles', blocks: [{ type: 'list', ordered: true, items: [
-      '**Carbon cycle:** Plants absorb atmospheric CO₂ during photosynthesis; carbon moves through food chains and returns through respiration, decomposition and combustion.',
-      '**Nitrogen cycle:** Nitrogen fixation converts atmospheric nitrogen into usable forms; nitrification, assimilation, ammonification and denitrification recycle nitrogen.',
-      '**Oxygen cycle:** Photosynthesis releases oxygen, while respiration, decomposition and combustion use oxygen.',
-      '**Phosphorus cycle:** Weathering releases phosphate from rocks; plants absorb it, animals obtain it through food, and decomposition returns it to soil and water.',
-      '**Water cycle:** Evaporation and transpiration form water vapour; condensation produces clouds and precipitation returns water to land and water bodies.'
+    { id: 'intro', title: '1. Definition', blocks: [{ type: 'p', text: '**Biogeochemical cycles** are natural processes through which essential elements and water circulate between living organisms and the environment.' }] },
+    { id: 'cycles', title: '2. Major Biogeochemical Cycles', blocks: [{ type: 'list', ordered: true, items: [
+      '**Carbon cycle:** Green plants absorb CO₂ during photosynthesis. Carbon passes through food chains and returns to the atmosphere by respiration, decomposition and combustion.',
+      '**Nitrogen cycle:** Atmospheric nitrogen is fixed into usable compounds. Nitrification, assimilation, ammonification and denitrification recycle nitrogen.',
+      '**Oxygen cycle:** Plants release oxygen during photosynthesis. Living organisms use oxygen during respiration and combustion.',
+      '**Phosphorus cycle:** Weathering of rocks releases phosphate into soil and water. Plants absorb it, animals obtain it through food, and decomposition returns it to the environment.',
+      '**Water cycle:** Water evaporates and transpires, condenses to form clouds, and returns to the Earth as precipitation.'
     ] }] },
-    { id: 'importance', title: 'Importance in Ecosystem Balance', blocks: [{ type: 'list', items: [
-      'Recycle essential nutrients and maintain their availability.',
-      'Support soil fertility, plant growth and ecosystem productivity.',
-      'Maintain balance between living organisms and the physical environment.',
-      'Help regulate water availability and atmospheric composition.'
+    { id: 'importance', title: '3. Importance in Ecosystem Balance', blocks: [{ type: 'list', items: [
+      'Recycle essential nutrients in nature.',
+      'Maintain soil fertility and plant growth.',
+      'Support ecosystem productivity and food chains.',
+      'Maintain balance between living organisms and the environment.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Biogeochemical cycles continuously recycle matter and are essential for soil fertility, ecosystem functioning and ecological balance.' }] }
+    { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'Biogeochemical cycles continuously recycle matter and maintain nutrient availability, soil fertility and ecological balance.' }] }
   ],
   q09: [
     { id: 'intro', title: 'Introduction', blocks: [{ type: 'p', text: '**Air-pollution-control equipment** removes dust particles and selected gaseous pollutants from industrial exhaust before the gases are released into the atmosphere.' }] },
