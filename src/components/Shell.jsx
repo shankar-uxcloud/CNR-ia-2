@@ -7,29 +7,22 @@ import { Bar, modColor } from './ui';
 
 export function Logo({ light }) {
   return (
-    <a href="#/" className="flex items-center gap-2.5" aria-label="VTU ExamPrep home">
-      <svg viewBox="0 0 48 48" className="h-10 w-10 shrink-0 drop-shadow-[0_0_10px_rgba(34,211,238,.22)]" role="img" aria-label="CNR ExamPrep emblem">
+    <a href="#/" className="flex items-center gap-2.5" aria-label="CNR-IA-2 home">
+      <svg viewBox="0 0 64 64" className="h-11 w-11 shrink-0 drop-shadow-[0_0_14px_rgba(34,211,238,.28)]" role="img" aria-label="CNR monogram">
         <defs>
-          <linearGradient id="cnr-book" x1="5" y1="8" x2="42" y2="42" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#22d3ee" /><stop offset=".55" stopColor="#38bdf8" /><stop offset="1" stopColor="#4ade80" />
-          </linearGradient>
-          <linearGradient id="cnr-orbit" x1="5" y1="4" x2="43" y2="44" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#a78bfa" /><stop offset=".52" stopColor="#22d3ee" /><stop offset="1" stopColor="#4ade80" />
-          </linearGradient>
+          <linearGradient id="cnr-brand-ring" x1="5" y1="5" x2="59" y2="59" gradientUnits="userSpaceOnUse"><stop stopColor="#22d3ee"/><stop offset=".52" stopColor="#818cf8"/><stop offset="1" stopColor="#4ade80"/></linearGradient>
+          <linearGradient id="cnr-brand-text" x1="12" y1="18" x2="53" y2="49" gradientUnits="userSpaceOnUse"><stop stopColor="#67e8f9"/><stop offset=".55" stopColor="#a5b4fc"/><stop offset="1" stopColor="#86efac"/></linearGradient>
         </defs>
-        <rect x="1" y="1" width="46" height="46" rx="14" fill="#071326" stroke="url(#cnr-orbit)" strokeOpacity=".65" />
-        <path d="M7 14.5c6-2.1 11.3-.8 17 3.1v19c-5.7-3.8-11-5.1-17-3.1v-19Z" fill="#0e2940" stroke="url(#cnr-book)" strokeWidth="1.8" strokeLinejoin="round"/>
-        <path d="M41 14.5c-6-2.1-11.3-.8-17 3.1v19c5.7-3.8 11-5.1 17-3.1v-19Z" fill="#102c3c" stroke="url(#cnr-book)" strokeWidth="1.8" strokeLinejoin="round"/>
-        <path d="M24 17.8v18.8" stroke="#d8f7ff" strokeOpacity=".9" strokeWidth="1.4"/>
-        <path d="M11 20.5c3.1-.5 6.2.1 9 1.8M11 25c3.1-.5 6.2.1 9 1.8M28 22.3c2.8-1.7 5.9-2.3 9-1.8M28 26.8c2.8-1.7 5.9-2.3 9-1.8" fill="none" stroke="#b8edff" strokeOpacity=".75" strokeWidth="1.2" strokeLinecap="round"/>
-        <path d="m16.5 11 7.5-4 7.5 4-7.5 4-7.5-4Z" fill="#a78bfa" stroke="#d8c7ff" strokeWidth="1.1" strokeLinejoin="round"/>
-        <path d="M31.5 12.5v5.2" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="31.5" cy="18.5" r="1.6" fill="#fbbf24"/>
-        <circle cx="24" cy="17.8" r="1.7" fill="#22d3ee" stroke="#071326" strokeWidth=".7"/>
+        <rect x="2" y="2" width="60" height="60" rx="19" fill="#071326" stroke="url(#cnr-brand-ring)" strokeWidth="1.8"/>
+        <circle cx="32" cy="32" r="22" fill="none" stroke="url(#cnr-brand-ring)" strokeOpacity=".28" strokeWidth="1"/>
+        <ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(-32 32 32)" fill="none" stroke="url(#cnr-brand-ring)" strokeWidth="1.5" strokeOpacity=".85"/>
+        <circle cx="51.5" cy="20.5" r="3" fill="#67e8f9"/>
+        <text x="32" y="38" textAnchor="middle" fontSize="17" fontWeight="900" letterSpacing="-1.1" fill="url(#cnr-brand-text)">CNR</text>
+        <path d="M17 46h30" stroke="url(#cnr-brand-ring)" strokeWidth="1.5" strokeLinecap="round" opacity=".8"/>
       </svg>
       <span className="leading-tight">
-        <span className={`block text-[15px] font-extrabold tracking-[.055em] ${light ? 'text-white' : ''}`}>VTU <span className="bg-gradient-to-r from-cyan-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent">EXAMPREP</span></span>
-        <span className={`block text-[10px] font-semibold tracking-[.12em] uppercase ${light ? 'text-white/60' : 'text-mute'}`}>CNR · {SUBJECT.code}</span>
+        <span className={`block text-[15px] font-extrabold tracking-[.055em] ${light ? 'text-white' : ''}`}><span className="bg-gradient-to-r from-cyan-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent">CNR-IA-2</span></span>
+        <span className={`block text-[10px] font-semibold tracking-[.12em] uppercase ${light ? 'text-white/60' : 'text-mute'}`}>CONSERVATION · {SUBJECT.code}</span>
       </span>
     </a>
   );
