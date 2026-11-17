@@ -1249,3 +1249,192 @@ aside nav a[aria-current='page']::after {
     backdrop-filter: none;
   }
 }
+
+
+/* ==========================================================================
+   LIGHT APPEARANCE IDENTITY 2.0
+   Stronger palette signatures + unmistakable Standard / Glass / Nebula materials.
+   These rules intentionally target light mode only; dark mode remains untouched.
+   ========================================================================== */
+:root[data-theme='light'] {
+  --light-palette-wash: color-mix(in srgb, var(--cyber-accent) 8%, white);
+  --light-palette-edge: color-mix(in srgb, var(--cyber-accent) 38%, var(--border-color));
+  --light-palette-glow: color-mix(in srgb, var(--cyber-accent) 15%, transparent);
+  --light-palette-secondary-glow: color-mix(in srgb, var(--cyber-secondary) 12%, transparent);
+}
+:root[data-theme='light'][data-neon-theme='ultra-cyber'] {
+  --light-palette-wash: #e8faff;
+  --light-palette-edge: #62cfe0;
+  --light-palette-glow: rgb(0 190 220 / .16);
+  --light-palette-secondary-glow: rgb(220 45 130 / .11);
+}
+:root[data-theme='light'][data-neon-theme='arctic'] {
+  --light-palette-wash: #eaf3ff;
+  --light-palette-edge: #77a9ee;
+  --light-palette-glow: rgb(45 125 230 / .16);
+  --light-palette-secondary-glow: rgb(25 190 220 / .11);
+}
+:root[data-theme='light'][data-neon-theme='purple'] {
+  --light-palette-wash: #f4edff;
+  --light-palette-edge: #b18be7;
+  --light-palette-glow: rgb(135 75 205 / .16);
+  --light-palette-secondary-glow: rgb(210 65 155 / .11);
+}
+:root[data-theme='light'][data-neon-theme='eco'] {
+  --light-palette-wash: #eaf8ee;
+  --light-palette-edge: #79c79a;
+  --light-palette-glow: rgb(30 160 85 / .16);
+  --light-palette-secondary-glow: rgb(15 155 145 / .11);
+}
+:root[data-theme='light'] body {
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(ellipse 54rem 34rem at 0% 0%, var(--light-palette-glow), transparent 70%),
+    radial-gradient(ellipse 48rem 32rem at 100% 10%, var(--light-palette-secondary-glow), transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--light-palette-wash) 38%, var(--bg-primary)), var(--bg-primary) 34rem);
+  background-attachment: fixed;
+}
+:root[data-theme='light'] .card {
+  border: 1px solid var(--light-palette-edge);
+  border-top: 3px solid var(--cyber-accent);
+  background: linear-gradient(145deg, var(--surface-primary), color-mix(in srgb, var(--light-palette-wash) 34%, var(--surface-primary)));
+  box-shadow: 0 8px 24px var(--light-palette-glow), 0 2px 7px rgb(22 42 64 / .045);
+}
+:root[data-theme='light'] .card:hover {
+  border-color: var(--cyber-accent);
+  box-shadow: 0 14px 34px var(--light-palette-glow), 0 3px 10px rgb(22 42 64 / .06);
+}
+:root[data-theme='light'] aside nav a[aria-current='page'] {
+  color: var(--cyber-accent);
+  background: linear-gradient(100deg, color-mix(in srgb, var(--cyber-accent) 16%, white), color-mix(in srgb, var(--cyber-secondary) 7%, white));
+  box-shadow: inset 4px 0 var(--cyber-accent), 0 4px 14px var(--light-palette-glow);
+}
+:root[data-theme='light'] .chip,
+:root[data-theme='light'] .diagram-frame,
+:root[data-theme='light'] .cyber-hud-cell {
+  border-color: var(--light-palette-edge);
+  background: linear-gradient(135deg, var(--light-palette-wash), var(--surface-primary));
+}
+:root[data-theme='light'] .btn-primary {
+  color: #fff;
+  background: linear-gradient(112deg, var(--cyber-accent), var(--cyber-secondary));
+  border-color: color-mix(in srgb, var(--cyber-accent) 65%, transparent);
+  box-shadow: 0 7px 20px var(--light-palette-glow);
+}
+:root[data-theme='light'] .appearance-dropdown-panel {
+  border-color: var(--light-palette-edge);
+  background: color-mix(in srgb, white 96%, var(--light-palette-wash));
+  box-shadow: 0 24px 64px rgb(20 38 62 / .18), 0 0 0 4px color-mix(in srgb, var(--cyber-accent) 7%, transparent);
+}
+:root[data-theme='light'] .appearance-mode-card[aria-pressed='true'],
+:root[data-theme='light'] .appearance-palette-option[aria-pressed='true'] {
+  border-color: var(--cyber-accent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cyber-accent) 13%, white), color-mix(in srgb, var(--cyber-secondary) 8%, white));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cyber-accent) 32%, transparent), 0 5px 16px var(--light-palette-glow);
+}
+:root[data-theme='light'] .appearance-mode-icon {
+  border-color: var(--light-palette-edge);
+  background: var(--light-palette-wash);
+}
+
+/* Standard = crisp opaque surfaces with controlled palette details. */
+:root[data-theme='light'][data-ui-mode='standard'] .card,
+:root[data-theme='light'][data-ui-mode='standard'] aside,
+:root[data-theme='light'][data-ui-mode='standard'] header.topbar {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Glass = visibly translucent, layered white crystal panels. */
+:root[data-theme='light'][data-ui-mode='glass'] {
+  --glass-blur-crystal: 30px;
+  --glass-blur-frosted: 22px;
+  --glass-blur-deep: 14px;
+  --glass-line: color-mix(in srgb, var(--cyber-accent) 42%, rgb(255 255 255 / .75));
+  --glass-reflection: rgb(255 255 255 / .92);
+  --glass-depth-shadow: 0 22px 58px color-mix(in srgb, var(--cyber-accent) 12%, transparent), 0 5px 18px rgb(34 52 78 / .08), inset 0 1px 0 white;
+  --glass-float-shadow: 0 32px 76px color-mix(in srgb, var(--cyber-accent) 16%, transparent), 0 9px 26px rgb(34 52 78 / .10), inset 0 1px 0 white;
+}
+:root[data-theme='light'][data-ui-mode='glass'] body {
+  background-image:
+    radial-gradient(ellipse 58rem 40rem at 0% 0%, color-mix(in srgb, var(--cyber-accent) 18%, transparent), transparent 68%),
+    radial-gradient(ellipse 48rem 36rem at 100% 8%, color-mix(in srgb, var(--cyber-secondary) 14%, transparent), transparent 70%),
+    linear-gradient(135deg, rgb(255 255 255 / .18), transparent 48%);
+}
+:root[data-theme='light'][data-ui-mode='glass'] .card,
+:root[data-theme='light'][data-ui-mode='glass'] aside,
+:root[data-theme='light'][data-ui-mode='glass'] header.topbar,
+:root[data-theme='light'][data-ui-mode='glass'] .cyber-hud-cell,
+:root[data-theme='light'][data-ui-mode='glass'] .diagram-frame {
+  background-color: rgb(255 255 255 / .58);
+  border-color: var(--glass-line);
+  box-shadow: var(--glass-depth-shadow);
+  -webkit-backdrop-filter: blur(var(--glass-blur-frosted)) saturate(175%);
+  backdrop-filter: blur(var(--glass-blur-frosted)) saturate(175%);
+}
+:root[data-theme='light'][data-ui-mode='glass'] .card {
+  background-image: linear-gradient(145deg, rgb(255 255 255 / .82), color-mix(in srgb, var(--cyber-accent) 7%, rgb(255 255 255 / .62)));
+}
+:root[data-theme='light'][data-ui-mode='glass'] .card:hover {
+  box-shadow: var(--glass-float-shadow), 0 0 26px color-mix(in srgb, var(--cyber-accent) 12%, transparent);
+}
+
+/* Nebula = spatial canvas, star points and luminous orbital panel edges. */
+:root[data-theme='light'][data-ui-mode='nebula'] {
+  --nebula-line: color-mix(in srgb, var(--cyber-accent) 48%, white);
+  --nebula-glow: color-mix(in srgb, var(--cyber-accent) 19%, transparent);
+  --nebula-halo: color-mix(in srgb, var(--cyber-secondary) 16%, transparent);
+  --nebula-panel: color-mix(in srgb, white 88%, var(--cyber-accent) 12%);
+  --nebula-shadow: 0 18px 46px color-mix(in srgb, var(--cyber-accent) 12%, transparent), inset 0 1px 0 white;
+}
+:root[data-theme='light'][data-ui-mode='nebula'] body {
+  background-image:
+    radial-gradient(ellipse 44rem 32rem at 8% 0%, var(--nebula-glow), transparent 72%),
+    radial-gradient(ellipse 42rem 30rem at 96% 14%, var(--nebula-halo), transparent 72%),
+    radial-gradient(1.5px 1.5px at 12% 18%, color-mix(in srgb, var(--cyber-accent) 65%, white) 98%, transparent),
+    radial-gradient(1px 1px at 76% 28%, color-mix(in srgb, var(--cyber-secondary) 70%, white) 98%, transparent),
+    radial-gradient(1.5px 1.5px at 44% 78%, color-mix(in srgb, var(--cyber-accent) 60%, white) 98%, transparent),
+    linear-gradient(145deg, #f8fbff, color-mix(in srgb, var(--nebula-panel) 42%, #f4f7ff));
+  background-size: auto, auto, 190px 180px, 230px 210px, 270px 240px, auto;
+  background-attachment: fixed;
+}
+:root[data-theme='light'][data-ui-mode='nebula'] .card {
+  border: 1px solid var(--nebula-line);
+  border-top: 2px solid var(--cyber-accent);
+  background:
+    radial-gradient(ellipse at 100% 0%, var(--nebula-halo), transparent 62%),
+    linear-gradient(145deg, var(--nebula-panel), var(--surface-primary));
+  box-shadow: var(--nebula-shadow);
+}
+:root[data-theme='light'][data-ui-mode='nebula'] aside,
+:root[data-theme='light'][data-ui-mode='nebula'] header.topbar {
+  background: linear-gradient(125deg, color-mix(in srgb, white 88%, var(--cyber-accent) 12%), color-mix(in srgb, white 94%, var(--cyber-secondary) 6%));
+  border-color: var(--nebula-line);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--cyber-accent) 9%, transparent);
+}
+:root[data-theme='light'][data-ui-mode='nebula'] .cyber-hud-cell,
+:root[data-theme='light'][data-ui-mode='nebula'] .diagram-frame {
+  border-color: var(--nebula-line);
+  background: linear-gradient(135deg, var(--nebula-panel), var(--surface-primary));
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-theme='light'][data-ui-mode='glass'] .card,
+  :root[data-theme='light'][data-ui-mode='glass'] aside,
+  :root[data-theme='light'][data-ui-mode='glass'] header.topbar {
+    background: var(--surface-primary);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (forced-colors: active) {
+  :root[data-theme='light'] .card,
+  :root[data-theme='light'] aside,
+  :root[data-theme='light'] header.topbar {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
