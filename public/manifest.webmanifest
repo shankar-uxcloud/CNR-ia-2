@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "VTU ExamPrep — Conservation of Natural Resources",
-  "short_name": "CNR ExamPrep",
-  "description": "Offline-ready VTU BCV755B Conservation of Natural Resources study and exam preparation.",
+  "name": "CNR-IA-2 — Conservation of Natural Resources",
+  "short_name": "CNR-IA-2",
+  "description": "Offline-ready CNR-IA-2 learning workspace for VTU BCV755B Conservation of Natural Resources.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
