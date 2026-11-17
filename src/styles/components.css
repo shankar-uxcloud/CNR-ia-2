@@ -1569,10 +1569,9 @@ aside nav a[aria-current='page']::after {
   :root[data-ui-mode='holographic'] *,
   :root[data-ui-mode='holographic'] *::before,
   :root[data-ui-mode='holographic'] *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: .01ms !important;
+    animation: none;
+    scroll-behavior: auto;
+    transition: none;
   }
 }
 @media (prefers-reduced-transparency: reduce) {
