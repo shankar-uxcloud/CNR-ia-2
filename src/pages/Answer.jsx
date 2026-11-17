@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { QUESTIONS, byId, SUBJECT, MODULES } from '../data/questions';
 import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
-import { TWO_MARK_ANSWERS } from '../data/twoMarkAnswers';
+import { TWO_MARK_ANSWERS, TWO_MARK_QUESTIONS } from '../data/twoMarkAnswers';
 import { answerToText, diagramsOf, readMinutes } from '../lib/content';
 import { useStudy, FONT_SIZES, WIDTHS } from '../lib/study';
 import { iconFor } from '../lib/icons';
@@ -64,6 +64,7 @@ export default function Answer({ id }) {
       ? fiveMarkSections
       : (q?.answer.sections || []);
   const markLabel = answerMode === 'two' ? '2' : answerMode === 'five' ? '5' : '10';
+  const displayedQuestion = answerMode === 'two' ? TWO_MARK_QUESTIONS[id] : q?.question;
   const [open, setOpen] = useState(() => Object.fromEntries(sections.map((s) => [s.id, true])));
   const [practice, setPractice] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -119,7 +120,7 @@ export default function Answer({ id }) {
     setTimeout(() => document.getElementById(sid)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
   };
   const copy = async () => {
-    const text = answerMode === 'five'
+    const text = answerMode !== 'ten'
       ? sections.map((s) => `${s.title}\\n${(s.blocks || []).map((b) => b.text || (b.items || []).join('\\n') || (b.lines || []).join('\\n')).join('\\n')}`).join('\\n\\n')
       : answerToText(q);
     try { await navigator.clipboard.writeText(text); notify('Answer copied to clipboard'); }
@@ -158,7 +159,7 @@ export default function Answer({ id }) {
               <div><p className="eyebrow">{q.code} · {MODULES[q.module].name}</p><h1 id="q-title" className="mt-0.5 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{q.title}</h1></div>
             </div>
             <blockquote className="mt-5 rounded-2xl border border-line bg-sunk px-5 py-4 font-read text-[17px] leading-relaxed" style={{ borderLeft: `4px solid ${modColor(q.module)}` }}>
-              <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · {markLabel} Marks</span>{q.question}
+              <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · {markLabel} Marks</span>{displayedQuestion}
             </blockquote>
 
             {/* Answer length selector */}
@@ -204,7 +205,7 @@ export default function Answer({ id }) {
 
           <section className="no-print card mt-6 p-5" aria-label="VTU answer writing checklist">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={17} className="text-brand" />{answerMode === 'five' ? '5-mark' : '10-mark'} answer writing checklist</h2><p className="mt-1 text-sm text-mute">Use these question-specific headings to check your preparation. Your ticks are saved in this browser.</p></div>
+              <div><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={17} className="text-brand" />{markLabel}-mark answer writing checklist</h2><p className="mt-1 text-sm text-mute">Use these question-specific headings to check your preparation. Your ticks are saved in this browser.</p></div>
               <span className="rounded-lg bg-brand/10 px-3 py-2 text-sm font-bold tabular-nums text-brand">{sections.filter((s) => examChecks[q.id]?.[s.id]).length + (nDiagrams && examChecks[q.id]?.diagram ? 1 : 0)}/{sections.length + (nDiagrams ? 1 : 0)} covered</span>
             </div>
             <div className="mt-3 grid gap-1 sm:grid-cols-2">
