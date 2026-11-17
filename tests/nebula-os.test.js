@@ -8,7 +8,7 @@ const shell = read('../src/components/Shell.jsx');
 const css = read('../src/styles/components.css');
 
 test('Nebula is a supported persisted UI mode and invalid modes still fall back safely', () => {
-  assert.equal((study.match(/\['standard', 'glass', 'nebula'\]/g) || []).length, 2);
+  assert.equal((study.match(/\['standard', 'glass', 'nebula', 'holographic'\]/g) || []).length, 2);
   assert.match(study, /settings\.uiMode = \['standard', 'glass', 'nebula', 'holographic'\]/);
   assert.match(study, /restoredSettings\.uiMode = \['standard', 'glass', 'nebula', 'holographic'\]/);
 });
