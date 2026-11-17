@@ -35,6 +35,23 @@ test('Module 3 equipment answer covers all four requested devices and their oper
   }
 });
 
+
+test('Module 4 and Module 5 answers retain key details from the uploaded notes', () => {
+  const globalEffects = JSON.stringify(FIVE_MARK_ANSWERS.q02).toLowerCase();
+  const biodiversity = JSON.stringify(FIVE_MARK_ANSWERS.q05).toLowerCase();
+  const conservation = JSON.stringify(FIVE_MARK_ANSWERS.q07).toLowerCase();
+  const cycles = JSON.stringify(FIVE_MARK_ANSWERS.q08).toLowerCase();
+
+  for (const term of ['sundarbans', 'lakshadweep', 'himalayan']) {
+    assert.ok(globalEffects.includes(term), `Global-warming effects answer is missing ${term}`);
+  }
+  assert.ok(biodiversity.includes('climate-regulation value'));
+  assert.ok(conservation.includes('pollen culture'));
+  for (const term of ['denitrification', 'runoff', 'infiltration']) {
+    assert.ok(cycles.includes(term), `Biogeochemical-cycles answer is missing ${term}`);
+  }
+});
+
 test('ozone-depletion answer covers causes, mechanism, effects and international control', () => {
   const text = JSON.stringify(FIVE_MARK_ANSWERS.q10).toLowerCase();
   for (const term of ['cfc', 'halon', 'chlorine', 'bromine', 'uv-b', 'montreal protocol', 'antarctica']) {
