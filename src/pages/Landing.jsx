@@ -49,7 +49,7 @@ export default function Landing() {
           <div className="flex items-center gap-2"><a href="#/questions" className="hidden rounded-xl px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/10 sm:block">Questions</a><ThemeBtn className="!border-white/20 !bg-white/10 !text-white hover:!bg-white/20" /></div>
         </header>
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-5 pb-24 pt-10 sm:px-8">
-          <p className="animate-rise inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-1.5 text-xs font-semibold tracking-wider landing-accent-text"><span className="h-1.5 w-1.5 rounded-full landing-cta" />{SUBJECT.code} · VTU BCV755B · CONSERVATION OF NATURAL RESOURCES</p>
+          <p className="animate-rise inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-1.5 text-xs font-semibold tracking-wider landing-accent-text"><span className="h-1.5 w-1.5 rounded-full landing-cta" />{SUBJECT.code} · VTU SYLLABUS · CONSERVATION OF NATURAL RESOURCES</p>
           <h1 className="animate-rise mt-6 max-w-3xl text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl" style={{ animationDelay: '80ms' }}>Master Every Concept. <span className="landing-accent-text">Prepare with Confidence.</span></h1>
           <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-white/70" style={{ animationDelay: '160ms' }}>{SUBJECT.name}: ten important questions from Modules 3, 4 and 5 – answered in full 10-mark format from your own study notes, with thirteen labelled diagrams.</p>
           <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '240ms' }}>
