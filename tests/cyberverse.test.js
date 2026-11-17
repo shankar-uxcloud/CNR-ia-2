@@ -58,10 +58,12 @@ test('pointer-reactive effects are limited to fine-pointer devices and cleaned u
   assert.ok(shell.includes("removeEventListener('pointerout'"));
 });
 
-test('mobile drawer and desktop navigation both expose the palette picker', () => {
-  assert.ok(shell.includes('ThemePicker className="w-full"'));
-  assert.ok(shell.includes('ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden"'));
+test('the responsive top navigation provides the unified appearance dropdown on desktop and mobile', () => {
+  assert.ok(shell.includes('<AppearanceDropdown className="ml-auto" />'));
   assert.ok(shell.includes('aria-label="Neon colour themes"'));
+  assert.ok(shell.includes('appearance-dropdown-panel'));
+  assert.ok(shell.includes('appearance-mode-grid'));
+  assert.ok(shell.includes('appearance-palette-grid'));
 });
 
 test('palette choices preserve light mode and accessible motion fallbacks', () => {
