@@ -13,7 +13,7 @@ test('glass and nebula are independently supported persisted appearance settings
   assert.match(study, /\[theme, cyberTheme, uiMode\]/);
 });
 
-test('desktop and mobile navigation expose the accessible appearance mode picker', () => {
+test('the top navigation exposes one responsive, accessible appearance dropdown', () => {
   const shell = read('src/components/Shell.jsx');
   assert.match(shell, /const UI_MODES = \[/);
   for (const mode of ['standard', 'glass', 'nebula']) {
@@ -23,6 +23,21 @@ test('desktop and mobile navigation expose the accessible appearance mode picker
   assert.match(shell, /aria-pressed=\{settings\.uiMode === value\}/);
   assert.equal((shell.match(/<AppearanceModePicker\s*\/>/g) || []).length, 2,
     'appearance picker should be available in desktop sidebar and mobile drawer');
+});
+
+
+test('appearance dropdown exposes all four working neon palettes and persisted theme controls', () => {
+  const shell = read('src/components/Shell.jsx');
+  const study = read('src/lib/study.jsx');
+  for (const palette of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
+    assert.ok(shell.includes(`value: '${palette}'`), `missing ${palette} palette option`);
+  }
+  assert.match(shell, /setSetting\('cyberTheme', value\)/);
+  assert.match(shell, /aria-pressed=\{cyberTheme === item\.value\}/);
+  assert.match(shell, /Changes apply instantly and are saved automatically/);
+  assert.match(study, /setSetting: \(k, v\) =>/);
+  assert.match(study, /setItem\(KEY, JSON\.stringify\(state\)\)/);
+  assert.match(study, /root\.setAttribute\('data-neon-theme', cyberTheme\)/);
 });
 
 test('glass mode layers translucent materials over semantic palette tokens', () => {
