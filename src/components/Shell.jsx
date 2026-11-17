@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database, Layers3 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database, Layers3, Palette, ChevronDown, Check } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
@@ -35,50 +35,113 @@ const CYBER_THEMES = [
   { value: 'eco', label: 'Eco Neon', colors: ['#4ade80', '#2dd4bf'] },
 ];
 
-function ThemePicker({ className = '' }) {
-  const { cyberTheme, setSetting } = useStudy();
-  return (
-    <div className={`theme-picker ${className}`} role="group" aria-label="Neon colour themes">
-      {CYBER_THEMES.map((item) => (
-        <button key={item.value} type="button" onClick={() => setSetting('cyberTheme', item.value)}
-          aria-label={`Use ${item.label} theme`} aria-pressed={cyberTheme === item.value}
-          className="theme-picker-btn" title={item.label}>
-          <span className="theme-picker-swatch" style={{ background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})` }} aria-hidden="true" />
-          <span className="theme-picker-label">{item.label}</span>
-          <span className="theme-picker-check" aria-hidden="true">✓</span>
-        </button>
-      ))}
-    </div>
-  );
-}
+const UI_MODES = [
+  { value: 'standard', label: 'Standard', description: 'Clean and focused', icon: Layers3 },
+  { value: 'glass', label: 'Glass', description: 'Layered translucent surfaces', icon: Layers3 },
+  { value: 'nebula', label: 'Nebula OS', description: 'Cosmic spatial interface', icon: Orbit },
+];
 
-export function ThemeBtn({ className = '' }) {
+function ThemeBtn({ className = '' }) {
   const { theme, toggleTheme } = useStudy();
   const Icon = theme === 'dark' ? Sun : Moon;
   return (
-    <button onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} title="Toggle theme"
-      className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel hover:bg-sunk active:scale-95 ${className}`}><Icon size={18} /></button>
+    <button type="button" onClick={toggleTheme}
+      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} appearance`}
+      className={`appearance-scheme-toggle ${className}`}>
+      <Icon size={16} aria-hidden="true" />
+      <span>Switch to {theme === 'dark' ? 'light' : 'dark'} mode</span>
+    </button>
   );
 }
 
-const UI_MODES = [
-  { value: 'standard', label: 'Standard', icon: Layers3 },
-  { value: 'glass', label: 'Glass', icon: Layers3 },
-  { value: 'nebula', label: 'Nebula OS', icon: Orbit },
-];
+function AppearanceDropdown() {
+  const { settings, cyberTheme, setSetting } = useStudy();
+  const [isOpen, setIsOpen] = useState(false);
+  const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+  const activeMode = UI_MODES.find((mode) => mode.value === settings.uiMode) || UI_MODES[0];
+  const activePalette = CYBER_THEMES.find((item) => item.value === cyberTheme) || CYBER_THEMES[0];
 
-export function AppearanceModePicker({ className = '' }) {
-  const { settings, setSetting } = useStudy();
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onPointerDown = (event) => {
+      if (!rootRef.current?.contains(event.target)) setIsOpen(false);
+    };
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isOpen]);
+
+  const choose = (key, value) => {
+    setSetting(key, value);
+    setIsOpen(false);
+    triggerRef.current?.focus();
+  };
+
   return (
-    <div className={`appearance-mode-picker ${className}`} role="group" aria-label="Interface mode">
-      {UI_MODES.map(({ value, label, icon: Icon }) => (
-        <button key={value} type="button" onClick={() => setSetting('uiMode', value)}
-          aria-label={`Use ${label} interface`} aria-pressed={settings.uiMode === value}
-          className="appearance-mode-option">
-          <Icon size={14} aria-hidden="true" />
-          <span>{label}</span>
-        </button>
-      ))}
+    <div className="appearance-dropdown" ref={rootRef}>
+      <button ref={triggerRef} type="button" className="appearance-dropdown-trigger"
+        aria-label={`Appearance settings. Current interface: ${activeMode.label}. Current palette: ${activePalette.label}`}
+        aria-haspopup="dialog" aria-expanded={isOpen} aria-controls="appearance-dropdown-panel"
+        onClick={() => setIsOpen((value) => !value)}>
+        <Palette size={17} aria-hidden="true" />
+        <span className="appearance-trigger-copy"><span>Appearance</span><small>{activeMode.label} · {activePalette.label}</small></span>
+        <ChevronDown size={16} aria-hidden="true" className={isOpen ? 'appearance-chevron is-open' : 'appearance-chevron'} />
+      </button>
+
+      {isOpen && (
+        <section id="appearance-dropdown-panel" className="appearance-dropdown-panel"
+          role="dialog" aria-label="Appearance settings">
+          <div className="appearance-panel-heading">
+            <div><span className="appearance-panel-kicker">PERSONALIZE WORKSPACE</span><h2>Appearance</h2></div>
+            <span className="appearance-live-indicator"><span /> Live</span>
+          </div>
+
+          <section className="appearance-section" aria-labelledby="appearance-mode-heading">
+            <div className="appearance-section-heading"><h3 id="appearance-mode-heading">Interface mode</h3><span>01 / 02</span></div>
+            <div className="appearance-mode-grid">
+              {UI_MODES.map(({ value, label, description, icon: Icon }) => (
+                <button key={value} type="button" className="appearance-mode-card"
+                  aria-pressed={settings.uiMode === value}
+                  onClick={() => choose('uiMode', value)}>
+                  <span className="appearance-mode-icon"><Icon size={17} aria-hidden="true" /></span>
+                  <span className="appearance-choice-copy"><strong>{label}</strong><small>{description}</small></span>
+                  <span className="appearance-choice-check" aria-hidden="true">{settings.uiMode === value && <Check size={14} />}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="appearance-section" aria-labelledby="appearance-palette-heading">
+            <div className="appearance-section-heading"><h3 id="appearance-palette-heading">Neon colour palette</h3><span>02 / 02</span></div>
+            <div className="appearance-palette-grid">
+              {CYBER_THEMES.map((item) => (
+                <button key={item.value} type="button" className="appearance-palette-option"
+                  aria-pressed={cyberTheme === item.value}
+                  onClick={() => choose('cyberTheme', item.value)}>
+                  <span className="appearance-palette-swatch" style={{ background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})` }} aria-hidden="true" />
+                  <span>{item.label}</span>
+                  <span className="appearance-choice-check" aria-hidden="true">{cyberTheme === item.value && <Check size={14} />}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <div className="appearance-panel-footer">
+            <span>Changes apply instantly and are saved automatically.</span>
+            <ThemeBtn />
+          </div>
+        </section>
+      )}
     </div>
   );
 }
@@ -167,7 +230,6 @@ export default function Shell({ path, children }) {
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
           <Nav path={path} />
-          <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><AppearanceModePicker /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
         </aside>
       )}
 
@@ -177,7 +239,6 @@ export default function Shell({ path, children }) {
           <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
-            <div className="border-t border-line px-4 py-3"><div className="mb-2 flex items-center justify-between"><span className="text-xs text-mute">Appearance</span><div className="flex items-center gap-2"><AppearanceModePicker /><ThemeBtn /></div></div><ThemePicker className="w-full" /></div>
           </div>
         </div>
       )}
@@ -191,8 +252,7 @@ export default function Shell({ path, children }) {
             <input value={query} onChange={(e) => onSearch(e.target.value)} placeholder="Search questions or keywords…" aria-label="Search questions"
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
-          <div className="ml-auto flex items-center gap-2 md:ml-0 lg:hidden"><ThemeBtn /></div>
-          <ThemePicker className="hidden md:grid md:grid-cols-4 lg:hidden" />
+          <AppearanceDropdown />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
       )}
