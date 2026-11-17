@@ -159,8 +159,9 @@ export default function Answer({ id }) {
               <div><p className="eyebrow">{q.code} · {MODULES[q.module].name}</p><h1 id="q-title" className="mt-0.5 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{q.title}</h1></div>
             </div>
             <blockquote className="mt-5 rounded-2xl border border-line bg-sunk px-5 py-4 font-read text-[17px] leading-relaxed" style={{ borderLeft: `4px solid ${modColor(q.module)}` }}>
-              <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · {markLabel} Marks</span>{displayedQuestion}
+              <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · {markLabel} Marks</span>{q.question}
             </blockquote>
+            {answerMode === 'two' && displayedQuestion !== q.question && <p className="mt-2 text-sm text-mute"><strong>2-mark focus:</strong> {displayedQuestion}</p>}
 
             {/* Answer length selector */}
             <div className="no-print mt-5 inline-flex flex-wrap rounded-xl border border-line bg-sunk p-1" role="group" aria-label="Choose answer length">
