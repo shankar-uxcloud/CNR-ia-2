@@ -5,7 +5,7 @@ import { q09, q10 } from './answers/module3.js';
 export const SUBJECT = {
   code: 'BCV755B',
   name: 'Conservation of Natural Resources',
-  product: 'VTU ExamPrep',
+  product: 'CNR-IA-2',
   tagline: 'Master Every Concept. Prepare with Confidence.',
 };
 
