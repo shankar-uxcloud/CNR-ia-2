@@ -184,3 +184,22 @@ test('light mode palette accents reach shared cards, primary actions and active 
   assert.match(components, /data-theme='light'\] \.appearance-mode-card\[aria-pressed='true'\]/);
   assert.match(components, /data-theme='light'\] \.appearance-palette-option\[aria-pressed='true'\]/);
 });
+
+
+test('light appearance identity uses distinct palette signatures across core surfaces', () => {
+  const components = read('src/styles/components.css');
+  for (const palette of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
+    assert.match(components, new RegExp(`data-neon-theme=['"]${palette}['"]`));
+  }
+  assert.match(components, /data-theme='light'\] \.card\s*\{[^}]*border-top: 3px solid var\(--cyber-accent\)/);
+  assert.match(components, /data-theme='light'\] aside nav a\[aria-current='page'\]/);
+  assert.match(components, /data-theme='light'\] \.btn-primary/);
+});
+
+test('light Standard, Glass and Nebula modes have distinct surface treatments', () => {
+  const components = read('src/styles/components.css');
+  assert.match(components, /data-ui-mode='standard'\] \.card/);
+  assert.match(components, /data-ui-mode='glass'\] \.card[\s\S]*?backdrop-filter: blur/);
+  assert.match(components, /data-ui-mode='nebula'\] body[\s\S]*?radial-gradient/);
+  assert.match(components, /data-ui-mode='nebula'\] \.card[\s\S]*?--nebula-panel/);
+});
