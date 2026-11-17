@@ -41,7 +41,7 @@ const UI_MODES = [
   { value: 'nebula', label: 'Nebula OS', description: 'Cosmic spatial interface', icon: Orbit },
 ];
 
-function ThemeBtn({ className = '' }) {
+export function ThemeBtn({ className = '' }) {
   const { theme, toggleTheme } = useStudy();
   const Icon = theme === 'dark' ? Sun : Moon;
   return (
