@@ -64,3 +64,16 @@ export const TWO_MARK_ANSWERS = {
     { id: 'causes', title: '2. Main Causes', blocks: [{ type: 'p', text: 'Chlorofluorocarbons (CFCs) and halons release chlorine and bromine radicals under UV radiation. These radicals destroy ozone through repeated chemical reactions.' }] }
   ]
 };
+
+export const TWO_MARK_QUESTIONS = {
+  q01: 'Define global warming and explain the greenhouse effect.',
+  q02: 'Mention any two effects of global warming.',
+  q03: 'Name and state the purpose of any two important global environmental agreements.',
+  q04: 'Define Environmental Impact Assessment (EIA) and state its purpose.',
+  q05: 'Define biodiversity and list its three levels.',
+  q06: 'Mention any two threats to biodiversity and state suitable conservation measures.',
+  q07: 'Differentiate between in-situ and ex-situ conservation with examples.',
+  q08: 'Define biogeochemical cycles and name their major types.',
+  q09: 'State the working principle of ESP, baghouse filter, cyclone separator and wet scrubber.',
+  q10: 'Define ozone depletion and name the major ozone-depleting substances.'
+};
