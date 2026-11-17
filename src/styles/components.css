@@ -1438,3 +1438,165 @@ aside nav a[aria-current='page']::after {
     backdrop-filter: none;
   }
 }
+
+
+/* ==========================================================================
+   HOLOGRAPHIC OS 1.0 — independently scoped holographic interface mode.
+   Palette colours are inherited from the semantic cyber tokens.
+   ========================================================================== */
+:root[data-ui-mode='holographic'] {
+  --holo-cyan: var(--cyber-accent);
+  --holo-violet: var(--cyber-tertiary);
+  --holo-magenta: var(--cyber-secondary);
+  --holo-edge: color-mix(in srgb, var(--holo-cyan) 58%, var(--holo-violet));
+  --holo-glow: color-mix(in srgb, var(--holo-cyan) 22%, transparent);
+  --holo-halo: color-mix(in srgb, var(--holo-magenta) 16%, transparent);
+  --holo-panel: color-mix(in srgb, var(--surface-primary) 82%, var(--holo-cyan) 18%);
+  --holo-shadow: 0 18px 46px color-mix(in srgb, var(--holo-cyan) 12%, transparent), 0 4px 16px rgb(0 0 0 / .16), inset 0 1px 0 rgb(255 255 255 / .12);
+}
+:root[data-ui-mode='holographic'] body {
+  background-image:
+    radial-gradient(ellipse 52rem 34rem at 5% 0%, var(--holo-glow), transparent 70%),
+    radial-gradient(ellipse 48rem 34rem at 98% 12%, var(--holo-halo), transparent 72%),
+    linear-gradient(135deg, transparent 0 49.8%, color-mix(in srgb, var(--holo-cyan) 5%, transparent) 50%, transparent 50.2%);
+  background-attachment: fixed;
+}
+:root[data-ui-mode='holographic'] .card,
+:root[data-ui-mode='holographic'] .cyber-hud-cell,
+:root[data-ui-mode='holographic'] .diagram-frame {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--holo-edge);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--holo-cyan) 8%, var(--surface-primary)), var(--surface-primary) 58%, color-mix(in srgb, var(--holo-violet) 7%, var(--surface-primary)));
+  box-shadow: var(--holo-shadow);
+}
+:root[data-ui-mode='holographic'] .card::before,
+:root[data-ui-mode='holographic'] .cyber-hud-cell::before,
+:root[data-ui-mode='holographic'] .diagram-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(112deg, transparent 12%, color-mix(in srgb, var(--holo-cyan) 9%, transparent) 34%, color-mix(in srgb, var(--holo-magenta) 7%, transparent) 52%, transparent 72%);
+  opacity: .8;
+}
+:root[data-ui-mode='holographic'] .card:hover {
+  border-color: var(--holo-cyan);
+  box-shadow: 0 22px 54px color-mix(in srgb, var(--holo-cyan) 17%, transparent), 0 0 0 1px color-mix(in srgb, var(--holo-violet) 22%, transparent), inset 0 1px 0 rgb(255 255 255 / .16);
+}
+:root[data-ui-mode='holographic'] aside,
+:root[data-ui-mode='holographic'] header.topbar {
+  background: color-mix(in srgb, var(--surface-primary) 88%, var(--holo-cyan) 12%);
+  border-color: var(--holo-edge);
+  box-shadow: 0 12px 36px var(--holo-glow);
+}
+:root[data-ui-mode='holographic'] aside nav a[aria-current='page'] {
+  color: var(--holo-cyan);
+  background: linear-gradient(100deg, color-mix(in srgb, var(--holo-cyan) 16%, transparent), color-mix(in srgb, var(--holo-violet) 10%, transparent));
+  box-shadow: inset 3px 0 var(--holo-cyan), 0 0 18px var(--holo-glow);
+}
+:root[data-ui-mode='holographic'] button:not(.appearance-dropdown-trigger),
+:root[data-ui-mode='holographic'] .btn-primary,
+:root[data-ui-mode='holographic'] input,
+:root[data-ui-mode='holographic'] select,
+:root[data-ui-mode='holographic'] textarea {
+  border-color: color-mix(in srgb, var(--holo-cyan) 34%, var(--border-color));
+}
+:root[data-ui-mode='holographic'] .btn-primary {
+  background: linear-gradient(112deg, var(--holo-cyan), var(--holo-violet));
+  color: #07111d;
+  box-shadow: 0 8px 24px var(--holo-glow);
+}
+:root[data-ui-mode='holographic'] .appearance-dropdown-panel,
+:root[data-ui-mode='holographic'] .appearance-mode-card,
+:root[data-ui-mode='holographic'] .appearance-palette-option {
+  border-color: color-mix(in srgb, var(--holo-cyan) 30%, var(--border-color));
+}
+:root[data-ui-mode='holographic'] :focus-visible {
+  outline: 2px solid var(--holo-cyan);
+  outline-offset: 3px;
+}
+:root[data-ui-mode='holographic'] .progress-bar,
+:root[data-ui-mode='holographic'] [role='progressbar'] > div {
+  background-image: linear-gradient(90deg, var(--holo-cyan), var(--holo-violet), var(--holo-magenta));
+}
+:root[data-theme='light'][data-ui-mode='holographic'] {
+  --holo-glow: color-mix(in srgb, var(--holo-cyan) 15%, transparent);
+  --holo-halo: color-mix(in srgb, var(--holo-magenta) 11%, transparent);
+  --holo-edge: color-mix(in srgb, var(--holo-cyan) 48%, #aab8cf);
+  --holo-panel: color-mix(in srgb, white 88%, var(--holo-cyan) 12%);
+  --holo-shadow: 0 18px 42px color-mix(in srgb, var(--holo-cyan) 11%, transparent), 0 4px 14px rgb(35 55 80 / .08), inset 0 1px 0 white;
+}
+:root[data-theme='light'][data-ui-mode='holographic'] body {
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(ellipse 52rem 34rem at 5% 0%, var(--holo-glow), transparent 70%),
+    radial-gradient(ellipse 48rem 34rem at 98% 12%, var(--holo-halo), transparent 72%),
+    linear-gradient(145deg, color-mix(in srgb, white 92%, var(--holo-cyan) 8%), var(--bg-primary) 62%);
+}
+:root[data-theme='light'][data-ui-mode='holographic'] .card,
+:root[data-theme='light'][data-ui-mode='holographic'] .cyber-hud-cell,
+:root[data-theme='light'][data-ui-mode='holographic'] .diagram-frame {
+  background: linear-gradient(145deg, color-mix(in srgb, white 86%, var(--holo-cyan) 14%), color-mix(in srgb, white 94%, var(--holo-violet) 6%));
+  border-color: var(--holo-edge);
+}
+:root[data-theme='light'][data-ui-mode='holographic'] aside,
+:root[data-theme='light'][data-ui-mode='holographic'] header.topbar {
+  background: color-mix(in srgb, white 91%, var(--holo-cyan) 9%);
+  border-color: var(--holo-edge);
+}
+:root[data-theme='light'][data-ui-mode='holographic'] .btn-primary {
+  color: #07111d;
+}
+@keyframes holographic-edge-sweep {
+  0%, 100% { opacity: .24; transform: translateX(-18%); }
+  50% { opacity: .62; transform: translateX(18%); }
+}
+:root[data-ui-mode='holographic'] .card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--holo-cyan) 12%, transparent) 48%, color-mix(in srgb, var(--holo-magenta) 10%, transparent) 54%, transparent 68%);
+  animation: holographic-edge-sweep 9s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-ui-mode='holographic'] *,
+  :root[data-ui-mode='holographic'] *::before,
+  :root[data-ui-mode='holographic'] *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-ui-mode='holographic'] .card,
+  :root[data-ui-mode='holographic'] aside,
+  :root[data-ui-mode='holographic'] header.topbar {
+    background: var(--surface-primary);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (forced-colors: active) {
+  :root[data-ui-mode='holographic'] .card,
+  :root[data-ui-mode='holographic'] aside,
+  :root[data-ui-mode='holographic'] header.topbar,
+  :root[data-ui-mode='holographic'] .btn-primary {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+    box-shadow: none;
+    animation: none;
+  }
+}
+@media (max-width: 640px) {
+  :root[data-ui-mode='holographic'] body { background-attachment: scroll; }
+  :root[data-ui-mode='holographic'] .card::after { animation: none; }
+}
