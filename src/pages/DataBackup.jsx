@@ -13,7 +13,7 @@ export default function DataBackup() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `vtu-examprep-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `cnr-ia-2-backup-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -44,7 +44,7 @@ export default function DataBackup() {
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-8 sm:py-10">
       <p className="eyebrow">Your data · private browser storage</p>
       <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">Backup & Restore</h1>
-      <p className="mt-2 max-w-2xl text-mute">Keep a portable copy of your VTU ExamPrep progress. Your backup stays on your device unless you choose to move or share the file.</p>
+      <p className="mt-2 max-w-2xl text-mute">Keep a portable copy of your CNR-IA-2 progress. Your backup stays on your device unless you choose to move or share the file.</p>
 
       <section className="card mt-6 p-5 sm:p-6">
         <div className="flex items-center gap-3">
@@ -57,9 +57,9 @@ export default function DataBackup() {
       <section className="card mt-4 p-5 sm:p-6">
         <div className="flex items-center gap-3">
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/10 text-brand"><Upload size={21}/></span>
-          <div><h2 className="font-semibold">Restore a backup</h2><p className="mt-1 text-sm text-mute">Choose a previously exported VTU ExamPrep JSON file.</p></div>
+          <div><h2 className="font-semibold">Restore a backup</h2><p className="mt-1 text-sm text-mute">Choose a previously exported CNR-IA-2 JSON file.</p></div>
         </div>
-        <input ref={inputRef} type="file" accept=".json,application/json" onChange={chooseFile} className="sr-only" aria-label="Choose a VTU ExamPrep backup file"/>
+        <input ref={inputRef} type="file" accept=".json,application/json" onChange={chooseFile} className="sr-only" aria-label="Choose a CNR-IA-2 backup file"/>
         <button type="button" onClick={() => inputRef.current?.click()} className="btn mt-5"><Upload size={16}/> Choose backup file</button>
         {fileName && <p className="mt-2 text-xs text-mute">Selected: {fileName}</p>}
       </section>
