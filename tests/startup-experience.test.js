@@ -115,3 +115,16 @@ test('new startup motion remains disabled for reduced-motion users and scales on
   assert.match(styles, /prefers-reduced-motion:reduce/);
   assert.match(styles, /startup-scene-telemetry/);
 });
+
+
+test('startup intro exposes an accessible skip control that fades directly to the app', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  const styles = read('src/components/StartupExperience.css');
+  assert.match(source, /className="startup-skip-intro"/);
+  assert.match(source, /Skip intro/);
+  assert.match(source, /onClick=\{\(\) => setLeaving\(true\)\}/);
+  assert.match(source, /aria-label="Skip intro and open CNR-IA-2"/);
+  assert.match(source, /setTimeout\(\(\) => setDismissed\(true\), 650\)/);
+  assert.match(styles, /\.startup-skip-intro:focus-visible/);
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+});
