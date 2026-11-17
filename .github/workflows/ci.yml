@@ -1,4 +1,4 @@
-name: Validate VTU ExamPrep
+name: Validate CNR-IA-2
 
 on:
   pull_request:
