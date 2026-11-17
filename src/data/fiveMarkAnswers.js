@@ -124,34 +124,55 @@ export const FIVE_MARK_ANSWERS = {
     { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Biogeochemical cycles continuously recycle matter and are essential for soil fertility, ecosystem functioning and ecological balance.' }] }
   ],
   q09: [
-    { id: 'intro', title: 'Introduction', blocks: [{ type: 'p', text: 'Air-pollution-control equipment removes particles or selected gases from industrial exhaust before it is released into the atmosphere.' }] },
-    { id: 'devices', title: 'Major Equipment: Principle and Working', blocks: [{ type: 'list', ordered: true, items: [
-      '**Electrostatic precipitator (ESP) – electrostatic force:** A high-voltage field charges particles and attracts them to collecting plates. Dust is removed into a hopper. Used in thermal power plants, cement factories and steel mills.',
-      '**Baghouse filter – fabric filtration:** Dust-laden air passes through fabric bags that retain dust. Cleaning by shaking, reverse air or pulse jet sends dust to a hopper. Used in cement, metalworking and woodworking industries.',
-      '**Cyclone separator – centrifugal force:** Gas enters tangentially and rotates; particles move to the outer wall and fall into a hopper, while cleaner gas exits centrally. Used for pre-cleaning and larger dust particles.',
-      '**Wet scrubber – liquid scrubbing:** Sprayed liquid captures particles and absorbs selected gases; contaminated liquid is collected for treatment. Used in chemical plants, acid manufacturing and power plants.'
-    ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Each device works on a different principle. Equipment is selected according to pollutant type and required removal; combinations may be used to control different pollutants.' }] }
+    { id: 'intro', title: 'Introduction', blocks: [{ type: 'p', text: '**Air-pollution-control equipment** removes dust particles and selected gaseous pollutants from industrial exhaust before the gases are released into the atmosphere.' }] },
+    { id: 'esp', title: '1. Electrostatic Precipitator (ESP)', blocks: [
+      { type: 'p', text: '**Principle:** Electrostatic force.' },
+      { type: 'list', ordered: true, items: ['Polluted gas passes through a high-voltage electric field.','Dust particles become electrically charged and move towards collecting plates.','Dust collects on the plates and is removed periodically; cleaned gas leaves the unit.'] },
+      { type: 'p', text: '**Applications:** Thermal power plants (fly ash), cement factories and steel mills. **Advantage:** Efficient for fine particles and large gas volumes.' }
+    ] },
+    { id: 'baghouse', title: '2. Baghouse Filter', blocks: [
+      { type: 'p', text: '**Principle:** Fabric filtration.' },
+      { type: 'list', ordered: true, items: ['Dust-laden air passes through fabric filter bags.','The fabric retains dust while cleaner air passes through.','Accumulated dust is removed by shaking, reverse-air or pulse-jet cleaning and collected in a hopper.'] },
+      { type: 'p', text: '**Applications:** Cement, metalworking, woodworking and pharmaceutical industries. **Advantage:** High dust-removal efficiency.' }
+    ] },
+    { id: 'cyclone', title: '3. Cyclone Separator', blocks: [
+      { type: 'p', text: '**Principle:** Centrifugal force.' },
+      { type: 'list', ordered: true, items: ['Dust-laden gas enters the cylindrical or conical chamber tangentially.','The rotating gas pushes heavier particles towards the outer wall.','Particles fall into a hopper, while cleaner gas leaves through the central outlet.'] },
+      { type: 'p', text: '**Applications:** Pre-cleaning of exhaust gases, woodworking and grain-processing industries. **Limitation:** Less effective for very fine particles when used alone.' }
+    ] },
+    { id: 'scrubber', title: '4. Wet Scrubber', blocks: [
+      { type: 'p', text: '**Principle:** Liquid scrubbing.' },
+      { type: 'list', ordered: true, items: ['Polluted gas comes in contact with sprayed water or a suitable scrubbing solution.','Liquid droplets capture dust; soluble gases are absorbed. An alkaline solution can neutralise acidic gases.','Contaminated liquid is collected for treatment and cleaned gas leaves the scrubber.'] },
+      { type: 'p', text: '**Applications:** Chemical plants, acid manufacturing and power plants. **Limitation:** Produces wastewater or sludge that needs treatment.' }
+    ] },
+    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'The four devices use different principles. The correct equipment is selected according to the pollutant, gas flow and required removal efficiency. More than one device may be combined when necessary.' }] }
   ],
   q10: [
     { id: 'intro', title: 'Definition', blocks: [{ type: 'p', text: '**Ozone depletion** is the thinning or reduction of ozone concentration in the stratospheric ozone layer, which absorbs much of the Sun’s harmful ultraviolet radiation.' }] },
-    { id: 'causes', title: 'Causes', blocks: [{ type: 'list', items: [
-      '**CFCs:** Formerly used in refrigerants, aerosol propellants, solvents and foam production; UV radiation releases chlorine radicals.',
-      '**Halons:** Used in fire-extinguishing systems and release bromine radicals.',
-      '**Carbon tetrachloride and methyl chloroform:** Industrial and cleaning solvents that contribute chlorine-containing substances to ozone-depleting reactions.'
+    { id: 'causes', title: 'Major Causes', blocks: [{ type: 'list', items: [
+      '**CFCs (chlorofluorocarbons):** Previously used in refrigerators, aerosol sprays, solvents and foam production. UV radiation breaks them down and releases chlorine radicals.',
+      '**Halons:** Used in fire-extinguishing systems; they release bromine radicals that destroy ozone.',
+      '**Carbon tetrachloride and methyl chloroform:** Industrial and cleaning solvents that release chlorine-containing substances in the stratosphere.'
     ] }] },
-    { id: 'effects', title: 'Effects', blocks: [{ type: 'list', items: [
-      'More UV-B radiation reaches the Earth’s surface.',
-      'Increased risks of skin cancer, cataracts and immune suppression.',
-      'Damage to sensitive crops and harm to phytoplankton and aquatic food chains.',
-      'Faster deterioration of plastics, rubber, paints and textiles.'
+    { id: 'mechanism', title: 'How Ozone is Destroyed', blocks: [
+      { type: 'p', text: 'CFCs and halons can reach the stratosphere. UV radiation releases reactive chlorine (Cl•) and bromine (Br•) radicals. These radicals react with ozone and are regenerated, so they can destroy ozone repeatedly.' },
+      { type: 'list', ordered: true, items: ['**Chlorine reaction:** Cl• + O₃ → ClO• + O₂','**Regeneration of chlorine:** ClO• + O → Cl• + O₂','**Overall reaction:** O₃ + O → 2O₂'] },
+      { type: 'p', text: 'Very cold polar conditions form polar stratospheric clouds. When sunlight returns in spring, rapid reactions release active chlorine and cause severe seasonal ozone loss over Antarctica (the ozone hole).' }
+    ] },
+    { id: 'effects', title: 'Major Effects', blocks: [{ type: 'list', items: [
+      'More harmful UV-B radiation reaches the Earth’s surface.',
+      'Increases the risk of skin cancer, cataracts and suppression of the immune system.',
+      'Can damage sensitive crops and reduce crop growth and quality.',
+      'Harms phytoplankton and aquatic food chains.',
+      'Speeds up the deterioration of plastics, rubber, paints and textiles.'
     ] }] },
     { id: 'control', title: 'International Control Measures', blocks: [{ type: 'list', ordered: true, items: [
-      '**Montreal Protocol (1987):** Phases out production and consumption of controlled ozone-depleting substances.',
-      'Regulate CFCs, halons and other controlled ozone-depleting substances.',
-      'Adopt suitable alternatives for refrigerants, solvents and propellants.',
-      'Recover refrigerants during servicing and disposal; continue ozone monitoring, research and international cooperation.'
+      '**Montreal Protocol (1987):** International agreement to phase out the production and consumption of controlled ozone-depleting substances.',
+      'Control and phase out CFCs, halons and other ozone-depleting substances under the agreed schedules.',
+      'Use suitable alternatives for refrigerants, solvents and propellants.',
+      'Recover and properly manage refrigerants during servicing and disposal to prevent release.',
+      'Continue ozone monitoring, research, technology transfer and international cooperation.'
     ] }] },
-    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'Phasing out ozone-depleting substances under the Montreal Protocol and preventing their release are important for ozone-layer recovery.' }] }
+    { id: 'conclusion', title: 'Conclusion', blocks: [{ type: 'p', text: 'The Montreal Protocol, suitable alternatives and prevention of refrigerant release are important for protecting and allowing recovery of the ozone layer.' }] }
   ]
 };
