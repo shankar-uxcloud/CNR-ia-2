@@ -19,7 +19,7 @@ test('the top navigation exposes one responsive, accessible appearance dropdown'
   for (const mode of ['standard', 'glass', 'nebula']) {
     assert.ok(shell.includes(`value: '${mode}'`), `missing ${mode} appearance mode`);
   }
-  assert.match(shell, /setSetting\('uiMode', value\)/);
+  assert.match(shell, /choose\('uiMode', value\)/);
   assert.match(shell, /aria-pressed=\{settings\.uiMode === value\}/);
   assert.match(shell, /aria-expanded=\{isOpen\}/);
   assert.match(shell, /event\.key === 'Escape'/);
@@ -35,7 +35,7 @@ test('appearance dropdown exposes all four working neon palettes and persisted t
   for (const palette of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
     assert.ok(shell.includes(`value: '${palette}'`), `missing ${palette} palette option`);
   }
-  assert.match(shell, /setSetting\('cyberTheme', value\)/);
+  assert.match(shell, /choose\('cyberTheme', value\)/);
   assert.match(shell, /aria-pressed=\{cyberTheme === item\.value\}/);
   assert.match(shell, /Changes apply instantly and are saved automatically/);
   assert.match(study, /setSetting: \(k, v\) =>/);
