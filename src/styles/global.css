@@ -82,3 +82,15 @@ body {
 .dg .f-str { fill: var(--dg-str); } .dg .f-cyc { fill: var(--dg-box); stroke: var(--dg-line); stroke-width: 1.6; stroke-linejoin: round; }
 .dg .f-drop { fill: var(--dg-drop); stroke: var(--dg-b); stroke-width: .8; }
 .dg .pd { fill: var(--dg-k); } .dg .pt { fill: var(--dg-w); }
+
+/* Answer-only typography: keep the surrounding app and question prompt unchanged. */
+.reading .sect-body :is(p, li, td, .eq .whitespace-pre-wrap) {
+  font-family: 'Segoe UI', 'Aptos', system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.8;
+  letter-spacing: .005em;
+}
+.reading .sect-body strong,
+.reading .sect-body strong.kw {
+  font-weight: 800;
+}
