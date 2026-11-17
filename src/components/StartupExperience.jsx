@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Leaf } from 'lucide-react';
+import { Leaf, SkipForward } from 'lucide-react';
 import './StartupExperience.css';
 
 const scenes = [
@@ -112,7 +112,7 @@ export default function StartupExperience({ children }) {
         <div style={{'--startup-depth-blur': `${1.4 + (progress / 100) * 1.6}px`, '--startup-depth-progress': `${progress}%`}} className={`startup-screen ${leaving ? 'startup-screen--leaving' : ''} ${prefersReducedMotion ? 'startup-screen--reduced-motion' : ''}`}
           role="status" aria-live="polite" aria-label={`CNR ExamPrep startup ${progress}%`}>
           <div className="startup-atmosphere" aria-hidden="true"><span/><span/><span/></div>
-          <header className="startup-brand"><span className="startup-brand-mark"><Leaf size={22}/></span><span><strong>CNR <i>ExamPrep</i></strong><small>CONSERVATION OF NATURAL RESOURCES</small></span><b>BCV755B</b></header>
+          <header className="startup-brand"><span className="startup-brand-mark"><Leaf size={22}/></span><span><strong>CNR <i>ExamPrep</i></strong><small>CONSERVATION OF NATURAL RESOURCES</small></span><b>BCV755B</b><button type="button" className="startup-skip-intro" onClick={() => setLeaving(true)} aria-label="Skip intro and open CNR-IA-2"><SkipForward size={14} aria-hidden="true"/><span>Skip intro</span></button></header>
           <main className="startup-content">
             <div className={`startup-scene ${sceneClasses[sceneIndex]} ${sceneIndex >= 6 ? 'startup-scene--earth' : ''}`} key={sceneIndex}>
               <div className="startup-scene-glow"/><div className="startup-scene-depth" aria-hidden="true"/><div className="startup-environment-effects" aria-hidden="true"><span className="startup-environment-orb"/><span className="startup-environment-wave"/><span className="startup-environment-grid"/></div><div className="startup-scene-hud" aria-hidden="true"><span className="startup-hud-corner startup-hud-corner--tl"/><span className="startup-hud-corner startup-hud-corner--tr"/><span className="startup-hud-corner startup-hud-corner--bl"/><span className="startup-hud-corner startup-hud-corner--br"/><span className="startup-hud-scan"/><span className="startup-hud-orbit"/></div>
