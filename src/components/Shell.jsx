@@ -122,7 +122,7 @@ function AppearanceDropdown({ className = '' }) {
 
           <section className="appearance-section" aria-labelledby="appearance-palette-heading">
             <div className="appearance-section-heading"><h3 id="appearance-palette-heading">Neon colour palette</h3><span>02 / 02</span></div>
-            <div className="appearance-palette-grid">
+            <div className="appearance-palette-grid" role="group" aria-label="Neon colour themes">
               {CYBER_THEMES.map((item) => (
                 <button key={item.value} type="button" className="appearance-palette-option"
                   aria-pressed={cyberTheme === item.value}
