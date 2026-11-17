@@ -7,8 +7,8 @@ const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), '
 test('glass and nebula are independently supported persisted appearance settings', () => {
   const study = read('src/lib/study.jsx');
   assert.match(study, /uiMode:\s*'standard'/);
-  assert.match(study, /settings\.uiMode = \['standard', 'glass', 'nebula'\]/);
-  assert.match(study, /restoredSettings\.uiMode = \['standard', 'glass', 'nebula'\]/);
+  assert.match(study, /settings\.uiMode = \['standard', 'glass', 'nebula', 'holographic'\]/);
+  assert.match(study, /restoredSettings\.uiMode = \['standard', 'glass', 'nebula', 'holographic'\]/);
   assert.match(study, /root\.setAttribute\('data-ui-mode', uiMode\)/);
   assert.match(study, /\[theme, cyberTheme, uiMode\]/);
 });
@@ -16,7 +16,7 @@ test('glass and nebula are independently supported persisted appearance settings
 test('the top navigation exposes one responsive, accessible appearance dropdown', () => {
   const shell = read('src/components/Shell.jsx');
   assert.match(shell, /const UI_MODES = \[/);
-  for (const mode of ['standard', 'glass', 'nebula']) {
+  for (const mode of ['standard', 'glass', 'nebula', 'holographic']) {
     assert.ok(shell.includes(`value: '${mode}'`), `missing ${mode} appearance mode`);
   }
   assert.match(shell, /setSetting\('uiMode', value\)/);
