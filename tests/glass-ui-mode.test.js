@@ -21,8 +21,11 @@ test('the top navigation exposes one responsive, accessible appearance dropdown'
   }
   assert.match(shell, /setSetting\('uiMode', value\)/);
   assert.match(shell, /aria-pressed=\{settings\.uiMode === value\}/);
-  assert.equal((shell.match(/<AppearanceModePicker\s*\/>/g) || []).length, 2,
-    'appearance picker should be available in desktop sidebar and mobile drawer');
+  assert.match(shell, /aria-expanded=\{isOpen\}/);
+  assert.match(shell, /event\.key === 'Escape'/);
+  assert.match(shell, /document\.addEventListener\('pointerdown'/);
+  assert.equal((shell.match(/<AppearanceDropdown className="ml-auto" \/>/g) || []).length, 1,
+    'one unified dropdown should be available in the top navigation at every breakpoint');
 });
 
 
