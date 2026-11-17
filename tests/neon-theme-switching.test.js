@@ -166,3 +166,21 @@ test('every palette owns the complete neon accent alias family in both modes', (
     }
   }
 });
+
+
+test('light mode gives Standard, Glass and Nebula visibly distinct material treatments', () => {
+  const components = read('src/styles/components.css');
+  assert.match(components, /data-theme='light'\]\[data-ui-mode='standard'\] \.card/);
+  assert.match(components, /data-theme='light'\]\[data-ui-mode='glass'\][\s\S]*?--glass-blur-crystal: 28px/);
+  assert.match(components, /data-theme='light'\]\[data-ui-mode='glass'\] \.card[\s\S]*?backdrop-filter: blur/);
+  assert.match(components, /data-theme='light'\]\[data-ui-mode='nebula'\][\s\S]*?--nebula-line:/);
+  assert.match(components, /data-theme='light'\]\[data-ui-mode='nebula'\] \.card/);
+});
+
+test('light mode palette accents reach shared cards, primary actions and active appearance choices', () => {
+  const components = read('src/styles/components.css');
+  assert.match(components, /data-theme='light'\] \.card\s*\{[^}]*var\(--cyber-accent\)/);
+  assert.match(components, /data-theme='light'\] \.btn-primary\s*\{[^}]*var\(--cyber-secondary\)/);
+  assert.match(components, /data-theme='light'\] \.appearance-mode-card\[aria-pressed='true'\]/);
+  assert.match(components, /data-theme='light'\] \.appearance-palette-option\[aria-pressed='true'\]/);
+});
