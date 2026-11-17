@@ -39,6 +39,7 @@ const UI_MODES = [
   { value: 'standard', label: 'Standard', description: 'Clean and focused', icon: Layers3 },
   { value: 'glass', label: 'Glass', description: 'Layered translucent surfaces', icon: Layers3 },
   { value: 'nebula', label: 'Nebula OS', description: 'Cosmic spatial interface', icon: Orbit },
+  { value: 'holographic', label: 'Holographic OS', description: 'Holographic learning workspace', icon: Sparkles },
 ];
 
 export function ThemeBtn({ className = '' }) {
