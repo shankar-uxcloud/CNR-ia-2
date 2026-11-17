@@ -81,8 +81,7 @@ function AppearanceDropdown({ className = '' }) {
     };
   }, [isOpen]);
 
-  const choose = (key, value) => {
-    setSetting(key, value);
+  const closeAfterSelection = () => {
     setIsOpen(false);
     triggerRef.current?.focus();
   };
@@ -112,7 +111,7 @@ function AppearanceDropdown({ className = '' }) {
               {UI_MODES.map(({ value, label, description, icon: Icon }) => (
                 <button key={value} type="button" className="appearance-mode-card"
                   aria-pressed={settings.uiMode === value}
-                  onClick={() => choose('uiMode', value)}>
+                  onClick={() => { setSetting('uiMode', value); closeAfterSelection(); }}>
                   <span className="appearance-mode-icon"><Icon size={17} aria-hidden="true" /></span>
                   <span className="appearance-choice-copy"><strong>{label}</strong><small>{description}</small></span>
                   <span className="appearance-choice-check" aria-hidden="true">{settings.uiMode === value && <Check size={14} />}</span>
@@ -127,10 +126,10 @@ function AppearanceDropdown({ className = '' }) {
               {CYBER_THEMES.map((item) => (
                 <button key={item.value} type="button" className="appearance-palette-option"
                   aria-pressed={cyberTheme === item.value}
-                  onClick={() => choose('cyberTheme', item.value)}>
-                  <span className="appearance-palette-swatch" style={{ background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})` }} aria-hidden="true" />
+                  onClick={() => { setSetting('cyberTheme', item.value); closeAfterSelection(); }}>
+                  <span className="appearance-palette-swatch theme-picker-swatch" style={{ background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})` }} aria-hidden="true" />
                   <span>{item.label}</span>
-                  <span className="appearance-choice-check" aria-hidden="true">{cyberTheme === item.value && <Check size={14} />}</span>
+                  <span className="appearance-choice-check theme-picker-check" aria-hidden="true">{cyberTheme === item.value && <Check size={14} />}</span>
                 </button>
               ))}
             </div>
