@@ -1,11 +1,11 @@
 <!--
-  VTU ExamPrep · CNR
+  CNR-IA-2 · CNR
   A focused, interactive study workspace for VTU BCV755B.
 -->
 
 <div align="center">
 
-# 🌿 VTU ExamPrep
+# 🌿 CNR-IA-2
 
 ### Conservation of Natural Resources · BCV755B
 
@@ -30,7 +30,7 @@ An interactive, browser-based learning workspace built to turn CNR preparation i
 
 ## ✨ The idea
 
-CNR topics are easier to understand when learners can move beyond passive reading. VTU ExamPrep brings study material, visual explanations, practice activities, revision tools and exam-style preparation into one responsive interface.
+CNR topics are easier to understand when learners can move beyond passive reading. CNR-IA-2 brings study material, visual explanations, practice activities, revision tools and exam-style preparation into one responsive interface.
 
 The experience is designed around a simple loop:
 
@@ -237,9 +237,9 @@ Ideas and focused contributions are welcome through [GitHub Issues](https://gith
 
 ### 🌱 Learn the science. Understand the systems. Make every revision count.
 
-**VTU ExamPrep · Conservation of Natural Resources**
+**CNR-IA-2 · Conservation of Natural Resources**
 
-[Launch VTU ExamPrep](https://shankar-uxcloud.github.io/CNR-ia-2/) · [View source on GitHub](https://github.com/shankar-uxcloud/CNR-ia-2)
+[Launch CNR-IA-2](https://shankar-uxcloud.github.io/CNR-ia-2/) · [View source on GitHub](https://github.com/shankar-uxcloud/CNR-ia-2)
 
 <sub>Built with curiosity, code and a commitment to better learning.</sub>
 
