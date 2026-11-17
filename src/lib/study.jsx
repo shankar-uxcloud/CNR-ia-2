@@ -115,7 +115,7 @@ export function StudyProvider({ children }) {
       try {
         const backup = JSON.parse(raw);
         if (backup?.app !== 'vtu-examprep' || backup?.version !== 1 || !backup.data || typeof backup.data !== 'object' || Array.isArray(backup.data)) {
-          notify('This is not a supported VTU ExamPrep backup', 'err');
+          notify('This is not a supported CNR-IA-2 backup', 'err');
           return false;
         }
         const data = backup.data;

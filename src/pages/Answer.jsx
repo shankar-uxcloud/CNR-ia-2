@@ -68,7 +68,7 @@ export default function Answer({ id }) {
 
   useEffect(() => { setOpen(Object.fromEntries(sections.map((s) => [s.id, true]))); setActive(sections[0]?.id); }, [answerMode, id]); // eslint-disable-line
 
-  useEffect(() => { if (q) { visit(q.id); document.title = `${q.code} ${q.title} – VTU ExamPrep BCV755B`; } return () => { document.title = 'VTU ExamPrep – BCV755B Conservation of Natural Resources'; }; }, [id]); // eslint-disable-line
+  useEffect(() => { if (q) { visit(q.id); document.title = `${q.code} ${q.title} – CNR-IA-2 · BCV755B`; } return () => { document.title = 'CNR-IA-2 — Conservation of Natural Resources · BCV755B'; }; }, [id]); // eslint-disable-line
 
   // Reading progress
   useEffect(() => {

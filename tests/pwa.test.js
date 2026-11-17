@@ -4,12 +4,12 @@ import fs from 'node:fs';
 
 const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('CNR ExamPrep is configured as an installable standalone PWA', () => {
+test('CNR-IA-2 is configured as an installable standalone PWA', () => {
   const html = read('index.html');
   const manifest = JSON.parse(read('public/manifest.webmanifest'));
   assert.match(html, /rel="manifest" href="\.\/manifest\.webmanifest"/);
   assert.equal(manifest.display, 'standalone');
-  assert.equal(manifest.short_name, 'CNR ExamPrep');
+  assert.equal(manifest.short_name, 'CNR-IA-2');
   assert.ok(manifest.icons.some((icon) => icon.src === './pwa-icon.svg' && icon.purpose.includes('maskable')));
 });
 
