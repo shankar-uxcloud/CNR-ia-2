@@ -28,9 +28,12 @@ export const FIVE_MARK_ANSWERS = {
     { id: 'effects', title: '2. Major Effects of Global Warming', blocks: [{ type: 'list', ordered: true, items: [
       '**Rise in temperature and heatwaves:** Causes heat stress and health problems, especially among vulnerable people.',
       '**Changes in rainfall:** Irregular monsoons may cause droughts in some regions and floods in others.',
-      '**Melting of glaciers and sea-level rise:** Himalayan glacier retreat affects water availability; rising seas threaten coastal areas.',
-      '**Effects on agriculture:** High temperature, water shortage and extreme weather can reduce crop yield and affect food security.',
-      '**Effects on biodiversity and health:** Habitat changes, coral bleaching and increased heat-related and vector-borne health risks affect living organisms and people.'
+      '**Sea-level rise:** Melting ice and expansion of warmer seawater increase coastal flooding, erosion and saltwater intrusion. The Sundarbans, Lakshadweep and Andaman and Nicobar Islands are vulnerable.',
+      '**Extreme weather:** More intense heatwaves and changes in heavy rainfall, droughts and storms damage homes, infrastructure and livelihoods.',
+      '**Glacier retreat and water stress:** Shrinking Himalayan glaciers can change seasonal flows of the Ganga, Yamuna and Brahmaputra.',
+      '**Human health:** Heat causes dehydration and heat stress; changing conditions can increase mosquito-borne diseases such as malaria, dengue and chikungunya.',
+      '**Biodiversity and agriculture:** Coral bleaching, habitat shifts, irregular monsoons, floods and droughts can reduce crop yields and disturb ecosystems.',
+      '**Ocean changes and economy:** Ocean warming and acidification harm corals and shell-forming organisms; damage to fisheries, tourism and infrastructure increases economic losses.'
     ] }] },
     { id: 'conclusion', title: '3. Conclusion', blocks: [{ type: 'p', text: 'Global warming affects human health, agriculture, water resources and biodiversity. Emission reduction and climate adaptation are necessary to reduce its effects.' }] }
   ],
@@ -81,7 +84,8 @@ export const FIVE_MARK_ANSWERS = {
       '**Economic value:** Provides food, timber, medicines, fuel and other useful products.',
       '**Genetic value:** Provides genetic material for crop improvement and disease resistance.',
       '**Ethical value:** Every living organism has a right to exist and should be protected.',
-      '**Aesthetic value:** Provides natural beauty, recreation and ecotourism.'
+      '**Aesthetic value:** Provides natural beauty, recreation and ecotourism.',
+      '**Climate-regulation value:** Forests absorb carbon dioxide, influence rainfall and temperature, and help maintain water cycles.'
     ] }] },
     { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'All three levels and values of biodiversity are important for ecological stability and human welfare. Therefore, biodiversity must be conserved.' }] }
   ],
@@ -92,7 +96,8 @@ export const FIVE_MARK_ANSWERS = {
       '**Pollution:** Air, water and soil pollution, pesticides and plastics harm plants and animals.',
       '**Overexploitation:** Excessive hunting, fishing, poaching and cutting of trees reduce species populations.',
       '**Invasive species:** Non-native species compete with native species and disturb ecosystems.',
-      '**Climate change:** Changes in temperature and rainfall affect habitats, breeding and survival of species.'
+      '**Climate change:** Changes in temperature and rainfall affect habitats, breeding and survival of species.',
+      '**Natural and other pressures:** Earthquakes, floods, droughts, volcanic eruptions, overgrazing, disease, intensive farming and population pressure can also damage biodiversity.'
     ] }] },
     { id: 'measures', title: '3. Measures for Biodiversity Conservation', blocks: [{ type: 'list', items: [
       'Protect forests and establish national parks, wildlife sanctuaries and biosphere reserves.',
@@ -110,7 +115,7 @@ export const FIVE_MARK_ANSWERS = {
       { type: 'list', items: [
         '**National parks:** Protect wildlife and natural ecosystems. Example: Bandipur National Park.',
         '**Wildlife sanctuaries:** Protect wild animals and their habitats. Example: Dandeli Wildlife Sanctuary.',
-        '**Biosphere reserves:** Large protected areas with core, buffer and transition zones.'
+        '**Biosphere reserves:** Large protected areas organised into core, buffer and transition zones to support conservation along with compatible activities.'
       ] }
     ] },
     { id: 'exsitu', title: '3. Ex-situ Conservation', blocks: [
@@ -119,6 +124,7 @@ export const FIVE_MARK_ANSWERS = {
         '**Zoos:** Protect and breed wild animals under controlled conditions.',
         '**Botanical gardens:** Maintain and conserve different plant species.',
         '**Seed banks and gene banks:** Store seeds and genetic materials for future use.',
+        '**Pollen culture and tissue culture:** Help preserve and multiply plant material.',
         '**Cryopreservation:** Preserves seeds, cells or tissues at very low temperatures.'
       ] }
     ] },
@@ -128,16 +134,17 @@ export const FIVE_MARK_ANSWERS = {
     { id: 'intro', title: '1. Definition', blocks: [{ type: 'p', text: '**Biogeochemical cycles** are natural processes through which essential elements and water circulate between living organisms and the environment.' }] },
     { id: 'cycles', title: '2. Major Biogeochemical Cycles', blocks: [{ type: 'list', ordered: true, items: [
       '**Carbon cycle:** Green plants absorb CO₂ during photosynthesis. Carbon passes through food chains and returns to the atmosphere by respiration, decomposition and combustion.',
-      '**Nitrogen cycle:** Atmospheric nitrogen is fixed into usable compounds. Nitrification, assimilation, ammonification and denitrification recycle nitrogen.',
+      '**Nitrogen cycle:** Nitrogen fixation converts atmospheric nitrogen into usable compounds. Plants absorb nitrogen from soil; animals obtain it through food. Decomposition returns nitrogen compounds to soil, nitrification forms nitrites and nitrates, and denitrification returns nitrogen gas to the atmosphere.',
       '**Oxygen cycle:** Plants release oxygen during photosynthesis. Living organisms use oxygen during respiration and combustion.',
       '**Phosphorus cycle:** Weathering of rocks releases phosphate into soil and water. Plants absorb it, animals obtain it through food, and decomposition returns it to the environment.',
-      '**Water cycle:** Water evaporates and transpires, condenses to form clouds, and returns to the Earth as precipitation.'
+      '**Water cycle:** Solar energy causes evaporation and plant transpiration. Water vapour condenses into clouds, and precipitation returns water to land and water bodies. Runoff and infiltration replenish rivers and groundwater.'
     ] }] },
     { id: 'importance', title: '3. Importance in Ecosystem Balance', blocks: [{ type: 'list', items: [
       'Recycle essential nutrients in nature.',
       'Maintain soil fertility and plant growth.',
       'Support ecosystem productivity and food chains.',
-      'Maintain balance between living organisms and the environment.'
+      'Maintain balance between living organisms and the environment.',
+      'Support water quality, climate regulation and continuous ecosystem functioning.'
     ] }] },
     { id: 'conclusion', title: '4. Conclusion', blocks: [{ type: 'p', text: 'Biogeochemical cycles continuously recycle matter and maintain nutrient availability, soil fertility and ecological balance.' }] }
   ],
