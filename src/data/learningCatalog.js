@@ -1,4 +1,4 @@
-import { MODULES } from './questions';
+import { MODULES } from './questions.js';
 
 // Availability reflects content currently present in the repository, not planned work.
 export const LEARNING_MODULES = [
