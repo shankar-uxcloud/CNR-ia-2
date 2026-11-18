@@ -24,8 +24,10 @@ const AdditionalNotes = lazy(() => import('./pages/AdditionalNotes'));
 const StudyCoach = lazy(() => import('./pages/StudyCoach'));
 const DataBackup = lazy(() => import('./pages/DataBackup'));
 const EcoWebArchitect = lazy(() => import('./pages/EcoWebArchitect'));
+const LearningHub = lazy(() => import('./pages/LearningHub'));
 
 function Router({ path }) {
+  if (path === '/learning-hub') return <LearningHub />;
   if (path === '/dashboard') return <Dashboard />;
   if (path === '/questions') return <Library />;
   if (path === '/bookmarks') return <Library bookmarksOnly />;
