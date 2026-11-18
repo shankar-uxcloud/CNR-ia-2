@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Leaf, SkipForward } from 'lucide-react';
 import './StartupExperience.css';
+import NexusWelcome from '../pages/NexusWelcome';
 
 const scenes = [
   { title: 'Forest Awakening', caption: 'Protect Our Forests', detail: 'Healthy forests sustain life, climate and communities.' },
@@ -55,6 +56,8 @@ export default function StartupExperience({ children }) {
   const [appReady, setAppReady] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomeComplete] = useState(() => { try { return localStorage.getItem('cnr-nexus-welcome-complete') === 'true'; } catch { return false; } });
   const sceneIndex = useMemo(() => sceneFor(progress), [progress]);
   const scene = scenes[sceneIndex];
   const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;

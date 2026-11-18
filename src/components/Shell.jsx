@@ -153,6 +153,7 @@ function Nav({ path, onNavigate }) {
     { to: '/ecoweb', label: 'EcoWeb Architect', icon: Network },
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/learning-hub', label: 'Learning Hub', icon: BookOpenText },
+    { to: '/welcome', label: 'Welcome & Platform Tour', icon: Sparkles },
     { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
     { to: '/environment-lab', label: '3D Science Lab', icon: Orbit },
