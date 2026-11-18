@@ -28,6 +28,7 @@ const LearningHub = lazy(() => import('./pages/LearningHub'));
 const NexusWelcome = lazy(() => import('./pages/NexusWelcome'));
 
 function Router({ path }) {
+  if (path === '/welcome') return <NexusWelcome revisit />;
   if (path === '/learning-hub') return <LearningHub />;
   if (path === '/dashboard') return <Dashboard />;
   if (path === '/questions') return <Library />;
