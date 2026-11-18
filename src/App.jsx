@@ -25,6 +25,7 @@ const StudyCoach = lazy(() => import('./pages/StudyCoach'));
 const DataBackup = lazy(() => import('./pages/DataBackup'));
 const EcoWebArchitect = lazy(() => import('./pages/EcoWebArchitect'));
 const LearningHub = lazy(() => import('./pages/LearningHub'));
+const NexusWelcome = lazy(() => import('./pages/NexusWelcome'));
 
 function Router({ path }) {
   if (path === '/learning-hub') return <LearningHub />;
