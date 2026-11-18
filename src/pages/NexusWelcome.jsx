@@ -28,7 +28,8 @@ export default function NexusWelcome({ revisit = false, onEnter }) {
   });
   const enter = (path = '/learning-hub') => {
     try { localStorage.setItem('cnr-nexus-welcome-complete', 'true'); } catch { /* storage may be unavailable */ }
-    onEnter?.();\n    go(path);
+    onEnter?.();
+    go(path);
   };
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   return <main className={revisit ? "min-h-screen overflow-hidden bg-bg text-ink" : "fixed inset-0 z-[10000] overflow-y-auto overflow-x-hidden bg-bg text-ink"}>
