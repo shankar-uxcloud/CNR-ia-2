@@ -39,7 +39,7 @@ q08: [
   ],
 q09: [
     { id: 'definition', title: '1. Definition', blocks: [{"type":"p","text":"**Definition:** Air-pollution-control devices remove particulate matter and/or harmful gases from industrial emissions before release."}] },
-    { id: 'devices', title: '2. Devices and Principles', blocks: [{"type":"list","items":["**ESP:** Electrostatic attraction collects charged particles.","**Baghouse filter:** Fabric filters trap dust.","**Cyclone:** Centrifugal force separates particles.","**Wet scrubber:** Liquid captures particles and absorbs certain gases."]}] },
+    { id: 'devices', title: '2. Devices and Principles', blocks: [{"type":"list","items":["**ESP:** Electrostatic force attracts and collects charged particles.","**Baghouse filter:** Fabric filters trap dust.","**Cyclone:** Centrifugal force separates particles.","**Wet scrubber:** Liquid captures particles and absorbs certain gases."]}] },
     { id: 'summary', title: '3. Summary', blocks: [{"type":"p","text":"**Result:** These devices reduce air emissions and protect human health and the environment."}] },
   ],
 q10: [
