@@ -20,7 +20,7 @@ const journey = [
   ['06', 'EXCEL', 'Use your learning progress to guide the next study session.'],
 ];
 
-export default function NexusWelcome({ revisit = false }) {
+export default function NexusWelcome({ revisit = false, onEnter }) {
   const modules = [1, 2, 3, 4, 5].map((number) => {
     const ready = MODULE_ORDER.includes(number);
     const count = QUESTIONS.filter((question) => question.module === number).length;
@@ -28,10 +28,10 @@ export default function NexusWelcome({ revisit = false }) {
   });
   const enter = (path = '/learning-hub') => {
     try { localStorage.setItem('cnr-nexus-welcome-complete', 'true'); } catch { /* storage may be unavailable */ }
-    go(path);
+    onEnter?.();\n    go(path);
   };
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-  return <main className="min-h-screen overflow-hidden bg-bg text-ink">
+  return <main className={revisit ? "min-h-screen overflow-hidden bg-bg text-ink" : "fixed inset-0 z-[10000] overflow-y-auto overflow-x-hidden bg-bg text-ink"}>
     <section className="relative isolate overflow-hidden border-b border-line">
       <div className="pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" style={{ background: 'radial-gradient(ellipse at 78% 28%, rgb(var(--brand-rgb, 56 189 248) / .20), transparent 42%), radial-gradient(ellipse at 12% 80%, rgb(var(--brand-rgb, 56 189 248) / .10), transparent 38%)' }} />
       <header className="relative mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
@@ -42,7 +42,7 @@ export default function NexusWelcome({ revisit = false }) {
         <div className="max-w-3xl">
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-panel/80 px-3 py-1.5 text-xs font-semibold tracking-wide text-brand"><Sparkles size={14}/> YOUR ACADEMIC LEARNING UNIVERSE</span>
           <h1 className="mt-7 text-5xl font-black leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">Your complete learning ecosystem. <span className="text-brand">One powerful destination.</span></h1>
-          <p className="mt-7 max-w-2xl text-base leading-8 text-mute sm:text-lg">A focused preparation space for ${SUBJECT.name} — explore published questions, prepare exam-ready answers, practise with existing tools and follow your progress as the learning library grows.</p>
+          <p className="mt-7 max-w-2xl text-base leading-8 text-mute sm:text-lg">A focused preparation space for {SUBJECT.name} — explore published questions, prepare exam-ready answers, practise with existing tools and follow your progress as the learning library grows.</p>
           <div className="mt-9 flex flex-wrap gap-3"><button type="button" onClick={() => enter('/learning-hub')} className="btn-primary inline-flex items-center gap-2 px-5 py-3">Start learning <ArrowRight size={17}/></button><button type="button" onClick={() => scrollTo('nexus-modules')} className="rounded-xl border border-line bg-panel px-5 py-3 text-sm font-semibold hover:bg-sunk">Explore modules</button><button type="button" onClick={() => scrollTo('nexus-features')} className="rounded-xl px-4 py-3 text-sm font-semibold text-mute hover:bg-sunk">Discover features</button></div>
           <div className="mt-12 grid max-w-xl grid-cols-3 gap-4 border-t border-line pt-6">
             <div><strong className="block text-3xl font-black tabular-nums">{QUESTIONS.length}</strong><span className="text-xs text-mute">Published questions</span></div>
