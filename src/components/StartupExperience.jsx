@@ -111,7 +111,7 @@ export default function StartupExperience({ children }) {
   return (
     <>
       {children}
-      {!dismissed && (
+      {dismissed && showWelcome && <NexusWelcome onEnter={() => setShowWelcome(false)} />}\n      {!dismissed && (
         <div style={{'--startup-depth-blur': `${1.4 + (progress / 100) * 1.6}px`, '--startup-depth-progress': `${progress}%`}} className={`startup-screen ${leaving ? 'startup-screen--leaving' : ''} ${prefersReducedMotion ? 'startup-screen--reduced-motion' : ''}`}
           role="status" aria-live="polite" aria-label={`CNR ExamPrep startup ${progress}%`}>
           <div className="startup-atmosphere" aria-hidden="true"><span/><span/><span/></div>
