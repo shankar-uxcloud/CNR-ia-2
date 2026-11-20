@@ -33,18 +33,27 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (request.mode === 'navigate') {
+  // HTML and executable assets must prefer the network so a deployment cannot
+  // leave users running a stale application bundle from an older release.
+  const isAppShell = request.mode === 'navigate';
+  const isExecutableAsset = request.destination === 'script' || request.destination === 'style';
+
+  if (isAppShell || isExecutableAsset) {
     event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
       try {
-        const response = await fetch(request);
-        if (response.ok) {
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(new URL('index.html', self.registration.scope).href, response.clone());
+        const response = await fetch(request, { cache: 'no-store' });
+        if (response.ok && (response.type === 'basic' || response.type === 'default')) {
+          const cacheUrl = isAppShell
+            ? new URL('index.html', self.registration.scope).href
+            : request.url;
+          await cache.put(cacheUrl, response.clone());
         }
         return response;
       } catch {
-        const cache = await caches.open(CACHE_NAME);
-        return (await cache.match(request)) || (await cache.match(new URL('index.html', self.registration.scope).href)) || Response.error();
+        return (await cache.match(request))
+          || (isAppShell ? await cache.match(new URL('index.html', self.registration.scope).href) : null)
+          || Response.error();
       }
     })());
     return;
@@ -56,7 +65,9 @@ self.addEventListener('fetch', (event) => {
     if (cached) return cached;
     try {
       const response = await fetch(request);
-      if (response.ok && (response.type === 'basic' || response.type === 'default')) cache.put(request, response.clone());
+      if (response.ok && (response.type === 'basic' || response.type === 'default')) {
+        await cache.put(request, response.clone());
+      }
       return response;
     } catch {
       return cached || Response.error();
