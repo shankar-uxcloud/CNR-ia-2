@@ -27,11 +27,13 @@ const EcoWebArchitect = lazy(() => import('./pages/EcoWebArchitect'));
 const LearningHub = lazy(() => import('./pages/LearningHub'));
 const NexusWelcome = lazy(() => import('./pages/NexusWelcome'));
 const ResourceVault = lazy(() => import('./pages/ResourceVault'));
+const ModelPapers = lazy(() => import('./pages/ModelPapers'));
 
 function Router({ path }) {
   if (path === '/welcome') return <NexusWelcome revisit />;
   if (path === '/learning-hub') return <LearningHub />;
   if (path === '/resources') return <ResourceVault />;
+  if (path === '/mqps') return <ModelPapers />;
   if (path === '/dashboard') return <Dashboard />;
   if (path === '/questions') return <Library />;
   if (path === '/bookmarks') return <Library bookmarksOnly />;

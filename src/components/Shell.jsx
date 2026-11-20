@@ -154,6 +154,7 @@ function Nav({ path, onNavigate }) {
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/learning-hub', label: 'Learning Hub', icon: BookOpenText },
     { to: '/resources', label: 'Academic Resource Vault', icon: FileText },
+    { to: '/mqps', label: 'Model Question Papers', icon: FileText },
     { to: '/welcome', label: 'Welcome & Platform Tour', icon: Sparkles },
     { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
