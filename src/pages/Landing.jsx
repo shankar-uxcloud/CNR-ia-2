@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpenCheck, ClipboardList, Maximize2, Moon, Shapes, BookOpenText, Brain, ChartNoAxesCombined, FileText, CalendarDays, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, ClipboardList, Maximize2, Moon, Shapes, Brain, ChartNoAxesCombined, FileText, CalendarDays } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER, SUBJECT } from '../data/questions';
 import { Logo, ThemeBtn } from '../components/Shell';
 import { Greenhouse } from '../diagrams/Climate';
