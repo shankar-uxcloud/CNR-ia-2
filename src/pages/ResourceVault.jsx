@@ -3,14 +3,19 @@ import { Bookmark, BookOpen, ExternalLink, FileText, FolderOpen, Search, ShieldC
 import { DRIVE_RESOURCES, RESOURCE_CATEGORIES } from '../data/resourceCatalog';
 import { getDriveFileId, getDrivePreviewUrl, getDriveOpenUrl } from '../lib/driveResources';
 
+const getRepositoryUrl = (resource) => resource.repositoryPath
+  ? `${import.meta.env.BASE_URL}${resource.repositoryPath.split('/').map(encodeURIComponent).join('/')}`
+  : null;
+
 const BOOKMARK_KEY = 'cnr-resource-vault-bookmarks-v1';
 const RECENT_KEY = 'cnr-resource-vault-recent-v1';
 const readList = (key) => { try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } };
 const writeList = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Private browsing or storage limits: keep the page usable. */ } };
 
 function driveLink(resource, mode = 'open') {
-  const id = getDriveFileId(resource.url);
-  if (!id) return resource.url;
+  const url = resource.driveUrl || resource.url;
+  const id = getDriveFileId(url);
+  if (!id) return url || null;
   return mode === 'preview' ? getDrivePreviewUrl(id) : getDriveOpenUrl(id);
 }
 
@@ -34,8 +39,8 @@ export default function ResourceVault() {
       && (!savedOnly || bookmarks.includes(item.id));
   }), [search, moduleFilter, categoryFilter, savedOnly, bookmarks]);
 
-  const openResource = (item, mode = 'open') => {
-    const url = driveLink(item, mode);
+  const openResource = (item, mode = 'open', source = 'drive') => {
+    const url = source === 'repository' ? getRepositoryUrl(item) : driveLink(item, mode);
     if (!url) return;
     const next = [item.id, ...recent.filter((id) => id !== item.id)].slice(0, 8);
     setRecent(next);
@@ -74,7 +79,7 @@ export default function ResourceVault() {
           <button type="button" onClick={() => toggleBookmark(item.id)} aria-label={bookmarks.includes(item.id) ? 'Remove saved resource' : 'Save resource'} aria-pressed={bookmarks.includes(item.id)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line hover:bg-sunk"><Bookmark size={17} fill={bookmarks.includes(item.id) ? 'currentColor' : 'none'}/></button></div>
         <h2 className="mt-3 text-lg font-bold">{item.title}</h2><p className="mt-1 text-sm text-mute">{item.description}</p>
         <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}</div>
-        <div className="mt-auto flex flex-wrap gap-2 pt-5"><button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview details</button><button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive PDF</button></div>
+        <div className="mt-auto flex flex-wrap gap-2 pt-5"><button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview details</button>{getRepositoryUrl(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open repository PDF</button>}{driveLink(item) && <button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive PDF</button>}</div>
       </article>)}
     </section> : <section className="card mt-5 p-8 text-center">
       <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 text-brand"><FileText size={26}/></div>
@@ -94,8 +99,8 @@ export default function ResourceVault() {
     {selected && <div className="fixed inset-0 z-[80] grid place-items-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title" onMouseDown={(e) => {if (e.target === e.currentTarget) setSelected(null);}}>
       <div className="w-full max-w-lg rounded-2xl border border-line bg-panel p-5 shadow-lift"><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">RESOURCE DETAILS</p><h2 id="resource-dialog-title" className="mt-1 text-xl font-bold">{selected.title}</h2></div><button onClick={() => setSelected(null)} aria-label="Close details" className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18}/></button></div>
         <p className="mt-3 text-sm text-mute">{selected.description}</p><div className="mt-3 text-sm">Module {selected.module} · {RESOURCE_CATEGORIES.find((cat) => cat.id === selected.category)?.label || selected.category}</div>
-        {getDriveFileId(selected.url) && <iframe title={`PDF preview: ${selected.title}`} src={getDrivePreviewUrl(getDriveFileId(selected.url))} className="mt-4 h-[55vh] min-h-72 w-full rounded-xl border border-line bg-white" allow="autoplay" />}
-        <div className="mt-5 flex flex-wrap gap-2"><button onClick={() => openResource(selected, 'preview')} className="btn-primary">Preview on Google Drive</button><button onClick={() => openResource(selected)} className="btn-quiet">Open Drive</button></div>
+        {(getRepositoryUrl(selected) || getDriveFileId(selected.driveUrl || selected.url)) && <iframe title={`PDF preview: ${selected.title}`} src={getRepositoryUrl(selected) || getDrivePreviewUrl(getDriveFileId(selected.driveUrl || selected.url))} className="mt-4 h-[55vh] min-h-72 w-full rounded-xl border border-line bg-white" allow="autoplay" />}
+        <div className="mt-5 flex flex-wrap gap-2">{getRepositoryUrl(selected) && <button onClick={() => openResource(selected, 'open', 'repository')} className="btn-primary">Open repository PDF</button>}{driveLink(selected, 'preview') && <button onClick={() => openResource(selected, 'preview')} className="btn-quiet">Preview on Google Drive</button>}</div>
       </div>
     </div>}
   </main>;
