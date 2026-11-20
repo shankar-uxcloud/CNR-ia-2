@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Leaf, SkipForward } from 'lucide-react';
 import './StartupExperience.css';
-import NexusWelcome from '../pages/NexusWelcome';
 
 const scenes = [
   { title: 'Forest Awakening', caption: 'Protect Our Forests', detail: 'Healthy forests sustain life, climate and communities.' },
@@ -56,8 +55,6 @@ export default function StartupExperience({ children }) {
   const [appReady, setAppReady] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [dismissed, setDismissed] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(false);
-  const [welcomeComplete] = useState(() => { try { return localStorage.getItem('cnr-nexus-welcome-complete') === 'true'; } catch { return false; } });
   const sceneIndex = useMemo(() => sceneFor(progress), [progress]);
   const scene = scenes[sceneIndex];
   const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -103,10 +100,6 @@ export default function StartupExperience({ children }) {
   }, [progress]);
 
   useEffect(() => {
-    if (dismissed && !welcomeComplete) setShowWelcome(true);
-  }, [dismissed, welcomeComplete]);
-
-  useEffect(() => {
     if (!leaving) return undefined;
     const timer = window.setTimeout(() => setDismissed(true), 650);
     return () => window.clearTimeout(timer);
@@ -115,7 +108,6 @@ export default function StartupExperience({ children }) {
   return (
     <>
       {children}
-      {dismissed && showWelcome && <NexusWelcome onEnter={() => setShowWelcome(false)} />}
       {!dismissed && (
         <div style={{'--startup-depth-blur': `${1.4 + (progress / 100) * 1.6}px`, '--startup-depth-progress': `${progress}%`}} className={`startup-screen ${leaving ? 'startup-screen--leaving' : ''} ${prefersReducedMotion ? 'startup-screen--reduced-motion' : ''}`}
           role="status" aria-live="polite" aria-label={`CNR ExamPrep startup ${progress}%`}>
