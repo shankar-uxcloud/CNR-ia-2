@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpenCheck, ClipboardList, Maximize2, Bookmark, Printer, Moon, Shapes, Layers, LibraryBig, BrainCircuit, ChartNoAxesCombined, FileQuestion, Compass } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, ClipboardList, Maximize2, Moon, Shapes, BookOpenText, Brain, ChartNoAxesCombined, FileText, CalendarDays, Sparkles } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER, SUBJECT } from '../data/questions';
 import { Logo, ThemeBtn } from '../components/Shell';
 import { Greenhouse } from '../diagrams/Climate';
@@ -32,11 +32,11 @@ function HeroArt() {
 const FEATURES = [
   [BookOpenCheck, 'Structured CNR learning', 'Explore module-wise study answers, key concepts, diagrams and revision-friendly explanations.'],
   [FileQuestion, 'Model question papers', 'Practise with clearly labelled student-created model sets; they are not presented as official VTU papers.'],
-  [LibraryBig, 'Academic Resource Vault', 'Find CNR notes and question-paper resources organised by category, with public Google Drive links.'],
-  [BrainCircuit, 'AI Study Coach', 'Get guided study support as you work through concepts and prepare for assessments.'],
+  [FileText, 'Academic Resource Vault', 'Find CNR notes and question-paper resources organised by category, with public Google Drive links.'],
+  [Brain, 'AI Study Coach', 'Get guided study support as you work through concepts and prepare for assessments.'],
   [ChartNoAxesCombined, 'Progress analytics', 'Review completed work and use your study progress to decide what to revise next.'],
   [ClipboardList, 'Practice and exam tools', 'Use quizzes, practice sessions and exam simulation to check your understanding.'],
-  [Compass, 'Study planner and revision', 'Organise study sessions, revisit important topics and build a consistent preparation routine.'],
+  [CalendarDays, 'Study planner and revision', 'Organise study sessions, revisit important topics and build a consistent preparation routine.'],
   [Maximize2, 'Focused reading', 'Use a cleaner reading layout, adjustable display settings and distraction-reduced study.'],
   [Moon, 'Personal workspace', 'Choose light or dark appearance and available interface modes to suit your reading comfort.'],
 ];
