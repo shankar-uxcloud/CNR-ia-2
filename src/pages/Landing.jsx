@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpenCheck, ClipboardList, Maximize2, Bookmark, Printer, Moon, Shapes, Layers } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, ClipboardList, Maximize2, Moon, Shapes, Brain, ChartNoAxesCombined, FileText, CalendarDays } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER, SUBJECT } from '../data/questions';
 import { Logo, ThemeBtn } from '../components/Shell';
 import { Greenhouse } from '../diagrams/Climate';
@@ -30,12 +30,15 @@ function HeroArt() {
 }
 
 const FEATURES = [
-  [ClipboardList, 'Exam practice mode', 'Hide the answer, write your own, then reveal it and self-assess.'],
-  [BookOpenCheck, 'Revision mode', 'Keywords, headings and key diagrams for every question in one place.'],
-  [Maximize2, 'Focus reading', 'Distraction-free layout with adjustable font size and width.'],
-  [Bookmark, 'Bookmarks & progress', 'Track completion per module. Everything is saved in your browser.'],
-  [Printer, 'Print-ready answers', 'Clean black-on-white pages with all sections and diagrams expanded.'],
-  [Moon, 'Light & dark themes', 'Comfortable reading in a classroom or late at night.'],
+  [BookOpenCheck, 'Structured CNR learning', 'Explore module-wise study answers, key concepts, diagrams and revision-friendly explanations.'],
+  [FileQuestion, 'Model question papers', 'Practise with clearly labelled student-created model sets; they are not presented as official VTU papers.'],
+  [FileText, 'Academic Resource Vault', 'Find CNR notes and question-paper resources organised by category, with public Google Drive links.'],
+  [Brain, 'AI Study Coach', 'Get guided study support as you work through concepts and prepare for assessments.'],
+  [ChartNoAxesCombined, 'Progress analytics', 'Review completed work and use your study progress to decide what to revise next.'],
+  [ClipboardList, 'Practice and exam tools', 'Use quizzes, practice sessions and exam simulation to check your understanding.'],
+  [CalendarDays, 'Study planner and revision', 'Organise study sessions, revisit important topics and build a consistent preparation routine.'],
+  [Maximize2, 'Focused reading', 'Use a cleaner reading layout, adjustable display settings and distraction-reduced study.'],
+  [Moon, 'Personal workspace', 'Choose light or dark appearance and available interface modes to suit your reading comfort.'],
 ];
 
 export default function Landing() {
@@ -51,7 +54,7 @@ export default function Landing() {
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-5 pb-24 pt-10 sm:px-8">
           <p className="animate-rise inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-1.5 text-xs font-semibold tracking-wider landing-accent-text"><span className="h-1.5 w-1.5 rounded-full landing-cta" />{SUBJECT.code} · VTU SYLLABUS · CONSERVATION OF NATURAL RESOURCES</p>
           <h1 className="animate-rise mt-6 max-w-3xl text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl" style={{ animationDelay: '80ms' }}>Master Every Concept. <span className="landing-accent-text">Prepare with Confidence.</span></h1>
-          <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-white/70" style={{ animationDelay: '160ms' }}>{SUBJECT.name}: ten important questions from Modules 3, 4 and 5 – answered in full 10-mark format from your own study notes, with thirteen labelled diagrams.</p>
+          <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-white/70" style={{ animationDelay: '160ms' }}>{SUBJECT.name} learning and exam-preparation workspace. Explore structured study answers, module-wise learning, practice tools, model question papers and an organised academic resource library in one place.</p>
           <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '240ms' }}>
             <a href="#/dashboard" className="inline-flex items-center gap-2 rounded-xl landing-cta px-6 py-3.5 text-[15px] font-semibold text-[var(--landing-cta-text)] shadow-lift transition hover:brightness-110 active:scale-[.98]">Start Preparing <ArrowRight size={18} /></a>
             <a href="#/questions" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-6 py-3.5 text-[15px] font-semibold transition hover:bg-white/15">Browse the 10 questions</a>
@@ -59,6 +62,30 @@ export default function Landing() {
           <dl className="animate-rise mt-14 grid max-w-xl grid-cols-3 gap-6 border-t border-white/15 pt-6" style={{ animationDelay: '320ms' }}>
             {[['10', 'Important questions'], ['3', 'Modules'], ['13', 'Labelled diagrams']].map(([n, l]) => <div key={l}><dt className="text-3xl font-bold tabular-nums">{n}</dt><dd className="text-xs text-white/60">{l}</dd></div>)}
           </dl>
+        </div>
+      </section>
+
+
+      <section className="border-y border-line bg-panel/60 py-20" aria-labelledby="about-platform">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <p className="eyebrow">About this website</p>
+          <h2 id="about-platform" className="mt-1 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">A dedicated digital learning space for CNR.</h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-mute">CNR-IA-2 brings study material, practice experiences and learning utilities together in one student-friendly platform. It is designed to make Conservation of Natural Resources easier to explore, revise and practise — from the first concept to exam preparation.</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { title: 'Learn', text: 'Study structured module-wise answers, concepts and labelled diagrams.', href: '#/questions', action: 'Explore questions' },
+              { title: 'Practise', text: 'Build confidence with quizzes, practice sessions and model question papers.', href: '#/mqps', action: 'Open practice sets' },
+              { title: 'Discover', text: 'Browse the Academic Resource Vault for notes and question-paper resources.', href: '#/resources', action: 'Browse resources' },
+              { title: 'Improve', text: 'Use revision, analytics, planning and study-support tools to guide your preparation.', href: '#/learning-hub', action: 'Visit learning hub' },
+            ].map((item) => (
+              <article key={item.title} className="card flex flex-col p-5">
+                <h3 className="text-lg font-bold">{item.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-mute">{item.text}</p>
+                <a href={item.href} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand">{item.action} <ArrowRight size={15} /></a>
+              </article>
+            ))}
+          </div>
+          <p className="mt-6 text-xs leading-relaxed text-mute">This is an independent student learning resource, not an official VTU website. Model question papers are practice material and should not be mistaken for official university papers.</p>
         </div>
       </section>
 
