@@ -12,7 +12,39 @@ export const RESOURCE_CATEGORIES = [
 ];
 
 export const DRIVE_RESOURCES = [
-  // Add verified resources using this shape:
+  {
+    id: 'cnr-m1-notes-module-1-copy',
+    title: 'BCV755B Module 1 Notes (Copy 1)',
+    description: 'Module 1 study notes uploaded to the CNR-IA-2 GitHub Pages resources.',
+    module: 1,
+    category: 'notes',
+    repositoryPath: 'resources/notes/module-1/BCV755B Module 1 (1).pdf',
+    year: '',
+    tags: ['module 1', 'notes', 'BCV755B'],
+    sourceLabel: 'Uploaded to CNR-IA-2 repository',
+  },
+  {
+    id: 'cnr-m1-notes-module-1',
+    title: 'BCV755B Module 1 Notes',
+    description: 'Module 1 study notes uploaded to the CNR-IA-2 GitHub Pages resources.',
+    module: 1,
+    category: 'notes',
+    repositoryPath: 'resources/notes/module-1/BCV755B Module 1.pdf',
+    year: '',
+    tags: ['module 1', 'notes', 'BCV755B'],
+    sourceLabel: 'Uploaded to CNR-IA-2 repository',
+  },
+  {
+    id: 'cnr-m1-notes-module-1-pdf',
+    title: 'BCV755B Module 1 Notes (PDF)',
+    description: 'Additional Module 1 study PDF uploaded to the CNR-IA-2 GitHub Pages resources.',
+    module: 1,
+    category: 'notes',
+    repositoryPath: 'resources/notes/module-1/BCV755B-module-1-pdf.pdf',
+    year: '',
+    tags: ['module 1', 'notes', 'BCV755B'],
+    sourceLabel: 'Uploaded to CNR-IA-2 repository',
+  },
   // {
   //   id: 'm1-primary-notes',
   //   title: 'BCV755B Module 1 Notes',
