@@ -32,6 +32,7 @@ export default function LearningHub() {
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand"><Icon size={21}/></span>
           <div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h3 className="font-bold">{tool.title}</h3><Status available={tool.status === 'available'}/></div><p className="mt-1 text-sm text-mute">{tool.description}</p>
             {tool.href && <a href={'#' + tool.href} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline">Start practising <ArrowRight size={15}/></a>}
+            {tool.id === 'materials' && <a href="#/resources" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline">Open Resource Vault <ArrowRight size={15}/></a>}
           </div>
         </article>; })}
       </div>

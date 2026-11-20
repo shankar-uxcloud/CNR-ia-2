@@ -10,7 +10,7 @@ export const LEARNING_MODULES = [
 ];
 
 export const LEARNING_TOOLS = [
-  { id: 'materials', title: 'Study Materials', description: 'A central home for module PDFs, reference notes and class resources.', status: 'planned', href: null },
+  { id: 'materials', title: 'Study Materials', description: 'Public Google Drive PDFs organized by module and resource category.', status: 'available', href: '/resources' },
   { id: 'pyqs', title: 'Solved PYQs', description: 'Year-wise original papers with verified, question-wise solutions.', status: 'planned', href: null },
   { id: 'mqps', title: 'Model Question Papers', description: 'Practice papers organized by module and examination pattern.', status: 'planned', href: null },
   { id: 'practice', title: 'Practice & Mock Exams', description: 'Use the existing practice and exam simulator tools.', status: 'available', href: '/exam' },
