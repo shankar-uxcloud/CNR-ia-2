@@ -94,6 +94,7 @@ export default function ResourceVault() {
     {selected && <div className="fixed inset-0 z-[80] grid place-items-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title" onMouseDown={(e) => {if (e.target === e.currentTarget) setSelected(null);}}>
       <div className="w-full max-w-lg rounded-2xl border border-line bg-panel p-5 shadow-lift"><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">RESOURCE DETAILS</p><h2 id="resource-dialog-title" className="mt-1 text-xl font-bold">{selected.title}</h2></div><button onClick={() => setSelected(null)} aria-label="Close details" className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18}/></button></div>
         <p className="mt-3 text-sm text-mute">{selected.description}</p><div className="mt-3 text-sm">Module {selected.module} · {RESOURCE_CATEGORIES.find((cat) => cat.id === selected.category)?.label || selected.category}</div>
+        {getDriveFileId(selected.url) && <iframe title={`PDF preview: ${selected.title}`} src={getDrivePreviewUrl(getDriveFileId(selected.url))} className="mt-4 h-[55vh] min-h-72 w-full rounded-xl border border-line bg-white" allow="autoplay" />}
         <div className="mt-5 flex flex-wrap gap-2"><button onClick={() => openResource(selected, 'preview')} className="btn-primary">Preview on Google Drive</button><button onClick={() => openResource(selected)} className="btn-quiet">Open Drive</button></div>
       </div>
     </div>}
