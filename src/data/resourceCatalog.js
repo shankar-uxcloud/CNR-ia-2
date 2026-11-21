@@ -4,6 +4,7 @@
 
 export const RESOURCE_CATEGORIES = [
   { id: 'notes', label: 'Module Notes' },
+  { id: 'presentations', label: 'Module Presentations' },
   { id: 'pyqs', label: 'Previous Year Question Papers' },
   { id: 'mqps', label: 'Model Question Papers' },
   { id: 'reference', label: 'Syllabus & Reference' },
