@@ -1,49 +1,47 @@
-// Dual-source resource catalogue.
-// repositoryPath: path relative to public/ (for GitHub Pages hosting).
-// driveUrl: optional public Google Drive share URL (Anyone with the link → Viewer).
-// Keep a resource unpublished until at least one source is actually available.
+// Public repository resource catalogue for the CNR Academic Resource Vault.
+// repositoryPath is relative to public/ so it works with the GitHub Pages base URL.
+// Only files that exist in public/resources should be listed here.
+
 export const RESOURCE_CATEGORIES = [
-  { id: 'notes', label: 'Notes' },
-  { id: 'pyqs', label: 'Previous Year Papers' },
+  { id: 'notes', label: 'Module Notes' },
+  { id: 'pyqs', label: 'Previous Year Question Papers' },
   { id: 'mqps', label: 'Model Question Papers' },
-  { id: 'assignments', label: 'Assignments' },
-  { id: 'reference', label: 'Reference Materials' },
-  { id: 'presentations', label: 'Presentations' },
+  { id: 'reference', label: 'Syllabus & Reference' },
 ];
 
 export const DRIVE_RESOURCES = [
   {
-    id: 'cnr-m1-notes-module-1-copy',
+    id: 'cnr-m1-notes-copy-1',
     title: 'BCV755B Module 1 Notes (Copy 1)',
-    description: 'Module 1 study notes uploaded to the CNR-IA-2 GitHub Pages resources.',
+    description: 'Additional Module 1 study notes.',
     module: 1,
     category: 'notes',
     repositoryPath: 'resources/notes/module-1/BCV755B Module 1 (1).pdf',
     year: '',
     tags: ['module 1', 'notes', 'BCV755B'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
+    sourceLabel: 'CNR resource repository',
   },
   {
-    id: 'cnr-m1-notes-module-1',
+    id: 'cnr-m1-notes-main',
     title: 'BCV755B Module 1 Notes',
-    description: 'Module 1 study notes uploaded to the CNR-IA-2 GitHub Pages resources.',
+    description: 'Module 1 study notes.',
     module: 1,
     category: 'notes',
     repositoryPath: 'resources/notes/module-1/BCV755B Module 1.pdf',
     year: '',
     tags: ['module 1', 'notes', 'BCV755B'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
+    sourceLabel: 'CNR resource repository',
   },
   {
-    id: 'cnr-m1-notes-module-1-pdf',
+    id: 'cnr-m1-notes-pdf',
     title: 'BCV755B Module 1 Notes (PDF)',
-    description: 'Additional Module 1 study PDF uploaded to the CNR-IA-2 GitHub Pages resources.',
+    description: 'Another Module 1 study-notes PDF.',
     module: 1,
     category: 'notes',
     repositoryPath: 'resources/notes/module-1/BCV755B-module-1-pdf.pdf',
     year: '',
     tags: ['module 1', 'notes', 'BCV755B'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
+    sourceLabel: 'CNR resource repository',
   },
   {
     id: 'cnr-m2-notes-main',
@@ -53,9 +51,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-2/BCV755B Module 2.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 2'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 2', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m2-notes-pdf',
     title: 'BCV755B Module 2 Notes (PDF)',
@@ -64,9 +62,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-2/BCV755B-module-2-pdf.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 2'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 2', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m3-notes-main',
     title: 'BCV755B Module 3 Notes',
@@ -75,9 +73,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-3/BCV755B Module 3.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 3'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 3', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m3-notes-pdf',
     title: 'BCV755B Module 3 Notes (PDF)',
@@ -86,9 +84,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-3/BCV755B-module-3-pdf.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 3'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 3', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m4-notes-main',
     title: 'BCV755B Module 4 Notes',
@@ -97,9 +95,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-4/BCV755B Module 4.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 4'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 4', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m4-notes-pdf',
     title: 'BCV755B Module 4 Notes (PDF)',
@@ -108,9 +106,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-4/BCV755B-module-4-pdf.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 4'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 4', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m5-notes-main',
     title: 'BCV755B Module 5 Notes',
@@ -119,9 +117,9 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-5/BCV755B Module 5.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 5'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 5', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-m5-notes-pdf',
     title: 'BCV755B Module 5 Notes (PDF)',
@@ -130,74 +128,62 @@ export const DRIVE_RESOURCES = [
     category: 'notes',
     repositoryPath: 'resources/notes/module-5/BCV755B-module-5-pdf.pdf',
     year: '',
-    tags: ['notes', 'BCV755B', 'module 5'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['module 5', 'notes', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-pyq-dec25-jan26',
-    title: 'BCV755B Question Paper — Dec 2025 / Jan 2026',
-    description: 'Uploaded BCV755B university question paper.',
+    title: 'BCV755B Question Paper — December 2025 / January 2026',
+    description: 'University question paper for exam practice.',
     module: 'All',
     category: 'pyqs',
     repositoryPath: 'resources/question-papers/BCV755B-dec-2025-jan-2026.pdf',
-    year: '',
-    tags: ['pyqs', 'BCV755B', 'all modules'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    year: '2025–26',
+    tags: ['question paper', 'PYQ', 'BCV755B', 'December 2025', 'January 2026'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-pyq-june-july26',
     title: 'BCV755B Question Paper — June / July 2026',
-    description: 'Uploaded BCV755B university question paper.',
+    description: 'University question paper for exam practice.',
     module: 'All',
     category: 'pyqs',
     repositoryPath: 'resources/question-papers/June-July 2026.pdf',
-    year: '',
-    tags: ['pyqs', 'BCV755B', 'all modules'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    year: '2026',
+    tags: ['question paper', 'PYQ', 'BCV755B', 'June', 'July 2026'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
-    id: 'cnr-pyq-scheme-dec25',
-    title: 'BCV755B Scheme Question Paper — Dec 2025 / Jan 2026',
-    description: 'Uploaded scheme question paper for BCV755B.',
+    id: 'cnr-pyq-scheme-dec25-jan26',
+    title: 'BCV755B Scheme Question Paper — December 2025 / January 2026',
+    description: 'Scheme-specific university question paper.',
     module: 'All',
     category: 'pyqs',
     repositoryPath: 'resources/question-papers/SCH_BCV755B DEC.2025-JAN.2026.pdf',
-    year: '',
-    tags: ['pyqs', 'BCV755B', 'all modules'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    year: '2025–26',
+    tags: ['question paper', 'scheme', 'PYQ', 'BCV755B'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
     id: 'cnr-mqp-studocu',
     title: 'Conservation of Natural Resources — Model Question Paper',
-    description: 'Uploaded model question paper for practice; source filename references 21CV654.',
+    description: 'Model question paper for additional exam practice; original filename references 21CV654.',
     module: 'All',
     category: 'mqps',
     repositoryPath: 'resources/question-papers/[studocu.com] - 21CV654 Model Question Paper - Conservation of Natural Resources.pdf',
     year: '',
-    tags: ['mqps', 'BCV755B', 'all modules'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
+    tags: ['model paper', 'MQP', 'BCV755B', 'all modules'],
+    sourceLabel: 'CNR resource repository',
+  },
   {
-    id: 'cnr-syllabus-26-27',
+    id: 'cnr-syllabus-2026-27',
     title: 'CNR Syllabus 2026–27',
-    description: 'Uploaded CNR syllabus document.',
+    description: 'Official syllabus document uploaded for the 2026–27 academic year.',
     module: 'All',
     category: 'reference',
     repositoryPath: 'resources/syllabus/CNR civsyll-26-27.pdf',
-    year: '',
-    tags: ['reference', 'BCV755B', 'all modules'],
-    sourceLabel: 'Uploaded to CNR-IA-2 repository',
-  }
-  // {
-  //   id: 'm1-primary-notes',
-  //   title: 'BCV755B Module 1 Notes',
-  //   description: 'Primary module notes from the supplied resource collection.',
-  //   module: 1,
-  //   category: 'notes',
-  //   repositoryPath: 'resources/notes/module-1/BCV755B-Module-1.pdf',
-  //   driveUrl: 'https://drive.google.com/file/d/FILE_ID/view',
-  //   year: '',
-  //   tags: ['module 1', 'notes'],
-  //   sourceLabel: 'Provided study material',
-  // },
+    year: '2026–27',
+    tags: ['syllabus', 'BCV755B', '2026–27'],
+    sourceLabel: 'CNR resource repository',
+  },
 ];
