@@ -1,20 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Bookmark, BookOpen, ExternalLink, FileText, FolderOpen, Maximize2, Search, ShieldCheck, X } from 'lucide-react';
+import { Bookmark, BookOpen, ExternalLink, FileText, FolderOpen, Maximize2, Search, ShieldCheck, X, Minimize2, Clock3 } from 'lucide-react';
 import { DRIVE_RESOURCES, RESOURCE_CATEGORIES } from '../data/resourceCatalog';
 import { getDriveFileId, getDrivePreviewUrl, getDriveOpenUrl } from '../lib/driveResources';
+import { getDocumentKind, getDocumentViewerUrl } from '../lib/documentViewer';
 
 const getRepositoryUrl = (resource) => resource.repositoryPath
   ? `${import.meta.env.BASE_URL}${resource.repositoryPath.split('/').map(encodeURIComponent).join('/')}`
   : null;
 
-const getResourceType = (resource) => (resource.fileType || resource.repositoryPath?.split('.').pop() || 'pdf').toLowerCase();
-const isPdf = (resource) => getResourceType(resource) === 'pdf';
-const getOpenLabel = (resource) => ({ pptx: 'Open presentation', docx: 'Open Word document' }[getResourceType(resource)] || 'Open resource');
-
 const BOOKMARK_KEY = 'cnr-resource-vault-bookmarks-v1';
 const RECENT_KEY = 'cnr-resource-vault-recent-v1';
 const readList = (key) => { try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } };
-const writeList = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Private browsing or storage limits: keep the page usable. */ } };
+const writeList = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Keep the library usable when storage is unavailable. */ } };
 
 function driveLink(resource, mode = 'open') {
   const url = resource.driveUrl || resource.url;
@@ -31,15 +28,29 @@ export default function ResourceVault() {
   const [bookmarks, setBookmarks] = useState(() => readList(BOOKMARK_KEY));
   const [recent, setRecent] = useState(() => readList(RECENT_KEY));
   const [selected, setSelected] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [viewerLoaded, setViewerLoaded] = useState(false);
   const viewerRef = useRef(null);
 
   useEffect(() => writeList(BOOKMARK_KEY, bookmarks), [bookmarks]);
   useEffect(() => writeList(RECENT_KEY, recent), [recent]);
 
   useEffect(() => {
+    const onFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
+
+  useEffect(() => {
     if (!selected) return undefined;
     const handleKeyDown = (event) => {
       if (event.key === 'Escape' && !document.fullscreenElement) setSelected(null);
+      if ((event.key === 'f' || event.key === 'F') && !event.ctrlKey && !event.metaKey && !event.altKey
+        && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+        event.preventDefault();
+        if (!document.fullscreenElement) viewerRef.current?.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
@@ -53,28 +64,42 @@ export default function ResourceVault() {
       && (!savedOnly || bookmarks.includes(item.id));
   }), [search, moduleFilter, categoryFilter, savedOnly, bookmarks]);
 
-  const openResource = (item, mode = 'open', source = 'drive') => {
-    const url = source === 'repository' ? getRepositoryUrl(item) : driveLink(item, mode);
-    if (!url) return;
+  const openResource = (item) => {
     const next = [item.id, ...recent.filter((id) => id !== item.id)].slice(0, 8);
     setRecent(next);
-    window.open(url, '_blank', 'noopener,noreferrer');
+    setSelected(item);
+    setViewerLoaded(false);
   };
 
   const toggleBookmark = (id) => setBookmarks((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]);
+  const toggleFullscreen = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await viewerRef.current?.requestFullscreen?.();
+    } catch { /* Fullscreen may be blocked by browser policy; the edge-to-edge reader remains usable. */ }
+  };
+
+  const selectedKind = selected ? getDocumentKind(selected) : null;
+  const selectedRepositoryUrl = selected ? getRepositoryUrl(selected) : null;
+  const selectedDriveUrl = selected ? driveLink(selected, 'preview') : null;
+  const viewerUrl = selected ? getDocumentViewerUrl(selected, {
+    repositoryUrl: selectedRepositoryUrl ? new URL(selectedRepositoryUrl, window.location.href).href : null,
+    drivePreviewUrl: selectedDriveUrl,
+  }) : null;
+  const originalUrl = selected ? (selectedRepositoryUrl || driveLink(selected, 'open')) : null;
 
   return <main className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
     <p className="eyebrow">CNR-IA-2 · RESOURCE SYSTEM</p>
     <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
       <div><h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Academic Resource Vault</h1>
-        <p className="mt-2 max-w-2xl text-mute">One searchable library for module notes, presentations, question papers, model papers and syllabus documents — hosted in this website's public repository or Google Drive, with no application backend.</p></div>
+        <p className="mt-2 max-w-2xl text-mute">A searchable study library for module notes, presentations, question papers, model papers and syllabus documents. Open supported materials in the website and continue studying without leaving the vault.</p></div>
       <div className="rounded-2xl border border-line bg-panel px-4 py-3"><p className="text-xs text-mute">Published resources</p><p className="text-2xl font-bold tabular-nums">{DRIVE_RESOURCES.length}</p></div>
     </div>
 
     <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Vault features">
       <div className="card flex items-center gap-3 p-4"><FolderOpen className="text-brand" size={20}/><div><p className="font-semibold">Module-wise</p><p className="text-xs text-mute">M1–M5 organization</p></div></div>
       <div className="card flex items-center gap-3 p-4"><FileText className="text-brand" size={20}/><div><p className="font-semibold">Category-wise</p><p className="text-xs text-mute">Notes, PYQs, MQPs, more</p></div></div>
-      <div className="card flex items-center gap-3 p-4"><ShieldCheck className="text-brand" size={20}/><div><p className="font-semibold">Multiple formats</p><p className="text-xs text-mute">PDF, PPTX and DOCX resources</p></div></div>
+      <div className="card flex items-center gap-3 p-4"><ShieldCheck className="text-brand" size={20}/><div><p className="font-semibold">In-browser access</p><p className="text-xs text-mute">PDF, PPTX and DOCX</p></div></div>
     </section>
 
     <section className="mt-7 card p-4 sm:p-5" aria-label="Resource filters">
@@ -92,8 +117,11 @@ export default function ResourceVault() {
         <div className="flex items-start justify-between gap-3"><span className="rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">{RESOURCE_CATEGORIES.find((cat) => cat.id === item.category)?.label || item.category}</span>
           <button type="button" onClick={() => toggleBookmark(item.id)} aria-label={bookmarks.includes(item.id) ? 'Remove saved resource' : 'Save resource'} aria-pressed={bookmarks.includes(item.id)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line hover:bg-sunk"><Bookmark size={17} fill={bookmarks.includes(item.id) ? 'currentColor' : 'none'}/></button></div>
         <h2 className="mt-3 text-lg font-bold">{item.title}</h2><p className="mt-1 text-sm text-mute">{item.description}</p>
-        <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}</div>
-        <div className="mt-auto flex flex-wrap gap-2 pt-5">{isPdf(item) && <button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview PDF</button>}{getRepositoryUrl(item) && !isPdf(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> {getOpenLabel(item)}</button>}{getRepositoryUrl(item) && isPdf(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open repository PDF</button>}{driveLink(item) && <button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive file</button>}</div>
+        <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}<span className="rounded-md bg-sunk px-2 py-1">{getDocumentKind(item).toUpperCase()}</span></div>
+        <div className="mt-auto flex flex-wrap gap-2 pt-5">
+          <button type="button" onClick={() => openResource(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Read online</button>
+          {(getRepositoryUrl(item) || driveLink(item)) && <a href={getRepositoryUrl(item) || driveLink(item, 'open')} target="_blank" rel="noreferrer" className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open original</a>}
+        </div>
       </article>)}
     </section> : <section className="card mt-5 p-8 text-center">
       <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 text-brand"><FileText size={26}/></div>
@@ -102,37 +130,38 @@ export default function ResourceVault() {
       {(search || moduleFilter !== 'all' || categoryFilter !== 'all' || savedOnly) && <button type="button" onClick={() => {setSearch('');setModuleFilter('all');setCategoryFilter('all');setSavedOnly(false);}} className="btn-quiet mt-4">Clear filters</button>}
     </section>}
 
-    {recent.length > 0 && <p className="mt-5 text-xs text-mute">Recently opened: {recent.map((id) => DRIVE_RESOURCES.find((item) => item.id === id)?.title).filter(Boolean).join(' · ')}</p>}
+    {recent.length > 0 && <section className="mt-5 rounded-xl border border-line bg-panel p-4" aria-label="Recently opened materials">
+      <h2 className="flex items-center gap-2 text-sm font-semibold"><Clock3 size={15}/> Continue studying</h2>
+      <div className="mt-2 flex flex-wrap gap-2">{recent.map((id) => DRIVE_RESOURCES.find((item) => item.id === id)).filter(Boolean).map((item) => <button key={item.id} type="button" onClick={() => openResource(item)} className="rounded-lg border border-line px-3 py-2 text-left text-xs hover:bg-sunk">{item.title}</button>)}</div>
+    </section>}
 
     <section className="mt-8 rounded-2xl border border-line bg-sunk/60 p-5">
       <h2 className="font-bold">How resources are published</h2>
       <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-mute"><li>Upload supported files (PDF, PPTX or DOCX) under <code>public/resources/</code> in the appropriate module or resource folder, or use a public Google Drive link.</li><li>Add each file's title, module, category, file type and repository path or Drive URL to <code>src/data/resourceCatalog.js</code>.</li><li>For Drive files, set General access to <strong>Anyone with the link</strong> and role to <strong>Viewer</strong>.</li><li>Commit the files and catalogue; GitHub Pages rebuilds and publishes the searchable resource library.</li></ol>
-      <p className="mt-3 text-xs text-mute">PDF files can be previewed in the vault. PPTX and DOCX files open as their original files and may download depending on the browser. Public links can be forwarded. Viewer settings do not prevent public files from being copied, screenshotted or downloaded.</p>
+      <p className="mt-3 text-xs text-mute">PDF controls are supplied by the browser's built-in PDF viewer. PPTX and DOCX previews use Microsoft's public Office web viewer and require the file to be publicly reachable. Original public files remain accessible; online preview does not prevent copying or downloading.</p>
     </section>
 
     {selected && <div ref={viewerRef} className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-slate-950 text-white" role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title">
-      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-slate-950 px-3 py-3 sm:px-5">
+      <header className="flex min-h-14 shrink-0 items-center justify-between gap-2 border-b border-white/10 bg-slate-950 px-3 py-2 sm:px-5">
         <div className="min-w-0">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">CNR RESOURCE VAULT · PDF VIEWER</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-300">CNR DIGITAL LIBRARY · {selectedKind.toUpperCase()} READER</p>
           <h2 id="resource-dialog-title" className="truncate text-sm font-semibold sm:text-base">{selected.title}</h2>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <button type="button" onClick={() => viewerRef.current?.requestFullscreen?.()} className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/20 px-3 text-xs font-medium text-white transition hover:bg-white/10 sm:text-sm" aria-label="View PDF in browser fullscreen">
-            <Maximize2 size={15}/> <span className="hidden sm:inline">Fullscreen</span>
-          </button>
-          <button type="button" onClick={() => openResource(selected, 'open', getRepositoryUrl(selected) ? 'repository' : 'drive')} className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/20 px-3 text-xs font-medium text-white transition hover:bg-white/10 sm:text-sm">
-            <ExternalLink size={15}/> <span className="hidden sm:inline">Open original</span>
-          </button>
-          <button type="button" onClick={() => setSelected(null)} aria-label="Close PDF viewer" className="grid h-9 w-9 place-items-center rounded-lg border border-white/20 text-white transition hover:bg-white/10">
-            <X size={18}/>
-          </button>
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <button type="button" onClick={() => toggleBookmark(selected.id)} aria-pressed={bookmarks.includes(selected.id)} aria-label={bookmarks.includes(selected.id) ? 'Remove bookmark' : 'Bookmark this resource'} title="Save resource" className="grid h-9 w-9 place-items-center rounded-lg border border-white/20 hover:bg-white/10"><Bookmark size={16} fill={bookmarks.includes(selected.id) ? 'currentColor' : 'none'}/></button>
+          {originalUrl && <a href={originalUrl} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/20 px-2.5 text-xs font-medium hover:bg-white/10 sm:px-3 sm:text-sm"><ExternalLink size={15}/> <span className="hidden sm:inline">Open original</span></a>}
+          <button type="button" onClick={toggleFullscreen} className="grid h-9 w-9 place-items-center rounded-lg border border-white/20 hover:bg-white/10" aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'} title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}>{isFullscreen ? <Minimize2 size={16}/> : <Maximize2 size={16}/>}</button>
+          <button type="button" onClick={() => { if (document.fullscreenElement) document.exitFullscreen?.(); setSelected(null); }} aria-label="Close document viewer" className="grid h-9 w-9 place-items-center rounded-lg border border-white/20 hover:bg-white/10"><X size={18}/></button>
         </div>
       </header>
-      <div className="min-h-0 flex-1 bg-slate-800">
-        {isPdf(selected) && (getRepositoryUrl(selected) || getDriveFileId(selected.driveUrl || selected.url))
-          ? <iframe title={`PDF preview: ${selected.title}`} src={getRepositoryUrl(selected) || getDrivePreviewUrl(getDriveFileId(selected.driveUrl || selected.url))} className="block h-full min-h-0 w-full border-0 bg-white" allow="autoplay" allowFullScreen />
-          : <div className="grid h-full place-items-center p-6 text-center text-sm text-slate-300">This PDF preview is unavailable. Use “Open original” to view the file.</div>}
+      <div className="relative flex min-h-0 flex-1 flex-col bg-slate-800">
+        {!viewerLoaded && <div className="pointer-events-none absolute inset-x-0 top-3 z-10 flex justify-center"><span className="rounded-full bg-slate-900/90 px-3 py-1.5 text-xs text-slate-200 shadow">Loading document preview…</span></div>}
+        {viewerUrl ? <iframe key={selected.id} title={`${selected.title} online preview`} src={viewerUrl} onLoad={() => setViewerLoaded(true)} className="h-full min-h-0 w-full flex-1 border-0 bg-white" allow="fullscreen" allowFullScreen referrerPolicy="no-referrer-when-downgrade"/> : <div className="grid flex-1 place-items-center p-6 text-center text-sm text-slate-200"><div><p className="font-semibold">Preview source unavailable</p><p className="mt-2 text-slate-400">This resource has no supported public preview URL.</p></div></div>}
       </div>
+      <footer className="flex shrink-0 items-center justify-between gap-3 border-t border-white/10 bg-slate-950 px-3 py-2 text-[11px] text-slate-400 sm:px-5">
+        <span>Reading view · Saved materials stay in this browser</span>
+        <span className="hidden sm:inline">Press F for fullscreen · Esc to close</span>
+      </footer>
     </div>}
   </main>;
 }
