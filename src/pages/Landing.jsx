@@ -1,141 +1,155 @@
-import { ArrowRight, BookOpenCheck, ClipboardList, FileQuestion, Maximize2, Moon, Shapes, Brain, BarChart3, FileText, CalendarDays } from 'lucide-react';
+import {
+  ArrowRight, ArrowUpRight, BookOpen, BookOpenCheck, Brain, CalendarDays,
+  CheckCircle2, ClipboardList, FileQuestion, FileText, GraduationCap,
+  Layers3, LibraryBig, Menu, Moon, PanelTop, Sparkles, Target, X,
+  BarChart3, Shapes, Compass, Leaf,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { QUESTIONS, MODULES, MODULE_ORDER, SUBJECT } from '../data/questions';
 import { Logo, ThemeBtn } from '../components/Shell';
 import { Greenhouse } from '../diagrams/Climate';
 import { modColor } from '../components/ui';
+import './Landing.css';
 
-function HeroArt() {
+const FEATURES = [
+  { icon: BookOpenCheck, title: 'Structured study answers', text: 'Explore clear, exam-oriented answers, key concepts and labelled diagrams.', href: '#/questions', tag: 'Learn' },
+  { icon: LibraryBig, title: 'Academic Resource Vault', text: 'Find available CNR notes, syllabus files and question-paper resources in one place.', href: '#/resources', tag: 'Discover' },
+  { icon: FileQuestion, title: 'Model question papers', text: 'Practise with student-created model sets, clearly distinguished from official VTU papers.', href: '#/mqps', tag: 'Practise' },
+  { icon: Brain, title: 'AI Study Coach', text: 'Get guided study support while you work through difficult concepts.', href: '#/study-coach', tag: 'Understand' },
+  { icon: BarChart3, title: 'Progress & revision', text: 'Review your activity and focus your next revision session where it matters.', href: '#/smart-revision', tag: 'Improve' },
+  { icon: CalendarDays, title: 'Planning & exam tools', text: 'Use the planner, quizzes and exam simulator to build a steady preparation routine.', href: '#/learning-hub', tag: 'Prepare' },
+];
+
+const JOURNEY = [
+  { n: '01', title: 'Explore', text: 'Start with the subject, module or resource you need.' },
+  { n: '02', title: 'Choose', text: 'Open structured answers, notes, papers or a learning tool.' },
+  { n: '03', title: 'Learn', text: 'Study, practise and return to topics as you prepare.' },
+];
+
+const BENEFITS = [
+  ['One academic destination', 'Study content and supporting resources are brought together in one student-friendly workspace.', Layers3],
+  ['Clear module structure', 'Navigate the published learning content by module and find relevant questions faster.', Compass],
+  ['Tools that support learning', 'Revision, practice, planning and progress tools help you build a more consistent routine.', Target],
+  ['Designed for focused study', 'A responsive interface, reading controls and appearance options support comfortable learning.', Sparkles],
+];
+
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+}
+
+function ResourcePreview() {
   return (
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
-      <defs>
-        <radialGradient id="orb" cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="var(--landing-accent)" stopOpacity=".55" /><stop offset="1" stopColor="var(--landing-accent)" stopOpacity="0" /></radialGradient>
-        <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--landing-surface-a)" /><stop offset="1" stopColor="var(--landing-surface-b)" /></linearGradient>
-        <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--landing-surface-c)" /><stop offset="1" stopColor="var(--landing-deep)" /></linearGradient>
-      </defs>
-      <circle cx="900" cy="250" r="260" fill="url(#orb)" />
-      <circle cx="900" cy="250" r="64" fill="var(--landing-accent)" opacity=".85" />
-      <g stroke="var(--landing-accent)" strokeOpacity=".16" fill="none">{[0, 1, 2, 3, 4].map((i) => <circle key={i} cx="900" cy="250" r={110 + i * 62} />)}</g>
-      <path d="M0 560 C200 470 360 520 520 470 S860 420 1200 520 V800 H0Z" fill="url(#h1)" />
-      <path d="M0 640 C220 560 420 620 640 570 S1000 560 1200 620 V800 H0Z" fill="url(#h2)" />
-      <path d="M0 720 C260 670 520 730 760 690 S1100 680 1200 710 V800 H0Z" fill="var(--landing-bg)" />
-      <g transform="translate(720 70)"><g className="animate-floaty">
-        <path d="M280 320c0-46 28-70 80-70 0 46-24 76-72 76" fill="none" stroke="var(--landing-accent)" strokeWidth="3" strokeLinecap="round" /><path d="M282 330c18-28 36-46 62-58" fill="none" stroke="var(--landing-accent)" strokeWidth="2.4" strokeLinecap="round" />
-      </g></g>
-      <g transform="translate(250 190)"><g className="animate-floaty" style={{ animationDelay: '-2s' }}><path d="M620 190c-14 22-26 36-26 52a26 26 0 0 0 52 0c0-16-12-30-26-52z" fill="var(--landing-cyan)" opacity=".75" /></g></g>
-      <g className="animate-floaty" style={{ animationDelay: '-4s' }}><path d="M1040 400c-9 14-17 23-17 33a17 17 0 0 0 34 0c0-10-8-19-17-33z" fill="var(--landing-cyan)" opacity=".55" /></g>
-      <g transform="translate(800 -70)"><g className="animate-floaty" style={{ animationDelay: '-3s' }} opacity=".7"><path d="M140 200h120M170 222h90M100 244h150" stroke="var(--landing-text)" strokeOpacity=".4" strokeWidth="10" strokeLinecap="round" /></g></g>
-      <g fill="var(--landing-accent)" opacity=".5">{[[180, 520], [260, 500], [340, 530], [420, 500]].map(([x, y], i) => <path key={i} d={`M${x} ${y}l12 -34 12 34z`} />)}</g>
-    </svg>
+    <div className="cnr-preview" aria-label="Illustration of the CNR academic resource platform">
+      <div className="cnr-preview-glow" />
+      <div className="cnr-preview-window">
+        <div className="cnr-window-top"><div className="cnr-window-dots"><i /><i /><i /></div><span>cnr / learning workspace</span><span className="cnr-live"><i /> READY TO EXPLORE</span></div>
+        <div className="cnr-window-body">
+          <aside className="cnr-mini-sidebar"><div className="cnr-mini-brand"><span>C</span><b>CNR</b></div><div className="cnr-mini-active"><PanelTop size={14}/> Overview</div><div><BookOpen size={14}/> Modules</div><div><LibraryBig size={14}/> Resources</div><div><FileQuestion size={14}/> Papers</div><div><Brain size={14}/> Study tools</div><div className="cnr-mini-sidebar-foot"><span /> Your learning space</div></aside>
+          <div className="cnr-mini-content">
+            <div className="cnr-mini-greeting"><div><small>YOUR ACADEMIC SPACE</small><h3>Make every study session count.</h3><p>Explore your CNR learning resources.</p></div><span className="cnr-mini-avatar"><GraduationCap size={19}/></span></div>
+            <div className="cnr-mini-stats"><div><span>SUBJECT</span><b>BCV755B</b><small>Conservation of Natural Resources</small></div><div><span>LEARNING PATH</span><b>Modules 03–05</b><small>Structured study content</small></div></div>
+            <div className="cnr-mini-label">EXPLORE YOUR RESOURCES <ArrowUpRight size={13}/></div>
+            <div className="cnr-mini-cards"><div><span className="cnr-mini-icon violet"><BookOpen size={17}/></span><b>Study answers</b><small>Concepts & diagrams</small></div><div><span className="cnr-mini-icon blue"><FileText size={17}/></span><b>Resource vault</b><small>Notes & papers</small></div><div><span className="cnr-mini-icon amber"><ClipboardList size={17}/></span><b>Practice</b><small>Test your learning</small></div></div>
+            <div className="cnr-mini-module"><div><b>Continue by module</b><small>Choose a learning area</small></div><div className="cnr-module-pills"><span>MODULE 03</span><span>MODULE 04</span><span>MODULE 05</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div className="cnr-float-card cnr-float-top"><span className="cnr-float-icon"><FileText size={17}/></span><div><b>Study materials</b><small>Organised resources</small></div><CheckCircle2 size={16}/></div>
+      <div className="cnr-float-card cnr-float-bottom"><span className="cnr-float-icon cyan"><Sparkles size={17}/></span><div><b>Learn with clarity</b><small>One step at a time</small></div></div>
+      <div className="cnr-orbit cnr-orbit-one" /><div className="cnr-orbit cnr-orbit-two" />
+    </div>
   );
 }
 
-const FEATURES = [
-  [BookOpenCheck, 'Structured CNR learning', 'Explore module-wise study answers, key concepts, diagrams and revision-friendly explanations.'],
-  [FileQuestion, 'Model question papers', 'Practise with clearly labelled student-created model sets; they are not presented as official VTU papers.'],
-  [FileText, 'Academic Resource Vault', 'Find CNR notes and question-paper resources organised by category, with public Google Drive links.'],
-  [Brain, 'AI Study Coach', 'Get guided study support as you work through concepts and prepare for assessments.'],
-  [BarChart3, 'Progress analytics', 'Review completed work and use your study progress to decide what to revise next.'],
-  [ClipboardList, 'Practice and exam tools', 'Use quizzes, practice sessions and exam simulation to check your understanding.'],
-  [CalendarDays, 'Study planner and revision', 'Organise study sessions, revisit important topics and build a consistent preparation routine.'],
-  [Maximize2, 'Focused reading', 'Use a cleaner reading layout, adjustable display settings and distraction-reduced study.'],
-  [Moon, 'Personal workspace', 'Choose light or dark appearance and available interface modes to suit your reading comfort.'],
-];
-
 export default function Landing() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (event) => event.key === 'Escape' && setMenuOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
   return (
-    <div className="bg-bg">
-      <section className="relative isolate flex min-h-screen flex-col overflow-hidden landing-hero text-white">
-        <HeroArt />
-        <div className="absolute inset-0 -z-0 landing-hero-veil" aria-hidden="true" />
-        <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
-          <Logo light />
-          <div className="flex items-center gap-2"><a href="#/questions" className="hidden rounded-xl px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/10 sm:block">Questions</a><ThemeBtn className="!border-white/20 !bg-white/10 !text-white hover:!bg-white/20" /></div>
-        </header>
-        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-5 pb-24 pt-10 sm:px-8">
-          <p className="animate-rise inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-1.5 text-xs font-semibold tracking-wider landing-accent-text"><span className="h-1.5 w-1.5 rounded-full landing-cta" />{SUBJECT.code} · VTU SYLLABUS · CONSERVATION OF NATURAL RESOURCES</p>
-          <h1 className="animate-rise mt-6 max-w-3xl text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl" style={{ animationDelay: '80ms' }}>Master Every Concept. <span className="landing-accent-text">Prepare with Confidence.</span></h1>
-          <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-white/70" style={{ animationDelay: '160ms' }}>{SUBJECT.name} learning and exam-preparation workspace. Explore structured study answers, module-wise learning, practice tools, model question papers and an organised academic resource library in one place.</p>
-          <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '240ms' }}>
-            <a href="#/dashboard" className="inline-flex items-center gap-2 rounded-xl landing-cta px-6 py-3.5 text-[15px] font-semibold text-[var(--landing-cta-text)] shadow-lift transition hover:brightness-110 active:scale-[.98]">Start Preparing <ArrowRight size={18} /></a>
-            <a href="#/questions" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-6 py-3.5 text-[15px] font-semibold transition hover:bg-white/15">Browse the 10 questions</a>
-          </div>
-          <dl className="animate-rise mt-14 grid max-w-xl grid-cols-3 gap-6 border-t border-white/15 pt-6" style={{ animationDelay: '320ms' }}>
-            {[['10', 'Important questions'], ['3', 'Modules'], ['13', 'Labelled diagrams']].map(([n, l]) => <div key={l}><dt className="text-3xl font-bold tabular-nums">{n}</dt><dd className="text-xs text-white/60">{l}</dd></div>)}
-          </dl>
+    <div className="cnr-intro">
+      <header className={`cnr-nav ${scrolled ? 'is-scrolled' : ''}`}>
+        <div className="cnr-nav-inner">
+          <a href="#/" className="cnr-brand" aria-label="CNR home"><span className="cnr-brand-mark">C</span><span><b>CNR</b><small>ACADEMIC RESOURCE HUB</small></span></a>
+          <nav className={`cnr-nav-links ${menuOpen ? 'is-open' : ''}`} aria-label="Introduction navigation">
+            <button onClick={() => { scrollToSection('home'); setMenuOpen(false); }}>Home</button>
+            <button onClick={() => { scrollToSection('about'); setMenuOpen(false); }}>About</button>
+            <button onClick={() => { scrollToSection('explore'); setMenuOpen(false); }}>Explore</button>
+            <button onClick={() => { scrollToSection('journey'); setMenuOpen(false); }}>How it works</button>
+            <a className="cnr-mobile-cta" href="#/resources" onClick={() => setMenuOpen(false)}>Explore platform <ArrowUpRight size={16}/></a>
+          </nav>
+          <div className="cnr-nav-actions"><ThemeBtn /><a href="#/resources" className="cnr-nav-cta">Explore platform <ArrowUpRight size={15}/></a><button className="cnr-menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(v => !v)}>{menuOpen ? <X/> : <Menu/>}</button></div>
         </div>
-      </section>
+      </header>
 
-
-      <section className="border-y border-line bg-panel/60 py-20" aria-labelledby="about-platform">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <p className="eyebrow">About this website</p>
-          <h2 id="about-platform" className="mt-1 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">A dedicated digital learning space for CNR.</h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-mute">CNR-IA-2 brings study material, practice experiences and learning utilities together in one student-friendly platform. It is designed to make Conservation of Natural Resources easier to explore, revise and practise — from the first concept to exam preparation.</p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { title: 'Learn', text: 'Study structured module-wise answers, concepts and labelled diagrams.', href: '#/questions', action: 'Explore questions' },
-              { title: 'Practise', text: 'Build confidence with quizzes, practice sessions and model question papers.', href: '#/mqps', action: 'Open practice sets' },
-              { title: 'Discover', text: 'Browse the Academic Resource Vault for notes and question-paper resources.', href: '#/resources', action: 'Browse resources' },
-              { title: 'Improve', text: 'Use revision, analytics, planning and study-support tools to guide your preparation.', href: '#/learning-hub', action: 'Visit learning hub' },
-            ].map((item) => (
-              <article key={item.title} className="card flex flex-col p-5">
-                <h3 className="text-lg font-bold">{item.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-mute">{item.text}</p>
-                <a href={item.href} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand">{item.action} <ArrowRight size={15} /></a>
-              </article>
-            ))}
-          </div>
-          <p className="mt-6 text-xs leading-relaxed text-mute">This is an independent student learning resource, not an official VTU website. Model question papers are practice material and should not be mistaken for official university papers.</p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8" aria-labelledby="dist">
-        <p className="eyebrow">Module-wise distribution</p>
-        <h2 id="dist" className="mt-1 max-w-2xl text-3xl font-bold tracking-tight">Ten questions, three modules.</h2>
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
-          {MODULE_ORDER.slice().sort((a, b) => a - b).map((m) => {
-            const qs = QUESTIONS.filter((q) => q.module === m);
-            return (
-              <a key={m} href={`#/module/${m}`} className="card group p-6 transition hover:-translate-y-1 hover:shadow-lift">
-                <div className="flex items-start justify-between gap-3"><div><span className="text-xs font-bold uppercase tracking-widest" style={{ color: modColor(m) }}>MODULE {String(m).padStart(2, '0')}</span><h3 className="mt-2 text-lg font-bold tracking-tight">{MODULES[m].name}</h3></div><span className="grid h-11 min-w-11 place-items-center rounded-xl text-lg font-bold tabular-nums" style={{ color: modColor(m), background: `rgb(var(--m${m}) / .12)` }}>{qs.length}</span></div>
-                <p className="mt-2 min-h-12 text-sm leading-relaxed text-mute">{MODULES[m].long}</p>
-                <div className="mt-4 border-t border-line pt-3"><p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-mute">Included questions</p><ul className="space-y-2 text-sm text-mute">{qs.map((q) => <li key={q.id} className="flex items-start gap-2"><span className="shrink-0 rounded-md bg-sunk px-1.5 py-0.5 text-[11px] font-bold text-ink">{q.code}</span><span>{q.title}</span></li>)}</ul></div>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand transition group-hover:gap-3">Explore module <ArrowRight size={16} /></span>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="border-y border-line bg-panel/60 py-20" aria-labelledby="prev">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <p className="eyebrow">The learning experience</p>
-            <h2 id="prev" className="mt-1 text-3xl font-bold tracking-tight">Answers that read like a textbook.</h2>
-            <p className="mt-3 text-mute">Numbered headings, highlighted keywords, comparison tables, equations and accurate labelled diagrams you can enlarge. Where an answer goes beyond your notes, it says so.</p>
-            <ul className="mt-5 space-y-2 text-sm">{['Sticky table of contents and reading progress', 'Expand / collapse every section', 'Copy or print any answer'].map((t) => <li key={t} className="flex items-center gap-2"><Shapes size={15} className="text-brand" />{t}</li>)}</ul>
-          </div>
-          <div className="lg:col-span-3">
-            <div className="card overflow-hidden shadow-lift">
-              <div className="flex items-center gap-1.5 border-b border-line bg-sunk px-4 py-2.5">{[0, 1, 2].map((i) => <span key={i} className="h-2.5 w-2.5 rounded-full bg-line" />)}<span className="ml-3 text-xs text-mute">Q01 · Global Warming</span></div>
-              <div className="p-5 sm:p-6">
-                <span className="chip !text-ink">Module 5 · 10 Marks</span>
-                <h3 className="mt-3 text-xl font-bold tracking-tight">1. The Greenhouse Effect</h3>
-                <div className="mt-3 overflow-hidden rounded-xl border border-line bg-[var(--dg-bg)]" aria-hidden="true"><div className="pointer-events-none origin-top-left"><Greenhouse /></div></div>
-              </div>
+      <main>
+        <section id="home" className="cnr-hero">
+          <div className="cnr-hero-grid" aria-hidden="true" />
+          <div className="cnr-hero-orb cnr-hero-orb-a" aria-hidden="true" /><div className="cnr-hero-orb cnr-hero-orb-b" aria-hidden="true" />
+          <div className="cnr-hero-inner">
+            <div className="cnr-hero-copy">
+              <div className="cnr-kicker"><span className="cnr-kicker-dot" /> YOUR CNR LEARNING SPACE <span className="cnr-kicker-line" /></div>
+              <h1>Everything you need to <em>learn, prepare</em> & excel.</h1>
+              <p className="cnr-hero-lede">A dedicated academic destination for CNR study answers, notes, question papers and learning tools — thoughtfully brought together in one place.</p>
+              <div className="cnr-hero-actions"><a className="cnr-button-primary" href="#/resources">Explore resources <ArrowRight size={18}/></a><button className="cnr-button-secondary" onClick={() => scrollToSection('about')}><span className="cnr-play">↓</span> Discover CNR</button></div>
+              <div className="cnr-hero-note"><span><CheckCircle2 size={15}/> Student-focused learning</span><span><CheckCircle2 size={15}/> Organised resources</span></div>
             </div>
+            <ResourcePreview />
           </div>
-        </div>
-      </section>
+          <div className="cnr-hero-bottom"><span>BUILT AROUND YOUR LEARNING JOURNEY</span><div /><span>{SUBJECT.code} · {SUBJECT.name}</span></div>
+        </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8" aria-labelledby="feat">
-        <p className="eyebrow">Study tools</p><h2 id="feat" className="mt-1 text-3xl font-bold tracking-tight">Everything you need to revise fast.</h2>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map(([I, t, d]) => <div key={t} className="card p-6"><div className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-brand/12 text-brand"><I size={21} /></div><h3 className="font-semibold">{t}</h3><p className="mt-1 text-sm text-mute">{d}</p></div>)}
-        </div>
-        <div className="mt-12 flex flex-col items-center rounded-3xl bg-navy px-6 py-12 text-center text-white"><h2 className="text-2xl font-bold sm:text-3xl">Ready to begin?</h2><p className="mt-2 text-white/65">Open the dashboard and start with Question 1.</p><a href="#/dashboard" className="mt-6 inline-flex items-center gap-2 rounded-xl landing-cta px-6 py-3 font-semibold text-[var(--landing-cta-text)] hover:brightness-110">Start Preparing <ArrowRight size={18} /></a></div>
-        <p className="mt-8 text-center text-xs text-mute">Answers are prepared from your three uploaded Module 3, 4 and 5 study documents. Exam preparation aid only – no marks are guaranteed.</p>
-      </section>
+        <section id="about" className="cnr-section cnr-about">
+          <div className="cnr-section-head"><span className="cnr-eyebrow">01 / THE IDEA</span><span className="cnr-section-index">A CLEARER WAY TO PREPARE</span></div>
+          <div className="cnr-about-grid">
+            <h2>Your academic world,<br/><em>organized.</em></h2>
+            <div className="cnr-about-copy"><p>CNR is designed to bring essential academic resources and learning experiences together in one accessible platform.</p><p>Instead of navigating scattered files and separate tools, students can explore structured subject content, find available materials and practise in a single, student-friendly space.</p><a href="#/learning-hub" className="cnr-text-link">Discover the learning hub <ArrowUpRight size={17}/></a></div>
+          </div>
+          <div className="cnr-about-band"><div><span className="cnr-band-icon"><BookOpen size={19}/></span><b>Learn with structure</b><small>Module-wise content and study answers</small></div><div><span className="cnr-band-icon"><LibraryBig size={19}/></span><b>Find what you need</b><small>Academic resources in one destination</small></div><div><span className="cnr-band-icon"><Target size={19}/></span><b>Prepare with purpose</b><small>Tools for practice and revision</small></div></div>
+        </section>
+
+        <section id="explore" className="cnr-section cnr-explore">
+          <div className="cnr-section-head"><span className="cnr-eyebrow">02 / WHAT YOU CAN DO</span><span className="cnr-section-index">THE PLATFORM</span></div>
+          <div className="cnr-title-row"><div><h2>One platform.<br/><em>Many ways to learn.</em></h2></div><p>Explore the resources and tools already available across your CNR learning workspace.</p></div>
+          <div className="cnr-feature-grid">{FEATURES.map(({ icon: Icon, title, text, href, tag }, i) => <a className="cnr-feature-card" href={href} key={title}><div className="cnr-feature-top"><span className="cnr-feature-icon"><Icon size={21}/></span><span className="cnr-feature-number">0{i + 1}</span></div><span className="cnr-feature-tag">{tag}</span><h3>{title}</h3><p>{text}</p><span className="cnr-feature-link">Explore <ArrowUpRight size={16}/></span></a>)}</div>
+        </section>
+
+        <section className="cnr-modules">
+          <div className="cnr-modules-inner"><div className="cnr-modules-copy"><span className="cnr-eyebrow">A STRUCTURED START</span><h2>Find your focus.<br/><em>One module at a time.</em></h2><p>Jump directly into the published CNR question bank and explore the current module-wise learning content.</p><a className="cnr-button-primary" href="#/questions">Browse study questions <ArrowRight size={17}/></a></div>
+            <div className="cnr-module-list">{MODULE_ORDER.slice().sort((a,b)=>a-b).map(m => { const qs = QUESTIONS.filter(q=>q.module===m); return <a href={`#/module/${m}`} className="cnr-module-row" key={m}><span className="cnr-module-index" style={{color:modColor(m)}}>0{m}</span><span className="cnr-module-main"><b>{MODULES[m].name}</b><small>{MODULES[m].long}</small></span><span className="cnr-module-count">{qs.length} questions</span><ArrowUpRight size={18}/></a>; })}</div>
+          </div>
+        </section>
+
+        <section id="journey" className="cnr-section cnr-journey">
+          <div className="cnr-section-head"><span className="cnr-eyebrow">03 / YOUR FLOW</span><span className="cnr-section-index">SIMPLE BY DESIGN</span></div>
+          <div className="cnr-title-row"><h2>From finding a resource<br/><em>to feeling prepared.</em></h2><p>A straightforward path that keeps the focus on learning.</p></div>
+          <div className="cnr-journey-grid">{JOURNEY.map((step,i)=><article className="cnr-journey-card" key={step.n}><span className="cnr-journey-n">{step.n}</span><div className="cnr-journey-symbol">{i===0?<Compass size={23}/>:i===1?<Layers3 size={23}/>:<GraduationCap size={23}/>}</div><h3>{step.title}</h3><p>{step.text}</p>{i!==2&&<span className="cnr-journey-connector">→</span>}</article>)}</div>
+        </section>
+
+        <section className="cnr-benefits">
+          <div className="cnr-benefits-inner"><div className="cnr-benefits-heading"><span className="cnr-eyebrow">04 / WHY CNR</span><h2>Less searching.<br/><em>More meaningful study.</em></h2><p>A considered learning environment that helps keep your academic preparation clear and accessible.</p></div><div className="cnr-benefit-list">{BENEFITS.map(([title,text,Icon],i)=><article key={title}><span className="cnr-benefit-icon"><Icon size={19}/></span><div><h3>{title}</h3><p>{text}</p></div><span className="cnr-benefit-no">0{i+1}</span></article>)}</div></div>
+        </section>
+
+        <section className="cnr-section cnr-preview-section">
+          <div className="cnr-section-head"><span className="cnr-eyebrow">05 / INSIDE THE EXPERIENCE</span><span className="cnr-section-index">BUILT FOR STUDENTS</span></div>
+          <div className="cnr-preview-content"><div><h2>Everything has<br/><em>a place.</em></h2><p>Move from a question to a module, from study material to practice — with dedicated spaces for the different parts of your preparation.</p><a href="#/dashboard" className="cnr-text-link">Enter your learning workspace <ArrowUpRight size={17}/></a></div><div className="cnr-preview-showcase"><div className="cnr-showcase-card showcase-one"><span><BookOpenCheck size={18}/></span><div><b>Study answers</b><small>Structured content & diagrams</small></div><ArrowUpRight size={16}/></div><div className="cnr-showcase-card showcase-two"><span><FileText size={18}/></span><div><b>Academic Resource Vault</b><small>Available notes & papers</small></div><ArrowUpRight size={16}/></div><div className="cnr-showcase-card showcase-three"><span><Brain size={18}/></span><div><b>Learning tools</b><small>Practice, revision & planning</small></div><ArrowUpRight size={16}/></div><div className="cnr-showcase-orbit"><Leaf size={48}/></div></div></div>
+          <div className="cnr-answer-preview"><div className="cnr-answer-top"><span><span/> LIVE CONTENT PREVIEW</span><small>{SUBJECT.code} / MODULE 05</small></div><div className="cnr-answer-body"><div><span className="cnr-answer-chip">STUDY ANSWER · 10 MARKS</span><h3>Understand the greenhouse effect</h3><p>Explore concepts with structured explanations and a visual learning aid.</p><div className="cnr-answer-lines"><i/><i/><i/><i/></div></div><div className="cnr-answer-diagram"><Greenhouse/></div></div></div>
+        </section>
+
+        <section className="cnr-final-cta"><div className="cnr-cta-glow"/><span className="cnr-eyebrow">YOUR NEXT CHAPTER STARTS HERE</span><h2>Your next step towards<br/><em>better preparation.</em></h2><p>Explore your CNR resources, discover the learning tools and make your preparation more accessible.</p><a href="#/resources" className="cnr-button-primary">Explore the platform <ArrowRight size={18}/></a><span className="cnr-cta-foot">CNR · A STUDENT-FOCUSED ACADEMIC RESOURCE HUB</span></section>
+      </main>
+      <footer className="cnr-footer"><a href="#/" className="cnr-brand"><span className="cnr-brand-mark">C</span><span><b>CNR</b><small>ACADEMIC RESOURCE HUB</small></span></a><p>Built to make CNR learning more organized and accessible.</p><span>Independent student learning resource · Not an official VTU website</span></footer>
     </div>
   );
 }
