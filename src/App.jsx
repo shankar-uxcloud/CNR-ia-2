@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Library from './pages/Library';
 import PWAStatus from './components/PWAStatus';
+import ConnectivityToast from './components/ConnectivityToast';
 import StartupExperience from './components/StartupExperience';
 
 const Answer = lazy(() => import('./pages/Answer'));
@@ -62,5 +63,5 @@ function Inner() {
   return <Shell path={path}><Suspense fallback={<Skeleton />}><Router path={path} /></Suspense></Shell>;
 }
 export default function App() {
-  return <StartupExperience><StudyProvider><><Inner /><PWAStatus /></></StudyProvider></StartupExperience>;
+  return <StartupExperience><StudyProvider><><Inner /><PWAStatus /><ConnectivityToast /></></StudyProvider></StartupExperience>;
 }
