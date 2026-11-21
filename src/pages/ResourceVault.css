@@ -1,0 +1,271 @@
+/* Mobile-first layout for the Resource Vault and its full-screen reader. */
+.resource-vault-page,
+.resource-vault-page * {
+  min-width: 0;
+}
+.resource-vault-page {
+  width: 100%;
+  overflow-x: clip;
+}
+.resource-vault-card h2,
+.resource-vault-card p {
+  overflow-wrap: anywhere;
+}
+.rv-filter-toggle {
+  display: none;
+}
+.rv-filter-controls select {
+  max-width: min(100%, 15rem);
+}
+.rv-touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  touch-action: manipulation;
+}
+.rv-document-viewer {
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overscroll-behavior: contain;
+}
+.rv-viewer-header {
+  min-height: 56px;
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+}
+.rv-document-stage {
+  min-height: 0;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.rv-document-frame {
+  display: block;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 0;
+}
+.rv-viewer-footer {
+  min-height: 38px;
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+}
+.rv-document-viewer button,
+.rv-document-viewer a,
+.resource-vault-page button,
+.resource-vault-page select,
+.resource-vault-page input {
+  -webkit-tap-highlight-color: transparent;
+}
+.rv-document-viewer button:focus-visible,
+.rv-document-viewer a:focus-visible,
+.resource-vault-page button:focus-visible,
+.resource-vault-page select:focus-visible,
+.resource-vault-page input:focus-visible {
+  outline: 2px solid #67e8f9;
+  outline-offset: 2px;
+}
+@media (max-width: 639px) {
+  .resource-vault-page {
+    padding-top: 1.25rem;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  }
+  .resource-vault-page h1 {
+    font-size: clamp(1.65rem, 8vw, 2.1rem);
+    line-height: 1.12;
+  }
+  .resource-vault-page > div:first-of-type {
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .resource-vault-page > div:first-of-type > div:last-child {
+    padding: 0.65rem 0.85rem;
+  }
+  .resource-vault-page > section[aria-label="Vault features"] {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .resource-vault-page > section[aria-label="Vault features"] > div {
+    padding: 0.75rem;
+  }
+  .resource-vault-filters {
+    margin-top: 1rem;
+    padding: 0.85rem;
+  }
+  .rv-filter-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.65rem;
+    padding: 0 0.75rem;
+    border: 1px solid var(--line, rgba(148, 163, 184, 0.3));
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .rv-filter-controls {
+    display: none;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .rv-filter-controls.is-open {
+    display: flex;
+  }
+  .rv-filter-controls label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 44px;
+  }
+  .rv-filter-controls select {
+    flex: 1;
+    width: 1%;
+    min-width: 0;
+    height: 44px;
+    font-size: 0.875rem;
+  }
+  .rv-filter-controls > button {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+  }
+  .rv-filter-controls > span {
+    margin-left: 0;
+    padding-top: 0.15rem;
+  }
+  .resource-vault-page > section[aria-label="Resource results"] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+  }
+  .resource-vault-card {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+  .resource-vault-card h2 {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .resource-vault-card > div:last-child {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.55rem;
+    padding-top: 1rem;
+  }
+  .resource-vault-card > div:last-child > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 46px;
+  }
+  .rv-document-viewer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+  }
+  .rv-viewer-header {
+    min-height: 54px;
+    gap: 0.4rem;
+    padding-top: max(0.35rem, env(safe-area-inset-top, 0px));
+    padding-bottom: 0.35rem;
+  }
+  .rv-viewer-header > div:first-child {
+    flex: 1 1 auto;
+    max-width: calc(100% - 7.5rem);
+  }
+  .rv-viewer-header > div:first-child p {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+  .rv-viewer-header > div:first-child h2 {
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+  .rv-viewer-header > div:last-child {
+    gap: 0.25rem;
+  }
+  .rv-touch-target {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+  .rv-original-link {
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    padding: 0;
+  }
+  .rv-document-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+  }
+  .rv-document-frame {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+  .rv-viewer-footer {
+    min-height: 42px;
+    padding-top: 0.4rem;
+    padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 0px));
+    font-size: 10px;
+  }
+}
+@media (max-width: 380px) {
+  .rv-viewer-header > div:first-child {
+    max-width: calc(100% - 6.8rem);
+  }
+  .rv-viewer-header > div:last-child {
+    gap: 0.15rem;
+  }
+  .rv-touch-target {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+  .rv-original-link {
+    width: 42px;
+    height: 42px;
+  }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .rv-viewer-header {
+    min-height: 44px;
+  }
+  .rv-viewer-header > div:first-child p {
+    display: none;
+  }
+  .rv-viewer-footer {
+    min-height: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .resource-vault-page *,
+  .rv-document-viewer * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
