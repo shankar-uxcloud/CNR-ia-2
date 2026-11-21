@@ -53,14 +53,14 @@ export default function ResourceVault() {
     <p className="eyebrow">CNR-IA-2 · RESOURCE SYSTEM</p>
     <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
       <div><h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Academic Resource Vault</h1>
-        <p className="mt-2 max-w-2xl text-mute">One searchable library for notes, PYQs, model papers and assignments — hosted on Google Drive, with no application backend.</p></div>
+        <p className="mt-2 max-w-2xl text-mute">One searchable library for notes, PYQs, model papers and assignments — hosted in this website's public repository or Google Drive, with no application backend.</p></div>
       <div className="rounded-2xl border border-line bg-panel px-4 py-3"><p className="text-xs text-mute">Published resources</p><p className="text-2xl font-bold tabular-nums">{DRIVE_RESOURCES.length}</p></div>
     </div>
 
     <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Vault features">
       <div className="card flex items-center gap-3 p-4"><FolderOpen className="text-brand" size={20}/><div><p className="font-semibold">Module-wise</p><p className="text-xs text-mute">M1–M5 organization</p></div></div>
       <div className="card flex items-center gap-3 p-4"><FileText className="text-brand" size={20}/><div><p className="font-semibold">Category-wise</p><p className="text-xs text-mute">Notes, PYQs, MQPs, more</p></div></div>
-      <div className="card flex items-center gap-3 p-4"><ShieldCheck className="text-brand" size={20}/><div><p className="font-semibold">Public access</p><p className="text-xs text-mute">Anyone with the Drive link</p></div></div>
+      <div className="card flex items-center gap-3 p-4"><ShieldCheck className="text-brand" size={20}/><div><p className="font-semibold">PDF viewing</p><p className="text-xs text-mute">Preview in the website</p></div></div>
     </section>
 
     <section className="mt-7 card p-4 sm:p-5" aria-label="Resource filters">
@@ -79,12 +79,12 @@ export default function ResourceVault() {
           <button type="button" onClick={() => toggleBookmark(item.id)} aria-label={bookmarks.includes(item.id) ? 'Remove saved resource' : 'Save resource'} aria-pressed={bookmarks.includes(item.id)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line hover:bg-sunk"><Bookmark size={17} fill={bookmarks.includes(item.id) ? 'currentColor' : 'none'}/></button></div>
         <h2 className="mt-3 text-lg font-bold">{item.title}</h2><p className="mt-1 text-sm text-mute">{item.description}</p>
         <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}</div>
-        <div className="mt-auto flex flex-wrap gap-2 pt-5"><button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview details</button>{getRepositoryUrl(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open repository PDF</button>}{driveLink(item) && <button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive PDF</button>}</div>
+        <div className="mt-auto flex flex-wrap gap-2 pt-5"><button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview PDF</button>{getRepositoryUrl(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open repository PDF</button>}{driveLink(item) && <button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive PDF</button>}</div>
       </article>)}
     </section> : <section className="card mt-5 p-8 text-center">
       <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 text-brand"><FileText size={26}/></div>
       <h2 className="mt-4 text-xl font-bold">{DRIVE_RESOURCES.length ? 'No matching resources' : 'Your resource library is ready'}</h2>
-      <p className="mx-auto mt-2 max-w-xl text-sm text-mute">{DRIVE_RESOURCES.length ? 'Try changing the search or filters.' : 'No PDF links have been published in the catalogue yet. Once public Google Drive links are added to the resource catalogue, they will appear here automatically.'}</p>
+      <p className="mx-auto mt-2 max-w-xl text-sm text-mute">{DRIVE_RESOURCES.length ? 'Try changing the search or filters.' : 'No PDFs have been added to the resource catalogue yet. Uploaded repository PDFs and public Drive PDFs appear here once registered.'}</p>
       {(search || moduleFilter !== 'all' || categoryFilter !== 'all' || savedOnly) && <button type="button" onClick={() => {setSearch('');setModuleFilter('all');setCategoryFilter('all');setSavedOnly(false);}} className="btn-quiet mt-4">Clear filters</button>}
     </section>}
 
@@ -92,7 +92,7 @@ export default function ResourceVault() {
 
     <section className="mt-8 rounded-2xl border border-line bg-sunk/60 p-5">
       <h2 className="font-bold">How PDFs are published</h2>
-      <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-mute"><li>Upload each PDF to Google Drive and organize it in both a module folder and a category folder (or use a shared master folder with module/category metadata).</li><li>Set General access to <strong>Anyone with the link</strong> and role to <strong>Viewer</strong>.</li><li>Copy the share link and add its title, module, category and URL to <code>src/data/resourceCatalog.js</code>.</li><li>Commit the catalogue update; GitHub Pages rebuilds and publishes the updated vault.</li></ol>
+      <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-mute"><li>Upload PDFs under <code>public/resources/</code> in the appropriate module or resource folder, or use a public Google Drive link.</li><li>Add each file's title, module, category and repository path or Drive URL to <code>src/data/resourceCatalog.js</code>.</li><li>For Drive files, set General access to <strong>Anyone with the link</strong> and role to <strong>Viewer</strong>.</li><li>Commit the files and catalogue; GitHub Pages rebuilds and publishes the searchable PDF library.</li></ol>
       <p className="mt-3 text-xs text-mute">Public links can be forwarded. Viewer settings do not guarantee that a PDF cannot be copied, screenshotted or downloaded.</p>
     </section>
 
