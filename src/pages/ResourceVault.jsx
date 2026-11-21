@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Bookmark, BookOpen, ExternalLink, FileText, FolderOpen, Search, ShieldCheck, Star, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Bookmark, BookOpen, ExternalLink, FileText, FolderOpen, Maximize2, Search, ShieldCheck, X } from 'lucide-react';
 import { DRIVE_RESOURCES, RESOURCE_CATEGORIES } from '../data/resourceCatalog';
 import { getDriveFileId, getDrivePreviewUrl, getDriveOpenUrl } from '../lib/driveResources';
 
@@ -31,9 +31,19 @@ export default function ResourceVault() {
   const [bookmarks, setBookmarks] = useState(() => readList(BOOKMARK_KEY));
   const [recent, setRecent] = useState(() => readList(RECENT_KEY));
   const [selected, setSelected] = useState(null);
+  const viewerRef = useRef(null);
 
   useEffect(() => writeList(BOOKMARK_KEY, bookmarks), [bookmarks]);
   useEffect(() => writeList(RECENT_KEY, recent), [recent]);
+
+  useEffect(() => {
+    if (!selected) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && !document.fullscreenElement) setSelected(null);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [selected]);
 
   const resources = useMemo(() => DRIVE_RESOURCES.filter((item) => {
     const query = search.trim().toLowerCase();
@@ -100,11 +110,28 @@ export default function ResourceVault() {
       <p className="mt-3 text-xs text-mute">PDF files can be previewed in the vault. PPTX and DOCX files open as their original files and may download depending on the browser. Public links can be forwarded. Viewer settings do not prevent public files from being copied, screenshotted or downloaded.</p>
     </section>
 
-    {selected && <div className="fixed inset-0 z-[80] grid place-items-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title" onMouseDown={(e) => {if (e.target === e.currentTarget) setSelected(null);}}>
-      <div className="w-full max-w-lg rounded-2xl border border-line bg-panel p-5 shadow-lift"><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">RESOURCE DETAILS</p><h2 id="resource-dialog-title" className="mt-1 text-xl font-bold">{selected.title}</h2></div><button onClick={() => setSelected(null)} aria-label="Close details" className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18}/></button></div>
-        <p className="mt-3 text-sm text-mute">{selected.description}</p><div className="mt-3 text-sm">Module {selected.module} · {RESOURCE_CATEGORIES.find((cat) => cat.id === selected.category)?.label || selected.category}</div>
-        {isPdf(selected) && (getRepositoryUrl(selected) || getDriveFileId(selected.driveUrl || selected.url)) && <iframe title={`PDF preview: ${selected.title}`} src={getRepositoryUrl(selected) || getDrivePreviewUrl(getDriveFileId(selected.driveUrl || selected.url))} className="mt-4 h-[55vh] min-h-72 w-full rounded-xl border border-line bg-white" allow="autoplay" />}
-        <div className="mt-5 flex flex-wrap gap-2">{getRepositoryUrl(selected) && <button onClick={() => openResource(selected, 'open', 'repository')} className="btn-primary">Open repository PDF</button>}{driveLink(selected, 'preview') && <button onClick={() => openResource(selected, 'preview')} className="btn-quiet">Preview on Google Drive</button>}</div>
+    {selected && <div ref={viewerRef} className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-slate-950 text-white" role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title">
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-slate-950 px-3 py-3 sm:px-5">
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">CNR RESOURCE VAULT · PDF VIEWER</p>
+          <h2 id="resource-dialog-title" className="truncate text-sm font-semibold sm:text-base">{selected.title}</h2>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <button type="button" onClick={() => viewerRef.current?.requestFullscreen?.()} className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/20 px-3 text-xs font-medium text-white transition hover:bg-white/10 sm:text-sm" aria-label="View PDF in browser fullscreen">
+            <Maximize2 size={15}/> <span className="hidden sm:inline">Fullscreen</span>
+          </button>
+          <button type="button" onClick={() => openResource(selected, 'open', getRepositoryUrl(selected) ? 'repository' : 'drive')} className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/20 px-3 text-xs font-medium text-white transition hover:bg-white/10 sm:text-sm">
+            <ExternalLink size={15}/> <span className="hidden sm:inline">Open original</span>
+          </button>
+          <button type="button" onClick={() => setSelected(null)} aria-label="Close PDF viewer" className="grid h-9 w-9 place-items-center rounded-lg border border-white/20 text-white transition hover:bg-white/10">
+            <X size={18}/>
+          </button>
+        </div>
+      </header>
+      <div className="min-h-0 flex-1 bg-slate-800">
+        {isPdf(selected) && (getRepositoryUrl(selected) || getDriveFileId(selected.driveUrl || selected.url))
+          ? <iframe title={`PDF preview: ${selected.title}`} src={getRepositoryUrl(selected) || getDrivePreviewUrl(getDriveFileId(selected.driveUrl || selected.url))} className="block h-full min-h-0 w-full border-0 bg-white" allow="autoplay" allowFullScreen />
+          : <div className="grid h-full place-items-center p-6 text-center text-sm text-slate-300">This PDF preview is unavailable. Use “Open original” to view the file.</div>}
       </div>
     </div>}
   </main>;
