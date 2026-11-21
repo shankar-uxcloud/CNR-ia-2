@@ -39,7 +39,9 @@ test('PWA install guidance covers standalone detection and iOS manual installati
   assert.match(pwa, /Add to Home Screen/);
   assert.match(pwa, /beforeinstallprompt/);
   assert.match(pwa, /appinstalled/);
-  assert.match(pwa, /Previously cached lessons are available offline/);
+  assert.match(pwa, /You're offline/);
+  assert.match(pwa, /You're back online!/);
+  assert.doesNotMatch(pwa, /Previously cached lessons are available offline/);
 });
 
 test('dashboard surfaces the new coach and smart exam tools', () => {
