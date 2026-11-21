@@ -49,5 +49,5 @@ test('PWA connection and install UI handles browser lifecycle events accessibly'
   assert.match(component, /addEventListener\('offline'/);
   assert.match(component, /addEventListener\('online'/);
   assert.match(component, /aria-live="polite"/);
-  assert.match(component, /saved study progress remains on this device/i);
+  assert.match(component, /You're offline/);\n  assert.match(component, /You're back online!/);\n  assert.match(component, /NOTICE_DURATION = 3600/);\n  assert.match(component, /previousOnline\.current/);\n  assert.match(component, /clearTimeout\(timer\)/);\n  assert.doesNotMatch(component, /Previously cached lessons are available offline/);
 });
