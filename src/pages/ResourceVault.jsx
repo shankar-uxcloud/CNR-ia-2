@@ -45,6 +45,13 @@ export default function ResourceVault() {
 
   useEffect(() => {
     if (!selected) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [selected]);
+
+  useEffect(() => {
+    if (!selected) return undefined;
     const handleKeyDown = (event) => {
       if (event.key === 'Escape' && !document.fullscreenElement) setSelected(null);
       if ((event.key === 'f' || event.key === 'F') && !event.ctrlKey && !event.metaKey && !event.altKey
