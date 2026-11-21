@@ -199,6 +199,8 @@ export default function Shell({ path, children }) {
   const { focus, setFocus, query, setQuery } = useStudy();
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState(false);
+  const menuButtonRef = useRef(null);
+  const drawerRef = useRef(null);
   const isAnswer = path.startsWith('/q/');
   const hide = focus && isAnswer;
 
@@ -218,10 +220,51 @@ export default function Shell({ path, children }) {
     return () => window.removeEventListener('scroll', s);
   }, []);
   useEffect(() => {
-    if (!open) return;
-    const k = (e) => e.key === 'Escape' && setOpen(false);
-    document.addEventListener('keydown', k);
-    return () => document.removeEventListener('keydown', k);
+    if (!open) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement;
+    document.body.style.overflow = 'hidden';
+
+    const getFocusable = () => Array.from(
+      drawerRef.current?.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ) || [],
+    ).filter((element) => element.getAttribute('aria-hidden') !== 'true');
+
+    getFocusable()[0]?.focus();
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = getFocusable();
+      if (!focusable.length) {
+        event.preventDefault();
+        drawerRef.current?.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !drawerRef.current?.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
+    };
   }, [open]);
 
   const onSearch = (v) => { setQuery(v); if (!/^\/(questions|module)/.test(path)) go('/questions'); };
@@ -238,9 +281,9 @@ export default function Shell({ path, children }) {
       )}
 
       {open && (
-        <div className="fixed inset-0 z-50 lg:hidden no-print" role="dialog" aria-modal="true" aria-label="Navigation menu">
+        <div id="mobile-navigation-dialog" className="mobile-navigation-dialog fixed inset-0 z-50 lg:hidden no-print" role="dialog" aria-modal="true" aria-label="Navigation menu">
           <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
-          <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-panel shadow-lift animate-rise">
+          <div ref={drawerRef} tabIndex={-1} className="mobile-navigation-drawer absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
           </div>
@@ -249,7 +292,7 @@ export default function Shell({ path, children }) {
 
       {!hide && (
         <header className="topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:ml-64 lg:px-6 2xl:px-8">
-          <button className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-panel lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><Menu size={18} /></button>
+          <button ref={menuButtonRef} className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-panel lg:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-navigation-dialog" onClick={() => setOpen(true)}><Menu size={18} /></button>
           <div className="lg:hidden"><Logo /></div>
           <div className="relative ml-auto hidden w-full max-w-lg xl:block">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-mute" aria-hidden="true" />
