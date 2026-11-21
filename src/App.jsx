@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Library from './pages/Library';
 import PWAStatus from './components/PWAStatus';
+import ConnectivityToast from './components/ConnectivityToast';
 import StartupExperience from './components/StartupExperience';
 
 const Answer = lazy(() => import('./pages/Answer'));
@@ -50,9 +51,9 @@ function Router({ path }) {
   if (path === '/data-backup') return <DataBackup />;
   if (path === '/ecoweb') return <EcoWebArchitect />;
   if (path === '/planner') return <Planner />;
-  const m = path.match(/^\/module\/([345])$/);
+  const m = path.match(/^\\/module\\/([345])$/);
   if (m) return <Library module={Number(m[1])} />;
-  const q = path.match(/^\/q\/([a-z0-9]+)$/);
+  const q = path.match(/^\\/q\\/([a-z0-9]+)$/);
   if (q) return <Answer key={q[1]} id={q[1]} />;
   return <div className="mx-auto max-w-xl px-4 py-16"><Empty icon={FileQuestion} title="Page not found" text="That page does not exist." action={<a href="#/dashboard" className="btn-primary">Go to dashboard</a>} /></div>;
 }
@@ -62,5 +63,5 @@ function Inner() {
   return <Shell path={path}><Suspense fallback={<Skeleton />}><Router path={path} /></Suspense></Shell>;
 }
 export default function App() {
-  return <StartupExperience><StudyProvider><><Inner /><PWAStatus /></></StudyProvider></StartupExperience>;
+  return <StartupExperience><StudyProvider><><Inner /><PWAStatus /><ConnectivityToast /></></StudyProvider></StartupExperience>;
 }
