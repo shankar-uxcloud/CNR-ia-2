@@ -48,18 +48,18 @@ test('PWAStatus preserves install lifecycle without owning connectivity notifica
   assert.match(component, /Add to Home Screen/);
   assert.match(component, /beforeinstallprompt/);
   assert.match(component, /appinstalled/);
-  assert.doesNotMatch(component, /addEventListener\\('offline'/);
-  assert.doesNotMatch(component, /addEventListener\\('online'/);
+  assert.doesNotMatch(component, /addEventListener\('offline'/);
+  assert.doesNotMatch(component, /addEventListener\('online'/);
   assert.doesNotMatch(component, /You're offline/);
   assert.doesNotMatch(component, /You're back online!/);
 });
 
 test('ConnectivityToast owns accessible online and offline notifications', () => {
   const component = read('src/components/ConnectivityToast.jsx');
-  assert.match(component, /addEventListener\\('offline'/);
-  assert.match(component, /addEventListener\\('online'/);
-  assert.match(component, /removeEventListener\\('offline'/);
-  assert.match(component, /removeEventListener\\('online'/);
+  assert.match(component, /addEventListener\('offline'/);
+  assert.match(component, /addEventListener\('online'/);
+  assert.match(component, /removeEventListener\('offline'/);
+  assert.match(component, /removeEventListener\('online'/);
   assert.match(component, /aria-live="polite"/);
   assert.match(component, /You're offline/);
   assert.match(component, /You're back online!/);
@@ -70,7 +70,7 @@ test('ConnectivityToast owns accessible online and offline notifications', () =>
 
 test('connectivity notification is mounted globally alongside the PWA install prompt', () => {
   const app = read('src/App.jsx');
-  assert.match(app, /import ConnectivityToast from '.\\/components\\/ConnectivityToast'/);
+  assert.match(app, /import ConnectivityToast from '.\/components\/ConnectivityToast'/);
   assert.match(app, /<PWAStatus \/>/);
   assert.match(app, /<ConnectivityToast \/>/);
 });
