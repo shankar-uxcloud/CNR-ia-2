@@ -1,6 +1,6 @@
 # Academic Resource Vault 2.0
 
-The vault is a static, public resource catalogue for CNR-IA-2. The React application is hosted on GitHub Pages; PDF files remain in Google Drive. No Supabase, database, server, or authentication service is required.
+The vault is a static, public resource catalogue for CNR-IA-2. The React application is hosted on GitHub Pages; repository-hosted PDF, PPTX and DOCX files can be registered alongside public Google Drive resources. No Supabase, database, server, or authentication service is required.
 
 ## Organize files in Drive
 
@@ -10,13 +10,13 @@ Use both dimensions:
 
 A shared master folder is also acceptable if every catalogue record has accurate module and category metadata.
 
-## Publish a PDF
+## Publish a PDF, presentation or document
 
-1. Upload the PDF to the correct Drive folder.
+1. Upload the PDF, PowerPoint presentation or Word document to the correct Drive folder, or place it under the matching `public/resources/` folder in the repository.
 2. Open Share → General access.
 3. Set access to **Anyone with the link** and role to **Viewer**.
 4. Copy the share URL.
-5. Add a record to `src/data/resourceCatalog.js`:
+5. Add a record to `src/data/resourceCatalog.js`. For repository files, use `repositoryPath` relative to `public/`; set `fileType` to `pdf`, `pptx` or `docx`:
 
 ```js
 {
@@ -32,9 +32,9 @@ A shared master folder is also acceptable if every catalogue record has accurate
 }
 ```
 
-Allowed categories: `notes`, `pyqs`, `mqps`, `assignments`, `reference`.
+Allowed categories: `notes`, `presentations`, `pyqs`, `mqps`, `assignments`, `reference`. PDF files can be previewed in the vault. PPTX and DOCX files open as their original files and may download depending on the browser.
 
-Commit the catalogue change to the repository. GitHub Pages will publish the updated catalogue through the existing deployment workflow. The vault reads metadata from the static catalogue and opens the corresponding Drive preview or file page.
+Commit the catalogue change to the repository. GitHub Pages will publish the updated catalogue through the existing deployment workflow. The vault reads metadata from the static catalogue, previews PDFs, and opens repository-hosted PPTX/DOCX files or corresponding Drive file pages.
 
 ## Student data
 
