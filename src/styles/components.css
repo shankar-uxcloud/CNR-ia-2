@@ -1599,3 +1599,28 @@ aside nav a[aria-current='page']::after {
   :root[data-ui-mode='holographic'] body { background-attachment: scroll; }
   :root[data-ui-mode='holographic'] .card::after { animation: none; }
 }
+
+
+/* Smart connectivity toasts: transient, theme-aware and non-blocking. */
+.connection-toast {
+  position: fixed; z-index: 100; top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right));
+  display: flex; align-items: center; gap: 11px; width: min(390px, calc(100vw - 2rem)); padding: 13px 14px;
+  color: var(--text-primary); background: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
+  border: 1px solid var(--border-active); border-radius: 15px;
+  box-shadow: 0 14px 38px rgb(0 0 0 / .2), 0 0 24px color-mix(in srgb, var(--cyber-accent) 10%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+  animation: connection-toast-in 240ms cubic-bezier(.2,.8,.2,1) both; pointer-events: auto;
+}
+.connection-toast[data-state='offline'] > svg { color: var(--text-muted); }
+.connection-toast[data-state='online'] > svg { color: var(--cyber-accent); }
+.connection-toast > svg { flex: 0 0 auto; }
+.connection-toast > span { display: grid; gap: 3px; min-width: 0; }
+.connection-toast strong { font-size: 13px; font-weight: 750; }
+.connection-toast small { color: var(--text-secondary); font-size: 11px; line-height: 1.4; }
+.connection-toast-dismiss { display: grid; flex: 0 0 auto; width: 27px; height: 27px; place-items: center; margin-left: auto; border-radius: 8px; color: var(--text-muted); }
+.connection-toast-dismiss:hover { color: var(--text-primary); background: var(--surface-secondary); }
+@keyframes connection-toast-in { from { opacity: 0; transform: translate3d(0,-9px,0) scale(.985); } to { opacity: 1; transform: translate3d(0,0,0) scale(1); } }
+@media (max-width: 640px) { .connection-toast { top: max(12px, env(safe-area-inset-top)); right: 12px; left: 12px; width: auto; } }
+@media (prefers-reduced-motion: reduce) { .connection-toast { animation: none; } }
+@media (prefers-reduced-transparency: reduce) { .connection-toast { background: var(--surface-elevated); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+@media (forced-colors: active) { .connection-toast { color: CanvasText; background: Canvas; border: 1px solid CanvasText; box-shadow: none; } }
