@@ -7,6 +7,10 @@ const getRepositoryUrl = (resource) => resource.repositoryPath
   ? `${import.meta.env.BASE_URL}${resource.repositoryPath.split('/').map(encodeURIComponent).join('/')}`
   : null;
 
+const getResourceType = (resource) => (resource.fileType || resource.repositoryPath?.split('.').pop() || 'pdf').toLowerCase();
+const isPdf = (resource) => getResourceType(resource) === 'pdf';
+const getOpenLabel = (resource) => ({ pptx: 'Open presentation', docx: 'Open Word document' }[getResourceType(resource)] || 'Open resource');
+
 const BOOKMARK_KEY = 'cnr-resource-vault-bookmarks-v1';
 const RECENT_KEY = 'cnr-resource-vault-recent-v1';
 const readList = (key) => { try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } };
@@ -53,14 +57,14 @@ export default function ResourceVault() {
     <p className="eyebrow">CNR-IA-2 · RESOURCE SYSTEM</p>
     <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
       <div><h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Academic Resource Vault</h1>
-        <p className="mt-2 max-w-2xl text-mute">One searchable library for notes, PYQs, model papers and assignments — hosted in this website's public repository or Google Drive, with no application backend.</p></div>
+        <p className="mt-2 max-w-2xl text-mute">One searchable library for module notes, presentations, question papers, model papers and syllabus documents — hosted in this website's public repository or Google Drive, with no application backend.</p></div>
       <div className="rounded-2xl border border-line bg-panel px-4 py-3"><p className="text-xs text-mute">Published resources</p><p className="text-2xl font-bold tabular-nums">{DRIVE_RESOURCES.length}</p></div>
     </div>
 
     <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Vault features">
       <div className="card flex items-center gap-3 p-4"><FolderOpen className="text-brand" size={20}/><div><p className="font-semibold">Module-wise</p><p className="text-xs text-mute">M1–M5 organization</p></div></div>
       <div className="card flex items-center gap-3 p-4"><FileText className="text-brand" size={20}/><div><p className="font-semibold">Category-wise</p><p className="text-xs text-mute">Notes, PYQs, MQPs, more</p></div></div>
-      <div className="card flex items-center gap-3 p-4"><ShieldCheck className="text-brand" size={20}/><div><p className="font-semibold">PDF viewing</p><p className="text-xs text-mute">Preview in the website</p></div></div>
+      <div className="card flex items-center gap-3 p-4"><ShieldCheck className="text-brand" size={20}/><div><p className="font-semibold">Multiple formats</p><p className="text-xs text-mute">PDF, PPTX and DOCX resources</p></div></div>
     </section>
 
     <section className="mt-7 card p-4 sm:p-5" aria-label="Resource filters">
@@ -79,27 +83,27 @@ export default function ResourceVault() {
           <button type="button" onClick={() => toggleBookmark(item.id)} aria-label={bookmarks.includes(item.id) ? 'Remove saved resource' : 'Save resource'} aria-pressed={bookmarks.includes(item.id)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line hover:bg-sunk"><Bookmark size={17} fill={bookmarks.includes(item.id) ? 'currentColor' : 'none'}/></button></div>
         <h2 className="mt-3 text-lg font-bold">{item.title}</h2><p className="mt-1 text-sm text-mute">{item.description}</p>
         <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}</div>
-        <div className="mt-auto flex flex-wrap gap-2 pt-5"><button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview PDF</button>{getRepositoryUrl(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open repository PDF</button>}{driveLink(item) && <button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive PDF</button>}</div>
+        <div className="mt-auto flex flex-wrap gap-2 pt-5">{isPdf(item) && <button type="button" onClick={() => setSelected(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Preview PDF</button>}{getRepositoryUrl(item) && !isPdf(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> {getOpenLabel(item)}</button>}{getRepositoryUrl(item) && isPdf(item) && <button type="button" onClick={() => openResource(item, 'open', 'repository')} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open repository PDF</button>}{driveLink(item) && <button type="button" onClick={() => openResource(item)} className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open Drive file</button>}</div>
       </article>)}
     </section> : <section className="card mt-5 p-8 text-center">
       <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 text-brand"><FileText size={26}/></div>
       <h2 className="mt-4 text-xl font-bold">{DRIVE_RESOURCES.length ? 'No matching resources' : 'Your resource library is ready'}</h2>
-      <p className="mx-auto mt-2 max-w-xl text-sm text-mute">{DRIVE_RESOURCES.length ? 'Try changing the search or filters.' : 'No PDFs have been added to the resource catalogue yet. Uploaded repository PDFs and public Drive PDFs appear here once registered.'}</p>
+      <p className="mx-auto mt-2 max-w-xl text-sm text-mute">{DRIVE_RESOURCES.length ? 'Try changing the search or filters.' : 'No resources have been added to the catalogue yet. Uploaded PDFs, presentations and documents appear here once registered.'}</p>
       {(search || moduleFilter !== 'all' || categoryFilter !== 'all' || savedOnly) && <button type="button" onClick={() => {setSearch('');setModuleFilter('all');setCategoryFilter('all');setSavedOnly(false);}} className="btn-quiet mt-4">Clear filters</button>}
     </section>}
 
     {recent.length > 0 && <p className="mt-5 text-xs text-mute">Recently opened: {recent.map((id) => DRIVE_RESOURCES.find((item) => item.id === id)?.title).filter(Boolean).join(' · ')}</p>}
 
     <section className="mt-8 rounded-2xl border border-line bg-sunk/60 p-5">
-      <h2 className="font-bold">How PDFs are published</h2>
-      <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-mute"><li>Upload PDFs under <code>public/resources/</code> in the appropriate module or resource folder, or use a public Google Drive link.</li><li>Add each file's title, module, category and repository path or Drive URL to <code>src/data/resourceCatalog.js</code>.</li><li>For Drive files, set General access to <strong>Anyone with the link</strong> and role to <strong>Viewer</strong>.</li><li>Commit the files and catalogue; GitHub Pages rebuilds and publishes the searchable PDF library.</li></ol>
-      <p className="mt-3 text-xs text-mute">Public links can be forwarded. Viewer settings do not guarantee that a PDF cannot be copied, screenshotted or downloaded.</p>
+      <h2 className="font-bold">How resources are published</h2>
+      <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-mute"><li>Upload supported files (PDF, PPTX or DOCX) under <code>public/resources/</code> in the appropriate module or resource folder, or use a public Google Drive link.</li><li>Add each file's title, module, category, file type and repository path or Drive URL to <code>src/data/resourceCatalog.js</code>.</li><li>For Drive files, set General access to <strong>Anyone with the link</strong> and role to <strong>Viewer</strong>.</li><li>Commit the files and catalogue; GitHub Pages rebuilds and publishes the searchable resource library.</li></ol>
+      <p className="mt-3 text-xs text-mute">PDF files can be previewed in the vault. PPTX and DOCX files open as their original files and may download depending on the browser. Public links can be forwarded. Viewer settings do not prevent public files from being copied, screenshotted or downloaded.</p>
     </section>
 
     {selected && <div className="fixed inset-0 z-[80] grid place-items-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title" onMouseDown={(e) => {if (e.target === e.currentTarget) setSelected(null);}}>
       <div className="w-full max-w-lg rounded-2xl border border-line bg-panel p-5 shadow-lift"><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">RESOURCE DETAILS</p><h2 id="resource-dialog-title" className="mt-1 text-xl font-bold">{selected.title}</h2></div><button onClick={() => setSelected(null)} aria-label="Close details" className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18}/></button></div>
         <p className="mt-3 text-sm text-mute">{selected.description}</p><div className="mt-3 text-sm">Module {selected.module} · {RESOURCE_CATEGORIES.find((cat) => cat.id === selected.category)?.label || selected.category}</div>
-        {(getRepositoryUrl(selected) || getDriveFileId(selected.driveUrl || selected.url)) && <iframe title={`PDF preview: ${selected.title}`} src={getRepositoryUrl(selected) || getDrivePreviewUrl(getDriveFileId(selected.driveUrl || selected.url))} className="mt-4 h-[55vh] min-h-72 w-full rounded-xl border border-line bg-white" allow="autoplay" />}
+        {isPdf(selected) && (getRepositoryUrl(selected) || getDriveFileId(selected.driveUrl || selected.url)) && <iframe title={`PDF preview: ${selected.title}`} src={getRepositoryUrl(selected) || getDrivePreviewUrl(getDriveFileId(selected.driveUrl || selected.url))} className="mt-4 h-[55vh] min-h-72 w-full rounded-xl border border-line bg-white" allow="autoplay" />}
         <div className="mt-5 flex flex-wrap gap-2">{getRepositoryUrl(selected) && <button onClick={() => openResource(selected, 'open', 'repository')} className="btn-primary">Open repository PDF</button>}{driveLink(selected, 'preview') && <button onClick={() => openResource(selected, 'preview')} className="btn-quiet">Preview on Google Drive</button>}</div>
       </div>
     </div>}
