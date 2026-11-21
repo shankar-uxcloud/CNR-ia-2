@@ -7,14 +7,14 @@ const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), '
 test('study coach is routed and available in the primary navigation', () => {
   const app = read('src/App.jsx');
   const shell = read('src/components/Shell.jsx');
-  assert.match(app, /import\\('\.\\/pages\\/StudyCoach'\\)/);
-  assert.match(app, /path === '\\/study-coach'/);
+  assert.match(app, /import\('\.\/pages\/StudyCoach'\)/);
+  assert.match(app, /path === '\/study-coach'/);
   assert.match(shell, /AI Study Coach/);
 });
 
 test('study coach uses the local BCV755B source answer bank and explains its scoring limits', () => {
   const coach = read('src/pages/StudyCoach.jsx');
-  assert.match(coach, /question\\.answer\\?\\.keywords/);
+  assert.match(coach, /question\.answer\?\.keywords/);
   assert.match(coach, /sectionSummary/);
   assert.match(coach, /not an AI-graded VTU mark/);
   assert.match(coach, /No external AI service or API key is connected/);
@@ -60,14 +60,14 @@ test('study progress can be exported and safely restored from a versioned local 
   const page = read('src/pages/DataBackup.jsx');
   const app = read('src/App.jsx');
   const shell = read('src/components/Shell.jsx');
-  assert.match(store, /exportBackup: \\(\\) => JSON\\.stringify/);
-  assert.match(store, /backup\\?\\.app !== 'vtu-examprep'/);
-  assert.match(store, /backup\\?\\.version !== 1/);
-  assert.match(store, /importBackup: \\(raw\\)/);
-  assert.match(page, /URL\\.createObjectURL/);
-  assert.match(page, /window\\.confirm/);
-  assert.match(page, /5 \\* 1024 \\* 1024/);
-  assert.match(app, /path === '\\/data-backup'/);
+  assert.match(store, /exportBackup: \(\) => JSON\.stringify/);
+  assert.match(store, /backup\?\.app !== 'vtu-examprep'/);
+  assert.match(store, /backup\?\.version !== 1/);
+  assert.match(store, /importBackup: \(raw\)/);
+  assert.match(page, /URL\.createObjectURL/);
+  assert.match(page, /window\.confirm/);
+  assert.match(page, /5 \* 1024 \* 1024/);
+  assert.match(app, /path === '\/data-backup'/);
   assert.match(shell, /Backup & Restore/);
 });
 
@@ -76,8 +76,8 @@ test('Planet Pulse adds an interactive environmental explorer to the dashboard',
   const dashboard = read('src/pages/Dashboard.jsx');
   const explorer = read('src/components/PlanetPulse.jsx');
   const styles = read('src/components/PlanetPulse.css');
-  assert.match(dashboard, /import PlanetPulse from '..\\/components\\/PlanetPulse'/);
-  assert.match(dashboard, /<PlanetPulse \\/>/);
+  assert.match(dashboard, /import PlanetPulse from '..\/components\/PlanetPulse'/);
+  assert.match(dashboard, /<PlanetPulse \/>/);
   assert.match(explorer, /CNR PLANET PULSE/);
   assert.match(explorer, /aria-pressed={active === id}/);
   assert.match(explorer, /Forest systems/);
