@@ -6,6 +6,7 @@ import './styles/tokens.css';
 import './styles/themes.css';
 import './styles/components.css';
 import './styles/utilities.css';
+import './styles/responsive.css';
 
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   // When a new deployment activates, immediately leave any document still running
