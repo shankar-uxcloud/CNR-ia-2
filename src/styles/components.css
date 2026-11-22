@@ -1646,7 +1646,7 @@ aside nav a[aria-current='page']::after {
   border-radius: 11px;
   padding: 8px 11px;
   color: var(--text-primary);
-  background: var(--surface, transparent);
+  background: var(--surface-primary, transparent);
   font-size: 13px;
   font-weight: 700;
   transition: border-color .18s ease, background-color .18s ease, transform .18s ease;
@@ -1683,7 +1683,7 @@ aside nav a[aria-current='page']::after {
   font-weight: 800;
   letter-spacing: .07em;
 }
-.study-page .study-card {
+.study-page .card {
   border-color: color-mix(in srgb, var(--border-color) 82%, var(--cyber-accent) 18%);
   box-shadow: 0 5px 22px rgba(15, 23, 42, .035);
 }
@@ -1729,7 +1729,7 @@ aside nav a[aria-current='page']::after {
   .study-page .study-reset-button span {
     display: none;
   }
-  .study-page .study-card {
+  .study-page .card {
     border-radius: 16px;
   }
 }
@@ -1749,8 +1749,31 @@ aside nav a[aria-current='page']::after {
     max-width: none !important;
     padding: 0 !important;
   }
-  .study-page .study-card {
+  .study-page .card {
     break-inside: avoid;
     box-shadow: none;
   }
+}
+
+.study-page h1,
+.study-page h2,
+.study-page h3,
+.study-page h4 {
+  text-wrap: pretty;
+}
+.study-page h1 {
+  font-size: calc(2.15rem * var(--study-font-scale)) !important;
+  line-height: 1.2;
+}
+.study-page h2 {
+  font-size: calc(1.45rem * var(--study-font-scale)) !important;
+  line-height: 1.35;
+}
+.study-page h3 {
+  font-size: calc(1.2rem * var(--study-font-scale)) !important;
+  line-height: 1.45;
+}
+.study-page h4 {
+  font-size: calc(1.08rem * var(--study-font-scale)) !important;
+  line-height: 1.5;
 }
