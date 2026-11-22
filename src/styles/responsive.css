@@ -322,3 +322,279 @@ main {
     box-shadow: none;
   }
 }
+
+
+/* Production mobile-first refinement: shared layout primitives, viewport safety,
+   readable academic content and predictable touch interactions. */
+:root {
+  --page-max-width: 1440px;
+  --page-reading-gutter: clamp(.875rem, 3.2vw, 2rem);
+  --section-space: clamp(1.25rem, 3.5vw, 2.5rem);
+  --card-space: clamp(1rem, 2.5vw, 1.5rem);
+  --mobile-safe-bottom: max(.875rem, env(safe-area-inset-bottom, 0px));
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-block-start: calc(var(--mobile-header-height) + env(safe-area-inset-top, 0px) + .75rem);
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+.page-enter {
+  width: 100%;
+  min-height: 1px;
+  padding-bottom: var(--mobile-safe-bottom);
+}
+
+.page-enter :where(.card, article, section, aside, main) {
+  min-width: 0;
+}
+
+.page-enter :where(.card) {
+  overflow-wrap: anywhere;
+}
+
+.page-enter :where(.card > :last-child) {
+  max-width: 100%;
+}
+
+.page-enter :where(button, a, input, select, textarea, summary) {
+  scroll-margin-block: .75rem;
+}
+
+.page-enter :where(button, a) {
+  -webkit-touch-callout: none;
+}
+
+.page-enter :where(img, video, iframe, canvas) {
+  max-inline-size: 100%;
+}
+
+.page-enter :where(svg) {
+  flex-shrink: 0;
+}
+
+.page-enter :where(.reading) {
+  margin-inline: auto;
+  font-size: clamp(1rem, 1rem + .18vw, var(--read-size, 18px));
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+.page-enter :where(.reading h1, .reading h2, .reading h3, .reading h4) {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.page-enter :where(.reading pre, pre) {
+  white-space: pre;
+  tab-size: 2;
+}
+
+.page-enter :where(.reading table, table) {
+  max-inline-size: 100%;
+}
+
+.page-enter :where(.diagram-frame, .diagram-scroll) {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+.page-enter :where(.diagram-frame svg, .diagram-scroll svg) {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+.topbar {
+  padding-block-start: env(safe-area-inset-top, 0px);
+  min-height: calc(var(--mobile-header-height) + env(safe-area-inset-top, 0px));
+  z-index: 30;
+}
+
+.mobile-navigation-dialog {
+  padding-block-start: env(safe-area-inset-top, 0px);
+  padding-block-end: env(safe-area-inset-bottom, 0px);
+  overscroll-behavior: contain;
+}
+
+.mobile-navigation-dialog > button[aria-label="Close navigation menu"] {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mobile-navigation-drawer {
+  max-height: 100%;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-block-end: max(.75rem, env(safe-area-inset-bottom, 0px));
+}
+
+.mobile-navigation-drawer nav a {
+  min-height: var(--control-hit-area);
+  padding-block: .65rem;
+  line-height: 1.35;
+}
+
+[role="dialog"],
+[role="alertdialog"] {
+  max-block-size: calc(100vh - 2rem);
+  max-block-size: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.connectivity-toast {
+  max-inline-size: min(24rem, calc(100vw - 2rem));
+  max-inline-size: min(24rem, calc(100dvw - 2rem));
+}
+
+.fab {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 639px) {
+  html, body {
+    width: 100%;
+    min-width: 320px;
+  }
+
+  .topbar {
+    padding-inline: max(.625rem, env(safe-area-inset-left, 0px)) max(.625rem, env(safe-area-inset-right, 0px));
+  }
+
+  .page-enter {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .page-enter > .mx-auto[class*="max-w-"] {
+    max-width: 100%;
+  }
+
+  .page-enter :where(h1) {
+    font-size: clamp(1.55rem, 7vw, 2.15rem);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+  }
+
+  .page-enter :where(h2) {
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .page-enter :where(.card) {
+    border-radius: clamp(.875rem, 3vw, 1.125rem);
+  }
+
+  .page-enter :where(.reading) {
+    font-size: clamp(1rem, 4vw, 1.125rem);
+    line-height: 1.76;
+  }
+
+  .page-enter :where(.reading p, .reading li) {
+    line-height: 1.78;
+  }
+
+  .page-enter :where(.reading table) {
+    font-size: .82rem;
+  }
+
+  .page-enter :where(.reading th, .reading td) {
+    min-width: 6.5rem;
+    padding: .55rem .65rem;
+  }
+
+  .page-enter :where(button, .btn, .btn-primary, .btn-quiet, .btn-ghost, .btn-secondary, a.chip, summary) {
+    min-block-size: var(--control-hit-area);
+  }
+
+  .page-enter :where(input, select, textarea) {
+    min-block-size: 44px;
+    font-size: 16px;
+  }
+
+  .page-enter :where(.flex.gap-2, .flex.gap-3) {
+    row-gap: .625rem;
+  }
+
+  .mobile-navigation-drawer {
+    width: min(21rem, calc(100vw - 2.25rem));
+    width: min(21rem, calc(100dvw - 2.25rem));
+  }
+
+  .mobile-navigation-dialog > button[aria-label="Close navigation menu"] {
+    min-inline-size: 100%;
+    min-block-size: 100%;
+  }
+
+  .fab {
+    right: max(.875rem, env(safe-area-inset-right, 0px));
+    bottom: max(.875rem, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (min-width: 640px) {
+  .page-enter > .mx-auto[class*="max-w-"] {
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-enter > .mx-auto[class*="max-w-"] {
+    max-width: min(100% - 4rem, var(--page-max-width));
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .page-enter :where(button, a, summary, [role="button"]) {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .page-enter :where(button:active, a:active, [role="button"]:active) {
+    transform: scale(.985);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .page-enter :where(*, *::before, *::after) {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .topbar,
+  .connectivity-toast,
+  .appearance-dropdown-panel {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .mobile-navigation-drawer,
+  .connectivity-toast,
+  [role="dialog"] {
+    border: 1px solid CanvasText;
+  }
+}
