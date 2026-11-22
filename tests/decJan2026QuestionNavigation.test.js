@@ -54,3 +54,19 @@ test('the combined paper navigator has 20 unique question/subquestion anchors', 
   assert.ok(generatedIds.includes('q10-a'));
   assert.ok(generatedIds.includes('q10-b'));
 });
+
+test('question groups render horizontally while keeping each label and its tags together', () => {
+  assert.match(page, /className="question-nav-groups mt-3"/);
+  assert.match(page, /className="question-nav-group"/);
+  assert.match(page, /className="question-nav-tags"/);
+  assert.match(styles, /\.question-nav-groups \{[\s\S]*?flex-wrap: wrap/);
+  assert.match(styles, /\.question-nav-group \{[\s\S]*?flex-wrap: nowrap/);
+  assert.match(styles, /\.question-nav-tags \{[\s\S]*?flex-wrap: nowrap/);
+  assert.doesNotMatch(page, /question-nav-groups mt-4 space-y-3/);
+});
+
+test('mobile question groups wrap without forcing page-level horizontal scrolling', () => {
+  assert.match(styles, /@media \(max-width: 639px\)[\s\S]*?\.question-nav-groups/);
+  assert.match(styles, /\.question-nav-chip \{ min-width: 3\.1rem; min-height: 2\.65rem/);
+  assert.match(styles, /column-gap: \.5rem; row-gap: \.65rem/);
+});
