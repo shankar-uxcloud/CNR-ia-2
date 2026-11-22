@@ -337,5 +337,6 @@ export default function DecJan2026() {
       ))}
     </section>
     <div className="mt-8 rounded-2xl border border-line p-5 text-sm text-mute"><strong className="text-[var(--text-primary)]">Next:</strong> Additional December 2025 / January 2026 questions will be added to their corresponding modules as their answers are prepared and source-checked.</div>
+    <button type="button" className="question-nav-return" aria-label="Return to question navigator" onClick={() => document.getElementById('question-navigator')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>↑ Questions</button>
   </main>;
 }
