@@ -10,12 +10,15 @@ const coreQuestionNavItems = [
   { id: 'q3-a', label: '3)a)', question: 'Global water resources', module: 'Module 2 · Water' },
   { id: 'q3-b', label: '3)b)', question: 'Inter-basin water transfer in India', module: 'Module 2 · Water' },
 ];
-const questionNavItems = [...coreQuestionNavItems, ...additionalDecJanAnswers.map((answer) => ({
-  id: 'q' + answer.id[0] + '-' + answer.id[1],
-  label: answer.id[0] + ')' + answer.id[1] + ')',
-  question: answer.question,
-  module: 'Module ' + answer.module + ' · ' + moduleNames[answer.module],
-}))];
+const questionNavItems = [...coreQuestionNavItems, ...additionalDecJanAnswers.map((answer) => {
+  const [, questionNumber, subQuestion] = answer.id.match(/^(\\d+)([a-z])$/);
+  return {
+    id: 'q' + questionNumber + '-' + subQuestion,
+    label: questionNumber + ')' + subQuestion + ')',
+    question: answer.question,
+    module: 'Module ' + answer.module + ' · ' + moduleNames[answer.module],
+  };
+})];
 
 const sections = [
   {
@@ -248,7 +251,7 @@ export default function DecJan2026() {
         <strong className="text-[var(--text-primary)]">Verified evaluation-scheme alignment:</strong> The mark splits and required answer points shown under each question are transcribed from the supplied VTU BCV755B Scheme &amp; Solutions pages (viewer pages 4–8). Follow the stated split while writing the answer. The study schematics are original revision aids, not numbered figures copied from the prescribed PDFs. Source-PDF page and figure numbers are shown only where independently verified.
       </div>
       {additionalDecJanAnswers.map((answer) => (
-        <article key={answer.id} id={`q${answer.id[0]}-${answer.id[1]}`} data-question-anchor className="question-answer-anchor border-t border-line pt-7 space-y-5">
+        <article key={answer.id} id={`q${answer.id.match(/^(\\d+)([a-z])$/)?.[1]}-${answer.id.match(/^(\\d+)([a-z])$/)?.[2]}`} data-question-anchor className="question-answer-anchor border-t border-line pt-7 space-y-5">
           <header className="flex items-start gap-3">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand/10 font-extrabold text-brand">Q{answer.id}</span>
             <div className="min-w-0"><p className="eyebrow">10 MARKS · MODULE {answer.module}: {moduleNames[answer.module]}</p><h2 className="mt-1 text-xl font-bold leading-snug">{answer.question}</h2></div>
