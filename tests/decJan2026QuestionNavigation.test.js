@@ -16,7 +16,7 @@ test('Q4–Q10 anchors are generated from the existing answer data IDs', () => {
   for (const id of ['4a', '4b', '5a', '5b', '6a', '6b', '7a', '7b', '8a', '8b', '9a', '9b', '10a', '10b']) {
     assert.ok(answers.includes("id:'" + id + "'"), 'Missing existing answer data: ' + id);
   }
-  assert.match(page, /id=\{`q\$\{answer\.id\[0\]\}-\$\{answer\.id\[1\]\}`\}/);
+  assert.match(page, /answer\\.id\\.match/);
   assert.match(page, /questionNavItems = \[\.\.\.coreQuestionNavItems, \.\.\.additionalDecJanAnswers\.map/);
 });
 
