@@ -40,13 +40,13 @@ test('question navigation controls are semantic, labelled and styled for keyboar
 });
 
 test('standalone question fragments resolve through the existing hash router', () => {
-  assert.ok(router.includes("if (/^q\\d+-[a-z]$/.test(path)) return '/dec-jan-2026';"));
+  assert.ok(router.includes("if (/^q[0-9]+-[a-z]$/.test(path)) return '/dec-jan-2026';"));
 });
 
 test('the combined paper navigator has 20 unique question/subquestion anchors', () => {
-  const dataIds = [...answers.matchAll(/\\bid:'(\\d+[a-z])'/g)].map((match) => match[1]);
+  const dataIds = [...answers.matchAll(/id:'([0-9]+[a-z])'/g)].map((match) => match[1]);
   const generatedIds = ['q1-a', 'q1-b', 'q2-a', 'q2-b', 'q3-a', 'q3-b', ...dataIds.map((id) => {
-    const [, number, part] = id.match(/^(\\d+)([a-z])$/);
+    const [, number, part] = id.match(/^([0-9]+)([a-z])$/);
     return 'q' + number + '-' + part;
   })];
   assert.equal(generatedIds.length, 20);
