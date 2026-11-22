@@ -398,3 +398,27 @@ aside nav[aria-label='Primary'] > div:last-child {
 @media print {
   .study-page .question-navigator { display: none !important; }
 }
+
+.study-page .question-nav-return {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 40;
+  min-height: 2.75rem;
+  border: 1px solid var(--border-active);
+  border-radius: 999px;
+  background: var(--surface-primary);
+  color: var(--cyber-accent);
+  padding: .65rem 1rem;
+  font-size: .8rem;
+  font-weight: 800;
+  box-shadow: 0 8px 28px rgb(0 0 0 / .18);
+  backdrop-filter: blur(14px);
+}
+.study-page .question-nav-return:focus-visible {
+  outline: 3px solid var(--cyber-accent);
+  outline-offset: 3px;
+}
+@media print {
+  .study-page .question-nav-return { display: none !important; }
+}
