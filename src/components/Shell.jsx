@@ -155,6 +155,7 @@ function Nav({ path, onNavigate }) {
     { to: '/learning-hub', label: 'Learning Hub', icon: BookOpenText },
     { to: '/resources', label: 'Academic Resource Vault', icon: FileText },
     { to: '/mqps', label: 'Model Question Papers', icon: FileText },
+    { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', icon: FileText },
     { to: '/welcome', label: 'Welcome & Platform Tour', icon: Sparkles },
     { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
     { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
