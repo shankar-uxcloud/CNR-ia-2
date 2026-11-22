@@ -231,7 +231,7 @@ export default function Shell({ path, children }) {
       drawerRef.current?.querySelectorAll(
         'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
       ) || [],
-    ).filter((element) => element.getAttribute('aria-hidden') !== 'true');
+    ).filter((element) => element.getAttribute('aria-hidden') !== 'true' && !element.hasAttribute('data-drawer-backdrop'));
 
     getFocusable()[0]?.focus();
 
@@ -283,7 +283,7 @@ export default function Shell({ path, children }) {
 
       {open && (
         <div id="mobile-navigation-dialog" className="mobile-navigation-dialog fixed inset-0 z-50 lg:hidden no-print" role="dialog" aria-modal="true" aria-label="Navigation menu">
-          <button type="button" aria-label="Close navigation menu" className="absolute inset-0 h-full w-full cursor-default bg-black/60" onClick={() => setOpen(false)} />
+          <button type="button" aria-label="Close navigation menu" data-drawer-backdrop tabIndex={-1} className="absolute inset-0 h-full w-full cursor-default bg-black/60" onClick={() => setOpen(false)} />
           <div ref={drawerRef} tabIndex={-1} className="mobile-navigation-drawer absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
             <Nav path={path} onNavigate={() => setOpen(false)} />
