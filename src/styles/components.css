@@ -1624,3 +1624,133 @@ aside nav a[aria-current='page']::after {
 @media (prefers-reduced-motion: reduce) { .connection-toast { animation: none; } }
 @media (prefers-reduced-transparency: reduce) { .connection-toast { background: var(--surface-elevated); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 @media (forced-colors: active) { .connection-toast { color: CanvasText; background: Canvas; border: 1px solid CanvasText; box-shadow: none; } }
+
+
+/* VTU question-paper study reading experience */
+.study-page {
+  --study-font-scale: 1;
+  --study-ink: var(--text-primary);
+  color: var(--study-ink);
+}
+.study-page .study-reading-tools {
+  border: 1px solid var(--border-color);
+  background: linear-gradient(135deg, var(--surface, transparent), var(--surface-secondary, transparent));
+}
+.study-page .study-size-button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 11px;
+  padding: 8px 11px;
+  color: var(--text-primary);
+  background: var(--surface, transparent);
+  font-size: 13px;
+  font-weight: 700;
+  transition: border-color .18s ease, background-color .18s ease, transform .18s ease;
+}
+.study-page .study-size-button:hover:not(:disabled) {
+  border-color: var(--color-brand, var(--brand));
+  background: var(--surface-secondary, transparent);
+  transform: translateY(-1px);
+}
+.study-page .study-size-button:focus-visible {
+  outline: 3px solid var(--color-brand, var(--brand));
+  outline-offset: 2px;
+}
+.study-page .study-size-button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.study-page .study-size-value {
+  min-width: 48px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.study-page .study-marks {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-brand, var(--brand)) 35%, transparent);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--color-brand, var(--brand));
+  background: color-mix(in srgb, var(--color-brand, var(--brand)) 9%, transparent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .07em;
+}
+.study-page .study-card {
+  border-color: color-mix(in srgb, var(--border-color) 82%, var(--color-brand, var(--brand)) 18%);
+  box-shadow: 0 5px 22px rgba(15, 23, 42, .035);
+}
+.study-page .study-section-title {
+  color: var(--text-primary);
+  letter-spacing: -.018em;
+  text-wrap: pretty;
+}
+.study-page .study-subtitle {
+  color: var(--text-primary);
+  font-size: calc(1rem * var(--study-font-scale));
+  line-height: 1.5;
+}
+.study-page .study-points > li {
+  padding-left: 2px;
+}
+.study-page .study-points > li::marker {
+  color: var(--color-brand, var(--brand));
+  font-weight: 800;
+}
+.study-page p,
+.study-page li {
+  font-size: calc(1rem * var(--study-font-scale)) !important;
+  line-height: 1.82 !important;
+}
+.study-page .eyebrow,
+.study-page .study-marks,
+.study-page .study-size-value {
+  letter-spacing: .055em;
+}
+.study-page .study-question-title {
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+@media (max-width: 640px) {
+  .study-page .study-reading-tools > div {
+    align-items: flex-start;
+  }
+  .study-page .study-size-button {
+    min-width: 40px;
+    padding: 8px 9px;
+  }
+  .study-page .study-reset-button span {
+    display: none;
+  }
+  .study-page .study-card {
+    border-radius: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .study-page .study-size-button {
+    transition: none;
+  }
+  .study-page .study-size-button:hover:not(:disabled) {
+    transform: none;
+  }
+}
+@media print {
+  .study-page .study-reading-tools {
+    display: none !important;
+  }
+  .study-page {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .study-page .study-card {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}
