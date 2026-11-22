@@ -19,9 +19,9 @@ export const additionalDecJanAnswers = [
  ['Storage and infrastructure','The availability of reservoirs, tanks, canals and groundwater recharge structures affects how much water can be stored and used during dry periods.']
  ]},
  {title:'3. Examples of comparatively surplus and deficit basins',points:[
- ['Comparatively surplus / donor basins cited in the course notes','Mahanadi and Godavari are commonly discussed as potential donor basins in river-linking studies.'],
- ['Comparatively deficit / recipient basins cited in the course notes','Krishna, Pennar, Cauvery and Vaigai are commonly discussed as basins facing water stress in parts of their command areas.'],
- ['Interpretation','These are examples used in inter-basin transfer discussions, not a claim that every sub-basin or every season has the same status. Actual transfer feasibility requires updated basin water accounts and environmental-flow assessment.']
+ ['Water-deficit basins (scheme examples)','Cauvery, Krishna and Pennar are the deficit basins specifically named in the supplied VTU evaluation scheme.'],
+ ['Water-surplus basins (scheme examples)','Brahmaputra, Ganga and Mahanadi are the surplus basins specifically named in the supplied VTU evaluation scheme.'],
+ ['Interpretation','These are the examples expected by the supplied scheme for this answer. Basin status can still vary by sub-basin, season and assessment method.']
  ]},
  {title:'4. Importance of identifying surplus and deficit basins',points:[
  ['Water planning','It helps planners compare dependable availability with present and projected demand.'],
@@ -39,7 +39,7 @@ export const additionalDecJanAnswers = [
  ]}
  ],
  diagram:'RAIN & RUNOFF → BASIN WATER ACCOUNTING → (A) ASSESSED SURPLUS BASIN  |  (B) ASSESSED DEFICIT BASIN → LOCAL CONSERVATION / DEMAND MANAGEMENT / CAREFULLY ASSESSED TRANSFER',
- conclusion:'Water-surplus and water-deficit classifications help explain India’s regional and seasonal water imbalance. Mahanadi and Godavari are cited as potential donor basins, while Krishna, Pennar, Cauvery and Vaigai are examples of deficit basins in interlinking discussions. Sustainable planning must first protect local needs and ecological flows, then combine conservation, efficient use, storage and only environmentally justified transfers.'
+ conclusion:'The supplied VTU scheme names Cauvery, Krishna and Pennar as water-deficit basins and Brahmaputra, Ganga and Mahanadi as water-surplus basins. Their identification supports inter-basin water-transfer planning, provided local needs and ecological flows are protected.'
 },
 {
  id:'4b',module:2,question:'Write a note on seawater ingress and list the methods used to reduce seawater ingress.',
