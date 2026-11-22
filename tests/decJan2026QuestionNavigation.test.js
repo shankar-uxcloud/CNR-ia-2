@@ -40,5 +40,5 @@ test('question navigation controls are semantic, labelled and styled for keyboar
 });
 
 test('standalone question fragments resolve through the existing hash router', () => {
-  assert.match(router, /if \(\/\^q\\\\d\+-\[a-z\]\$\/\.test\(path\)\) return '\/dec-jan-2026'/);
+  assert.ok(router.includes("if (/^q\\d+-[a-z]$/.test(path)) return '/dec-jan-2026';"));
 });
