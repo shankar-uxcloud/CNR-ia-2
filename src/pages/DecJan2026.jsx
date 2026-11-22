@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { additionalDecJanAnswers, moduleNames } from '../data/decJan2026Additional';
+import { evaluationScheme } from '../data/decJan2026Evaluation';
 import { ArrowLeft, BookOpen, CalendarDays, CheckCircle2, FileText, GraduationCap, Minus, Plus, RotateCcw, Type } from 'lucide-react';
 
 const sections = [
@@ -191,8 +192,8 @@ export default function DecJan2026() {
         <div><p className="eyebrow">DECEMBER 2025 / JANUARY 2026 · MODULES 2–5</p><h2 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">Complete question paper · Q4–Q10</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-mute">Detailed, exam-oriented study answers organised by syllabus module. Each answer includes an introduction, clearly numbered points, a revision schematic and a conclusion.</p></div>
         <span className="chip">14 additional answers</span>
       </div>
-      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm leading-6 text-mute">
-        <strong className="text-[var(--text-primary)]">Source and evaluation note:</strong> The module PDFs are listed in the website’s Academic Resource Vault, but their page images and exact pagination could not be verified while preparing this update. The evaluation-scheme images available in this work cover Q1–Q3 only. Therefore, no unverified PDF page numbers, source figure numbers or official mark splits are invented below. The diagrams labelled “revision schematic” are original study aids, not copied/numbered textbook figures. Please compare the final wording with the prescribed PDFs and the remaining scheme pages before treating it as a verified marking key.
+      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm leading-6 text-mute">
+        <strong className="text-[var(--text-primary)]">Verified evaluation-scheme alignment:</strong> The mark splits and required answer points shown under each question are transcribed from the supplied VTU BCV755B Scheme &amp; Solutions pages (viewer pages 4–8). Follow the stated split while writing the answer. The study schematics are original revision aids, not numbered figures copied from the prescribed PDFs. Source-PDF page and figure numbers are shown only where independently verified.
       </div>
       {additionalDecJanAnswers.map((answer) => (
         <article key={answer.id} id={`dec-jan-q${answer.id.replace(/[()]/g, '')}`} className="scroll-mt-24 border-t border-line pt-7 space-y-5">
@@ -200,6 +201,50 @@ export default function DecJan2026() {
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand/10 font-extrabold text-brand">Q{answer.id}</span>
             <div className="min-w-0"><p className="eyebrow">10 MARKS · MODULE {answer.module}: {moduleNames[answer.module]}</p><h2 className="mt-1 text-xl font-bold leading-snug">{answer.question}</h2></div>
           </header>
+          {evaluationScheme[answer.id] && (
+            <aside className="rounded-xl border border-brand/30 bg-brand/5 p-4 sm:p-5" aria-label={`Official evaluation scheme for question ${answer.id}`}>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="font-bold text-[var(--text-primary)]">VTU evaluation-scheme checklist</h3>
+                <span className="chip">{evaluationScheme[answer.id].marks} marks</span>
+              </div>
+              <ol className="mt-3 space-y-3">
+                {evaluationScheme[answer.id].requirements.map(([marks, requirement], index) => (
+                  <li key={`${answer.id}-scheme-${index}`} className="flex gap-3 text-sm leading-6 text-mute">
+                    <span className="mt-0.5 shrink-0 rounded-md border border-line bg-sunk px-2 py-0.5 text-xs font-bold text-[var(--text-primary)]">{marks}</span>
+                    <span>{requirement}</span>
+                  </li>
+                ))}
+              </ol>
+              {evaluationScheme[answer.id].naaqs && (
+                <div className="mt-4 overflow-x-auto">
+                  <h4 className="mb-2 font-semibold text-[var(--text-primary)]">NAAQS 2009 – key acceptable limits</h4>
+                  <table className="w-full min-w-[520px] border-collapse text-left text-xs">
+                    <thead><tr className="border-b border-line"><th className="p-2">Pollutant</th><th className="p-2">Limit (annual / short-term)</th><th className="p-2">Unit</th></tr></thead>
+                    <tbody>{evaluationScheme[answer.id].naaqs.map(([name, limit, unit]) => <tr key={name} className="border-b border-line/70"><td className="p-2 font-semibold">{name}</td><td className="p-2">{limit}</td><td className="p-2">{unit}</td></tr>)}</tbody>
+                  </table>
+                  <p className="mt-2 text-xs leading-5 text-mute">{evaluationScheme[answer.id].naaqsNote} Reference: <a className="text-brand underline" href="https://cpcb.nic.in/displaypdf.php?id=bWFudWFsLW1vbml0b3JpbmcvQVFJX05BTVBfUmVwX1NlcHRlbWJlcjIwMTYucGRm" target="_blank" rel="noreferrer">CPCB – Revised NAAQS notification</a>.</p>
+                </div>
+              )}
+              {evaluationScheme[answer.id].projects && (
+                <div className="mt-4">
+                  <h4 className="font-semibold text-[var(--text-primary)]">20+ individual project examples for Q9(b)</h4>
+                  <ol className="mt-2 grid list-decimal gap-x-6 gap-y-1 pl-5 text-sm leading-6 text-mute sm:grid-cols-2">
+                    {evaluationScheme[answer.id].projects.map((project) => <li key={project}>{project}</li>)}
+                  </ol>
+                  <p className="mt-2 text-xs leading-5 text-mute">Applicability and clearance thresholds depend on the current EIA Schedule, project capacity, location and amendments. This exam list is not a legal determination for a specific project.</p>
+                </div>
+              )}
+              {evaluationScheme[answer.id].conventions && (
+                <div className="mt-4">
+                  <h4 className="font-semibold text-[var(--text-primary)]">International conventions and efforts with years</h4>
+                  <ol className="mt-2 space-y-1 pl-5 text-sm leading-6 text-mute list-decimal">
+                    {evaluationScheme[answer.id].conventions.map(([name, year]) => <li key={name}><strong>{name}</strong> — {year}</li>)}
+                  </ol>
+                  {evaluationScheme[answer.id].note && <p className="mt-2 text-xs leading-5 text-mute">{evaluationScheme[answer.id].note}</p>}
+                </div>
+              )}
+            </aside>
+          )}
           <div className="reading space-y-4">
             <section className="card p-5 sm:p-6">
               <h3 className="text-lg font-bold">Introduction</h3>

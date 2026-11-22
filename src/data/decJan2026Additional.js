@@ -19,9 +19,9 @@ export const additionalDecJanAnswers = [
  ['Storage and infrastructure','The availability of reservoirs, tanks, canals and groundwater recharge structures affects how much water can be stored and used during dry periods.']
  ]},
  {title:'3. Examples of comparatively surplus and deficit basins',points:[
- ['Comparatively surplus / donor basins cited in the course notes','Mahanadi and Godavari are commonly discussed as potential donor basins in river-linking studies.'],
- ['Comparatively deficit / recipient basins cited in the course notes','Krishna, Pennar, Cauvery and Vaigai are commonly discussed as basins facing water stress in parts of their command areas.'],
- ['Interpretation','These are examples used in inter-basin transfer discussions, not a claim that every sub-basin or every season has the same status. Actual transfer feasibility requires updated basin water accounts and environmental-flow assessment.']
+ ['Water-deficit basins (scheme examples)','Cauvery, Krishna and Pennar are the deficit basins specifically named in the supplied VTU evaluation scheme.'],
+ ['Water-surplus basins (scheme examples)','Brahmaputra, Ganga and Mahanadi are the surplus basins specifically named in the supplied VTU evaluation scheme.'],
+ ['Interpretation','These are the examples expected by the supplied scheme for this answer. Basin status can still vary by sub-basin, season and assessment method.']
  ]},
  {title:'4. Importance of identifying surplus and deficit basins',points:[
  ['Water planning','It helps planners compare dependable availability with present and projected demand.'],
@@ -39,7 +39,7 @@ export const additionalDecJanAnswers = [
  ]}
  ],
  diagram:'RAIN & RUNOFF → BASIN WATER ACCOUNTING → (A) ASSESSED SURPLUS BASIN  |  (B) ASSESSED DEFICIT BASIN → LOCAL CONSERVATION / DEMAND MANAGEMENT / CAREFULLY ASSESSED TRANSFER',
- conclusion:'Water-surplus and water-deficit classifications help explain India’s regional and seasonal water imbalance. Mahanadi and Godavari are cited as potential donor basins, while Krishna, Pennar, Cauvery and Vaigai are examples of deficit basins in interlinking discussions. Sustainable planning must first protect local needs and ecological flows, then combine conservation, efficient use, storage and only environmentally justified transfers.'
+ conclusion:'The supplied VTU scheme names Cauvery, Krishna and Pennar as water-deficit basins and Brahmaputra, Ganga and Mahanadi as water-surplus basins. Their identification supports inter-basin water-transfer planning, provided local needs and ecological flows are protected.'
 },
 {
  id:'4b',module:2,question:'Write a note on seawater ingress and list the methods used to reduce seawater ingress.',
@@ -60,6 +60,11 @@ export const additionalDecJanAnswers = [
  ['Economic and social impacts','Communities may need deeper or alternative wells, treatment systems or water transported from other areas.']
  ]},
  {title:'3. Methods to reduce or control seawater ingress',points:[
+ ['Engineering and structural solutions','Use suitable sea walls, coastal barriers, floodgates or sluice gates, elevated land, dikes and levees where coastal-risk and hydrogeological studies support them.'],
+ ['Groundwater protection measures','Inject suitable freshwater through bore wells where designed for the aquifer, promote aquifer recharge and reduce groundwater pumping near the coast.'],
+ ['Natural and ecosystem-based solutions','Protect and restore coastal wetlands, mangroves, dunes and other natural buffers that support coastal resilience and groundwater recharge.'],
+ ['Zoning regulation','Control development and groundwater-intensive activities in vulnerable coastal and recharge zones.'],
+ ['Inspection, repair and early warning','Inspect and maintain protective structures regularly; monitor groundwater levels and salinity and use early-warning systems to identify intrusion.'],
  ['Regulate groundwater extraction','Control the number and pumping rate of coastal wells; avoid concentrated pumping close to the shoreline.'],
  ['Artificial recharge','Use recharge ponds, percolation tanks, recharge wells and stormwater infiltration structures where hydrogeologically suitable.'],
  ['Rainwater harvesting','Collect rooftop and surface runoff and direct it to safe storage or recharge structures to improve freshwater replenishment.'],
@@ -78,12 +83,11 @@ export const additionalDecJanAnswers = [
  intro:'Air pollution is the presence of solid, liquid or gaseous substances in the atmosphere at concentrations and for durations that can harm human health, other living organisms, property or the environment. Pollutants may be released directly or formed in the atmosphere through chemical reactions.',
  sections:[
  {title:'1. Sources of air pollution',points:[
- ['Natural sources','Volcanic eruptions release ash and gases; forest fires emit smoke and particulates; dust storms raise mineral particles; pollen, spores and biological materials enter the air; decomposition and oceans release certain gases and aerosols.'],
- ['Transport','Motor vehicles, ships, aircraft and rail transport emit carbon monoxide, nitrogen oxides, hydrocarbons, particulate matter and other pollutants through fuel combustion and wear.'],
- ['Industries and thermal power plants','Factories, refineries, cement plants, smelters and power stations release particulate matter, sulphur dioxide, nitrogen oxides, volatile organic compounds and process-specific pollutants.'],
- ['Domestic and commercial activities','Burning coal, wood, kerosene, biomass and waste for cooking or heating produces smoke, carbon monoxide and fine particles.'],
- ['Agriculture','Crop-residue burning, fertiliser use, livestock and pesticide application release smoke, ammonia, methane and other pollutants.'],
- ['Construction, mining and waste','Excavation, quarrying, demolition, road dust, open waste burning and landfill emissions add particulates and gases.']
+ ['Mobile sources','Vehicles such as cars, buses, trucks, two-wheelers, ships, aircraft and trains release carbon monoxide, nitrogen oxides, hydrocarbons and particulate matter through fuel combustion and wear.'],
+ ['Stationary sources','Factories, industrial boilers, refineries and thermal power plants release particulate matter, sulphur dioxide, nitrogen oxides and process-specific pollutants.'],
+ ['Area sources','Many small or distributed sources across a locality, including livestock, cities, farming activities, construction dust, domestic fuel use and oil/gas operations, contribute gases and particulates.'],
+ ['Natural sources','Volcanoes release ash and gases; wildfires emit smoke; lightning contributes nitrogen oxides; dust storms, pollen and biological materials also affect air quality.'],
+ ['Other human activities','Open waste burning, mining, quarrying and household combustion add smoke, gases and suspended particles.']
  ]},
  {title:'2. Classification of air pollutants',points:[
  ['Primary pollutants','These are emitted directly from a source into the atmosphere. Examples include carbon monoxide (CO), sulphur dioxide (SO₂), nitrogen oxide (NO), particulate matter, ammonia (NH₃) and many volatile organic compounds.'],
