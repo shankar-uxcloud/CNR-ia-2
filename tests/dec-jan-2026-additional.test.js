@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { additionalDecJanAnswers, moduleNames } from '../src/data/decJan2026Additional.js';
 
 test('Dec/Jan 2026 additional paper answers include every sub-question from Q4 to Q10', () => {
@@ -26,7 +27,7 @@ test('every answer is mapped to its expected syllabus module and has a complete 
 test('source-verification limitations are explicit instead of fabricated page or figure citations', () => {
   const source = additionalDecJanAnswers.map((answer) => answer.note || '').join(' ');
   assert.match(source, /latest notification|full pollutant-wise table|complete legal Schedule/i);
-  const page = require('node:fs').readFileSync(new URL('../src/pages/DecJan2026.jsx', import.meta.url), 'utf8');
+  const page = fs.readFileSync(new URL('../src/pages/DecJan2026.jsx', import.meta.url), 'utf8');
   assert.match(page, /could not be inspected and verified/);
   assert.match(page, /not a numbered figure reproduced/);
 });
