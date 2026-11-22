@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 const page = readFileSync(new URL('../src/pages/DecJan2026.jsx', import.meta.url), 'utf8');
 const answers = readFileSync(new URL('../src/data/decJan2026Additional.js', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/styles/premium-sitewide.css', import.meta.url), 'utf8');
+const router = readFileSync(new URL('../src/lib/router.js', import.meta.url), 'utf8');
 
 test('question navigator exposes all six existing Q1–Q3 subquestions', () => {
   for (const id of ['q1-a', 'q1-b', 'q2-a', 'q2-b', 'q3-a', 'q3-b']) {
@@ -36,4 +37,8 @@ test('question navigation controls are semantic, labelled and styled for keyboar
   assert.match(styles, /\.question-nav-chip:focus-visible/);
   assert.match(styles, /@media \(max-width: 639px\)/);
   assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test('standalone question fragments resolve through the existing hash router', () => {
+  assert.match(router, /if \(\/\^q\\\\d\+-\[a-z\]\$\/\.test\(path\)\) return '\/dec-jan-2026'/);
 });
