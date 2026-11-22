@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { additionalDecJanAnswers, moduleNames } from '../data/decJan2026Additional';
 import { ArrowLeft, BookOpen, CalendarDays, CheckCircle2, FileText, GraduationCap, Minus, Plus, RotateCcw, Type } from 'lucide-react';
 
 const sections = [
@@ -55,7 +56,7 @@ export default function DecJan2026() {
     <div className="mt-6 grid gap-3 sm:grid-cols-3">
       <div className="card p-4"><GraduationCap className="text-brand" size={20}/><p className="mt-2 text-xs text-mute">Course</p><strong>BCV755B</strong></div>
       <div className="card p-4"><FileText className="text-brand" size={20}/><p className="mt-2 text-xs text-mute">Answer format</p><strong>10-mark answers</strong></div>
-      <div className="card p-4"><CheckCircle2 className="text-brand" size={20}/><p className="mt-2 text-xs text-mute">Progress</p><strong>Questions 1–3 added</strong></div>
+      <div className="card p-4"><CheckCircle2 className="text-brand" size={20}/><p className="mt-2 text-xs text-mute">Progress</p><strong>Questions 1–10 added</strong></div>
     </div>
     <section className="study-reading-tools mt-6 card p-4 sm:p-5" aria-label="Reading appearance controls"><div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-center gap-2"><Type size={19} className="text-brand"/><div><h2 className="font-bold">Comfortable reading</h2><p className="text-xs text-mute">Adjust text size across the whole answer page.</p></div></div><div className="flex items-center gap-2" role="group" aria-label="Adjust reading text size"><button type="button" className="study-size-button" onClick={() => setFontScale(v => Math.max(0.9, Number((v - 0.1).toFixed(1))))} aria-label="Decrease text size" disabled={fontScale <= 0.9}><Minus size={16}/><span>A−</span></button><span className="study-size-value" aria-live="polite">{Math.round(fontScale * 100)}%</span><button type="button" className="study-size-button" onClick={() => setFontScale(v => Math.min(1.4, Number((v + 0.1).toFixed(1))))} aria-label="Increase text size" disabled={fontScale >= 1.4}><Plus size={16}/><span>A+</span></button><button type="button" className="study-size-button study-reset-button" onClick={() => setFontScale(1)} aria-label="Reset text size"><RotateCcw size={15}/><span>Reset</span></button></div></div></section>
     <section className="mt-8">
@@ -184,6 +185,57 @@ export default function DecJan2026() {
       <section className="card p-5 sm:p-6"><h3 className="font-bold">Q3(b) – PDF references</h3><p className="mt-2 text-sm leading-7 text-mute"><b>BCV755B Full Notes.pdf, pages 17–18/57:</b> Water-surplus and water-deficit basins, examples and NWDA estimates. <b>Page 19/57:</b> Proposed Godavari (Inchampalli)–Krishna (Pulichintala) link and National River Linking Project. <b>Page 20/57:</b> Environmental, displacement, financial and inter-state issues. No numbered source figure is assigned to the inter-basin transfer schematic in the extracted notes; the diagram above is an original study schematic.</p></section>
     </section>
 
+
+    <section className="mt-12 border-t border-line pt-9 space-y-8" aria-label="Remaining Dec Jan 2026 question paper answers">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div><p className="eyebrow">DECEMBER 2025 / JANUARY 2026 · MODULES 2–5</p><h2 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">Complete question paper · Q4–Q10</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-mute">Detailed, exam-oriented study answers organised by syllabus module. Each answer includes an introduction, clearly numbered points, a revision schematic and a conclusion.</p></div>
+        <span className="chip">14 additional answers</span>
+      </div>
+      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm leading-6 text-mute">
+        <strong className="text-[var(--text-primary)]">Source and evaluation note:</strong> The module PDFs are listed in the website’s Academic Resource Vault, but their page images and exact pagination could not be verified while preparing this update. The evaluation-scheme images available in this work cover Q1–Q3 only. Therefore, no unverified PDF page numbers, source figure numbers or official mark splits are invented below. The diagrams labelled “revision schematic” are original study aids, not copied/numbered textbook figures. Please compare the final wording with the prescribed PDFs and the remaining scheme pages before treating it as a verified marking key.
+      </div>
+      {additionalDecJanAnswers.map((answer) => (
+        <article key={answer.id} id={`dec-jan-q${answer.id.replace(/[()]/g, '')}`} className="scroll-mt-24 border-t border-line pt-7 space-y-5">
+          <header className="flex items-start gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand/10 font-extrabold text-brand">Q{answer.id}</span>
+            <div className="min-w-0"><p className="eyebrow">10 MARKS · MODULE {answer.module}: {moduleNames[answer.module]}</p><h2 className="mt-1 text-xl font-bold leading-snug">{answer.question}</h2></div>
+          </header>
+          <div className="reading space-y-4">
+            <section className="card p-5 sm:p-6">
+              <h3 className="text-lg font-bold">Introduction</h3>
+              <p className="mt-2 text-sm leading-7 text-mute">{answer.intro}</p>
+            </section>
+            {answer.sections.map((section, index) => (
+              <section key={section.title} className="card p-5 sm:p-6">
+                <h3 className="text-lg font-bold">{section.title}</h3>
+                <ol className="study-points mt-4 space-y-4">
+                  {section.points.map(([heading, detail], pointIndex) => (
+                    <li key={heading}>
+                      <h4 className="font-semibold">{pointIndex + 1}. {heading}</h4>
+                      <p className="mt-1 text-sm leading-7 text-mute">{detail}</p>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))}
+            <section className="card p-5 sm:p-6">
+              <h3 className="text-lg font-bold">Quick revision schematic</h3>
+              <pre className="mt-3 overflow-x-auto whitespace-pre-wrap break-words rounded-xl border border-line bg-sunk/50 p-4 font-mono text-xs leading-6 text-ink sm:text-sm">{answer.diagram}</pre>
+              <p className="mt-2 text-xs leading-5 text-mute">Original revision schematic prepared for this answer; not a numbered figure reproduced from the prescribed PDF.</p>
+            </section>
+            <section className="card p-5 sm:p-6">
+              <h3 className="text-lg font-bold">Conclusion</h3>
+              <p className="mt-2 text-sm leading-7 text-mute">{answer.conclusion}</p>
+            </section>
+            {answer.note && <aside className="rounded-xl border border-line bg-sunk/50 p-4 text-sm leading-6 text-mute"><strong className="text-[var(--text-primary)]">Important note:</strong> {answer.note}</aside>}
+            <section className="card p-5 sm:p-6">
+              <h3 className="font-bold">Q{answer.id} – Source reference and figure guidance</h3>
+              <p className="mt-2 text-sm leading-7 text-mute">Relevant uploaded source: <strong className="text-[var(--text-primary)]">BCV755B Module {answer.module}.pdf</strong> in Academic Resource Vault (Module {answer.module}: {moduleNames[answer.module]}). The source PDF page number and any printed figure number/name are intentionally not stated because the corresponding PDF pages could not be inspected and verified in this update. Use the original PDF’s own page/figure labels when revising; do not cite this original schematic as a source figure.</p>
+            </section>
+          </div>
+        </article>
+      ))}
+    </section>
     <div className="mt-8 rounded-2xl border border-line p-5 text-sm text-mute"><strong className="text-[var(--text-primary)]">Next:</strong> Additional December 2025 / January 2026 questions will be added to their corresponding modules as their answers are prepared and source-checked.</div>
   </main>;
 }
