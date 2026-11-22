@@ -13,7 +13,7 @@ test('Dec-Jan paper retains six authored anchors and fourteen data-driven answer
   assert.match(page, /additionalDecJanAnswers\.map\(\(answer\)/);
 });
 
-test('question labels and the shared ANSWER treatment cover the authored and mapped content', () => {
+test('question labels and shared ANSWER treatment cover authored and mapped content', () => {
   for (const label of ['1)a)', '1)b)', '2)a)', '2)b)', '3)a)', '3)b)']) assert.ok(page.includes(label));
   assert.match(page, /answer\.id\.match\(\//);
   assert.match(styles, /unified premium question and answer reading system/);
@@ -22,13 +22,11 @@ test('question labels and the shared ANSWER treatment cover the authored and map
 });
 
 test('layout uses theme tokens, responsive overflow handling and print rules', () => {
-  for (const token of ['var(--surface-primary)', 'var(--text-secondary)', '@media (max-width: 639px)', '@media print', 'overflow-x: auto', 'scroll-margin-top: 7.25rem']) {
-    assert.ok(styles.includes(token), \`missing layout support: \${token}\`);
-  }
+  const required = ['var(--surface-primary)', 'var(--text-secondary)', '@media (max-width: 639px)', '@media print', 'overflow-x: auto', 'scroll-margin-top: 7.25rem'];
+  for (const token of required) assert.ok(styles.includes(token), 'missing layout support: ' + token);
 });
 
 test('horizontal question navigation behavior remains present', () => {
-  for (const token of ['question-nav-groups', 'question-nav-chip', 'navigateToQuestion', 'IntersectionObserver', 'popstate', 'hashchange', 'Viewing:']) {
-    assert.ok(page.includes(token), \`missing navigation feature: \${token}\`);
-  }
+  const required = ['question-nav-groups', 'question-nav-chip', 'navigateToQuestion', 'IntersectionObserver', 'popstate', 'hashchange', 'Viewing:'];
+  for (const token of required) assert.ok(page.includes(token), 'missing navigation feature: ' + token);
 });
