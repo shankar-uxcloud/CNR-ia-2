@@ -326,19 +326,42 @@ aside nav[aria-label='Primary'] > div:last-child {
   isolation: isolate;
   border-color: color-mix(in srgb, var(--cyber-accent) 24%, var(--border-color));
 }
-.study-page .question-nav-group {
+.study-page .question-nav-groups {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: .65rem;
+  column-gap: .7rem;
+  row-gap: .6rem;
+  min-width: 0;
+}
+.study-page .question-nav-group {
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: .45rem;
+  min-width: max-content;
+  padding-right: .8rem;
+  border-right: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+.study-page .question-nav-group:last-child {
+  padding-right: 0;
+  border-right: 0;
 }
 .study-page .question-nav-group-label {
-  min-width: 2.5rem;
+  min-width: 0;
   color: var(--text-secondary);
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .08em;
+  font-size: .7rem;
+  font-weight: 850;
+  letter-spacing: .035em;
   text-transform: uppercase;
+}
+.study-page .question-nav-tags {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: .35rem;
 }
 .study-page .question-nav-chip,
 .study-page .question-nav-action {
@@ -385,9 +408,10 @@ aside nav[aria-label='Primary'] > div:last-child {
   .study-page .question-nav-chip:hover:not(:disabled) { transform: translateY(-1px); }
 }
 @media (max-width: 639px) {
-  .study-page .question-nav-group { align-items: flex-start; gap: .5rem; }
-  .study-page .question-nav-group-label { width: 100%; }
-  .study-page .question-nav-chip { min-width: 3.25rem; min-height: 2.8rem; }
+  .study-page .question-nav-groups { column-gap: .5rem; row-gap: .65rem; }
+  .study-page .question-nav-group { gap: .4rem; padding-right: .55rem; }
+  .study-page .question-nav-tags { gap: .3rem; }
+  .study-page .question-nav-chip { min-width: 3.1rem; min-height: 2.65rem; padding-inline: .65rem; }
   .study-page .question-navigator > div:last-child { align-items: flex-start; }
   .study-page .question-nav-action { flex: 1 1 auto; }
 }
