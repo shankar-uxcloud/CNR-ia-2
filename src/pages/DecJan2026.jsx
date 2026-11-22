@@ -1,7 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { additionalDecJanAnswers, moduleNames } from '../data/decJan2026Additional';
 import { evaluationScheme } from '../data/decJan2026Evaluation';
 import { ArrowLeft, BookOpen, CalendarDays, CheckCircle2, FileText, GraduationCap, Minus, Plus, RotateCcw, Type } from 'lucide-react';
+const coreQuestionNavItems = [
+  { id: 'q1-a', label: '1)a)', question: 'Ecological and economic importance of land', module: 'Module 1 · Land' },
+  { id: 'q1-b', label: '1)b)', question: 'Objectives and strategies for conservation of landforms', module: 'Module 1 · Land' },
+  { id: 'q2-a', label: '2)a)', question: 'Indicators and improvement of soil health', module: 'Module 1 · Land' },
+  { id: 'q2-b', label: '2)b)', question: 'Causes and impacts of deforestation', module: 'Module 1 · Land' },
+  { id: 'q3-a', label: '3)a)', question: 'Global water resources', module: 'Module 2 · Water' },
+  { id: 'q3-b', label: '3)b)', question: 'Inter-basin water transfer in India', module: 'Module 2 · Water' },
+];
+const questionNavItems = [...coreQuestionNavItems, ...additionalDecJanAnswers.map((answer) => ({
+  id: 'q' + answer.id[0] + '-' + answer.id[1],
+  label: answer.id[0] + ')' + answer.id[1] + ')',
+  question: answer.question,
+  module: 'Module ' + answer.module + ' · ' + moduleNames[answer.module],
+}))];
 
 const sections = [
   {
@@ -45,6 +59,33 @@ function AnswerSection({ section, number }) {
 
 export default function DecJan2026() {
   const [fontScale, setFontScale] = useState(1);
+  const [activeQuestion, setActiveQuestion] = useState(() => questionNavItems[0]?.id ?? '');
+  const activeQuestionIndex = questionNavItems.findIndex((item) => item.id === activeQuestion);
+  const navigateToQuestion = (id, updateHistory = true) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    if (updateHistory && window.location.hash !== '#' + id) window.history.pushState(null, '', '#' + id);
+    setActiveQuestion(id);
+    target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  };
+  useEffect(() => {
+    const syncHash = () => {
+      const id = window.location.hash.slice(1);
+      if (questionNavItems.some((item) => item.id === id)) {
+        setActiveQuestion(id);
+        document.getElementById(id)?.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]?.target.id) setActiveQuestion(visible[0].target.id);
+    }, { rootMargin: '-12% 0px -72% 0px', threshold: 0 });
+    document.querySelectorAll('[data-question-anchor]').forEach((element) => observer.observe(element));
+    window.addEventListener('popstate', syncHash);
+    window.addEventListener('hashchange', syncHash);
+    if (window.location.hash) requestAnimationFrame(syncHash);
+    return () => { observer.disconnect(); window.removeEventListener('popstate', syncHash); window.removeEventListener('hashchange', syncHash); };
+  }, []);
   return <main className="study-page mx-auto max-w-5xl px-4 py-7 sm:px-8 sm:py-10" style={{ '--study-font-scale': fontScale }}>
     <a href="#/mqps" className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-brand"><ArrowLeft size={16}/> Question papers</a>
     <div className="flex flex-wrap items-center gap-2">
@@ -60,7 +101,18 @@ export default function DecJan2026() {
       <div className="card p-4"><CheckCircle2 className="text-brand" size={20}/><p className="mt-2 text-xs text-mute">Progress</p><strong>Questions 1–10 added</strong></div>
     </div>
     <section className="study-reading-tools mt-6 card p-4 sm:p-5" aria-label="Reading appearance controls"><div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-center gap-2"><Type size={19} className="text-brand"/><div><h2 className="font-bold">Comfortable reading</h2><p className="text-xs text-mute">Adjust text size across the whole answer page.</p></div></div><div className="flex items-center gap-2" role="group" aria-label="Adjust reading text size"><button type="button" className="study-size-button" onClick={() => setFontScale(v => Math.max(0.9, Number((v - 0.1).toFixed(1))))} aria-label="Decrease text size" disabled={fontScale <= 0.9}><Minus size={16}/><span>A−</span></button><span className="study-size-value" aria-live="polite">{Math.round(fontScale * 100)}%</span><button type="button" className="study-size-button" onClick={() => setFontScale(v => Math.min(1.4, Number((v + 0.1).toFixed(1))))} aria-label="Increase text size" disabled={fontScale >= 1.4}><Plus size={16}/><span>A+</span></button><button type="button" className="study-size-button study-reset-button" onClick={() => setFontScale(1)} aria-label="Reset text size"><RotateCcw size={15}/><span>Reset</span></button></div></div></section>
-    <section className="mt-8">
+    <nav id="question-navigator" className="question-navigator mt-6 card p-4 sm:p-5" aria-label="Question paper navigation">
+      <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="eyebrow">JUMP TO ANSWER</p><h2 className="mt-1 text-lg font-extrabold">Question navigator</h2><p className="mt-1 text-xs leading-5 text-mute">Select any subquestion to jump directly to its complete answer. The active tag follows your reading position.</p></div><span className="chip">{questionNavItems.length} subquestions</span></div>
+      <div className="mt-4 space-y-3">
+        {Array.from({ length: 10 }, (_, index) => {
+          const questionNumber = index + 1;
+          const items = questionNavItems.filter((item) => item.label.startsWith(questionNumber + ')'));
+          return items.length ? <div key={questionNumber} className="question-nav-group"><span className="question-nav-group-label">Q{questionNumber}</span><div className="flex flex-wrap gap-2">{items.map((item) => <button key={item.id} type="button" className={'question-nav-chip' + (activeQuestion === item.id ? ' is-active' : '')} aria-current={activeQuestion === item.id ? 'location' : undefined} aria-label={'Go to question ' + item.label + ' — ' + item.question} onClick={() => navigateToQuestion(item.id)}>{item.label}</button>)}</div></div> : null;
+        })}
+      </div>
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3"><span className="text-xs text-mute" aria-live="polite">Viewing: {questionNavItems[activeQuestionIndex]?.label ?? '—'} · {questionNavItems[activeQuestionIndex]?.module ?? ''}</span><div className="flex flex-wrap gap-2"><button type="button" className="question-nav-action" disabled={activeQuestionIndex <= 0} onClick={() => navigateToQuestion(questionNavItems[activeQuestionIndex - 1]?.id)}>Previous</button><button type="button" className="question-nav-action" disabled={activeQuestionIndex < 0 || activeQuestionIndex >= questionNavItems.length - 1} onClick={() => navigateToQuestion(questionNavItems[activeQuestionIndex + 1]?.id)}>Next</button><button type="button" className="question-nav-action" onClick={() => document.getElementById('question-navigator')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>Back to navigator ↑</button></div></div>
+    </nav>
+    <section id="q1-a" data-question-anchor className="mt-8 question-answer-anchor">
       <div className="flex items-start gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-bold text-brand">Q1</span>
         <div><p className="eyebrow">10 MARKS · MODULE 1: LAND</p><h2 className="mt-1 text-xl font-bold leading-snug">Discuss the ecological and economic importance of land as a natural resource.</h2></div>
@@ -78,7 +130,7 @@ export default function DecJan2026() {
       </div>
     </section>
 
-    <section className="mt-10 border-t border-line pt-8">
+    <section id="q1-b" data-question-anchor className="mt-10 border-t border-line pt-8 question-answer-anchor">
       <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-bold text-brand">Q1(b)</span><div><p className="eyebrow">10 MARKS · MODULE 1: LAND</p><h2 className="mt-1 text-xl font-bold leading-snug">What are the objectives of conservation of landforms? Explain the strategies to conserve landforms.</h2></div></div>
       <div className="reading mt-5 space-y-5">
         <section className="card p-5 sm:p-6"><h2 className="text-xl font-bold">Introduction</h2><p className="mt-2 text-sm leading-7 text-mute">Landforms are the natural physical features of the Earth's surface, such as mountains, valleys, plains and coastal dunes. Conservation of landforms means protecting and managing these features to maintain geological stability, prevent erosion and reduce the risk of natural disasters.</p></section>
@@ -103,7 +155,7 @@ export default function DecJan2026() {
     </section>
 
 
-    <section className="mt-10 border-t border-line pt-8 space-y-5">
+    <section id="q2-a" data-question-anchor className="mt-10 border-t border-line pt-8 space-y-5 question-answer-anchor">
       <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-bold text-brand">Q2(a)</span><div><p className="eyebrow">10 MARKS · MODULE 1: LAND</p><h2 className="mt-1 text-xl font-bold">Explain the indicators of soil health and discuss the strategies to improve soil health.</h2></div></div>
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">Introduction</h3><p className="mt-2 text-sm leading-7 text-mute">Soil health or soil quality is the continued capacity of soil to function as a living ecosystem that sustains plants, animals and humans. It depends on physical, chemical and biological characteristics, not merely chemical composition.</p></section>
       <section className="card p-5 sm:p-6"><div className="flex flex-wrap items-center justify-between gap-2"><h3 className="text-lg font-bold">A. Indicators of soil health</h3><span className="study-marks">5 MARKS</span></div><ol className="study-points mt-4 space-y-4">
@@ -123,7 +175,7 @@ export default function DecJan2026() {
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">Conclusion</h3><p className="mt-2 text-sm leading-7 text-mute">Soil organic matter, pH, nutrient levels, structure and biological activity indicate soil health. Conservation tillage, cover cropping, organic amendments and agroforestry improve soil fertility, protect soil structure and maintain sustainable productivity.</p></section>
       <section className="card p-5 sm:p-6"><h3 className="font-bold">Q2(a) – Source references</h3><p className="mt-2 text-sm leading-7 text-mute"><b>BCV755B Full Notes.pdf, PDF page 10/57:</b> Soil-health definition and physical, chemical and biological indicators. <b>Pages 10–11/57:</b> Ecological and economic importance of soil. <b>Pages 11–12/57:</b> Soil degradation and need for soil conservation. <b>Page 13/57:</b> Agroforestry and integrated watershed management. The five indicators and four improvement strategies above follow the supplied Q2(a) scheme of evaluation, with explanations supported by the soil-health and sustainable land-management material in the full-notes PDF.</p></section>
     </section>
-    <section className="mt-10 border-t border-line pt-8 space-y-5">
+    <section id="q2-b" data-question-anchor className="mt-10 border-t border-line pt-8 space-y-5 question-answer-anchor">
       <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-bold text-brand">Q2(b)</span><div><p className="eyebrow">10 MARKS · MODULE 1: LAND</p><h2 className="mt-1 text-xl font-bold">Brief the causes and impact of deforestation on land resource.</h2></div></div>
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">Introduction</h3><p className="mt-2 text-sm leading-7 text-mute">Deforestation is the permanent removal or destruction of forest vegetation to make land available for non-forest uses such as agriculture, infrastructure, mining and urban settlements. It reduces the ability of land to support ecosystems and maintain soil, water and climate stability.</p></section>
       <section className="card p-5 sm:p-6"><div className="flex flex-wrap items-center justify-between gap-2"><h3 className="text-lg font-bold">A. Causes of deforestation</h3><span className="study-marks">5 MARKS</span></div><ol className="study-points mt-4 space-y-4">
@@ -160,7 +212,7 @@ export default function DecJan2026() {
       <p className="mt-3 text-xs leading-5 text-mute">Page references above are PDF viewer page numbers. The uploaded full-notes PDF does not provide a numbered figure for this answer. Carbon markets are retained from the supplied evaluation points; this topic is not separately detailed in the uploaded notes.</p>
     </section>
 
-    <section className="mt-10 border-t border-line pt-8 space-y-5">
+    <section id="q3-a" data-question-anchor className="mt-10 border-t border-line pt-8 space-y-5 question-answer-anchor">
       <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-bold text-brand">Q3(a)</span><div><p className="eyebrow">10 MARKS · MODULE 2: WATER</p><h2 className="mt-1 text-xl font-bold">Discuss briefly on global water resource.</h2></div></div>
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">1. Introduction</h3><p className="mt-2 text-sm leading-7 text-mute">Water is an essential natural resource required for life, agriculture, industry and the functioning of ecosystems. Although Earth contains an enormous quantity of water, only a very small proportion is readily available freshwater. Its distribution is uneven across regions and seasons, making conservation and sustainable management essential.</p></section>
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">2. Distribution of global water resources</h3><p className="mt-2 text-sm leading-7 text-mute">The global water resource is broadly classified into saline water and freshwater.</p><div className="mt-4 grid grid-cols-2 gap-3"><div className="rounded-xl border border-line p-4"><p className="text-2xl font-bold text-brand">97.5%</p><b className="text-sm">Saline water</b><p className="mt-1 text-xs text-mute">Mainly oceans and seas; not directly suitable for ordinary drinking or irrigation without desalination.</p></div><div className="rounded-xl border border-line p-4"><p className="text-2xl font-bold text-brand">2.5%</p><b className="text-sm">Freshwater</b><p className="mt-1 text-xs text-mute">Found in glaciers, ice caps, groundwater and surface-water bodies.</p></div></div><h4 className="mt-5 font-semibold">Distribution within freshwater</h4><ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-7 text-mute"><li><b>Glaciers and ice caps – 68.7%:</b> Most freshwater is stored in frozen form, mainly in polar regions and mountain glaciers, and is not readily accessible for everyday use.</li><li><b>Groundwater – 30.1%:</b> Stored below the Earth's surface in soil pores and rock formations. It is an important source for drinking, agriculture and industry.</li><li><b>Surface freshwater – 1.2%:</b> Present in rivers, lakes and swamps. It is the most accessible fraction for many human uses, but it forms only a very small part of total freshwater.</li></ul><p className="mt-3 rounded-lg bg-sunk/50 p-3 text-sm leading-6 text-mute">The figures above are the percentages stated in the supplied BCV755B notes. They describe the distribution of freshwater, not percentages of all Earth's water.</p></section>
@@ -172,7 +224,7 @@ export default function DecJan2026() {
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">8. Conclusion</h3><p className="mt-2 text-sm leading-7 text-mute">Water is abundant on Earth, but accessible freshwater is extremely limited and unevenly distributed. It is essential for human survival, food production, industry, climate regulation and biodiversity. Conservation, pollution control, efficient use and integrated management are necessary to ensure water security for present and future generations.</p></section>
       <section className="card p-5 sm:p-6"><h3 className="font-bold">Q3(a) – PDF references</h3><p className="mt-2 text-sm leading-7 text-mute"><b>BCV755B Full Notes.pdf, PDF page 14/57:</b> Module 2 introduction and global water resource overview. <b>Page 15/57:</b> freshwater distribution (68.7% glaciers and ice caps, 30.1% groundwater, 1.2% surface freshwater) and transition to Indian water resources. No numbered source figure is assigned to the distribution in the extracted notes; the chart above is an original study diagram.</p></section>
     </section>
-    <section className="mt-10 border-t border-line pt-8 space-y-5">
+    <section id="q3-b" data-question-anchor className="mt-10 border-t border-line pt-8 space-y-5 question-answer-anchor">
       <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-bold text-brand">Q3(b)</span><div><p className="eyebrow">10 MARKS · MODULE 2: WATER</p><h2 className="mt-1 text-xl font-bold">Explain briefly inter-basin water transfer and its importance in India.</h2></div></div>
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">1. Introduction and definition</h3><p className="mt-2 text-sm leading-7 text-mute"><b>Inter-basin water transfer (IBWT)</b> is the planned diversion or movement of water from a river basin having water surplus to another river basin experiencing water deficit, through canals, reservoirs, tunnels, pipelines and associated hydraulic structures. It is intended to reduce spatial and seasonal imbalance in water availability and support planned, equitable use of water.</p></section>
       <section className="card p-5 sm:p-6"><h3 className="text-lg font-bold">2. Need for inter-basin water transfer in India</h3><ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-mute"><li><b>Uneven rainfall:</b> India's rainfall is strongly influenced by the monsoon and varies greatly between regions and seasons.</li><li><b>Water-surplus and water-deficit basins:</b> Some basins have comparatively greater water availability, while others face recurring shortages.</li><li><b>Agricultural demand:</b> Irrigation is a major water-use sector, and deficit areas need reliable supplies to support crops.</li><li><b>Drinking-water needs:</b> Growing populations and towns require dependable water sources.</li><li><b>Flood and drought management:</b> Planned storage and transfer may help manage excess flows in some periods and shortages in other areas, subject to basin-level assessments.</li></ul></section>
@@ -196,7 +248,7 @@ export default function DecJan2026() {
         <strong className="text-[var(--text-primary)]">Verified evaluation-scheme alignment:</strong> The mark splits and required answer points shown under each question are transcribed from the supplied VTU BCV755B Scheme &amp; Solutions pages (viewer pages 4–8). Follow the stated split while writing the answer. The study schematics are original revision aids, not numbered figures copied from the prescribed PDFs. Source-PDF page and figure numbers are shown only where independently verified.
       </div>
       {additionalDecJanAnswers.map((answer) => (
-        <article key={answer.id} id={`dec-jan-q${answer.id.replace(/[()]/g, '')}`} className="scroll-mt-24 border-t border-line pt-7 space-y-5">
+        <article key={answer.id} id={`q${answer.id[0]}-${answer.id[1]}`} data-question-anchor className="question-answer-anchor border-t border-line pt-7 space-y-5">
           <header className="flex items-start gap-3">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand/10 font-extrabold text-brand">Q{answer.id}</span>
             <div className="min-w-0"><p className="eyebrow">10 MARKS · MODULE {answer.module}: {moduleNames[answer.module]}</p><h2 className="mt-1 text-xl font-bold leading-snug">{answer.question}</h2></div>
