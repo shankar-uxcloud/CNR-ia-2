@@ -81,7 +81,11 @@ export default function DecJan2026() {
     };
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      if (visible[0]?.target.id) setActiveQuestion(visible[0].target.id);
+      if (visible[0]?.target.id) {
+        const id = visible[0].target.id;
+        setActiveQuestion(id);
+        if (window.location.hash !== '#' + id) window.history.replaceState(null, '', '#' + id);
+      }
     }, { rootMargin: '-12% 0px -72% 0px', threshold: 0 });
     document.querySelectorAll('[data-question-anchor]').forEach((element) => observer.observe(element));
     window.addEventListener('popstate', syncHash);
