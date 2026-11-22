@@ -17,7 +17,7 @@ test('Q4–Q10 anchors are generated from the existing answer data IDs', () => {
   for (const id of ['4a', '4b', '5a', '5b', '6a', '6b', '7a', '7b', '8a', '8b', '9a', '9b', '10a', '10b']) {
     assert.ok(answers.includes("id:'" + id + "'"), 'Missing existing answer data: ' + id);
   }
-  assert.match(page, /answer\\.id\\.match/);
+  assert.ok(page.includes('answer.id.match('));
   assert.match(page, /questionNavItems = \[\.\.\.coreQuestionNavItems, \.\.\.additionalDecJanAnswers\.map/);
 });
 
@@ -41,4 +41,16 @@ test('question navigation controls are semantic, labelled and styled for keyboar
 
 test('standalone question fragments resolve through the existing hash router', () => {
   assert.ok(router.includes("if (/^q\\d+-[a-z]$/.test(path)) return '/dec-jan-2026';"));
+});
+
+test('the combined paper navigator has 20 unique question/subquestion anchors', () => {
+  const dataIds = [...answers.matchAll(/\\bid:'(\\d+[a-z])'/g)].map((match) => match[1]);
+  const generatedIds = ['q1-a', 'q1-b', 'q2-a', 'q2-b', 'q3-a', 'q3-b', ...dataIds.map((id) => {
+    const [, number, part] = id.match(/^(\\d+)([a-z])$/);
+    return 'q' + number + '-' + part;
+  })];
+  assert.equal(generatedIds.length, 20);
+  assert.equal(new Set(generatedIds).size, generatedIds.length);
+  assert.ok(generatedIds.includes('q10-a'));
+  assert.ok(generatedIds.includes('q10-b'));
 });
