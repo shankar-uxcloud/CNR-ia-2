@@ -1706,8 +1706,8 @@ aside nav a[aria-current='page']::after {
 }
 .study-page p,
 .study-page li {
-  font-size: calc(1rem * var(--study-font-scale)) !important;
-  line-height: 1.82 !important;
+  font-size: calc(1rem * var(--study-font-scale));
+  line-height: 1.82;
 }
 .study-page .eyebrow,
 .study-page .study-marks,
@@ -1743,11 +1743,11 @@ aside nav a[aria-current='page']::after {
 }
 @media print {
   .study-page .study-reading-tools {
-    display: none !important;
+    display: none;
   }
   .study-page {
-    max-width: none !important;
-    padding: 0 !important;
+    max-width: none;
+    padding: 0;
   }
   .study-page .card {
     break-inside: avoid;
@@ -1762,18 +1762,18 @@ aside nav a[aria-current='page']::after {
   text-wrap: pretty;
 }
 .study-page h1 {
-  font-size: calc(2.15rem * var(--study-font-scale)) !important;
+  font-size: calc(2.15rem * var(--study-font-scale));
   line-height: 1.2;
 }
 .study-page h2 {
-  font-size: calc(1.45rem * var(--study-font-scale)) !important;
+  font-size: calc(1.45rem * var(--study-font-scale));
   line-height: 1.35;
 }
 .study-page h3 {
-  font-size: calc(1.2rem * var(--study-font-scale)) !important;
+  font-size: calc(1.2rem * var(--study-font-scale));
   line-height: 1.45;
 }
 .study-page h4 {
-  font-size: calc(1.08rem * var(--study-font-scale)) !important;
+  font-size: calc(1.08rem * var(--study-font-scale));
   line-height: 1.5;
 }
