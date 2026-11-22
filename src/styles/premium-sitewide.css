@@ -446,3 +446,126 @@ aside nav[aria-label='Primary'] > div:last-child {
 @media print {
   .study-page .question-nav-return { display: none !important; }
 }
+
+
+/* Dec 2025 / Jan 2026 — unified premium question and answer reading system.
+   Shared by the six authored Q1–Q3 sections and all fourteen data-driven Q4–Q10 answers. */
+.study-page {
+  --study-answer-radius: 1.15rem;
+  --study-answer-gap: clamp(1.25rem, 2.4vw, 2rem);
+  --study-answer-padding: clamp(1rem, 2.2vw, 1.65rem);
+}
+.study-page .question-answer-anchor {
+  display: flex; flex-direction: column; gap: var(--study-answer-gap);
+  width: 100%; min-width: 0;
+  margin-block: clamp(1.75rem, 3.5vw, 2.75rem) 0;
+  padding: clamp(1.1rem, 2.5vw, 1.75rem);
+  border: 1px solid var(--surface-outline); border-radius: var(--study-answer-radius);
+  background: color-mix(in srgb, var(--surface-primary) 96%, transparent);
+  box-shadow: var(--surface-shadow); scroll-margin-top: 7.25rem;
+}
+.study-page .question-answer-anchor > :where(header, .flex.items-start) {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start;
+  gap: clamp(.75rem, 1.5vw, 1rem); width: 100%; min-width: 0;
+  margin: 0; padding: 0 0 1.1rem; border-bottom: 1px solid var(--surface-outline);
+}
+.study-page .question-answer-anchor > :where(header, .flex.items-start) > span:first-child {
+  display: grid; width: clamp(2.65rem, 4vw, 3.15rem); height: clamp(2.65rem, 4vw, 3.15rem);
+  place-items: center; border: 1px solid color-mix(in srgb, var(--cyber-accent) 28%, var(--border-color));
+  border-radius: .9rem; background: color-mix(in srgb, var(--cyber-accent) 10%, var(--surface-secondary));
+  color: var(--cyber-accent); font-size: .86rem; font-weight: 850; line-height: 1.15; text-align: center;
+}
+.study-page .question-answer-anchor > :where(header, .flex.items-start) > :last-child { min-width: 0; }
+.study-page .question-answer-anchor > :where(header, .flex.items-start) .eyebrow {
+  margin: 0 0 .35rem; color: var(--cyber-accent); font-size: .68rem; font-weight: 850; line-height: 1.45;
+}
+.study-page .question-answer-anchor > :where(header, .flex.items-start) h2 {
+  margin: 0; max-width: 70ch; color: var(--text-primary);
+  font-size: clamp(1.12rem, 1rem + .55vw, 1.45rem); font-weight: 780; line-height: 1.48;
+  letter-spacing: -.018em; text-wrap: pretty; overflow-wrap: anywhere;
+}
+.study-page .question-answer-anchor > .reading::before,
+.study-page .question-answer-anchor > .card:first-of-type::before {
+  display: block; width: fit-content; margin: 0 0 .15rem; padding: .3rem .7rem;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 28%, var(--border-color));
+  border-radius: 999px; background: color-mix(in srgb, var(--cyber-accent) 8%, var(--surface-secondary));
+  color: var(--cyber-accent); content: "ANSWER"; font-size: .68rem; font-weight: 900; letter-spacing: .12em;
+}
+.study-page .question-answer-anchor > .reading {
+  display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: none; min-width: 0; margin: 0;
+  font-size: calc(1rem * var(--study-font-scale, 1)); line-height: 1.78;
+}
+.study-page .question-answer-anchor > .reading > .card,
+.study-page .question-answer-anchor > .card,
+.study-page .question-answer-anchor > aside {
+  width: 100%; min-width: 0; margin: 0; padding: var(--study-answer-padding);
+  border: 1px solid var(--surface-outline); border-radius: .95rem;
+  border-left: 3px solid color-mix(in srgb, var(--cyber-accent) 42%, var(--border-color));
+  background: var(--surface-primary); box-shadow: none;
+}
+.study-page .question-answer-anchor > .reading > .card h2,
+.study-page .question-answer-anchor > .reading > .card h3,
+.study-page .question-answer-anchor > .reading > .card h4,
+.study-page .question-answer-anchor > .card h2,
+.study-page .question-answer-anchor > .card h3,
+.study-page .question-answer-anchor > .card h4 {
+  color: var(--text-primary); font-weight: 780; line-height: 1.42; text-wrap: pretty;
+}
+.study-page .question-answer-anchor :where(p, li) {
+  font-size: calc(1rem * var(--study-font-scale, 1)); line-height: 1.78; overflow-wrap: anywhere;
+}
+.study-page .question-answer-anchor :where(p) { color: var(--text-secondary); margin-block: .55rem 0; }
+.study-page .question-answer-anchor :where(ol, ul) { padding-inline-start: 1.45rem; }
+.study-page .question-answer-anchor .study-points { padding: 0; margin-block-start: 1rem; }
+.study-page .question-answer-anchor .study-points > li {
+  margin: 0; padding: .9rem 1rem; border: 1px solid var(--surface-outline);
+  border-radius: .8rem; background: color-mix(in srgb, var(--surface-secondary) 64%, transparent);
+}
+.study-page .question-answer-anchor :where(b, strong) { color: var(--text-primary); font-weight: 780; }
+.study-page .question-answer-anchor :where(table) { width: 100%; border-collapse: collapse; font-size: .92em; }
+.study-page .question-answer-anchor :where(th, td) {
+  padding: .7rem .75rem; border-bottom: 1px solid var(--surface-outline);
+  text-align: left; vertical-align: top; overflow-wrap: anywhere;
+}
+.study-page .question-answer-anchor :where(th) { background: var(--surface-secondary); color: var(--text-primary); font-weight: 800; }
+.study-page .question-answer-anchor :where(pre) {
+  max-width: 100%; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  border: 1px solid var(--surface-outline); border-radius: .85rem;
+  background: var(--surface-secondary); color: var(--text-primary);
+}
+.study-page .question-answer-anchor :where(img, svg) { max-width: 100%; height: auto; }
+.study-page .question-answer-anchor :where(.overflow-x-auto) { max-width: 100%; overscroll-behavior-inline: contain; }
+.study-page .question-answer-anchor :where(.diagram-frame, figure) { width: 100%; margin-inline: auto; text-align: center; }
+.study-page .question-answer-anchor :where(figcaption) { margin-top: .65rem; color: var(--text-secondary); font-size: .82rem; line-height: 1.55; }
+.study-page .question-answer-anchor > aside {
+  border-left-color: color-mix(in srgb, var(--cyber-secondary) 55%, var(--border-color));
+  background: color-mix(in srgb, var(--surface-secondary) 58%, var(--surface-primary));
+}
+.study-page .question-answer-anchor > aside :where(table) { min-width: 32rem; }
+.study-page .question-answer-anchor > aside :where(ol, ul) { margin-block: .65rem 0; }
+.study-page .question-answer-anchor > .reading > .card:last-child { border-left-color: color-mix(in srgb, var(--cyber-secondary) 45%, var(--border-color)); }
+.study-page .question-answer-anchor > .reading > .card :where(h3, h4) { font-size: clamp(1.02rem, .96rem + .3vw, 1.2rem); }
+.study-page .question-answer-anchor > .reading > .card :where(h2) { font-size: clamp(1.12rem, 1rem + .55vw, 1.4rem); }
+@media (max-width: 639px) {
+  .study-page .question-answer-anchor { gap: 1rem; padding: .9rem; border-radius: .95rem; }
+  .study-page .question-answer-anchor > :where(header, .flex.items-start) { gap: .7rem; padding-bottom: .9rem; }
+  .study-page .question-answer-anchor > :where(header, .flex.items-start) > span:first-child {
+    width: 2.55rem; height: 2.55rem; border-radius: .75rem; font-size: .78rem;
+  }
+  .study-page .question-answer-anchor > :where(header, .flex.items-start) h2 { font-size: 1.08rem; line-height: 1.48; }
+  .study-page .question-answer-anchor > .reading > .card,
+  .study-page .question-answer-anchor > .card,
+  .study-page .question-answer-anchor > aside { padding: .9rem; }
+  .study-page .question-answer-anchor :where(ol, ul) { padding-inline-start: 1.2rem; }
+  .study-page .question-answer-anchor .study-points > li { padding: .75rem; }
+  .study-page .question-answer-anchor :where(table) { font-size: .84rem; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .study-page .question-answer-anchor { background: var(--surface-primary); }
+}
+@media print {
+  .study-page .question-answer-anchor { break-inside: auto; box-shadow: none; border-color: #bbb; background: #fff; padding: .7rem 0; }
+  .study-page .question-answer-anchor > .reading > .card,
+  .study-page .question-answer-anchor > .card,
+  .study-page .question-answer-anchor > aside { break-inside: avoid; box-shadow: none; }
+}
