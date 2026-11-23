@@ -546,7 +546,7 @@ export const EXAM_QUESTION_PAPER = [
     { id:'q3b', label:'b', text:'Explain briefly global water resources and Indian water resources.' },
   ], alternative: [
     { id:'q4a', label:'a', text:'Discuss about Himalayas and Peninsular component of National river linking project.' },
-    { id:'q4b', label:'b', text:'What is sea water ingress? Explain briefly the various problems and solution of it.' },
+    { id:'q4b', label:'b', text:'What is sea water ingress? Explain brief the various problems and solution of it.' },
   ]},
   { module: 3, number: 5, parts: [
     { id:'q5a', label:'a', text:'Define Air pollution. Explain the source and classification of air pollutants.' },
@@ -560,9 +560,9 @@ export const EXAM_QUESTION_PAPER = [
     { id:'q7b', label:'b', text:'Discuss about the Ecological restoration for conservation of biodiversity.' },
   ], alternative: [
     { id:'q8a', label:'a', text:'Define Ecosystem. List and explain the different types of ecosystem.' },
-    { id:'q8b', label:'b', text:'Briefly discuss: (i) Forest and Lotic Ecosystem; (ii) Biotic and Abiotic components.' },
+    { id:'q8b', label:'b', text:'Briefly discuss : i) Forest and Lotic Ecosystem ii Biotic and Abiotic components.' },
   ]},
-  { module: 5, number: 9, parts: [
+  { module: 5, paperHeading: 'Module - 3 (as printed on page 2)', number: 9, parts: [
     { id:'q9a', label:'a', text:'What is meant by Global warming? Discuss its causes and effect.' },
     { id:'q9b', label:'b', text:'Briefly explain the impact of global warming in Biodiversity.' },
   ], alternative: [
