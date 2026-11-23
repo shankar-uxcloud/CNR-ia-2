@@ -153,6 +153,7 @@ function Nav({ path, onNavigate }) {
     { to: '/ecoweb', label: 'EcoWeb Architect', icon: Network },
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/learning-hub', label: 'Learning Hub', icon: BookOpenText },
+    { to: '/cnr-notes', label: 'CNR Notes Hub', icon: BookOpenText },
     { to: '/resources', label: 'Academic Resource Vault', icon: FileText },
     { to: '/mqps', label: 'Model Question Papers', icon: FileText },
     { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', icon: FileText },
@@ -179,7 +180,7 @@ function Nav({ path, onNavigate }) {
   return (
     <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
       {items.map((it) => {
-        const active = path === it.to || (it.to === '/questions' && path.startsWith('/q/'));
+        const active = path === it.to || (it.to === '/cnr-notes' && path.startsWith('/cnr-notes/')) || (it.to === '/questions' && path.startsWith('/q/'));
         return (
           <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={active ? 'page' : undefined}
             className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>

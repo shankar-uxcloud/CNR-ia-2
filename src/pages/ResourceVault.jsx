@@ -21,9 +21,9 @@ function driveLink(resource, mode = 'open') {
   return mode === 'preview' ? getDrivePreviewUrl(id) : getDriveOpenUrl(id);
 }
 
-export default function ResourceVault() {
+export default function ResourceVault({ initialModule = 'all' } = {}) {
   const [search, setSearch] = useState('');
-  const [moduleFilter, setModuleFilter] = useState('all');
+  const [moduleFilter, setModuleFilter] = useState(() => initialModule === 'all' ? 'all' : String(initialModule));
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [savedOnly, setSavedOnly] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
