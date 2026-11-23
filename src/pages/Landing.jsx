@@ -2,7 +2,7 @@ import {
   ArrowRight, ArrowUpRight, BookOpen, BookOpenCheck, Brain, CalendarDays,
   CheckCircle2, ClipboardList, FileQuestion, FileText, GraduationCap,
   Layers3, LibraryBig, Menu, Moon, PanelTop, Sparkles, Target, X,
-  BarChart3, Shapes, Compass, Leaf,
+  BarChart3, Shapes, Compass, Leaf, FileStack, Orbit,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { QUESTIONS, MODULES, MODULE_ORDER, SUBJECT } from '../data/questions';
@@ -18,6 +18,9 @@ const FEATURES = [
   { icon: Brain, title: 'AI Study Coach', text: 'Get guided study support while you work through difficult concepts.', href: '#/study-coach', tag: 'Understand' },
   { icon: BarChart3, title: 'Progress & revision', text: 'Review your activity and focus your next revision session where it matters.', href: '#/smart-revision', tag: 'Improve' },
   { icon: CalendarDays, title: 'Planning & exam tools', text: 'Use the planner, quizzes and exam simulator to build a steady preparation routine.', href: '#/learning-hub', tag: 'Prepare' },
+  { icon: FileStack, title: 'June / July 2026 paper', text: 'Open the dedicated VTU question paper with structured ten-mark answers.', href: '#/question-papers/june-july-2026', tag: 'Question paper' },
+  { icon: FileText, title: 'December / January paper', text: 'Continue exam preparation with the December / January question-paper collection.', href: '#/dec-jan-2026', tag: 'Question paper' },
+  { icon: Orbit, title: 'Visual Learning Studio', text: 'Explore concepts through interactive visual workspaces and guided learning.', href: '#/visual-studio', tag: 'Explore' },
 ];
 
 const JOURNEY = [
@@ -108,6 +111,16 @@ export default function Landing() {
             <ResourcePreview />
           </div>
           <div className="cnr-hero-bottom"><span>BUILT AROUND YOUR LEARNING JOURNEY</span><div /><span>{SUBJECT.code} · {SUBJECT.name}</span></div>
+        </section>
+
+        <section className="cnr-quick-access" aria-label="Quick access to key learning areas">
+          <div className="cnr-quick-access-inner">
+            <div className="cnr-quick-intro"><span className="cnr-quick-pulse"/><span><b>Pick up where you want to learn</b><small>Direct access to the core CNR workspace</small></span></div>
+            <a href="#/learning-hub"><BookOpen size={17}/> Learning Hub <ArrowUpRight size={14}/></a>
+            <a href="#/resources"><LibraryBig size={17}/> Resource Vault <ArrowUpRight size={14}/></a>
+            <a href="#/question-papers/june-july-2026"><FileQuestion size={17}/> June / July Paper <ArrowUpRight size={14}/></a>
+            <a href="#/dashboard"><PanelTop size={17}/> Dashboard <ArrowUpRight size={14}/></a>
+          </div>
         </section>
 
         <section id="about" className="cnr-section cnr-about">
