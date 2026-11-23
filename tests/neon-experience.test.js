@@ -35,10 +35,10 @@ test('shared design system styles navigation, study cards, answers and learning 
 });
 
 test('navigation exposes route-aware active state for grouped and nested question routes', () => {
-  assert.match(shell, /const activePath = answeredQuestion \\? '\\/module\\/' \\+ answeredQuestion\\.module : canonicalPath/);
-  assert.match(shell, /const isActive = \\(item\\) => activePath === item\\.to/);
-  assert.match(shell, /aria-current=\\{active \\? 'page' : undefined\\}/);
-  assert.match(shell, /className=\\{'sidebar-link '/);
+  assert.ok(shell.includes("const activePath = answeredQuestion ? '/module/' + answeredQuestion.module : canonicalPath"));
+  assert.ok(shell.includes("const isActive = (item) => activePath === item.to"));
+  assert.ok(shell.includes("aria-current={active ? 'page' : undefined}"));
+  assert.ok(shell.includes("className={'sidebar-link '"));
 });
 
 test('theme preference remains persisted in the existing study store', () => {
