@@ -38,7 +38,7 @@ function AcademicDiagram({ type }) {
     warming:'Enhanced greenhouse-effect schematic based on PDF pp. 47–50; no numbered source figure is provided.',
     restoration:'Ecological restoration schematic based on PDF p. 40; no numbered source figure is provided.',
     eia:'Simplified EIA sequence organized from the text on PDF pp. 54–55; no numbered EIA flowchart is provided. The hydroelectric-plant illustration on p. 55 is a project diagram, not an EIA-stage figure.'
-  }[type] || 'Conceptual study diagram based on the supplied BCV755B notes; source PDF page is listed with the answer.')}</figcaption></figcaption></figure>;
+  }[type] || 'Conceptual study diagram based on the supplied BCV755B notes; source PDF page is listed with the answer.')}</figcaption></figure>;
 }
 
 function AnswerCard({ item, index, total, bookmarked, completed, expanded, printId, onBookmark, onComplete, onExpand, onPrint, onNavigate }) {
