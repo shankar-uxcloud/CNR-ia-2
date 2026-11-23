@@ -38,12 +38,12 @@ test('shared layout sizes the content canvas for expanded and compact desktop ra
   const shell = read('src/components/Shell.jsx');
   const styles = read('src/styles/utilities.css');
 
-  assert.match(shell, /lg:ml-\\[17rem\\]/);
-  assert.match(shell, /lg:ml-\\[4\\.75rem\\]/);
-  assert.match(styles, /\\.min-h-screen > main\\[class~="lg:ml-\\[17rem\\]"\\]/);
-  assert.match(styles, /width:\\s*calc\\(100% - 17rem\\)/);
-  assert.match(styles, /\\.min-h-screen > main\\[class~="lg:ml-\\[4\\.75rem\\]"\\]/);
-  assert.match(styles, /width:\\s*calc\\(100% - 4\\.75rem\\)/);
+  assert.ok(shell.includes('lg:ml-[17rem]'));
+  assert.ok(shell.includes('lg:ml-[4.75rem]'));
+  assert.ok(styles.includes('.min-h-screen > main[class~="lg:ml-[17rem]"]'));
+  assert.ok(styles.includes('width: calc(100% - 17rem)'));
+  assert.ok(styles.includes('.min-h-screen > main[class~="lg:ml-[4.75rem]"]'));
+  assert.ok(styles.includes('width: calc(100% - 4.75rem)'));
 });
 
 test('shared page containers use consistent gutters and responsive alignment rules', () => {
