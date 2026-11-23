@@ -165,8 +165,8 @@ const NAV_GROUPS = [
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
     { to: '/mqps', label: 'Model Question Papers', icon: FolderOpen, children: [
-      { to: '/dec-jan-2026', label: 'Dec/Jan 2026' },
-      { to: '/question-papers/june-july-2026', label: 'June/July 2026' },
+      { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', shortLabel: 'Dec/Jan 2026' },
+      { to: '/question-papers/june-july-2026', label: 'June/July 2026 Question Paper', shortLabel: 'June/July 2026' },
     ]},
   ]},
   { id: 'tools', title: 'Learning Tools', icon: Sparkles, defaultOpen: false, items: [
@@ -194,7 +194,8 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
   const [papersExpanded, setPapersExpanded] = useState(true);
   const questionRoute = path.match(/^\/q\/([^/]+)$/);
   const answeredQuestion = questionRoute && QUESTIONS.find((question) => question.id === questionRoute[1]);
-  const activePath = answeredQuestion ? '/module/' + answeredQuestion.module : path;
+  const canonicalPath = path === '/materials' || path.startsWith('/materials/') ? '/resources' : path;
+  const activePath = answeredQuestion ? '/module/' + answeredQuestion.module : canonicalPath;
   const bookmarkCount = Object.keys(bookmarks || {}).length;
   const totalQuestions = QUESTIONS.length;
   const completedQuestions = QUESTIONS.filter((question) => Boolean(completed?.[question.id])).length;
@@ -241,7 +242,7 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
         aria-label={item.label} title={collapsed ? item.label : undefined}
         className={'sidebar-link ' + (nested ? 'sidebar-link-nested ' : '') + (active ? 'is-active' : '')}>
         {Icon ? <Icon size={17} aria-hidden="true" /> : <span className="sidebar-link-dot" aria-hidden="true" />}
-        <span className="sidebar-link-label">{nested ? item.label : (item.shortLabel || item.label)}</span>
+        <span className="sidebar-link-label">{item.shortLabel || item.label}</span>
         {hasCount && <span className="sidebar-badge">{count}</span>}
       </a>
     );
