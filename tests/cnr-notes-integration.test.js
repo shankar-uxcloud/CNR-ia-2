@@ -7,7 +7,7 @@ const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
 test('CNR Notes hub and module deep links are wired into the existing application router', () => {
   const app = read('../src/App.jsx');
   assert.match(app, /path === '\/cnr-notes'/);
-    assert.match(app, /cnrNotesModule = path\\.match/);
+    assert.ok(app.includes('cnrNotesModule = path.match'));
   assert.match(app, /initialModule=\{Number\(cnrNotesModule\[1\]\)\}/);
   assert.match(app, /path === '\/materials'/);
 });
