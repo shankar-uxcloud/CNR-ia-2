@@ -1881,7 +1881,7 @@ aside.sidebar-shell nav .sidebar-link.is-active {
 .mobile-navigation-drawer .sidebar-brand-row { min-height: 76px; }
 @media (prefers-reduced-motion: reduce) {
   .sidebar-shell, .sidebar-link, .sidebar-group-panel, .sidebar-subnav-panel,
-  .sidebar-group-chevron, .sidebar-nested-toggle svg, .sidebar-progress-track > span, .topbar { transition: none !important; }
+  .sidebar-group-chevron, .sidebar-nested-toggle svg, .sidebar-progress-track > span, .topbar { transition: none; }
   .sidebar-link:hover { transform: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
