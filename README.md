@@ -237,8 +237,7 @@ Ideas and focused contributions are welcome through [GitHub Issues](https://gith
 ### 🌱 Learn the science. Understand the systems. Make every revision count.
 
 **CNR-IA-2 · Conservation of Natural Resources**
-
-[Launch CNR-IA-2](https://shankar-uxcloud.github.io/CNR-ia-2/) · [View source on GitHub](https://github.com/shankar-uxcloud/CNR-ia-2)
+ [View source on GitHub](https://github.com/shankar-uxcloud/CNR-ia-2)
 
 <sub>Built with curiosity, code and a commitment to better learning.</sub>
 
