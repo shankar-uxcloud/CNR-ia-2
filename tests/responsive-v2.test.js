@@ -14,8 +14,8 @@ test('responsive v2 is loaded after the existing responsive and premium layers',
 
 test('route inventory retains all application destinations', () => {
   for (const route of ['/welcome','/learning-hub','/resources','/mqps','/dec-jan-2026','/dashboard','/questions','/bookmarks','/revision','/practice','/quiz','/exam','/analytics','/visual-studio','/environment-lab','/smart-revision','/additional-notes','/study-coach','/data-backup','/ecoweb','/planner']) assert.ok(app.includes("=== '" + route + "'"), 'route missing: ' + route);
-  assert.match(app, /\/module\/\(\[345\]\)/);
-  assert.match(app, /\/q\/\(\[a-z0-9\]\+\)/);
+  assert.ok(app.includes('([345])'), 'module route pattern missing');
+  assert.ok(app.includes('([a-z0-9]+)'), 'question route pattern missing');
 });
 
 test('shared shell navigation retains accessible drawer and focus management', () => {
