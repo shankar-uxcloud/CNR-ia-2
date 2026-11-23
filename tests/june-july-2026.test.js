@@ -35,3 +35,22 @@ test('page is routed and appears in the primary navigation', () => {
 test('responsive and print styles are present', () => {
   for (const marker of ['@media(max-width:700px)','@media(max-width:380px)','@media print','break-inside:avoid','max-width:680px']) assert.ok(styles.includes(marker), 'missing style: '+marker);
 });
+
+
+test('paper transcription preserves the printed Q9-Q10 heading and original phrasing', () => {
+  assert.ok(data.includes("paperHeading: 'Module - 3 (as printed on page 2)'"));
+  assert.ok(page.includes('Study mapping: Module {group.module}'));
+  assert.ok(data.includes('Explain brief the various problems and solution of it.'));
+  assert.ok(data.includes('Briefly discuss : i) Forest and Lotic Ecosystem ii Biotic and Abiotic components.'));
+});
+
+test('expand and collapse all operate on the currently visible answers', () => {
+  assert.ok(page.includes('visible.every((item) => collapsed.includes(item.id))'));
+  assert.ok(page.includes('visible.map((item) => item.id)'));
+});
+
+test('academic diagrams identify source PDF pages and disclose when no figure number is printed', () => {
+  for (const marker of ['PDF p. 17','PDF p. 27','PDF pp. 45–46','PDF pp. 47–50','no numbered source figure']) {
+    assert.ok(page.includes(marker), 'missing diagram provenance: '+marker);
+  }
+});
