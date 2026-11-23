@@ -34,10 +34,11 @@ test('shared design system styles navigation, study cards, answers and learning 
   assert.match(css, /@media print/);
 });
 
-test('navigation exposes active state for nested question routes', () => {
-  assert.match(shell, /const active = path === it\.to \|\| \(it\.to === '\/questions' && path\.startsWith\('\/q\/'\)\)/);
-  assert.match(shell, /aria-current=\{active \? 'page' : undefined\}/);
-  assert.match(shell, /\$\{active \? 'bg-brand\/12 text-brand'/);
+test('navigation exposes route-aware active state for grouped and nested question routes', () => {
+  assert.match(shell, /const activePath = answeredQuestion \\? '\\/module\\/' \\+ answeredQuestion\\.module : canonicalPath/);
+  assert.match(shell, /const isActive = \\(item\\) => activePath === item\\.to/);
+  assert.match(shell, /aria-current=\\{active \\? 'page' : undefined\\}/);
+  assert.match(shell, /className=\\{'sidebar-link '/);
 });
 
 test('theme preference remains persisted in the existing study store', () => {
