@@ -153,6 +153,7 @@ function Nav({ path, onNavigate }) {
     { to: '/ecoweb', label: 'EcoWeb Architect', icon: Network },
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/learning-hub', label: 'Learning Hub', icon: BookOpenText },
+    { to: '/cnr-notes', label: 'CNR Notes Hub', icon: BookOpenText },
     { to: '/resources', label: 'Academic Resource Vault', icon: FileText },
     { to: '/mqps', label: 'Model Question Papers', icon: FileText },
     { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', icon: FileText },
@@ -278,7 +279,7 @@ export default function Shell({ path, children }) {
       {!hide && (
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
-          <Nav path={path} />
+          <Nav path={path.startsWith('/cnr-notes/') ? '/cnr-notes' : path} />
         </aside>
       )}
 
@@ -287,7 +288,7 @@ export default function Shell({ path, children }) {
           <button type="button" aria-label="Close navigation menu" data-drawer-backdrop tabIndex={-1} className="absolute inset-0 h-full w-full cursor-default bg-black/60" onClick={() => setOpen(false)} />
           <div ref={drawerRef} tabIndex={-1} className="mobile-navigation-drawer absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
-            <Nav path={path} onNavigate={() => setOpen(false)} />
+            <Nav path={path.startsWith('/cnr-notes/') ? '/cnr-notes' : path} onNavigate={() => setOpen(false)} />
           </div>
         </div>
       )}

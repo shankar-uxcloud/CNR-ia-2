@@ -13,7 +13,7 @@ import './Landing.css';
 
 const FEATURES = [
   { icon: BookOpenCheck, title: 'Structured study answers', text: 'Explore clear, exam-oriented answers, key concepts and labelled diagrams.', href: '#/questions', tag: 'Learn' },
-  { icon: LibraryBig, title: 'Academic Resource Vault', text: 'Find available CNR notes, syllabus files and question-paper resources in one place.', href: '#/resources', tag: 'Discover' },
+  { icon: LibraryBig, title: 'CNR Notes Library', text: 'Browse the integrated five-module notes hub and continue into the searchable academic resource vault.', href: '#/cnr-notes', tag: 'Discover' },
   { icon: FileQuestion, title: 'Model question papers', text: 'Practise with student-created model sets, clearly distinguished from official VTU papers.', href: '#/mqps', tag: 'Practise' },
   { icon: Brain, title: 'AI Study Coach', text: 'Get guided study support while you work through difficult concepts.', href: '#/study-coach', tag: 'Understand' },
   { icon: BarChart3, title: 'Progress & revision', text: 'Review your activity and focus your next revision session where it matters.', href: '#/smart-revision', tag: 'Improve' },

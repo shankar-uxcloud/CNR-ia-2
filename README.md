@@ -57,6 +57,10 @@ Whether you're revising a concept, testing your recall or exploring how an ecosy
 
 > Feature availability can evolve as the project is developed. The live application is the source of truth for the currently published experience.
 
+## 📚 Integrated CNR Notes library
+
+The original CNR Notes project is integrated into this application as a focused five-module entry point backed by the existing Academic Resource Vault. Open `#/cnr-notes` to browse Modules 1–5, or `#/cnr-notes/module/1` through `#/cnr-notes/module/5` to open the shared vault filtered to a module. The legacy `#/materials` route also resolves to the same library. Original source PDFs are reused where already present; sample-only answers and simulated authentication/payment screens from the standalone source app are intentionally not presented as production features. See [the integration notes](docs/CNR-NOTES-INTEGRATION.md) for the migration boundaries.
+
 ## 🌎 Featured experience — EcoWeb Architect
 
 EcoWeb Architect turns ecosystem relationships into an interactive learning activity.
