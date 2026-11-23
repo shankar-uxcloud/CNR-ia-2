@@ -26,8 +26,8 @@ function AcademicDiagram({ type }) {
   return <figure className="jj-diagram"><svg viewBox="0 0 400 250" role="img" aria-label={type + ' academic schematic'}>{diagrams[type] || diagrams.ecosystem}</svg><figcaption>{({bag:'Working principle of a fabric baghouse filter (schematic, based on the notes description).',ingress:'Freshwater lens and saltwater interface in a coastal aquifer (schematic).',river:'Two components of the proposed National River Linking Project (schematic).'}[type] || 'Conceptual study diagram based on the supplied BCV755B notes.')}</figcaption></figure>;
 }
 
-function AnswerCard({ item, index, total, bookmarked, completed, expanded, onBookmark, onComplete, onExpand, onPrint, onNavigate }) {
-  return <article id={item.id} className="jj-answer-card card" data-answer-id={item.id}>
+function AnswerCard({ item, index, total, bookmarked, completed, expanded, printId, onBookmark, onComplete, onExpand, onPrint, onNavigate }) {
+  return <article id={item.id} className="jj-answer-card card" data-answer-id={item.id} style={printId && printId !== 'all' && printId !== item.id ? { display: 'none' } : undefined}>
     <div className="jj-answer-top">
       <div><div className="jj-question-kicker">{item.question} <span>·</span> Module {item.module}</div><h3>{item.title}</h3></div>
       <span className="jj-marks">10 MARKS</span>
@@ -111,7 +111,7 @@ export default function JuneJuly2026() {
       if (!moduleAnswers.length) return null;
       return <section className="jj-module-section" id={'jj-module-' + mod.id} key={mod.id}>
         <div className="jj-module-heading"><div><span>MODULE {String(mod.id).padStart(2,'0')}</span><h2>{mod.title}</h2></div><span>{moduleAnswers.length} answers shown</span></div>
-        <div className="jj-answer-list">{moduleAnswers.map((item) => <AnswerCard key={item.id} item={item} index={visible.findIndex((a) => a.id === item.id)} total={visible.length} bookmarked={bookmarks.includes(item.id)} completed={completed.includes(item.id)} expanded={isExpanded(item.id)} onBookmark={() => toggle(bookmarks,setBookmarks,item.id)} onComplete={() => toggle(completed,setCompleted,item.id)} onExpand={() => toggle(collapsed,setCollapsed,item.id)} onPrint={() => setPrintId(item.id)} onNavigate={navigateTo}/>)}</div>
+        <div className="jj-answer-list">{moduleAnswers.map((item) => <AnswerCard key={item.id} item={item} index={visible.findIndex((a) => a.id === item.id)} total={visible.length} bookmarked={bookmarks.includes(item.id)} completed={completed.includes(item.id)} expanded={isExpanded(item.id)} onBookmark={() => toggle(bookmarks,setBookmarks,item.id)} onComplete={() => toggle(completed,setCompleted,item.id)} onExpand={() => toggle(collapsed,setCollapsed,item.id)} printId={printId} onPrint={() => setPrintId(item.id)} onNavigate={navigateTo}/>)}</div>
       </section>;
     })}
     {!visible.length && <div className="jj-empty card"><Search size={26}/><h2>No matching answers</h2><p>Try a different keyword or module.</p><button type="button" onClick={() => {setSearch('');setModuleFilter('all');}}>Clear filters</button></div>}
