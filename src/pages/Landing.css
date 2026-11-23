@@ -70,14 +70,14 @@
 .cnr-intro .cnr-nav-links button:hover{color:var(--cyber-accent)}
 .cnr-intro .cnr-nav-links{gap:clamp(16px,2.3vw,34px)}
 .cnr-intro .cnr-hero-note{color:color-mix(in srgb,var(--landing-text) 72%,transparent)}
-.cnr-intro .cnr-hero-note svg,.cnr-intro .cnr-hero-bottom div{color:var(--cyber-accent);background-color:var(--cyber-accent)}
+.cnr-intro .cnr-hero-note svg{color:var(--cyber-accent)}.cnr-intro .cnr-hero-bottom div{background-color:var(--cyber-accent)}
 .cnr-intro .cnr-hero-bottom{border-color:color-mix(in srgb,var(--cyber-accent) 18%,transparent);color:color-mix(in srgb,var(--landing-text) 60%,transparent)}
 .cnr-intro .cnr-preview-glow{background:color-mix(in srgb,var(--cyber-accent) 24%,transparent)}
 .cnr-intro .cnr-float-card{border-color:color-mix(in srgb,var(--cyber-accent) 26%,var(--border-color));background:color-mix(in srgb,var(--surface-elevated) 92%,transparent);color:var(--text-primary);box-shadow:var(--cyber-panel-shadow)}
 .cnr-intro .cnr-float-card small{color:var(--text-muted)}
 .cnr-intro .cnr-float-card>svg,.cnr-intro .cnr-float-icon{color:var(--cyber-accent)}
 .cnr-intro .cnr-float-icon{background:color-mix(in srgb,var(--cyber-accent) 13%,var(--surface-secondary))}
-.cnr-intro .cnr-section{max-width:1240px;padding-inline:clamp(20px,3vw,38px)}
+.cnr-intro .cnr-section{max-width:1240px;padding-inline:clamp(20px,3vw,38px)}.cnr-intro .cnr-explore{max-width:none}
 .cnr-intro .cnr-section-head{border-color:var(--border-color)}
 .cnr-intro .cnr-section-index{color:var(--text-muted)}
 .cnr-intro .cnr-section h2,.cnr-intro .cnr-benefits h2{color:var(--text-primary)}
@@ -164,3 +164,19 @@
 @media(prefers-reduced-motion:reduce){
   .cnr-intro .cnr-quick-access-inner>a:hover{transform:none}
 }
+
+/* Dark appearance overrides legacy landing-only defaults with the shared tokens. */
+:root[data-theme='dark'] .cnr-intro{
+  --ci-ink:var(--text-primary);--ci-muted:var(--text-muted);--ci-paper:var(--bg-primary);
+  --ci-card:var(--surface-primary);--ci-line:var(--border-color);--ci-green:var(--cyber-accent);
+}
+:root[data-theme='dark'] .cnr-intro .cnr-explore,
+:root[data-theme='dark'] .cnr-intro .cnr-benefits{background:var(--bg-secondary)}
+:root[data-theme='dark'] .cnr-intro .cnr-feature-card,
+:root[data-theme='dark'] .cnr-intro .cnr-journey-card,
+:root[data-theme='dark'] .cnr-intro .cnr-about-band,
+:root[data-theme='dark'] .cnr-intro .cnr-answer-preview{background:var(--surface-primary);border-color:var(--border-color)}
+:root[data-theme='dark'] .cnr-intro .cnr-showcase-card{background:var(--surface-elevated);color:var(--text-primary);border-color:var(--border-color)}
+:root[data-theme='dark'] .cnr-intro .cnr-showcase-card small,
+:root[data-theme='dark'] .cnr-intro .cnr-feature-card p,
+:root[data-theme='dark'] .cnr-intro .cnr-benefit-list p{color:var(--text-muted)}
