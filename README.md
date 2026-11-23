@@ -15,14 +15,13 @@ An interactive, browser-based learning workspace built to turn CNR preparation i
 
 <br />
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Open_App-0ea5e9?style=for-the-badge)](https://shankar-uxcloud.github.io/CNR-ia-2/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
 <br />
 
-[Explore the app](https://shankar-uxcloud.github.io/CNR-ia-2/) · [Report a bug](https://github.com/shankar-uxcloud/CNR-ia-2/issues) · [Request an enhancement](https://github.com/shankar-uxcloud/CNR-ia-2/issues)
+· [Report a bug](https://github.com/shankar-uxcloud/CNR-ia-2/issues) · [Request an enhancement](https://github.com/shankar-uxcloud/CNR-ia-2/issues)
 
 </div>
 
