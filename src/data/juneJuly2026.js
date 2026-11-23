@@ -366,7 +366,8 @@ export const EXAM_ANSWERS = [
       ])
     ],
     'Ecological restoration supports biodiversity by helping damaged ecosystems recover their habitats and functions. Long-term success requires suitable restoration methods and continued protection.',
-    'BCV755B Full Notes, PDF pp. 35–40: “Threats to Biodiversity”, “Ecological Restoration” and “Social Forestry”.',\n    'restoration'),
+    'BCV755B Full Notes, PDF pp. 35–40: “Threats to Biodiversity”, “Ecological Restoration” and “Social Forestry”.',
+    'restoration'),
 
   answer('q8a','Q8(a)',4,'Ecosystem and Different Types of Ecosystem',
     'An ecosystem is a community of living organisms (biotic components) interacting with one another and with their non-living environment (abiotic components). Ecosystems may be terrestrial or aquatic and are classified by their dominant physical and biological features.',
@@ -502,7 +503,8 @@ export const EXAM_ANSWERS = [
       ])
     ],
     'EIA is an important preventive planning tool. It supports environmental protection by identifying impacts early, involving the public and requiring mitigation before and during project implementation.',
-    'BCV755B Full Notes, PDF p. 54: “EIA Regulations and Status in India”. The notes describe screening, categorization and public consultation; the staged summary above organizes the process described there and should not be read as a separately numbered list in the source.',\n    'eia'),
+    'BCV755B Full Notes, PDF p. 54: “EIA Regulations and Status in India”. The notes describe screening, categorization and public consultation; the staged summary above organizes the process described there and should not be read as a separately numbered list in the source.',
+    'eia'),
 
   answer('q10b','Q10(b)',5,'Importance of EIA for a Thermal Power Plant',
     'A thermal power plant burns fuel to generate heat and produce electricity. The BCV755B notes identify thermal power plants as projects requiring environmental clearance under the EIA framework and describe EIA as a process for identifying and mitigating environmental, social and economic impacts before approval.',
