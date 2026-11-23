@@ -10,15 +10,6 @@ test('CNR Notes hub and module deep links are wired into the existing applicatio
   assert.ok(app.includes('cnrNotesModule = path.match'));
   assert.ok(app.includes('initialModule={Number(cnrNotesModule[1])}'));
   assert.ok(app.includes("path === '/materials'"));
-    assert.ok(app.includes('cnrNotesModule = path.match'));
-  assert.ok(app.includes("path === '/cnr-notes'"));
-  assert.ok(app.includes('cnrNotesModule = path.match'));
-  assert.ok(app.includes('initialModule={Number(cnrNotesModule[1])}'));
-  assert.ok(app.includes("path === '/materials'"));
-  assert.ok(app.includes("path === '/cnr-notes'"));
-  assert.ok(app.includes('cnrNotesModule = path.match'));
-  assert.ok(app.includes('initialModule={Number(cnrNotesModule[1])}'));
-  assert.ok(app.includes("path === '/materials'"));
 });
 
 test('the primary navigation and landing page expose the integrated CNR Notes hub', () => {
@@ -32,15 +23,15 @@ test('the primary navigation and landing page expose the integrated CNR Notes hu
 test('the hub and shared reader use the existing real resource catalogue', () => {
   const hub = read('../src/pages/CNRNotes.jsx');
   const vault = read('../src/pages/ResourceVault.jsx');
-  assert.match(hub, /DRIVE_RESOURCES/);
-  assert.match(hub, /RESOURCE_CATEGORIES/);
-  assert.match(vault, /initialModule = 'all'/);
-  assert.match(vault, /String\(initialModule\)/);
+  assert.ok(hub.includes('DRIVE_RESOURCES'));
+  assert.ok(hub.includes('RESOURCE_CATEGORIES'));
+  assert.ok(vault.includes("initialModule = 'all'"));
+  assert.ok(vault.includes('String(initialModule)'));
 });
 
 test('integration documentation explicitly excludes demo authentication and placeholder answers', () => {
   const docs = read('../docs/CNR-NOTES-INTEGRATION.md');
-  assert.match(docs, /sample placeholders/);
-  assert.match(docs, /simulated sign-in/);
-  assert.match(docs, /payments are disabled/);
+  assert.ok(docs.includes('sample placeholders'));
+  assert.ok(docs.includes('simulated sign-in'));
+  assert.ok(docs.includes('payments are disabled'));
 });
