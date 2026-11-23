@@ -2,7 +2,7 @@ import {
   ArrowRight, ArrowUpRight, BookOpen, BookOpenCheck, Brain, CalendarDays,
   CheckCircle2, ClipboardList, FileQuestion, FileText, GraduationCap,
   Layers3, LibraryBig, Menu, Moon, PanelTop, Sparkles, Target, X,
-  BarChart3, Shapes, Compass, Leaf, FileStack, Orbit, Activity,
+  BarChart3, Shapes, Compass, Leaf, FileStack, Orbit,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { QUESTIONS, MODULES, MODULE_ORDER, SUBJECT } from '../data/questions';
