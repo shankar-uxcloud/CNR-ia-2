@@ -1,0 +1,136 @@
+/* CNR-IA-2 · responsive system v2
+   A final, shared layout layer for the app shell and route content.
+   Component-specific styles remain authoritative for their own composition. */
+
+:root {
+  --bp-small-mobile: 374px;
+  --bp-mobile: 430px;
+  --bp-large-mobile: 767px;
+  --bp-tablet: 1023px;
+  --bp-laptop: 1439px;
+  --page-gutter: clamp(1rem, 3.2vw, 2.5rem);
+  --page-gutter-mobile: clamp(.875rem, 4vw, 1.25rem);
+  --section-gap: clamp(1.25rem, 3vw, 2.25rem);
+  --control-min-size: 44px;
+  --shell-sidebar-width: 16rem;
+  --shell-header-height: 4rem;
+}
+
+html { min-width: 320px; }
+body { min-width: 320px; }
+#root, #root > *, main, .page-enter { min-width: 0; }
+main { width: 100%; }
+.page-enter { box-sizing: border-box; }
+.page-enter :where(.mx-auto) { min-width: 0; }
+.page-enter :where(.card, [class*="rounded-"]) { overflow-wrap: anywhere; }
+.page-enter :where(.grid, .flex) { min-width: 0; }
+.page-enter :where(.grid > *, .flex > *) { min-width: 0; }
+.page-enter :where(img, video, iframe, canvas, svg) { max-inline-size: 100%; }
+.page-enter :where(button, a, input, select, textarea, summary) { touch-action: manipulation; }
+.page-enter :where(button, a, summary, [role="button"]) { -webkit-tap-highlight-color: transparent; }
+.page-enter :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+  max-inline-size: 100%; min-inline-size: 0; font-size: max(16px, 1em);
+}
+.page-enter :where(table) { max-inline-size: 100%; }
+.page-enter :where(.reading table, .table-scroll, .overflow-x-auto) {
+  max-inline-size: 100%; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch;
+}
+.page-enter :where(pre, .code-block) { max-inline-size: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
+.page-enter :where(.reading, .answer-content) { min-inline-size: 0; }
+.page-enter :where(.diagram-frame, figure) { max-inline-size: 100%; margin-inline: auto; }
+.page-enter :where(.diagram-frame svg, figure img) { display: block; max-inline-size: 100%; block-size: auto; margin-inline: auto; }
+.page-enter :where(figcaption) { max-inline-size: 70ch; margin-inline: auto; line-height: 1.55; text-wrap: pretty; }
+.page-enter :where(h1, h2, h3, h4) { text-wrap: balance; }
+.page-enter :where(p, li, td, th) { overflow-wrap: anywhere; }
+
+.topbar { box-sizing: border-box; padding-inline-start: max(.75rem, env(safe-area-inset-left, 0px)); padding-inline-end: max(.75rem, env(safe-area-inset-right, 0px)); }
+.topbar > * { min-width: 0; }
+.mobile-navigation-dialog { overscroll-behavior: contain; }
+.mobile-navigation-drawer { max-width: calc(100vw - 1.25rem); max-width: calc(100dvw - 1.25rem); }
+.mobile-navigation-drawer nav { min-width: 0; }
+.mobile-navigation-drawer nav a { min-height: var(--control-min-size); }
+.appearance-dropdown { min-width: 0; max-width: 100%; }
+.appearance-dropdown-trigger { min-height: var(--control-min-size); max-width: 100%; }
+.appearance-dropdown-panel { max-width: min( min(25rem, calc(100vw - 1rem)), calc(100dvw - 1rem)); }
+.fab { min-width: var(--control-min-size); min-height: var(--control-min-size); }
+
+@media (max-width: 374px) {
+  :root { --page-gutter: .75rem; --shell-header-height: 3.5rem; }
+  .topbar { gap: .35rem; padding-inline: max(.5rem, env(safe-area-inset-left, 0px)); }
+  .topbar .leading-tight { max-width: 7.8rem; }
+  .topbar .leading-tight > span:first-child { font-size: .78rem; }
+  .topbar .leading-tight > span:last-child { font-size: .48rem; letter-spacing: .08em; }
+  .topbar .appearance-trigger-copy small { display: none; }
+  .topbar .appearance-dropdown-trigger { gap: .35rem; padding-inline: .55rem; }
+  .page-enter > .mx-auto[class*="max-w-"] { padding-inline: var(--page-gutter); }
+  .page-enter :where(.btn, .btn-primary, .btn-ghost) { padding-inline: .7rem; }
+  .appearance-dropdown-panel { position: fixed; inset-inline: .5rem; top: calc(var(--mobile-header-height) + env(safe-area-inset-top, 0px) + .5rem); width: auto; max-width: none; }
+}
+
+@media (min-width: 375px) and (max-width: 430px) {
+  :root { --page-gutter: .875rem; }
+  .page-enter > .mx-auto[class*="max-w-"] { padding-inline: var(--page-gutter); }
+}
+
+@media (min-width: 431px) and (max-width: 767px) {
+  :root { --page-gutter: clamp(1rem, 3.5vw, 1.5rem); }
+  .page-enter > .mx-auto[class*="max-w-"] { padding-inline: var(--page-gutter); }
+}
+
+@media (max-width: 767px) {
+  .topbar { min-height: calc(56px + env(safe-area-inset-top, 0px)); height: auto; }
+  .page-enter { padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px)); }
+  .page-enter > .mx-auto[class*="max-w-"] { box-sizing: border-box; width: 100%; max-width: 100%; }
+  .page-enter :where(.grid[class*="sm:grid-cols-"], .grid[class*="md:grid-cols-"], .grid[class*="lg:grid-cols-"], .grid[class*="xl:grid-cols-"]) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .page-enter :where(.flex.items-center.justify-between) { flex-wrap: wrap; row-gap: .75rem; }
+  .page-enter :where(.btn, .btn-primary, .btn-ghost, button, a[role="button"], summary) { min-height: var(--control-min-size); }
+  .page-enter :where(.reading) { max-width: 100%; font-size: clamp(1rem, 1rem + .2vw, 1.125rem); line-height: 1.76; }
+  .page-enter :where(.reading table) { display: block; width: 100%; overflow-x: auto; }
+  .page-enter :where(.reading th, .reading td) { min-width: 6rem; padding: .55rem .65rem; }
+  .page-enter :where(.card) { max-width: 100%; }
+  .mobile-navigation-drawer { width: min(21rem, calc(100vw - 1.25rem)); width: min(21rem, calc(100dvw - 1.25rem)); }
+  .appearance-dropdown-panel { max-height: calc(100dvh - var(--mobile-header-height) - 1.5rem); overflow-y: auto; overscroll-behavior: contain; }
+  .connectivity-toast { max-width: calc(100vw - 1.5rem); max-width: calc(100dvw - 1.5rem); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root { --page-gutter: clamp(1.25rem, 3vw, 2rem); }
+  .page-enter > .mx-auto[class*="max-w-"] { box-sizing: border-box; width: 100%; max-width: 960px; padding-inline: var(--page-gutter); }
+  .page-enter :where(.grid[class*="xl:grid-cols-"]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mobile-navigation-drawer { width: min(22rem, 88vw); }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root { --page-gutter: clamp(1.5rem, 2.5vw, 2.5rem); }
+  .page-enter > .mx-auto[class*="max-w-"] { box-sizing: border-box; max-width: min(100%, 1280px); padding-inline: var(--page-gutter); }
+}
+
+@media (min-width: 1440px) {
+  :root { --page-gutter: clamp(2rem, 3vw, 3.5rem); }
+  .page-enter > .mx-auto[class*="max-w-"] { box-sizing: border-box; max-width: min(100% - 5rem, 1600px); }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  [role="dialog"], .mobile-navigation-drawer, .appearance-dropdown-panel { max-height: 100dvh; overflow-y: auto; }
+  .topbar { min-height: 48px; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .page-enter :where(button, a, summary, [role="button"]) { -webkit-tap-highlight-color: transparent; }
+  .page-enter :where(.card:hover) { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .topbar, .appearance-dropdown-panel, .connectivity-toast { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+}
+
+@media (forced-colors: active) {
+  :focus-visible { outline: 2px solid Highlight; outline-offset: 3px; box-shadow: none; }
+}
