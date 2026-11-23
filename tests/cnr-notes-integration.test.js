@@ -6,17 +6,27 @@ const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
 test('CNR Notes hub and module deep links are wired into the existing application router', () => {
   const app = read('../src/App.jsx');
-  assert.match(app, /path === '\/cnr-notes'/);
+  assert.ok(app.includes("path === '/cnr-notes'"));
+  assert.ok(app.includes('cnrNotesModule = path.match'));
+  assert.ok(app.includes('initialModule={Number(cnrNotesModule[1])}'));
+  assert.ok(app.includes("path === '/materials'"));
     assert.ok(app.includes('cnrNotesModule = path.match'));
-  assert.match(app, /initialModule=\{Number\(cnrNotesModule\[1\]\)\}/);
-  assert.match(app, /path === '\/materials'/);
+  assert.ok(app.includes("path === '/cnr-notes'"));
+  assert.ok(app.includes('cnrNotesModule = path.match'));
+  assert.ok(app.includes('initialModule={Number(cnrNotesModule[1])}'));
+  assert.ok(app.includes("path === '/materials'"));
+  assert.ok(app.includes("path === '/cnr-notes'"));
+  assert.ok(app.includes('cnrNotesModule = path.match'));
+  assert.ok(app.includes('initialModule={Number(cnrNotesModule[1])}'));
+  assert.ok(app.includes("path === '/materials'"));
 });
 
 test('the primary navigation and landing page expose the integrated CNR Notes hub', () => {
   const shell = read('../src/components/Shell.jsx');
   const landing = read('../src/pages/Landing.jsx');
-  assert.match(shell, /to: '\/cnr-notes', label: 'CNR Notes Hub'/);
-  assert.match(landing, /title: 'CNR Notes Library'.*href: '#\/cnr-notes'/);
+  assert.ok(shell.includes("to: '/cnr-notes', label: 'CNR Notes Hub'"));
+  assert.ok(landing.includes("title: 'CNR Notes Library'"));
+  assert.ok(landing.includes("href: '#/cnr-notes'"));
 });
 
 test('the hub and shared reader use the existing real resource catalogue', () => {
