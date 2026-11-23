@@ -199,7 +199,8 @@ main { box-sizing: border-box; min-width: 0; }
 
 /* The main element has an explicit width: compensate for its desktop rail offset. */
 @media (min-width: 1024px) {
-  .min-h-screen > main[class~="lg:ml-64"] { width: calc(100% - 16rem); }
+  .min-h-screen > main[class~="lg:ml-[17rem]"] { width: calc(100% - 17rem); }
+  .min-h-screen > main[class~="lg:ml-[4.75rem]"] { width: calc(100% - 4.75rem); }
 }
 @media (max-width: 639px) {
   .page-enter > .mx-auto[class*="max-w-"] {

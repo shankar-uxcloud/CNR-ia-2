@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database, Layers3, Palette, ChevronDown, Check } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database, Layers3, Palette, ChevronDown, Check, Wind, Leaf, Globe2, FolderOpen } from 'lucide-react';
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
-import { QUESTIONS, byModule, SUBJECT } from '../data/questions';
-import { Bar, modColor } from './ui';
+import { QUESTIONS, SUBJECT } from '../data/questions';
 
 export function Logo({ light }) {
   return (
@@ -22,7 +21,8 @@ export function Logo({ light }) {
       </svg>
       <span className="leading-tight">
         <span className={`block text-[15px] font-extrabold tracking-[.055em] ${light ? 'text-white' : ''}`}><span className="bg-gradient-to-r from-cyan-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent">CNR-IA-2</span></span>
-        <span className={`block text-[10px] font-semibold tracking-[.12em] uppercase ${light ? 'text-white/60' : 'text-mute'}`}>CONSERVATION · {SUBJECT.code}</span>
+        <span className={`block max-w-[190px] truncate text-[11px] font-medium ${light ? 'text-white/65' : 'text-mute'}`}>Conservation & Natural Resources</span>
+        <span className={`mt-1 block text-[9px] font-semibold tracking-[.1em] ${light ? 'text-white/55' : 'text-mute'}`}>{SUBJECT.code} · VTU</span>
       </span>
     </a>
   );
@@ -146,54 +146,145 @@ function AppearanceDropdown({ className = '' }) {
   );
 }
 
-function Nav({ path, onNavigate }) {
-  const { bookmarks, completed } = useStudy();
-  const nb = Object.keys(bookmarks).length, done = Object.keys(completed).length;
-  const items = [
-    { to: '/ecoweb', label: 'EcoWeb Architect', icon: Network },
+const NAV_GROUPS = [
+  { id: 'overview', title: 'Overview', icon: LayoutDashboard, defaultOpen: true, items: [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/learning-hub', label: 'Learning Hub', icon: BookOpenText },
-    { to: '/cnr-notes', label: 'CNR Notes Hub', icon: BookOpenText },
-    { to: '/resources', label: 'Academic Resource Vault', icon: FileText },
-    { to: '/mqps', label: 'Model Question Papers', icon: FileText },
-    { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', icon: FileText },
-    { to: '/question-papers/june-july-2026', label: 'June/July 2026 Question Paper', icon: FileText },
-    { to: '/welcome', label: 'Welcome & Platform Tour', icon: Sparkles },
-    { to: '/analytics', label: 'Progress Analytics', icon: ChartNoAxesCombined },
-    { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
-    { to: '/environment-lab', label: '3D Science Lab', icon: Orbit },
-    { to: '/smart-revision', label: 'Weakness & Revision', icon: Brain },
-    { to: '/additional-notes', label: 'Additional Source Notes', icon: BookOpenText },
-    { to: '/questions', label: 'All Questions', icon: ListChecks, count: 10 },
-    { to: '/module/3', label: 'Module 3', moduleName: 'Air and Air Pollution', dot: 3, count: 2 },
-    { to: '/module/4', label: 'Module 4', moduleName: 'Biodiversity and Ecosystem', dot: 4, count: 4 },
-    { to: '/module/5', label: 'Module 5', moduleName: 'Global Warming and EIA', dot: 5, count: 4 },
-    { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark, count: nb },
+    { to: '/analytics', label: 'Progress & Analytics', icon: ChartNoAxesCombined },
+  ]},
+  { id: 'study', title: 'Study Material', icon: BookOpenText, defaultOpen: true, items: [
+    { to: '/questions', label: 'All Questions', icon: ListChecks, count: QUESTIONS.length },
+    { to: '/module/3', label: 'Module 3 — Air and Air Pollution', shortLabel: 'Module 3', icon: Wind, count: QUESTIONS.filter((question) => question.module === 3).length },
+    { to: '/module/4', label: 'Module 4 — Biodiversity and Ecosystems', shortLabel: 'Module 4', icon: Leaf, count: QUESTIONS.filter((question) => question.module === 4).length },
+    { to: '/module/5', label: 'Module 5 — Global Warming and EIA', shortLabel: 'Module 5', icon: Globe2, count: QUESTIONS.filter((question) => question.module === 5).length },
+    { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark, countFrom: 'bookmarks' },
     { to: '/revision', label: 'Revision Mode', icon: Zap },
+  ]},
+  { id: 'exam', title: 'Exam Preparation', icon: ClipboardCheck, defaultOpen: true, items: [
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
-    { to: '/study-coach', label: 'AI Study Coach', icon: Sparkles },
-    { to: '/data-backup', label: 'Backup & Restore', icon: Database },
+    { to: '/mqps', label: 'Model Question Papers', icon: FolderOpen, children: [
+      { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', shortLabel: 'Dec/Jan 2026' },
+      { to: '/question-papers/june-july-2026', label: 'June/July 2026 Question Paper', shortLabel: 'June/July 2026' },
+    ]},
+  ]},
+  { id: 'tools', title: 'Learning Tools', icon: Sparkles, defaultOpen: false, items: [
+    { to: '/study-coach', label: 'AI Study Coach', icon: Brain },
+    { to: '/visual-studio', label: 'Visual Learning Studio', icon: Network },
+    { to: '/environment-lab', label: '3D Science Lab', icon: Orbit },
+    { to: '/smart-revision', label: 'Weakness & Revision', icon: Zap },
     { to: '/planner', label: 'Study Planner', icon: CalendarDays },
-  ];
-  return (
-    <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
-      {items.map((it) => {
-        const active = path === it.to || (it.to === '/questions' && path.startsWith('/q/'));
-        return (
-          <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={active ? 'page' : undefined}
-            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
-            {it.icon ? <it.icon size={18} aria-hidden="true" /> : <span className="grid h-[18px] w-[18px] place-items-center"><span className="h-2.5 w-2.5 rounded-full" style={{ background: modColor(it.dot) }} /></span>}
-            <span className="min-w-0 flex-1">{it.moduleName ? <><span className="block">{it.label}</span><span className="mt-0.5 block truncate text-[11px] font-normal text-mute">{it.moduleName}</span></> : it.label}</span>
-            {it.count !== undefined && <span className="rounded-md bg-sunk px-1.5 py-0.5 text-[11px] tabular-nums text-mute">{it.count}</span>}
+    { to: '/ecoweb', label: 'EcoWeb Architect', icon: Globe2 },
+  ]},
+  { id: 'resources', title: 'Resources', icon: FolderOpen, defaultOpen: false, items: [
+    { to: '/cnr-notes', label: 'CNR Notes Hub', icon: BookOpenText },
+    { to: '/resources', label: 'Academic Resource Vault', icon: FileText },
+    { to: '/additional-notes', label: 'Additional Source Notes', icon: BookOpenText },
+    { to: '/welcome', label: 'Welcome & Platform Tour', icon: Sparkles },
+  ]},
+  { id: 'system', title: 'System', icon: Database, defaultOpen: false, items: [
+    { to: '/data-backup', label: 'Backup & Restore', icon: Database },
+  ]},
+];
+
+function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
+  const { bookmarks, completed } = useStudy();
+  const [expanded, setExpanded] = useState(() => Object.fromEntries(NAV_GROUPS.map((group) => [group.id, group.defaultOpen])));
+  const [papersExpanded, setPapersExpanded] = useState(true);
+  const questionRoute = path.match(/^\/q\/([^/]+)$/);
+  const answeredQuestion = questionRoute && QUESTIONS.find((question) => question.id === questionRoute[1]);
+  const canonicalPath = path === '/materials' || path.startsWith('/materials/') ? '/resources' : path;
+  const activePath = answeredQuestion ? '/module/' + answeredQuestion.module : canonicalPath;
+  const bookmarkCount = Object.keys(bookmarks || {}).length;
+  const totalQuestions = QUESTIONS.length;
+  const completedQuestions = QUESTIONS.filter((question) => Boolean(completed?.[question.id])).length;
+  const progress = totalQuestions ? completedQuestions / totalQuestions : 0;
+  const isActive = (item) => activePath === item.to || (item.to === '/cnr-notes' && activePath.startsWith('/cnr-notes/'));
+  const groupIsActive = (group) => group.items.some((item) => isActive(item) || item.children?.some(isActive));
+
+  useEffect(() => {
+    setExpanded((current) => {
+      const next = { ...current };
+      NAV_GROUPS.forEach((group) => { if (groupIsActive(group)) next[group.id] = true; });
+      return next;
+    });
+    if (activePath === '/dec-jan-2026' || activePath === '/question-papers/june-july-2026') setPapersExpanded(true);
+  }, [activePath]);
+
+  const renderLink = (item, nested = false) => {
+    const active = isActive(item);
+    const Icon = item.icon;
+    const count = item.countFrom === 'bookmarks' ? bookmarkCount : item.count;
+    const hasCount = Number.isFinite(count) && (item.countFrom !== 'bookmarks' || count > 0);
+    if (item.children) return (
+      <div key={item.to} className="sidebar-parent-item">
+        <div className="sidebar-parent-row">
+          <a href={'#' + item.to} onClick={onNavigate} aria-current={active ? 'page' : undefined}
+            aria-label={item.label} title={collapsed ? item.label : undefined}
+            className={'sidebar-link sidebar-parent-link ' + (active ? 'is-active' : '')}>
+            <Icon size={17} aria-hidden="true" /><span className="sidebar-link-label">{item.label}</span>
           </a>
-        );
-      })}
-      <div className="mt-5 rounded-xl border border-line p-3">
-        <div className="mb-2 flex items-center justify-between text-xs"><span className="font-semibold">Progress</span><span className="tabular-nums text-mute">{done}/10</span></div>
-        <Bar value={done / 10} />
+          <button type="button" className="sidebar-nested-toggle" aria-label={(papersExpanded ? 'Collapse ' : 'Expand ') + item.label}
+            aria-expanded={papersExpanded} aria-controls={instance + '-papers-subnav'} title={collapsed ? 'Toggle question papers' : undefined}
+            onClick={() => setPapersExpanded((value) => !value)}>
+            <ChevronDown size={14} aria-hidden="true" className={papersExpanded ? 'is-rotated' : ''} />
+          </button>
+        </div>
+        <div id={instance + '-papers-subnav'} className={'sidebar-subnav-panel ' + (papersExpanded ? 'is-open' : '')}
+          aria-hidden={!papersExpanded} inert={!papersExpanded ? '' : undefined}>
+          <div className="sidebar-subnav-inner">{item.children.map((child) => renderLink(child, true))}</div>
+        </div>
       </div>
+    );
+    return (
+      <a key={item.to} href={'#' + item.to} onClick={onNavigate} aria-current={active ? 'page' : undefined}
+        aria-label={item.label} title={collapsed ? item.label : undefined}
+        className={'sidebar-link ' + (nested ? 'sidebar-link-nested ' : '') + (active ? 'is-active' : '')}>
+        {Icon ? <Icon size={17} aria-hidden="true" /> : <span className="sidebar-link-dot" aria-hidden="true" />}
+        <span className="sidebar-link-label">{item.shortLabel || item.label}</span>
+        {hasCount && <span className="sidebar-badge">{count}</span>}
+      </a>
+    );
+  };
+
+  return (
+    <nav aria-label="Primary navigation" className="sidebar-nav-scroll flex flex-1 flex-col px-3 pb-3">
+      <div className="space-y-3 py-2">
+        {NAV_GROUPS.map((group) => {
+          const GroupIcon = group.icon;
+          const isExpanded = Boolean(expanded[group.id]);
+          const panelId = instance + '-group-' + group.id;
+          return (
+            <section key={group.id} className="sidebar-group">
+              <button type="button" className="sidebar-group-toggle" aria-expanded={isExpanded}
+                aria-controls={panelId} aria-label={(isExpanded ? 'Collapse ' : 'Expand ') + group.title}
+                title={collapsed ? group.title : undefined}
+                onClick={() => setExpanded((current) => ({ ...current, [group.id]: !current[group.id] }))}>
+                <GroupIcon size={15} aria-hidden="true" />
+                <span className="sidebar-group-label">{group.title}</span>
+                <ChevronDown size={14} aria-hidden="true" className={'sidebar-group-chevron ' + (isExpanded ? 'is-rotated' : '')} />
+              </button>
+              <div id={panelId} className={'sidebar-group-panel ' + (isExpanded ? 'is-open' : '')}
+                aria-hidden={!isExpanded} inert={!isExpanded ? '' : undefined}>
+                <div className="sidebar-group-inner"><div className="space-y-1 pt-1">{group.items.map((item) => renderLink(item))}</div></div>
+              </div>
+            </section>
+          );
+        })}
+      </div>
+      <a href="#/analytics" onClick={onNavigate} className="sidebar-progress-card block rounded-xl p-3"
+        aria-label={'Open Progress & Analytics. ' + completedQuestions + ' of ' + totalQuestions + ' questions completed'}
+        title={collapsed ? completedQuestions + '/' + totalQuestions + ' questions completed' : undefined}>
+        <div className="sidebar-progress-copy mb-2 flex items-center justify-between gap-2 text-xs">
+          <span className="font-semibold">Learning progress</span><span className="tabular-nums">{completedQuestions}/{totalQuestions}</span>
+        </div>
+        <div className="sidebar-progress-track" role="progressbar" aria-label="Questions completed"
+          aria-valuemin={0} aria-valuemax={totalQuestions} aria-valuenow={completedQuestions}>
+          <span style={{ width: (progress * 100) + '%' }} />
+        </div>
+        <span className="sidebar-progress-caption sidebar-progress-copy mt-2 block text-[10px]">Questions completed</span>
+      </a>
     </nav>
   );
 }
@@ -201,6 +292,7 @@ function Nav({ path, onNavigate }) {
 export default function Shell({ path, children }) {
   const { focus, setFocus, query, setQuery } = useStudy();
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => { try { return localStorage.getItem('cnr-sidebar-collapsed-v1') === 'true'; } catch { return false; } });
   const [top, setTop] = useState(false);
   const menuButtonRef = useRef(null);
   const drawerRef = useRef(null);
@@ -208,6 +300,7 @@ export default function Shell({ path, children }) {
   const hide = focus && isAnswer;
 
   useEffect(() => { setOpen(false); window.scrollTo(0, 0); }, [path]);
+  useEffect(() => { try { localStorage.setItem('cnr-sidebar-collapsed-v1', String(collapsed)); } catch { /* optional preference */ } }, [collapsed]);
   useEffect(() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !window.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return;
     let frame = 0, latest = null;
@@ -277,24 +370,31 @@ export default function Shell({ path, children }) {
       <a href="#main" onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus(); }} className="sr-only z-[200] rounded-lg bg-brand px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:left-3 focus:top-3">Skip to content</a>
 
       {!hide && (
-        <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
-          <div className="px-5 py-5"><Logo /></div>
-          <Nav path={path.startsWith('/cnr-notes/') ? '/cnr-notes' : path} />
+        <aside className={'sidebar-shell fixed inset-y-0 left-0 z-30 hidden flex-col border-r lg:flex ' + (collapsed ? 'sidebar-collapsed w-[4.75rem]' : 'w-[17rem]')}>
+          <div className="sidebar-brand-row flex items-center justify-between gap-2 px-3 py-4">
+            <div className="sidebar-brand-copy min-w-0"><Logo /></div>
+            <button type="button" className="sidebar-collapse-toggle" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              aria-pressed={collapsed} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              onClick={() => setCollapsed((value) => !value)}>
+              {collapsed ? <Menu size={17} aria-hidden="true" /> : <Minimize2 size={17} aria-hidden="true" />}
+            </button>
+          </div>
+          <Nav path={path} collapsed={collapsed} instance="desktop" />
         </aside>
       )}
 
       {open && (
         <div id="mobile-navigation-dialog" className="mobile-navigation-dialog fixed inset-0 z-50 lg:hidden no-print" role="dialog" aria-modal="true" aria-label="Navigation menu">
           <button type="button" aria-label="Close navigation menu" data-drawer-backdrop tabIndex={-1} className="absolute inset-0 h-full w-full cursor-default bg-black/60" onClick={() => setOpen(false)} />
-          <div ref={drawerRef} tabIndex={-1} className="mobile-navigation-drawer absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto bg-panel shadow-lift animate-rise">
-            <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
-            <Nav path={path.startsWith('/cnr-notes/') ? '/cnr-notes' : path} onNavigate={() => setOpen(false)} />
+          <div ref={drawerRef} tabIndex={-1} className="mobile-navigation-drawer absolute inset-y-0 left-0 flex w-[17rem] max-w-[85vw] flex-col overflow-y-auto bg-panel shadow-lift animate-rise">
+            <div className="sidebar-brand-row flex items-center justify-between gap-2 px-3 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
+            <Nav path={path} onNavigate={() => setOpen(false)} instance="mobile" />
           </div>
         </div>
       )}
 
       {!hide && (
-        <header className="topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:ml-64 lg:px-6 2xl:px-8">
+        <header className={'topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:px-6 2xl:px-8 ' + (collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]')}>
           <button ref={menuButtonRef} className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-panel lg:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-navigation-dialog" onClick={() => setOpen(true)}><Menu size={18} /></button>
           <div className="lg:hidden"><Logo /></div>
           <div className="relative ml-auto hidden w-full max-w-lg xl:block">
@@ -307,7 +407,7 @@ export default function Shell({ path, children }) {
         </header>
       )}
 
-      <main id="main" tabIndex={-1} className={`outline-none ${hide ? '' : 'lg:ml-64'}`}>
+      <main id="main" tabIndex={-1} className={'outline-none ' + (hide ? '' : collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]')}>
         <div key={path} className="page-enter">{children}</div>
       </main>
 
