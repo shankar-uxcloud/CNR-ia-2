@@ -181,10 +181,9 @@ function Nav({ path, onNavigate }) {
     <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
       {items.map((it) => {
         const active = path === it.to || (it.to === '/questions' && path.startsWith('/q/'));
-        const activeCnrNotes = it.to === '/cnr-notes' && path.startsWith('/cnr-notes/');
         return (
-          <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={active || activeCnrNotes ? 'page' : undefined}
-            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active || activeCnrNotes ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
+          <a key={it.to} href={`#${it.to}`} onClick={onNavigate} aria-current={active ? 'page' : undefined}
+            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active ? 'bg-brand/12 text-brand' : 'text-mute hover:bg-sunk hover:text-ink'}`}>
             {it.icon ? <it.icon size={18} aria-hidden="true" /> : <span className="grid h-[18px] w-[18px] place-items-center"><span className="h-2.5 w-2.5 rounded-full" style={{ background: modColor(it.dot) }} /></span>}
             <span className="min-w-0 flex-1">{it.moduleName ? <><span className="block">{it.label}</span><span className="mt-0.5 block truncate text-[11px] font-normal text-mute">{it.moduleName}</span></> : it.label}</span>
             {it.count !== undefined && <span className="rounded-md bg-sunk px-1.5 py-0.5 text-[11px] tabular-nums text-mute">{it.count}</span>}
@@ -280,7 +279,7 @@ export default function Shell({ path, children }) {
       {!hide && (
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-panel lg:flex">
           <div className="px-5 py-5"><Logo /></div>
-          <Nav path={path} />
+          <Nav path={path.startsWith('/cnr-notes/') ? '/cnr-notes' : path} />
         </aside>
       )}
 
@@ -289,7 +288,7 @@ export default function Shell({ path, children }) {
           <button type="button" aria-label="Close navigation menu" data-drawer-backdrop tabIndex={-1} className="absolute inset-0 h-full w-full cursor-default bg-black/60" onClick={() => setOpen(false)} />
           <div ref={drawerRef} tabIndex={-1} className="mobile-navigation-drawer absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto bg-panel shadow-lift animate-rise">
             <div className="flex items-center justify-between px-5 py-4"><Logo /><button aria-label="Close menu" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-sunk"><X size={18} /></button></div>
-            <Nav path={path} onNavigate={() => setOpen(false)} />
+            <Nav path={path.startsWith('/cnr-notes/') ? '/cnr-notes' : path} onNavigate={() => setOpen(false)} />
           </div>
         </div>
       )}
