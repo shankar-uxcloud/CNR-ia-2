@@ -64,7 +64,7 @@ test('all five syllabus modules have distinct real-photo hero and card imagery',
   for (const moduleNumber of [1, 2, 3, 4, 5]) {
     assert.match(photos, new RegExp('^\\s*' + moduleNumber + ': \\{', 'm'), 'missing photo for module ' + moduleNumber);
   }
-  assert.equal((photos.match(/src: 'https:\\/\\/images\\.unsplash\\.com\\/photo-/g) || []).length, 5, 'each module must use its own Unsplash photograph');
+  assert.equal(photos.split('images.unsplash.com/photo-').length - 1, 5, 'each module must use its own Unsplash photograph');
   assert.equal((photos.match(/alt: '/g) || []).length, 5, 'each photograph needs descriptive alternative text');
   assert.match(page, /<ModulePhotography moduleNumber=\{module\.number\} variant="tile" \/>/);
   assert.match(page, /<ModulePhotography moduleNumber=\{activeModule\.number\} variant="hero" \/>/);
