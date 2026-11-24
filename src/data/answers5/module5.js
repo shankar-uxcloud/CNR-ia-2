@@ -315,7 +315,28 @@ export const FIVE_MARK_MODULE_5_ANSWERS = [
       p('Consistent monitoring of temperature, ice, sea level, oceans, rainfall and biological responses provides evidence of long-term climate change.'),
     ]),
   ], ['Climate indicators', 'Global climate change', 'Sea-level rise', 'Glacier retreat']),
-  answer('21cv654-9-c-', 'needs-source', [], ['Zoological gardens', 'Ex-situ conservation'], 'This question repeats the zoological-garden question recorded as Q8(c). The supplied notes do not provide enough zoo-specific detail for a complete answer, so the repeated source record is preserved but not answered with unsupported material.'),
+  answer('21cv654-9-c-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of zoological garden', [
+      p('A zoological garden or zoo is a managed facility where wild animals are kept in protected enclosures for conservation, education, research and captive breeding. It is an ex-situ method of biodiversity conservation.'),
+    ]),
+    section('contributions', 'Contributions to biodiversity', [
+      list([
+        'Maintains threatened species outside their natural habitats.',
+        'Supports carefully planned captive breeding programmes.',
+        'Uses studbooks and coordinated breeding to reduce inbreeding and preserve genetic variation.',
+        'Rescues and rehabilitates injured, orphaned or confiscated wildlife.',
+        'Educates the public about biodiversity, habitat loss, poaching and conservation.',
+        'Supports research on animal health, behaviour, nutrition and reproduction.',
+        'May support reintroduction after suitable habitat and threat assessments.',
+      ]),
+    ]),
+    section('requirements', 'Requirements and limitations', [
+      p('Good zoos need species-appropriate enclosures, adequate space, enrichment, proper food and water, veterinary care, trained staff and ethical management. Captive facilities cannot replace natural habitats and must complement in-situ conservation.'),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Zoological gardens are useful for ex-situ conservation, education and research when animal welfare and genetic management are maintained.'),
+    ]),
+  ], ['Zoological gardens', 'Ex-situ conservation', 'Biodiversity'], 'This is the separately retained Q9(c) record, repeated from Q8(c) in the supplementary model paper. The answer remains separately mapped to its own source-question ID and is pending academic review.'),
   answer('21cv654-10-a-', 'draft-needs-academic-review', [
     section('introduction', 'Global warming and human health', [
       p('Global warming changes temperature, rainfall, air quality and the frequency of extreme events. These changes affect health directly and indirectly.'),

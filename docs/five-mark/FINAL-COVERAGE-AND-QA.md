@@ -6,14 +6,14 @@ The repository source register contains 70 paper-derived question records across
 
 | Module | Source questions | Answer drafts | Review-only |
 |---|---:|---:|---:|
-| Module 1 | 14 | 8 | 6 |
-| Module 2 | 14 | 11 | 3 |
-| Module 3 | 14 | 12 | 2 |
-| Module 4 | 14 | 12 | 2 |
-| Module 5 | 14 | 13 | 1 |
-| **Total** | **70** | **56** | **14** |
+| Module 1 | 14 | 14 | 0 |
+| Module 2 | 14 | 14 | 0 |
+| Module 3 | 14 | 14 | 0 |
+| Module 4 | 14 | 14 | 0 |
+| Module 5 | 14 | 14 | 0 |
+| **Total** | **70** | **70** | **0** |
 
-The dedicated user experience also retains the ten pre-existing core syllabus five-mark companion answers as a separate group. The page therefore presents 80 records: 66 answer drafts and 14 review-only source records.
+The dedicated user experience also retains the ten pre-existing core syllabus five-mark companion answers as a separate group. The page therefore presents 80 records: 80 answer drafts and zero records with an empty answer body. All 80 remain drafts pending the appropriate source or academic checks; answer availability is not a claim of official VTU verification.
 
 ## Source inventory and limitations
 
@@ -27,27 +27,28 @@ The resource catalogue also lists a separate scheme-specific December/January PD
 
 The binary PDF files could not be read through the repository file-content interface during this implementation pass. Therefore:
 - No paper-header verification is claimed.
-- The six December/January summary-only records remain blocked.
+- The six December/January summary-only records now have topic-aligned answer drafts, but their exact paper wording and original mark allocation remain unverified.
 - The notes-page references attached to model-paper questions are explicitly labelled as notes PDF viewer pages, not question-paper page numbers.
 - The 2026–27 official syllabus has not yet been checked line-by-line against all 70 source questions.
 
-## Review-only records
+## Newly completed answer drafts requiring verification
 
-The 14 source questions without an answer draft are intentionally visible and traceable:
+The fourteen formerly empty answer records now contain structured five-mark drafts:
 
-- Six December/January core questions whose exact wording is only available as a summary in the existing structured repository data.
-- Three Module 1–2 supplementary model-paper gaps: natural-resource classification, landform classification and conjunctive use of surface water and groundwater.
-- Two Module 3 model-paper gaps: rock-forming minerals and physical/biogeochemical weathering.
-- Two Module 4 model-paper gaps: named wildlife sanctuaries in India and a sufficiently detailed zoological-garden answer.
-- One Module 5 repeated zoological-garden question, retained as its own source record but blocked for the same notes-coverage limitation.
+- Six December/January topic-summary records: land's ecological and economic importance; landform conservation objectives and strategies; soil-health indicators and improvement; deforestation causes and impacts; global water-resource distribution; and inter-basin water transfer in India.
+- Module 1 supplementary model-paper questions 1(a) and 1(b): natural-resource classification and major landform types.
+- Module 2 supplementary model-paper question 3(b): conjunctive use of surface water and groundwater.
+- Module 3 supplementary model-paper questions 6(b) and 6(c): quartz, feldspar, mica and amphibole; physical and biogeochemical weathering.
+- Module 4 supplementary model-paper questions 8(a) and 8(c): Indian wildlife sanctuaries and zoological gardens.
+- Module 5 supplementary model-paper question 9(c): the repeated zoological-garden question, retained as a separate answer record.
 
-No missing answer is filled with invented question wording or unsupported examples.
+The six December/January records still use topic summaries rather than verified verbatim paper wording. The eight model-paper answers that previously lacked bodies are explicitly marked for academic review where the answer uses supplementary material beyond the supplied notes. No answer is marked verified merely because it has been drafted.
 
 ## Draft quality and verification status
 
-There are 56 answer drafts. Draft availability is not the same as academic verification:
+There are now 70 paper-derived answer drafts plus ten existing core five-mark answers. Draft availability is not the same as academic verification:
 - Official-paper drafts still require exact PDF comparison.
-- Several model-paper drafts carry needs-source-review status because the supplied notes only partially support the requested scope.
+- Supplementary model-paper drafts for minerals, weathering, named sanctuaries and zoological gardens remain marked for academic review because the supplied notes do not fully cover those topics.
 - No AI-authored answer is marked verified merely because it has been generated.
 - The audit documents the questions that require a new approved source or manual academic review.
 
@@ -73,7 +74,9 @@ The diagram registry is extended additively. All 13 pre-existing diagram IDs rem
 
 The dedicated /five-mark-answers page:
 - Shows the ten existing core five-mark questions separately from seventy paper-derived questions.
-- Displays module, source, topic, answer availability and review state.
+- Displays a normalized question number, module, source, topic, answer and review state.
+- Expands all answer-bearing cards by default so students see the actual study content without an extra click.
+- Provides a visible collapse/expand control for revision preferences.
 - Searches question, answer, topic and source text.
 - Uses module, source, topic and answer-availability filters.
 - Uses the existing bookmark, completion and visit functions.

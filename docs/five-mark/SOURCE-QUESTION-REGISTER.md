@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a source inventory for the independent 5-mark answer bank. It preserves each paper's own question identity and wording instead of merging similar questions. Target marks=5 applies only to the new answer format; original paper marks remain separate metadata. This register does not claim that answers are complete or verified.
+This is a source inventory for the independent 5-mark answer bank. It preserves each paper's own question identity and wording instead of merging similar questions. Target marks=5 applies only to the new answer format; original paper marks remain separate metadata. The register maps all source records to answer drafts. Draft presence is not a claim that an answer is academically verified.
 
 ## Current inventory
 
@@ -11,7 +11,7 @@ This is a source inventory for the independent 5-mark answer bank. It preserves 
 | BCV755B June / July 2026 question paper | 20 | Catalogued university question paper | All parts exist in EXAM_QUESTION_PAPER; compare exact wording with the PDF |
 | BCV755B December 2025 / January 2026 question paper | 20 | Catalogued university question paper | 14 question texts exist in additionalDecJanAnswers; six core entries are navigation summaries only |
 | 21CV654 model question paper | 30 | Supplementary model paper | All parts exist in MODEL_21CV654 and the existing Phase 2 source map |
-| **Total** | **70** | **40 catalogued university-paper parts + 30 supplementary parts** | **64 texts catalogued; 6 need exact wording** |
+| **Total** | **70** | **40 catalogued university-paper parts + 30 supplementary parts** | **64 full texts + 6 topic summaries; every record now has an answer draft** |
 
 The December/January question-paper PDF and scheme/solutions PDF remain separate resources. The scheme is supporting mark-allocation evidence, not another question paper.
 
@@ -31,7 +31,7 @@ The December/January question-paper PDF and scheme/solutions PDF remain separate
 - Question/answer data: src/data/decJan2026Additional.js
 - Mark-allocation data: src/data/decJan2026Evaluation.js
 - Fourteen additional subquestions (Q4(a) through Q10(b)) have question text in the existing answer data and ten-mark scheme allocations.
-- Six core entries (Q1(a), Q1(b), Q2(a), Q2(b), Q3(a), Q3(b)) currently have only short navigation summaries in DecJan2026.jsx. They are marked summary-only, have no asserted original mark allocation, and are blocked until exact wording is checked against the original PDF.
+- Six core entries (Q1(a), Q1(b), Q2(a), Q2(b), Q3(a), Q3(b)) currently have only short navigation summaries in DecJan2026.jsx. They remain marked summary-only, have no asserted original mark allocation, and now have topic-aligned answer drafts. The exact wording and scope must still be checked against the original PDF.
 - No question page number is asserted without source evidence.
 
 ### 21CV654 supplementary model paper
@@ -64,23 +64,23 @@ Each record in src/data/fiveMarkQuestionSources.js contains:
 - Source title, category and repository file path.
 - Question-text and source-verification status.
 - Notes-support status where an existing audit provides one.
-- Answer status, initially not-started or blocked.
+- Answer status, including draft, academic-review and exact-PDF-review states.
 - Notes PDF viewer-page references from the existing source map where available; these are not question-paper page numbers.
 - Repeat-group metadata when a paper repeats a question.
 
-Tests validate 70 unique source records, source separation, module validity, marks, the six blocked summaries, all 30 supplementary model-paper questions and the repeated question.
+Tests validate 70 unique source records, source separation, module validity, marks, the six summary-only question records, answer-body completeness for all 70 records, all 30 supplementary model-paper questions and the repeated question.
 
 ## Accuracy rules and next gates
 
 - Similar concepts across different papers remain separate records.
 - A repeated question within one paper remains separate when the source repeats it.
-- Navigation summaries are never promoted to exact paper wording.
+- Navigation summaries remain explicitly labelled as summaries; answer drafts address the recorded topic without claiming verbatim paper wording.
 - Original marks are preserved; targetMarks=5 applies only to the new answer bank.
 - The supplementary 21CV654 paper is never mixed into the university-paper category.
 - Verify PDF headers and exact question wording for the two university-paper collections.
 - Audit each question against the relevant module notes and BCV755B syllabus.
-- Keep source gaps explicit; do not fill them with unsupported claims.
-- Add answers in separate module-wise files and add the UI only after source records and answer data are stable.
+- Keep supplementary answers visibly marked for academic review; do not present supplementary material as notes-derived or officially verified.
+- Keep answers in separate module-wise files and render the question number and answer directly in the dedicated UI.
 
 No question is marked complete or academically verified merely because it appears in an existing 10-mark answer file or because an answer has been generated.
 
@@ -112,4 +112,4 @@ The zoological-garden question in model-paper Q8(c) and Q9(c) is the exact repea
 
 ## Verification labels
 
-The two university-paper collections are catalogued in the repository but are not yet certified as official VTU documents in this register. Their PDF headers and exact question wording must be checked before the source records are marked verified. The 21CV654 paper remains explicitly supplementary. The six December/January core summaries remain blocked until exact wording is transcribed from the original PDF.
+The two university-paper collections are catalogued in the repository but are not yet certified as official VTU documents in this register. Their PDF headers and exact question wording must be checked before the source records are marked verified. The 21CV654 paper remains explicitly supplementary. The six December/January core summaries now have topic-aligned drafts, but their exact wording and original marks remain unverified until the original PDF and scheme are checked.

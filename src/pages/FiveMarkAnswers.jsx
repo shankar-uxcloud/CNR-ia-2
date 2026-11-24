@@ -8,6 +8,7 @@ import { QUESTIONS } from '../data/questions';
 import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
 import { Blocks } from '../components/Blocks';
 import { useStudy } from '../lib/study';
+import { formatFiveMarkQuestionNumber } from '../lib/fiveMarkPresentation';
 
 const CORE_ITEMS = QUESTIONS.map((question) => {
   const source = question.answer?.source || null;
@@ -141,6 +142,9 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
   return (
     <article className="card min-w-0 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
       <div className="flex flex-wrap items-center gap-2">
+        <span className="chip font-semibold" data-question-number={formatFiveMarkQuestionNumber(item)}>
+          Question {formatFiveMarkQuestionNumber(item)}
+        </span>
         <span className="chip">Module {item.module}</span>
         <span className="chip">5 Marks</span>
         <span className="chip">{item.sourceLabel}</span>
@@ -206,7 +210,9 @@ export default function FiveMarkAnswers() {
   const [sourceFilter, setSourceFilter] = useState('all');
   const [availabilityFilter, setAvailabilityFilter] = useState('all');
   const [topicFilter, setTopicFilter] = useState('all');
-  const [expanded, setExpanded] = useState({});
+  const [expanded, setExpanded] = useState(() => Object.fromEntries(
+    FIVE_MARK_ITEMS.filter((item) => item.answer.length > 0).map((item) => [item.id, true]),
+  ));
   const [showFilters, setShowFilters] = useState(false);
 
   const topics = useMemo(() => [...new Set(FIVE_MARK_ITEMS.flatMap((item) => item.topicTags || []))].sort(), []);
@@ -251,6 +257,7 @@ export default function FiveMarkAnswers() {
             Source-linked question bank across all five modules, with core syllabus questions kept separate from paper-derived questions.
           </p>
           <p className="mt-1 text-xs text-mute">2-Mark and 10-Mark answers remain in the existing Answers section; this page is dedicated to five-mark preparation.</p>
+          <p className="mt-2 text-sm font-medium text-ink">Question numbers are shown on every card, and complete 5-mark answers are expanded by default for direct study.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <span className="chip">80 questions</span>

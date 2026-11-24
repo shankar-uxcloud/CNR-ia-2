@@ -128,8 +128,58 @@ export const FIVE_MARK_MODULE_1_ANSWERS = [
       p('Scientific assessment, public participation and continuous monitoring help maintain productive land and protect ecosystems while allowing responsible development.'),
     ]),
   ], ['Sustainable land use', 'Planning principles', 'Land capability', 'Zoning', 'Watershed management']),
-  answer('21cv654-1-a-', 'needs-source', [], ['Natural resources', 'Resource classification'], 'The supplied full notes introduce natural resources and land/resource types, but the existing source audit does not establish a complete classification for this exact question. Do not fill the missing classification from unsupported material.'),
-  answer('21cv654-1-b-', 'needs-source', [], ['Landforms', 'Landform conservation'], 'The supplied notes describe landform conservation but do not provide a complete list and explanation of landform types required by this question.'),
+  answer('21cv654-1-a-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of natural resources', [
+      p('Natural resources are materials and components obtained from nature that support life and human development. Examples include air, water, soil, forests, wildlife, minerals and sunlight.'),
+    ]),
+    section('classification', 'Types of natural resources', [
+      table(['Basis', 'Type', 'Examples'], [
+        ['Renewability', 'Renewable', 'Sunlight, wind, flowing water, forests and biomass; they regenerate naturally when managed sustainably.'],
+        ['Renewability', 'Non-renewable', 'Coal, petroleum, natural gas and metallic minerals; they form over geological time and are finite.'],
+        ['Origin', 'Biotic', 'Resources from living organisms or organic matter, such as forests, crops, livestock, fish and wildlife.'],
+        ['Origin', 'Abiotic', 'Non-living resources such as air, water, land, soil, sunlight and minerals.'],
+        ['Availability', 'Inexhaustible / exhaustible', 'Solar and wind energy are practically continuous; forests, groundwater and minerals can be depleted by overuse.'],
+      ]),
+    ]),
+    section('conservation', 'Need for conservation', [
+      list([
+        'Use renewable resources at a rate that allows natural regeneration.',
+        'Reduce, reuse and recycle non-renewable materials and improve energy efficiency.',
+        'Protect forests, soil, water bodies and wildlife habitats.',
+        'Prevent pollution and avoid wasteful consumption.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Natural resources support ecosystems and economic activity. Their planned and equitable use is necessary to maintain availability for present and future generations.'),
+    ]),
+  ], ['Natural resources', 'Renewable resources', 'Non-renewable resources', 'Biotic', 'Abiotic'], 'Supplementary answer drafted from the question wording and the existing 21CV654 model-paper source record. Verify terminology against the final approved BCV755B notes before academic sign-off.'),
+  answer('21cv654-1-b-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of landforms', [
+      p('Landforms are the natural physical features of the Earth’s surface. They are formed and modified by internal geological forces and external agents such as rivers, wind, glaciers, waves and weathering.'),
+    ]),
+    section('types', 'Major types of landforms', [
+      list([
+        'Mountains: High elevated areas with steep slopes and peaks; they influence climate, store snow and water, and support forests and wildlife.',
+        'Plateaus: Elevated areas with relatively level tops and steep sides; they may contain minerals, forests and grazing lands.',
+        'Plains: Broad areas of low relief, often formed by river deposition; fertile plains support agriculture, settlements and transport.',
+        'Valleys: Low areas between hills or mountains, commonly formed by rivers or glaciers; they may contain fertile soil and water resources.',
+        'Hills: Raised areas lower and generally less rugged than mountains; they support forests, plantations and watersheds.',
+        'Deserts: Very dry regions with sand dunes, rocky surfaces or salt flats and vegetation adapted to low rainfall.',
+        'Coastal landforms: Beaches, cliffs, dunes, spits and estuaries formed by waves, tides and sediment deposition.',
+      ]),
+    ]),
+    section('conservation', 'Conservation measures', [
+      list([
+        'Control soil erosion by contour farming, terracing and maintaining vegetation cover.',
+        'Afforest degraded slopes and protect fragile mountain and coastal ecosystems.',
+        'Regulate mining, quarrying, construction and tourism in sensitive areas.',
+        'Stabilise riverbanks and coastal dunes and follow integrated watershed management.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Landforms provide habitats, water, minerals and land for human activities. Proper land-use planning and erosion control help conserve their ecological and economic value.'),
+    ]),
+  ], ['Landforms', 'Mountains', 'Plateaus', 'Plains', 'Valleys', 'Landform conservation'], 'Supplementary answer drafted from the question wording and the existing 21CV654 model-paper source record. Verify the expected landform classification against the approved course notes before academic sign-off.'),
   answer('21cv654-1-c-', 'draft-needs-academic-review', [
     section('introduction', 'Introduction', [
       p('Soil is a slowly forming natural resource containing minerals, organic matter, water, air and organisms. It supports plant growth and terrestrial life.'),
@@ -233,4 +283,104 @@ export const FIVE_MARK_MODULE_1_ANSWERS = [
       p('Sustainable land-use planning combines scientific assessment, community participation and continuous monitoring to protect productivity and ecosystem services.'),
     ]),
   ], ['Sustainable land use', 'Land capability', 'Zoning', 'Adaptive management']),
+  answer('dec-jan-2026-q1-a', 'draft-needs-pdf-review', [
+    section('meaning', 'Ecological and economic importance of land', [
+      p('Land is a basic natural resource that provides space and physical support for ecosystems and human activities. Its ecological and economic value depends on soil, vegetation, water, landforms and responsible use.'),
+    ]),
+    section('ecological', 'Ecological importance', [
+      list([
+        'Provides habitats for plants, animals and microorganisms and supports biodiversity.',
+        'Supports soil formation, nutrient cycling and primary production.',
+        'Regulates water through infiltration, groundwater recharge and watershed functions.',
+        'Stores carbon in vegetation and soil and helps regulate local climate.',
+        'Maintains ecological processes such as food chains and natural succession.',
+      ]),
+    ]),
+    section('economic', 'Economic importance', [
+      list([
+        'Supports agriculture, forestry, grazing and food production.',
+        'Provides space and raw materials for housing, industries, roads and infrastructure.',
+        'Contains minerals and other resources used in construction and manufacturing.',
+        'Supports livelihoods, transport, recreation and tourism.',
+      ]),
+    ]),
+    section('conservation', 'Conservation', [
+      p('Land capability-based planning, soil-erosion control, afforestation, watershed management and prevention of pollution help maintain land productivity.'),
+    ]),
+  ], ['Land resources', 'Ecological importance', 'Economic importance'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.'),
+  answer('dec-jan-2026-q1-b', 'draft-needs-pdf-review', [
+    section('objectives', 'Objectives of landform conservation', [
+      list([
+        'Prevent erosion, slope failure and loss of fertile soil.',
+        'Protect natural drainage, watersheds and groundwater recharge areas.',
+        'Conserve habitats, biodiversity and scenic or geologically important features.',
+        'Reduce damage caused by unplanned mining, construction and tourism.',
+        'Maintain the stability and long-term productive use of land.',
+      ]),
+    ]),
+    section('strategies', 'Strategies for conservation', [
+      list([
+        'Prepare land-use plans based on slope, soil, geology and ecological sensitivity.',
+        'Maintain vegetation cover and undertake afforestation on degraded slopes.',
+        'Use contour bunding, terracing and check dams to reduce runoff and erosion.',
+        'Stabilise riverbanks, coastal dunes and landslide-prone slopes using suitable measures.',
+        'Regulate quarrying, mining, road cutting and construction in fragile areas.',
+        'Adopt watershed management, monitoring and community participation.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Landform conservation combines scientific land-use planning, vegetation protection and erosion control to preserve landscape stability and ecosystem services.'),
+    ]),
+  ], ['Landform conservation', 'Erosion control', 'Land-use planning'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.'),
+  answer('dec-jan-2026-q2-a', 'draft-needs-pdf-review', [
+    section('definition', 'Meaning of soil health', [
+      p('Soil health is the continued capacity of soil to function as a living ecosystem that sustains plants, animals and humans. It depends on physical, chemical and biological properties.'),
+    ]),
+    section('indicators', 'Indicators of soil health', [
+      table(['Group', 'Indicators'], [
+        ['Physical', 'Good structure and aggregation, suitable bulk density, porosity, aeration, infiltration and water-holding capacity.'],
+        ['Chemical', 'Suitable pH, balanced nutrients such as nitrogen, phosphorus and potassium, organic matter and low toxic contamination.'],
+        ['Biological', 'Diverse bacteria, fungi, earthworms and insects that decompose organic matter and cycle nutrients.'],
+      ]),
+    ]),
+    section('improvement', 'Methods to improve soil health', [
+      list([
+        'Add compost, farmyard manure and crop residues to improve organic matter.',
+        'Practise crop rotation, cover cropping and agroforestry.',
+        'Reduce excessive tillage and prevent soil compaction.',
+        'Use fertilizers based on soil testing and apply pesticides judiciously.',
+        'Control erosion and provide suitable irrigation and drainage to prevent salinity and waterlogging.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Soil health is more than fertility alone. Monitoring physical, chemical and biological indicators and applying sustainable practices maintain productive soil.'),
+    ]),
+  ], ['Soil health', 'Soil indicators', 'Soil improvement'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.'),
+  answer('dec-jan-2026-q2-b', 'draft-needs-pdf-review', [
+    section('causes', 'Causes of deforestation', [
+      list([
+        'Expansion of agricultural land, plantations and shifting cultivation.',
+        'Commercial logging and extraction of fuelwood and other forest products.',
+        'Mining, quarrying, dams, roads and other infrastructure projects.',
+        'Urbanisation, industrialisation, settlements and encroachment.',
+        'Forest fires, overgrazing and unsustainable resource extraction.',
+      ]),
+    ]),
+    section('impacts', 'Impacts of deforestation', [
+      list([
+        'Destroys and fragments habitats, causing biodiversity loss and threatening wildlife.',
+        'Exposes soil to wind and water erosion, reducing soil fertility.',
+        'Increases surface runoff, flood risk, sedimentation and landslide risk in vulnerable areas.',
+        'Reduces carbon storage and releases carbon dioxide, contributing to climate change.',
+        'Disturbs local water cycles and may reduce groundwater recharge and dry-season flows.',
+        'Affects forest-dependent communities, livelihoods and ecosystem services.',
+      ]),
+    ]),
+    section('control', 'Control measures', [
+      p('Afforestation and reforestation, sustainable forestry, protected areas, fire management, community participation and strict control of illegal felling help reduce deforestation.'),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Deforestation creates ecological and social impacts. Conservation and sustainable forest management are essential for biodiversity, climate regulation and livelihoods.'),
+    ]),
+  ], ['Deforestation', 'Forest conservation', 'Biodiversity'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.')
 ];

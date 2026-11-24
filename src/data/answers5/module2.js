@@ -219,7 +219,33 @@ export const FIVE_MARK_MODULE_2_ANSWERS = [
       p('Integrated basin management is needed because water availability varies across regions and seasons.'),
     ]),
   ], ['Water basins', 'Water availability', 'Regional imbalance']),
-  answer('21cv654-3-b-', 'needs-source', [], ['Conjunctive use', 'Groundwater', 'Surface water'], 'The existing source audit identifies a source gap for conjunctive use of groundwater and surface water in the supplied BCV755B notes. A full answer requires an additional verified reference; do not use the supplementary explanation in the model-paper answer as if it came from the notes.'),
+  answer('21cv654-3-b-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of conjunctive use', [
+      p('Conjunctive use is the planned and coordinated use of surface water and groundwater to meet water demand efficiently. Both sources are operated together according to their availability, quality and seasonal demand.'),
+    ]),
+    section('working', 'Working principle', [
+      list([
+        'During periods of high river or canal supply, surface water is used for irrigation and excess water may recharge the aquifer.',
+        'During dry periods or canal closures, groundwater is pumped from wells to supplement the reduced surface supply.',
+        'Groundwater pumping in suitable canal-command areas can help control waterlogging and maintain a favourable water table.',
+        'The combined supply is scheduled according to crop-water requirements, water quality and sustainable aquifer yield.',
+      ]),
+    ]),
+    section('flow', 'Simple flow representation', [
+      p('Reservoir / river → canal → fields; aquifer → well → fields. Canal seepage and rainwater harvesting → aquifer recharge. Both sources are monitored and allocated together.'),
+    ]),
+    section('advantages', 'Advantages and precautions', [
+      list([
+        'Improves irrigation reliability during droughts and seasonal variation.',
+        'Makes use of groundwater storage and can reduce pressure on surface reservoirs.',
+        'May reduce waterlogging when pumping is carefully controlled.',
+        'Avoid over-pumping; monitor groundwater levels and quality and maintain recharge through rainwater harvesting and recharge structures.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Conjunctive use improves water security only when surface-water allocation and groundwater extraction are coordinated and groundwater withdrawal is balanced with recharge.'),
+    ]),
+  ], ['Conjunctive use', 'Groundwater', 'Surface water', 'Irrigation'], 'The source paper identifies this topic, and the repository model-paper answer supplies the additional explanation. Compare with the official scheme and notes before academic sign-off.'),
   answer('21cv654-3-c-', 'draft-needs-academic-review', [
     section('definition', 'Meaning of inter-basin water transfer', [
       p('Inter-basin water transfer is the planned movement of water from one river basin to another through canals, tunnels, pipelines, reservoirs or link channels. It is proposed mainly to move water from relatively surplus basins to water-deficit basins.'),
@@ -319,4 +345,63 @@ export const FIVE_MARK_MODULE_2_ANSWERS = [
       note('The existing source audit says the notes establish agriculture’s dominant share and the need for efficient irrigation, but do not provide a sufficiently detailed comparison of all irrigation methods. This draft is therefore not marked complete for five marks.', 'gap'),
     ]),
   ], ['Agricultural water use', 'Irrigation efficiency', 'Drip irrigation', 'Sprinkler irrigation'], 'The supplied notes provide only partial support for detailed agricultural water-use methods and comparisons. Manual source review or an additional approved reference is required before this answer can be marked complete.'),
+  answer('dec-jan-2026-q3-a', 'draft-needs-pdf-review', [
+    section('distribution', 'Distribution of global water resources', [
+      p('Water covers most of the Earth, but nearly all of it is saline. Only a small fraction is freshwater, and much of that is frozen or stored underground.'),
+      table(['Water store', 'Approximate share'], [
+        ['Saline water', 'About 97.5% of all Earth water'],
+        ['Freshwater', 'About 2.5% of all Earth water'],
+        ['Glaciers and ice caps', 'About 68.7% of freshwater'],
+        ['Groundwater', 'About 30.1% of freshwater'],
+        ['Surface freshwater', 'About 1.2% of freshwater'],
+      ]),
+    ]),
+    section('importance', 'Importance and availability', [
+      list([
+        'Water is essential for drinking, sanitation, agriculture, industry and ecosystem functioning.',
+        'Only a very small portion of global freshwater is readily accessible in rivers and lakes.',
+        'Freshwater is unevenly distributed by region and season, creating water stress in many areas.',
+        'Pollution, over-extraction, population growth and climate change place additional pressure on available supplies.',
+      ]),
+    ]),
+    section('conservation', 'Conservation measures', [
+      list([
+        'Protect watersheds and wetlands and prevent water pollution.',
+        'Harvest rainwater and recharge groundwater.',
+        'Improve irrigation efficiency and reduce leakage in distribution systems.',
+        'Treat and safely reuse wastewater where suitable.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Although water circulates through the hydrological cycle, accessible freshwater is limited. Conservation and equitable management are essential.'),
+    ]),
+  ], ['Global water resources', 'Freshwater distribution', 'Water conservation'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.'),
+  answer('dec-jan-2026-q3-b', 'draft-needs-pdf-review', [
+    section('definition', 'Meaning of inter-basin water transfer', [
+      p('Inter-basin water transfer is the planned movement of water from one river basin to another through canals, tunnels, pipelines, reservoirs or link channels, generally to improve water availability in deficit areas.'),
+    ]),
+    section('objectives', 'Objectives', [
+      list([
+        'Reduce regional differences in water availability.',
+        'Supply irrigation water to drought-prone regions.',
+        'Improve drinking-water and industrial-water supply where local resources are insufficient.',
+        'Support hydropower and, where properly designed, flood moderation.',
+      ]),
+    ]),
+    section('india', 'Indian context and example', [
+      p('The National Water Development Agency has studied potential river links under the National Perspective Plan. The supplied model-paper notes identify Mahanadi and Godavari as comparatively surplus basins and Krishna, Pennar, Cauvery and Vaigai as deficit basins. A proposed example is the Godavari (Inchampalli)–Krishna (Pulichintala) link.'),
+    ]),
+    section('issues', 'Benefits and limitations', [
+      list([
+        'May improve seasonal water distribution, irrigation and drought resilience.',
+        'Large dams and canals may submerge forests, disturb river ecology and affect deltas.',
+        'Projects can displace communities and require rehabilitation.',
+        'Construction and maintenance costs are high, and inter-state water-sharing agreements can be difficult.',
+        'A surplus in one year is not guaranteed in every year, especially under climate variability.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Inter-basin transfer is one water-management option, not a replacement for local conservation. It requires basin studies, environmental assessment, public participation and fair agreements.'),
+    ]),
+  ], ['Inter-basin transfer', 'River linking', 'Water management'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.')
 ];
