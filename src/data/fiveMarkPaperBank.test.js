@@ -68,16 +68,26 @@ test('six December/January core entries remain blocked until exact wording is ch
   assert.ok(blocked.every((item) => item.sourceQuestionId.startsWith('Q')));
 });
 
-test('Modules 4 and 5 remain visibly not started rather than being counted as complete', () => {
-  const laterModules = FIVE_MARK_PAPER_BANK.filter((item) => item.module >= 4);
-  assert.equal(laterModules.length, 28);
-  assert.ok(laterModules.every((item) => item.reviewStatus === 'not-started' && item.answer.length === 0));
+test('Module 4 has twelve answer drafts and two explicit source gaps', () => {
+  const moduleFour = getFiveMarkPaperQuestionsByModule(4);
+  assert.equal(moduleFour.length, 14);
+  assert.equal(moduleFour.filter((item) => item.answer.length > 0).length, 12);
+  const gaps = moduleFour.filter((item) => item.answer.length === 0);
+  assert.equal(gaps.length, 2);
+  assert.ok(gaps.every((item) => item.reviewStatus === 'needs-source' && item.reviewReason));
+  assert.deepEqual(gaps.map((item) => item.sourceQuestionId).sort(), ['8(a)', '8(c)']);
 });
 
-test('the assembled bank contains thirty-six answer or review records through Module 3', () => {
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.length, 36);
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length > 0).length, 31);
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length === 0).length, 5);
+test('Module 5 remains visibly not started rather than being counted as complete', () => {
+  const moduleFive = FIVE_MARK_PAPER_BANK.filter((item) => item.module === 5);
+  assert.equal(moduleFive.length, 14);
+  assert.ok(moduleFive.every((item) => item.reviewStatus === 'not-started' && item.answer.length === 0));
+});
+
+test('the assembled bank contains fifty answer or review records through Module 4', () => {
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.length, 50);
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length > 0).length, 43);
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length === 0).length, 7);
 });
 
 test('answer IDs map to known source questions without duplicates', () => {
