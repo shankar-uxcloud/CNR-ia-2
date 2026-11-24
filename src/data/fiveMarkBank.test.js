@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { QUESTIONS } from './questions.js';
 import { FIVE_MARK_ANSWERS } from './fiveMarkAnswers.js';
 import { FIVE_MARK_BANK, getFiveMarkQuestion, getFiveMarkQuestionsByModule } from './fiveMarkBank.js';
 import { TWO_MARK_ANSWERS } from './twoMarkAnswers.js';
-import { DIAGRAMS } from '../diagrams/index.js';
 
 const supportedBlockTypes = new Set(['p', 'list', 'table', 'eq', 'diagram', 'note', 'key']);
+const diagramRegistrySource = readFileSync(new URL('../diagrams/index.js', import.meta.url), 'utf8');
 
 test('the independent five-mark bank has one record for every current catalogue question', () => {
   assert.equal(FIVE_MARK_BANK.length, QUESTIONS.length);
@@ -82,10 +83,10 @@ test('module filtering returns only records from the requested module', () => {
   assert.deepEqual(getFiveMarkQuestionsByModule(2), []);
 });
 
-test('five-mark diagram references resolve through the existing diagram registry', () => {
+test('five-mark diagram references resolve through the existing diagram registry without importing JSX', () => {
   for (const item of FIVE_MARK_BANK) {
     for (const diagramId of item.diagramRefs) {
-      assert.ok(DIAGRAMS[diagramId], 'Unknown diagram reference: ' + diagramId);
+      assert.match(diagramRegistrySource, new RegExp('^\\s*' + diagramId + ':', 'm'), 'Unknown diagram reference: ' + diagramId);
     }
   }
 });
