@@ -248,6 +248,7 @@ export default function FiveMarkAnswers() {
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
             Source-linked question bank across all five modules, with core syllabus questions kept separate from paper-derived questions.
           </p>
+          <p className="mt-1 text-xs text-mute">2-Mark and 10-Mark answers remain in the existing Answers section; this page is dedicated to five-mark preparation.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <span className="chip">80 questions</span>
