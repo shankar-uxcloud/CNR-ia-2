@@ -42,19 +42,17 @@ test('cinematic intro uses real readiness signals instead of synthetic loading p
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
   assert.match(source, /const \[visible, setVisible\] = useState\(true\)/);
-  assert.match(source, /\{!visible && children\}/);
-  assert.doesNotMatch(source, /localStorage|SEEN_KEY/);
-  assert.match(source, /document\.fonts\?\.ready/);
-  assert.match(source, /window\.addEventListener\('load'/);
+  assert.match(source, /\{children\}\s*\{visible && <section/);
+  assert.doesNotMatch(source, /localStorage|SEEN_KEY|PRESENTATION_TICK_MS|aria-valuenow/);
+  assert.match(source, /heroImageSettled/);
+  assert.match(source, /1400/);
   assert.match(source, /prefers-reduced-motion: reduce/);
   assert.match(source, /Skip intro/);
-  assert.match(source, /CNR_MODULES/);
-  assert.match(source, /PRESENTATION_TICK_MS = 150/);
-  assert.match(source, /current \+ 1/);
-  assert.match(source, /aria-valuenow/);
+  assert.match(source, /cinematic-photo/);
+  assert.match(source, /cinematic-progress-track--indeterminate/);
   assert.match(source, /appReady/);
-  assert.match(css, /prefers-reduced-motion:reduce/);
-  assert.match(css, /cinematic-landscape/);
+  assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /cinematic-landscape-fallback/);
 });
 
 test('all five syllabus modules have distinct real-photo hero and card imagery', () => {

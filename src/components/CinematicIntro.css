@@ -79,3 +79,131 @@
 @media(max-width:760px){.cinematic-intro{padding:14px max(15px,env(safe-area-inset-right)) max(13px,env(safe-area-inset-bottom)) max(15px,env(safe-area-inset-left))}.cinematic-intro-header{flex-wrap:wrap}.cinematic-intro-brand{flex:1}.cinematic-intro-brand small{font-size:7px;letter-spacing:.1em}.cinematic-intro-course{order:3;margin-left:0}.cinematic-intro-main{grid-template-columns:1fr;gap:15px;padding:17px 0}.cinematic-intro-copy{max-width:none}.cinematic-intro-copy h1{font-size:clamp(32px,9vw,48px)}.cinematic-landscape-wrap{order:-1;max-height:34vh;min-height:185px;border-radius:18px}.cinematic-scene-copy{min-height:91px;margin-top:12px}.cinematic-progress-panel{margin-top:12px;padding:12px 14px}.cinematic-percentage{font-size:36px}.cinematic-intro-footer{font-size:7px;letter-spacing:.08em}.cinematic-intro-footer span:last-child{display:none}}
 @media(max-height:740px) and (min-width:761px){.cinematic-intro-main{padding:10px 0;gap:24px}.cinematic-landscape-wrap{max-height:64vh}.cinematic-intro-copy h1{font-size:clamp(30px,3.6vw,48px)}.cinematic-scene-copy{margin-top:12px;min-height:96px}.cinematic-progress-panel{margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.cinematic-intro,.cinematic-intro *,.cinematic-landscape,.cinematic-landscape *{animation:none!important;transition:none!important;scroll-behavior:auto!important}.cinematic-landscape{transform:none}.cinematic-landscape .landscape-forest,.cinematic-landscape .landscape-river,.cinematic-landscape .landscape-plants,.cinematic-landscape .landscape-wildlife,.cinematic-landscape .landscape-climate,.cinematic-landscape .landscape-finale{opacity:1;transform:none}.cinematic-landscape .landscape-air{opacity:.3;transform:none}}
+
+
+
+/* CNR-IA-2 · Real environmental photography layer for the existing startup experience. */
+.cinematic-app-underlay { min-height: 100vh; }
+.cinematic-intro {
+  background:
+    radial-gradient(ellipse at 82% 30%, color-mix(in srgb, var(--cyber-accent, #8ed49b) 14%, #183d35), transparent 48%),
+    linear-gradient(135deg, #071c19 0%, #0b2928 52%, #102d26 100%);
+}
+.cinematic-intro-atmosphere {
+  opacity: .4;
+  background:
+    radial-gradient(ellipse at 14% 12%, #d8edc52b 0, transparent 34%),
+    radial-gradient(ellipse at 85% 75%, #7fc69b20 0, transparent 38%),
+    linear-gradient(180deg, #061a1833 0%, transparent 45%, #061a18a8 100%);
+}
+.cinematic-intro-main { grid-template-columns: minmax(290px, .78fr) minmax(390px, 1.22fr); }
+.cinematic-landscape-wrap {
+  aspect-ratio: 16 / 10;
+  min-height: 300px;
+  background: #183d35;
+  border-color: #d7e8c85c;
+  box-shadow: 0 32px 100px #020e0d88, 0 0 0 1px #ffffff0a;
+}
+.cinematic-landscape-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: .22;
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+.cinematic-landscape-fallback .cinematic-landscape { width: 100%; height: 100%; }
+.cinematic-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  transform: scale(1.035);
+  animation: cnr-photo-ken-burns 18s ease-in-out infinite alternate;
+  transition: opacity .8s ease, filter .8s ease;
+}
+.cinematic-photo-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, #061b1820 0%, transparent 36%, #061b18a8 100%), linear-gradient(90deg, #061b1840, transparent 65%);
+}
+.cinematic-photo-caption {
+  position: absolute;
+  z-index: 3;
+  left: clamp(16px, 2.5vw, 30px);
+  right: clamp(16px, 2.5vw, 30px);
+  bottom: clamp(16px, 2.5vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #fff;
+  text-shadow: 0 2px 16px #00120f99;
+}
+.cinematic-photo-caption span { font-size: 8px; font-weight: 900; letter-spacing: .18em; color: #d9edcc; }
+.cinematic-photo-caption strong { font-size: clamp(17px, 2vw, 25px); font-weight: 820; letter-spacing: -.025em; }
+.cinematic-landscape-wrap.is-image-fallback .cinematic-photo { opacity: 0; }
+.cinematic-landscape-wrap.is-image-fallback .cinematic-photo-shade,
+.cinematic-landscape-wrap.is-image-fallback .cinematic-photo-caption { opacity: 0; }
+.cinematic-landscape-wrap.is-image-fallback .cinematic-landscape-fallback { opacity: 1; }
+.cinematic-environment-quote {
+  margin: 13px 0 0;
+  color: #d5e8d2;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.55;
+}
+.cinematic-progress-track--indeterminate .cinematic-progress-fill {
+  width: 34%;
+  animation: cnr-loading-sweep 1.55s cubic-bezier(.65,0,.35,1) infinite;
+}
+.cinematic-loading-indicator { display: inline-flex; align-items: center; gap: 4px; }
+.cinematic-loading-indicator i {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #d9edb6; opacity: .35;
+  animation: cnr-loading-dot 1.05s ease-in-out infinite;
+}
+.cinematic-loading-indicator i:nth-child(2) { animation-delay: .15s; }
+.cinematic-loading-indicator i:nth-child(3) { animation-delay: .3s; }
+@keyframes cnr-loading-sweep {
+  0% { transform: translateX(-115%); }
+  100% { transform: translateX(315%); }
+}
+@keyframes cnr-loading-dot {
+  0%, 80%, 100% { opacity: .3; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+@keyframes cnr-photo-ken-burns {
+  from { transform: scale(1.035) translate3d(0, 0, 0); }
+  to { transform: scale(1.105) translate3d(-.6%, .4%, 0); }
+}
+:root[data-ui-mode='glass'] .cinematic-progress-panel {
+  background: color-mix(in srgb, var(--surface-primary) 22%, #ffffff0c);
+  border-color: color-mix(in srgb, var(--cyber-accent) 34%, #ffffff30);
+  backdrop-filter: blur(20px) saturate(1.25);
+}
+:root[data-ui-mode='nebula'] .cinematic-intro {
+  background: radial-gradient(ellipse at 82% 30%, color-mix(in srgb, var(--cyber-accent) 18%, #183d35), transparent 52%), linear-gradient(135deg, #071c19, #102d32 60%, #102d26);
+}
+@media (max-width: 980px) {
+  .cinematic-intro-main { grid-template-columns: minmax(280px, .9fr) minmax(320px, 1.1fr); gap: 22px; }
+}
+@media (max-width: 760px) {
+  .cinematic-intro-main { grid-template-columns: 1fr; }
+  .cinematic-landscape-wrap { order: -1; min-height: 210px; max-height: 35vh; aspect-ratio: 16 / 10; }
+  .cinematic-photo-caption strong { font-size: 18px; }
+  .cinematic-environment-quote { margin-top: 9px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-photo, .cinematic-progress-track--indeterminate .cinematic-progress-fill,
+  .cinematic-loading-indicator i { animation: none !important; }
+  .cinematic-progress-track--indeterminate .cinematic-progress-fill { width: 100%; opacity: .65; }
+}

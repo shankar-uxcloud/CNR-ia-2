@@ -4,68 +4,64 @@ import fs from 'node:fs';
 
 const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('cinematic environmental loader advances one presentation percentage at a time after readiness', () => {
+test('cinematic loader uses an indeterminate indicator and never fabricates a percentage', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /PRESENTATION_TICK_MS = 150/);
-  assert.match(source, /setProgress\(\(current\) => Math\.min\(100, current \+ 1\)\)/);
-  assert.match(source, /if \(!visible \|\| !appReady \|\| reducedMotion \|\| leaving\) return undefined/);
-  assert.match(source, /aria-valuenow=\{percentage \?\? 0\}/);
-  assert.match(source, /Nature journey/);
-  assert.match(source, /presentation timeline/);
-  assert.match(source, /FINAL_HOLD_MS = 900/);
+  const css = read('src/components/CinematicIntro.css');
+  assert.match(source, /cinematic-progress-track--indeterminate/);
+  assert.match(source, /aria-valuetext=/);
+  assert.match(source, /no simulated percentage/i);
+  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|setProgress|aria-valuenow|percentage\s*===|percentage\s*\?\?/);
+  assert.match(css, /cnr-loading-sweep/);
 });
 
-test('essential browser and font readiness is separate from the 1–100 presentation timeline', () => {
+test('five environmental scenes use distinct descriptive photographic assets', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /document\.readyState === 'complete'/);
-  assert.match(source, /window\.addEventListener\('load'/);
-  assert.match(source, /document\.fonts\?\.ready/);
+  const images = [...source.matchAll(/image: '(https:\/\/images\.unsplash\.com\/[^']+)'/g)].map((match) => match[1]);
+  const alts = [...source.matchAll(/alt: '([^']+)'/g)].map((match) => match[1]);
+  for (const title of ['Forest conservation', 'Rivers & freshwater ecosystems', 'Wildlife & biodiversity', 'Mountains & watersheds', 'One planet, shared future']) {
+    assert.ok(source.includes(title), 'missing environmental scene: ' + title);
+  }
+  assert.equal(images.length, 5, 'expected five photographic scene assets');
+  assert.equal(new Set(images).size, 5, 'each scene must have a distinct image URL');
+  assert.equal(alts.length, 5, 'each photograph needs descriptive alternative text');
+  assert.match(source, /loading=\{sceneIndex === 0 \? 'eager' : 'lazy'\}/);
+});
+
+test('application content mounts underneath the startup overlay', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  assert.match(source, /\{children\}\s*\{visible && <section/);
+  assert.match(source, /aria-busy=\{!appReady\}/);
   assert.match(source, /setAppReady\(true\)/);
-  assert.match(source, /Essential readiness is independent from the cinematic presentation counter/);
+  assert.match(source, /\[appReady, heroImageSettled, visible\]/);
 });
 
-test('all five official BCV755B modules are revealed with syllabus-derived titles and descriptions', () => {
-  const source = read('src/components/StartupExperience.jsx');
-  const data = read('src/data/cnrAcademic.js');
-  for (const title of ['Land', 'Water', 'Air', 'Biodiversity', 'Global warming']) {
-    assert.ok(data.includes(`title: '${title}'`), 'official module title missing: ' + title);
-  }
-  for (const moduleNumber of [1, 2, 3, 4, 5]) {
-    assert.ok(source.includes(`module: ${moduleNumber}`), 'module scene missing: ' + moduleNumber);
-  }
-  assert.match(source, /activeModule\.secondaryHeading/);
-  assert.match(source, /OFFICIAL SYLLABUS/);
-});
-
-test('environment illustration includes layered landscape, water, forests, wildlife and air/climate scenes', () => {
+test('hero image readiness is bounded and remote image failures reveal the vector fallback', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
-  for (const layer of ['landscape-clouds','landscape-mountains','landscape-river','landscape-forest','landscape-plants','landscape-wildlife','landscape-air','landscape-climate','landscape-finale']) {
-    assert.ok(source.includes(layer), 'missing illustration layer: ' + layer);
-  }
-  for (const animation of ['ci-camera-drift','ci-cloud-drift','ci-tree-sway','ci-leaf-sway','ci-bird-glide','ci-butterfly-drift','ci-smoke-rise']) {
-    assert.ok(css.includes(animation), 'missing environmental animation: ' + animation);
-  }
-  assert.match(source, /viewBox="0 0 900 560"/);
+  assert.match(source, /onLoad=\{\(\) => \{ if \(sceneIndex === 0\) setHeroImageSettled\(true\); \}\}/);
+  assert.match(source, /onError=\{/);
+  assert.match(source, /setTimeout\(\(\) => \{/);
+  assert.match(source, /1400/);
+  assert.match(source, /cinematic-landscape-fallback/);
+  assert.match(css, /\.cinematic-landscape-fallback/);
+  assert.match(css, /\.is-image-fallback/);
 });
 
-test('scene milestones follow the requested slow sequence and end in a CNR identity reveal', () => {
-  const source = read('src/components/StartupExperience.jsx');
-  for (const milestone of ["start: 1, end: 10","start: 11, end: 25","start: 26, end: 40","start: 41, end: 55","start: 56, end: 70","start: 71, end: 85","start: 86, end: 95","start: 96, end: 100"]) {
-    assert.ok(source.includes(milestone), 'missing milestone ' + milestone);
-  }
-  assert.match(source, /CNR-IA-2/);
-  assert.match(source, /Your CNR learning environment is ready/);
-});
-
-test('dedicated full-screen loader appears on every fresh load, gates app rendering, and supports skip/mobile/reduced motion', () => {
+test('skip action and reduced-motion preferences remain supported', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
-  assert.match(source, /const \[visible, setVisible\] = useState\(true\)/);
-  assert.match(source, /\{!visible && children\}/);
-  assert.doesNotMatch(source, /localStorage|SEEN_KEY/);
   assert.match(source, /Skip intro/);
-  assert.match(css, /@media\(max-width:760px\)/);
-  assert.match(css, /prefers-reduced-motion:reduce/);
-  assert.match(css, /var\(--cyber-accent/);
+  assert.match(source, /prefers-reduced-motion: reduce/);
+  assert.match(source, /setLeaving\(true\)/);
+  assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /animation: none !important/);
+});
+
+test('cinematic loader keeps responsive layout and theme-specific refinements', () => {
+  const css = read('src/components/CinematicIntro.css');
+  assert.match(css, /max-width:\s*980px/);
+  assert.match(css, /max-width:\s*760px/);
+  assert.match(css, /data-ui-mode=['"]glass['"]/);
+  assert.match(css, /data-ui-mode=['"]nebula['"]/);
+  assert.match(css, /safe-area-inset-top/);
 });
