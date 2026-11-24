@@ -429,14 +429,34 @@ export default function Shell({ path, children }) {
               <span>C</span><Leaf size={13} aria-hidden="true" />
             </a>
             <div className="sidebar-brand-copy min-w-0"><Logo /></div>
-            <button type="button" className="sidebar-collapse-toggle" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              aria-pressed={collapsed} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              onClick={() => setCollapsed((value) => !value)}>
-              {collapsed ? <Menu size={17} aria-hidden="true" /> : <Minimize2 size={17} aria-hidden="true" />}
-            </button>
+            <div className="sidebar-header-actions">
+              <button type="button" className="sidebar-collapse-toggle" aria-label={collapsed ? 'Expand sidebar labels' : 'Collapse sidebar labels'}
+                aria-pressed={collapsed} title={collapsed ? 'Expand sidebar labels' : 'Collapse sidebar labels'}
+                onClick={() => setCollapsed((value) => !value)}>
+                {collapsed ? <Menu size={17} aria-hidden="true" /> : <Minimize2 size={17} aria-hidden="true" />}
+              </button>
+              <button type="button" className="sidebar-close-toggle" aria-label="Close sidebar completely"
+                title="Close sidebar completely" onClick={() => setSidebarVisible(false)}>
+                <X size={17} aria-hidden="true" />
+              </button>
+            </div>
           </div>
           <Nav path={path} collapsed={collapsed} instance="desktop" />
         </aside>
+      )}
+
+      {!hide && !sidebarVisible && (
+        <button
+          type="button"
+          className="sidebar-reopen-fab"
+          aria-label="Reopen sidebar"
+          aria-controls="desktop-sidebar"
+          title="Reopen sidebar"
+          onClick={() => setSidebarVisible(true)}
+        >
+          <Menu size={19} aria-hidden="true" />
+          <span>Open navigation</span>
+        </button>
       )}
 
       {open && (
@@ -454,10 +474,10 @@ export default function Shell({ path, children }) {
           <button
             type="button"
             className="sidebar-visibility-toggle hidden h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-panel lg:grid"
-            aria-label={sidebarVisible ? 'Close sidebar' : 'Open sidebar'}
+            aria-label={sidebarVisible ? 'Close sidebar completely' : 'Open sidebar'}
             aria-expanded={sidebarVisible}
             aria-controls="desktop-sidebar"
-            title={sidebarVisible ? 'Close sidebar' : 'Open sidebar'}
+            title={sidebarVisible ? 'Close sidebar completely' : 'Open sidebar'}
             onClick={() => setSidebarVisible((value) => !value)}
           >
             <Menu size={18} aria-hidden="true" />
