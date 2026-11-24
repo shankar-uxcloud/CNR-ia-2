@@ -189,9 +189,7 @@ export default function StartupExperience({ children }) {
   const skip = () => setLeaving(true);
 
   return <>
-    <div className="cinematic-app-underlay" aria-hidden={visible} inert={visible}>
-      {children}
-    </div>
+    {children}
     {visible && <section
       className={'cinematic-intro' + (leaving ? ' is-leaving' : '') + (reducedMotion ? ' is-reduced-motion' : '')}
       role="region"
