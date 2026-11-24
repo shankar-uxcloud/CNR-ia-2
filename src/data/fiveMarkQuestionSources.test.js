@@ -87,5 +87,5 @@ test('related question wording is grouped without merging source-specific record
 test('catalogued university papers remain unverified until PDF header and wording checks are complete', () => {
   const universityPapers = getFiveMarkSourceQuestionsByCategory('catalogued-university-question-paper');
   assert.equal(universityPapers.length, 40);
-  assert.ok(universityPapers.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification' || item.sourceVerificationStatus === 'needs-exact-question-wording-from-original-pdf'));
+  assert.ok(universityPapers.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification' || item.sourceVerificationStatus === 'needs-exact-wording-from-original-pdf'));
 });
