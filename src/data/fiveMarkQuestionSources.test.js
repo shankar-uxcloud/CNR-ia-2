@@ -20,7 +20,7 @@ test('every source record has a valid module, target marks, source identity and 
     assert.ok(item.source?.title && item.source?.file, 'Missing source identity for ' + item.id);
     assert.ok(item.sourceQuestionId, 'Missing source question identifier for ' + item.id);
     assert.ok(item.question?.trim(), 'Missing question wording or explicitly labelled summary for ' + item.id);
-    assert.ok(Array.isArray(item.sourcePageRefs));
+    assert.ok(Array.isArray(item.notesPageRefs));
     assert.notEqual(item.answerStatus, 'verified');
   }
 });
@@ -30,7 +30,7 @@ test('the June/July 2026 paper contributes twenty distinct question parts', () =
   assert.equal(records.length, 20);
   assert.ok(records.every((item) => item.originalMarks === 10));
   assert.ok(records.every((item) => item.questionTextStatus === 'transcribed-from-existing-question-data'));
-  assert.ok(records.every((item) => item.sourceVerificationStatus === 'needs-original-pdf-comparison'));
+  assert.ok(records.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification'));
 });
 
 test('the December/January collection retains all twenty records and blocks six summary-only questions', () => {
@@ -63,4 +63,29 @@ test('module filters preserve each source record and return only the requested m
     assert.ok(records.length > 0, 'Expected source questions for module ' + moduleNumber);
     assert.ok(records.every((item) => item.module === moduleNumber));
   }
+});
+
+
+test('related question wording is grouped without merging source-specific records', () => {
+  const groups = new Map();
+  for (const item of FIVE_MARK_SOURCE_QUESTIONS) {
+    if (!item.conceptGroup) continue;
+    const members = groups.get(item.conceptGroup) || [];
+    members.push(item);
+    groups.set(item.conceptGroup, members);
+  }
+  assert.ok(groups.size >= 15);
+  for (const [concept, members] of groups) {
+    assert.ok(members.length >= 2, 'Concept group must identify a repeated or related topic: ' + concept);
+    assert.equal(new Set(members.map((item) => item.id)).size, members.length);
+  }
+  const zooRepeat = groups.get('zoological-gardens');
+  assert.equal(zooRepeat.length, 2);
+  assert.deepEqual(zooRepeat.map((item) => item.sourceQuestionId).sort(), ['8(c)', '9(c)']);
+});
+
+test('catalogued university papers remain unverified until PDF header and wording checks are complete', () => {
+  const universityPapers = getFiveMarkSourceQuestionsByCategory('catalogued-university-question-paper');
+  assert.equal(universityPapers.length, 40);
+  assert.ok(universityPapers.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification' || item.sourceVerificationStatus === 'needs-exact-wording-from-original-pdf'));
 });

@@ -54,10 +54,10 @@ const juneJulyQuestions = EXAM_QUESTION_PAPER.flatMap((questionGroup) => (
     originalMarks: 10,
     source: JUNE_JULY_SOURCE,
     questionTextStatus: 'transcribed-from-existing-question-data',
-    sourceVerificationStatus: 'needs-original-pdf-comparison',
+    sourceVerificationStatus: 'needs-pdf-header-and-wording-verification',
     sourceSupportStatus: 'not-audited',
     answerStatus: 'not-started',
-    sourcePageRefs: [],
+    notesPageRefs: [],
   }))
 ));
 
@@ -73,7 +73,7 @@ const decJanCoreQuestions = DEC_JAN_CORE_SUMMARIES.map((item) => ({
   sourceVerificationStatus: 'needs-exact-wording-from-original-pdf',
   sourceSupportStatus: 'not-audited',
   answerStatus: 'blocked-exact-question-wording',
-  sourcePageRefs: [],
+  notesPageRefs: [],
 }));
 
 const decJanAdditionalQuestions = additionalDecJanAnswers.map((item) => ({
@@ -85,10 +85,10 @@ const decJanAdditionalQuestions = additionalDecJanAnswers.map((item) => ({
   originalMarks: evaluationScheme[item.id] ? 10 : null,
   source: DEC_JAN_SOURCE,
   questionTextStatus: 'transcribed-from-existing-answer-record',
-  sourceVerificationStatus: 'needs-original-pdf-comparison',
+  sourceVerificationStatus: 'needs-pdf-header-and-wording-verification',
   sourceSupportStatus: 'not-audited',
   answerStatus: 'not-started',
-  sourcePageRefs: [],
+  notesPageRefs: [],
 }));
 
 const modelQuestions = MODEL_21CV654.flatMap((questionGroup) => (
@@ -104,17 +104,64 @@ const modelQuestions = MODEL_21CV654.flatMap((questionGroup) => (
     sourceVerificationStatus: 'mapped-in-existing-source-audit',
     sourceSupportStatus: MODEL_SUPPORT[part.code] || 'not-audited',
     answerStatus: 'not-started',
-    sourcePageRefs: part.pages ? [part.pages] : [],
+    notesPageRefs: part.pages ? [part.pages] : [],
     repeatGroup: ['8(c)', '9(c)'].includes(part.code) ? '21cv654-zoological-garden-repeat' : null,
   }))
 ));
 
-export const FIVE_MARK_SOURCE_QUESTIONS = [
+const SOURCE_QUESTION_RECORDS = [
   ...decJanCoreQuestions,
   ...decJanAdditionalQuestions,
   ...juneJulyQuestions,
   ...modelQuestions,
 ];
+
+const CONCEPT_GROUPS = {
+  'june-july-2026-q1b': 'soil-importance',
+  '21cv654-1-c-': 'soil-importance',
+  'june-july-2026-q2a': 'soil-degradation-food-security',
+  '21cv654-2-a-': 'soil-degradation-food-security',
+  'june-july-2026-q2b': 'sustainable-land-use-planning',
+  '21cv654-2-c-': 'sustainable-land-use-planning',
+  'june-july-2026-q3a': 'water-surplus-deficit-basins',
+  'dec-jan-2026-4a': 'water-surplus-deficit-basins',
+  '21cv654-3-a-': 'water-surplus-deficit-basins',
+  'june-july-2026-q3b': 'global-water-resources',
+  '21cv654-4-a-': 'global-water-resources',
+  'june-july-2026-q4a': 'inter-basin-water-transfer',
+  '21cv654-3-c-': 'inter-basin-water-transfer',
+  'june-july-2026-q4b': 'seawater-ingress',
+  'dec-jan-2026-4b': 'seawater-ingress',
+  'june-july-2026-q5a': 'air-pollution-sources-classification',
+  'dec-jan-2026-5a': 'air-pollution-sources-classification',
+  'june-july-2026-q5b': 'air-pollution-human-health',
+  'dec-jan-2026-5b': 'air-pollution-human-health',
+  '21cv654-5-a-': 'air-pollution-human-health',
+  'june-july-2026-q6b': 'ozone-depletion',
+  'dec-jan-2026-6a': 'ozone-depletion',
+  '21cv654-6-a-': 'ozone-depletion',
+  'june-july-2026-q7a': 'biodiversity-importance',
+  'dec-jan-2026-7a': 'biodiversity-importance',
+  '21cv654-7-a-': 'biodiversity-importance',
+  'june-july-2026-q7b': 'ecological-restoration',
+  '21cv654-7-b-': 'ecological-restoration',
+  'dec-jan-2026-8a': 'climate-disturbance-agents',
+  '21cv654-7-c-': 'climate-disturbance-agents',
+  'june-july-2026-q9a': 'global-warming-causes-effects',
+  'dec-jan-2026-9a': 'global-warming-causes-effects',
+  'june-july-2026-q10b': 'eia-thermal-power-plant',
+  'dec-jan-2026-10a': 'eia-thermal-power-plant',
+  '21cv654-10-c-': 'eia-thermal-power-plant',
+  'dec-jan-2026-9b': 'environmental-clearance-project-categories',
+  '21cv654-10-b-': 'environmental-clearance-project-categories',
+  '21cv654-8-c-': 'zoological-gardens',
+  '21cv654-9-c-': 'zoological-gardens',
+};
+
+export const FIVE_MARK_SOURCE_QUESTIONS = SOURCE_QUESTION_RECORDS.map((item) => ({
+  ...item,
+  conceptGroup: CONCEPT_GROUPS[item.id] || null,
+}));
 
 export const getFiveMarkSourceQuestionsByModule = (moduleNumber) => (
   FIVE_MARK_SOURCE_QUESTIONS.filter((item) => item.module === Number(moduleNumber))

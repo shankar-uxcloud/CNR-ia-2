@@ -119,9 +119,11 @@ function SourceDetails({ item }) {
         {Number.isFinite(item.originalMarks) && <span>Original paper allocation: {item.originalMarks} marks</span>}
         {item.source?.supportingFile && <span>Supporting scheme/solutions resource recorded</span>}
       </div>
-      {item.sourcePageRefs?.length > 0 && (
-        <div className="mt-1">Notes reference pages: {item.sourcePageRefs.join('; ')}</div>
+      {item.notesPageRefs?.length > 0 && (
+        <div className="mt-1">Notes reference pages: {item.notesPageRefs.join('; ')}</div>
       )}
+      {item.conceptGroup && <div className="mt-1">Related concept group: {item.conceptGroup.replace(/-/g, ' ')}</div>}
+      {item.repeatGroup && <div className="mt-1 font-semibold text-ink">Repeated question wording is retained as a separate source record.</div>}
       {item.sourceVerificationStatus && <div className="mt-1">Source check: {item.sourceVerificationStatus.replace(/-/g, ' ')}</div>}
       {item.sourceSupportStatus && item.sourceSupportStatus !== 'not-audited' && (
         <div className="mt-1">Notes support: {item.sourceSupportStatus}</div>
