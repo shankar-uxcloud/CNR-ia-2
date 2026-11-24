@@ -4,14 +4,18 @@ import fs from 'node:fs';
 
 const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('cinematic loader uses an indeterminate indicator and never fabricates a percentage', () => {
+test('cinematic loader displays a timed 1–100 percent introduction progress indicator', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
-  assert.match(source, /cinematic-progress-track--indeterminate/);
-  assert.match(source, /aria-valuetext=/);
-  assert.match(source, /no simulated percentage/i);
-  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|setProgress|aria-valuenow|percentage\s*===|percentage\s*\?\?/);
-  assert.match(css, /cnr-loading-sweep/);
+  assert.match(source, /const \[progress, setProgress\] = useState\(1\)/);
+  assert.match(source, /Math\.min\(100, current \+ 1\)/);
+  assert.match(source, /reducedMotion \? 50 : 80/);
+  assert.match(source, /aria-valuenow=\{progress\}/);
+  assert.match(source, /style=\{\{ width: progress \+ '%' \}\}/);
+  assert.match(source, /Cinematic intro sequence/);
+  assert.match(source, /approximately/);
+  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|percentage\s*===|percentage\s*\?\?/);
+  assert.match(css, /\.cinematic-percentage/);
 });
 
 test('five environmental scenes use distinct descriptive photographic assets', () => {
@@ -69,9 +73,17 @@ test('cinematic loader keeps responsive layout and theme-specific refinements', 
 test('cinematic intro remains visible long enough to present the environmental scene sequence', () => {
   const source = read('src/components/StartupExperience.jsx');
   assert.match(source, /setIntroSequenceComplete\(true\)/);
-  assert.match(source, /reducedMotion \? 2600 : 4800/);
+  assert.match(source, /reducedMotion \? 50 : 80/);
   assert.match(source, /setInterval\(\(\) => \{/);
-  assert.match(source, /\}, 1050\)/);
+  assert.match(source, /\}, 1600\)/);
   assert.match(source, /appReady && heroImageSettled && introSequenceComplete && visible/);
   assert.doesNotMatch(source, /if \(!visible \|\| appReady \|\| reducedMotion\)/);
+});
+
+test('percentage reaches 100 before the intro exits and does not claim real download progress', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  assert.match(source, /if \(next === 100\)/);
+  assert.match(source, /setIntroSequenceComplete\(true\)/);
+  assert.match(source, /introSequenceComplete && visible/);
+  assert.match(source, /not a measurement of network download progress/i);
 });

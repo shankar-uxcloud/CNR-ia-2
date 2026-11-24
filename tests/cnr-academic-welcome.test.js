@@ -38,19 +38,19 @@ test('module explorer exposes searchable topics, filters and working existing de
   assert.match(source, /#\/q\//);
 });
 
-test('cinematic intro uses real readiness signals instead of synthetic loading percentages', () => {
+test('cinematic intro combines timed presentation progress with independent real readiness signals', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
   assert.match(source, /const \[visible, setVisible\] = useState\(true\)/);
   assert.match(source, /\{children\}\s*\{visible && <section/);
-  assert.doesNotMatch(source, /localStorage|SEEN_KEY|PRESENTATION_TICK_MS|aria-valuenow/);
+  assert.doesNotMatch(source, /localStorage|SEEN_KEY|PRESENTATION_TICK_MS/);
   assert.match(source, /heroImageSettled/);
   assert.match(source, /1400/);
   assert.match(source, /prefers-reduced-motion: reduce/);
   assert.match(source, /Skip intro/);
   assert.match(source, /cinematic-photo/);
-  assert.match(source, /cinematic-progress-track--indeterminate/);
-  assert.match(source, /appReady/);
+  assert.match(source, /aria-valuenow=\{progress\}/);
+  assert.match(source, /appReady && heroImageSettled && introSequenceComplete/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /cinematic-landscape-fallback/);
 });
