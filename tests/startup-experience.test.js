@@ -58,12 +58,12 @@ test('scene milestones follow the requested slow sequence and end in a CNR ident
   assert.match(source, /Your CNR learning environment is ready/);
 });
 
-test('loader retains first-visit persistence, skip action, mobile layout and reduced-motion fallback', () => {
+test('dedicated full-screen loader appears on every fresh load, gates app rendering, and supports skip/mobile/reduced motion', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
-  assert.match(source, /cnr-cinematic-intro-seen-v1/);
-  assert.match(source, /localStorage\.getItem\(SEEN_KEY\)/);
-  assert.match(source, /localStorage\.setItem\(SEEN_KEY, 'true'\)/);
+  assert.match(source, /const \[visible, setVisible\] = useState\(true\)/);
+  assert.match(source, /\{!visible && children\}/);
+  assert.doesNotMatch(source, /localStorage|SEEN_KEY/);
   assert.match(source, /Skip intro/);
   assert.match(css, /@media\(max-width:760px\)/);
   assert.match(css, /prefers-reduced-motion:reduce/);
