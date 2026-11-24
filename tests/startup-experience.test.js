@@ -4,47 +4,68 @@ import fs from 'node:fs';
 
 const read = (path) => fs.readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('cinematic intro waits for real browser readiness signals', () => {
+test('cinematic environmental loader advances one presentation percentage at a time after readiness', () => {
   const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /document\.readyState/);
-  assert.match(source, /document\.fonts\?\.ready/);
-  assert.match(source, /window\.addEventListener\('load'/);
-  assert.match(source, /setAppReady\(true\)/);
-  assert.doesNotMatch(source, /setProgress|aria-valuenow|100%/);
+  assert.match(source, /PRESENTATION_TICK_MS = 150/);
+  assert.match(source, /setProgress\(\(current\) => Math\.min\(100, current \+ 1\)\)/);
+  assert.match(source, /if \(!visible \|\| !appReady \|\| reducedMotion \|\| leaving\) return undefined/);
+  assert.match(source, /aria-valuenow=\{percentage \?\? 0\}/);
+  assert.match(source, /Nature journey/);
+  assert.match(source, /presentation timeline/);
+  assert.match(source, /FINAL_HOLD_MS = 900/);
 });
 
-test('cinematic intro uses official syllabus modules and environmental learning messages', () => {
+test('essential browser and font readiness is separate from the 1–100 presentation timeline', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  assert.match(source, /document\.readyState === 'complete'/);
+  assert.match(source, /window\.addEventListener\('load'/);
+  assert.match(source, /document\.fonts\?\.ready/);
+  assert.match(source, /setAppReady\(true\)/);
+  assert.match(source, /Essential readiness is independent from the cinematic presentation counter/);
+});
+
+test('all five official BCV755B modules are revealed with syllabus-derived titles and descriptions', () => {
   const source = read('src/components/StartupExperience.jsx');
   const data = read('src/data/cnrAcademic.js');
-  for (const title of ['Land','Water','Air','Biodiversity','Global warming']) assert.ok(data.includes("title: '" + title + "'"));
-  for (const phrase of ['Explore the science of natural resources.','Understand ecosystems and biodiversity.','Study environmental challenges.','Learn conservation strategies.','Prepare confidently for VTU examinations.']) assert.ok(source.includes(phrase));
-  assert.match(source, /Your journey towards understanding and protecting our natural environment begins here/);
+  for (const title of ['Land', 'Water', 'Air', 'Biodiversity', 'Global warming']) {
+    assert.ok(data.includes(`title: '${title}'`), 'official module title missing: ' + title);
+  }
+  for (const moduleNumber of [1, 2, 3, 4, 5]) {
+    assert.ok(source.includes(`module: ${moduleNumber}`), 'module scene missing: ' + moduleNumber);
+  }
+  assert.match(source, /activeModule\.secondaryHeading/);
+  assert.match(source, /OFFICIAL SYLLABUS/);
 });
 
-test('intro is shown once, can be skipped and respects reduced motion', () => {
+test('environment illustration includes layered landscape, water, forests, wildlife and air/climate scenes', () => {
   const source = read('src/components/StartupExperience.jsx');
-  const styles = read('src/components/CinematicIntro.css');
+  const css = read('src/components/CinematicIntro.css');
+  for (const layer of ['landscape-clouds','landscape-mountains','landscape-river','landscape-forest','landscape-plants','landscape-wildlife','landscape-air','landscape-climate','landscape-finale']) {
+    assert.ok(source.includes(layer), 'missing illustration layer: ' + layer);
+  }
+  for (const animation of ['ci-camera-drift','ci-cloud-drift','ci-tree-sway','ci-leaf-sway','ci-bird-glide','ci-butterfly-drift','ci-smoke-rise']) {
+    assert.ok(css.includes(animation), 'missing environmental animation: ' + animation);
+  }
+  assert.match(source, /viewBox="0 0 900 560"/);
+});
+
+test('scene milestones follow the requested slow sequence and end in a CNR identity reveal', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  for (const milestone of ["start: 1, end: 10","start: 11, end: 25","start: 26, end: 40","start: 41, end: 55","start: 56, end: 70","start: 71, end: 85","start: 86, end: 95","start: 96, end: 100"]) {
+    assert.ok(source.includes(milestone), 'missing milestone ' + milestone);
+  }
+  assert.match(source, /CNR-IA-2/);
+  assert.match(source, /Your CNR learning environment is ready/);
+});
+
+test('loader retains first-visit persistence, skip action, mobile layout and reduced-motion fallback', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  const css = read('src/components/CinematicIntro.css');
   assert.match(source, /cnr-cinematic-intro-seen-v1/);
   assert.match(source, /localStorage\.getItem\(SEEN_KEY\)/);
   assert.match(source, /localStorage\.setItem\(SEEN_KEY, 'true'\)/);
   assert.match(source, /Skip intro/);
-  assert.match(source, /prefers-reduced-motion: reduce/);
-  assert.match(styles, /prefers-reduced-motion:reduce/);
-});
-
-test('intro contains a custom Earth visual and responsive motion styling', () => {
-  const source = read('src/components/StartupExperience.jsx');
-  const styles = read('src/components/CinematicIntro.css');
-  assert.match(source, /function EarthVisual/);
-  assert.match(source, /cinematic-earth-land/);
-  assert.match(styles, /cinematic-earth/);
-  assert.match(styles, /@media\(max-width:760px\)/);
-  assert.match(styles, /safe-area-inset-top/);
-});
-
-test('startup overlay is an app-shell experience, not an internal route transition', () => {
-  const source = read('src/components/StartupExperience.jsx');
-  assert.match(source, /if \(!visible\) return undefined/);
-  assert.match(source, /role="status"/);
-  assert.match(source, /Application shell and typography are ready/);
+  assert.match(css, /@media\(max-width:760px\)/);
+  assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(css, /var\(--cyber-accent/);
 });
