@@ -1968,3 +1968,68 @@ aside.sidebar-shell nav .sidebar-link.is-active {
 @media (prefers-reduced-motion: reduce) {
   .sidebar-visibility-toggle { transition: none; }
 }
+
+
+/* Distinct sidebar actions: compact, completely close, and persistent restore. */
+.sidebar-header-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .35rem;
+}
+.sidebar-close-toggle {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 24%, var(--border-color));
+  border-radius: 10px;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--surface-secondary) 78%, transparent);
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+.sidebar-close-toggle:hover {
+  color: var(--cyber-accent);
+  border-color: var(--cyber-accent);
+  background: color-mix(in srgb, var(--cyber-accent) 12%, var(--surface-secondary));
+}
+.sidebar-close-toggle:focus-visible,
+.sidebar-reopen-fab:focus-visible {
+  outline: 2px solid var(--cyber-accent);
+  outline-offset: 3px;
+}
+.sidebar-reopen-fab {
+  position: fixed;
+  z-index: 45;
+  top: calc(var(--shell-header-height, 4rem) + .75rem);
+  left: max(.75rem, env(safe-area-inset-left, 0px));
+  display: none;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  padding: .65rem .85rem;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 48%, var(--border-color));
+  border-radius: .85rem;
+  color: var(--text-primary);
+  background: var(--surface-primary);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--text-primary) 18%, transparent);
+  font-size: .78rem;
+  font-weight: 750;
+}
+.sidebar-reopen-fab:hover {
+  color: var(--cyber-accent);
+  border-color: var(--cyber-accent);
+  background: var(--surface-secondary);
+}
+@media (min-width: 1024px) {
+  .sidebar-reopen-fab { display: inline-flex; }
+  .sidebar-collapsed .sidebar-header-actions { flex-direction: column; }
+}
+@media (max-width: 1023px) {
+  .sidebar-close-toggle { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-close-toggle, .sidebar-reopen-fab { transition: none; }
+}
