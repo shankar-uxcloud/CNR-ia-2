@@ -64,7 +64,7 @@ export function ModulePhotography({ moduleNumber, variant = 'tile' }) {
       <span className="cnr-module-photo-shade" aria-hidden="true" />
       <figcaption>
         <strong>{photo.title}</strong>
-        <small>Photo: {photo.credit} · Unsplash</small>
+        {variant === 'hero' ? <a href={photo.creditUrl} target="_blank" rel="noreferrer">Photo: {photo.credit} · Unsplash</a> : <small>Photo: {photo.credit} · Unsplash</small>}
       </figcaption>
     </figure>
   );
