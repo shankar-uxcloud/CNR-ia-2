@@ -47,7 +47,10 @@ test('cinematic intro uses real readiness signals instead of synthetic loading p
   assert.match(source, /prefers-reduced-motion: reduce/);
   assert.match(source, /Skip intro/);
   assert.match(source, /CNR_MODULES/);
-  assert.match(source, /PRESENTATION_TICK_MS = 150/);\n  assert.match(source, /current \\+ 1/);\n  assert.match(source, /aria-valuenow/);\n  assert.match(source, /appReady/);
+  assert.match(source, /PRESENTATION_TICK_MS = 150/);
+  assert.match(source, /current \\+ 1/);
+  assert.match(source, /aria-valuenow/);
+  assert.match(source, /appReady/);
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.match(css, /cinematic-landscape/);
 });
