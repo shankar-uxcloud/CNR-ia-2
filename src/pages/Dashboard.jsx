@@ -5,6 +5,7 @@ import { useStudy } from '../lib/study';
 import { iconFor } from '../lib/icons';
 import { ProgressRing, Bar, ModuleBadge, modColor, Empty } from '../components/ui';
 import PlanetPulse from '../components/PlanetPulse';
+import ModulePhoto from '../components/ModulePhoto';
 
 function MiniRow({ q }) {
   const { isDone } = useStudy();
@@ -209,7 +210,8 @@ export default function Dashboard() {
                   <span className="text-xs font-bold uppercase tracking-wider" style={{ color: modColor(m) }}>Module {m}</span>
                   <span className="text-xs tabular-nums text-mute">{finished}/{qs.length} done</span>
                 </div>
-                <h3 className="mt-2 font-semibold">{MODULES[m].name}</h3>
+                <ModulePhoto module={m} compact className="mt-3" />
+                <h3 className="mt-3 font-semibold">{MODULES[m].name}</h3>
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sunk">
                   <div className="h-full rounded-full transition-all" style={{ width: `${(finished / qs.length) * 100}%`, background: modColor(m) }} />
                 </div>

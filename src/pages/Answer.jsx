@@ -10,6 +10,7 @@ import { answerToText, diagramsOf, readMinutes } from '../lib/content';
 import { useStudy, FONT_SIZES, WIDTHS } from '../lib/study';
 import { iconFor } from '../lib/icons';
 import { Blocks } from '../components/Blocks';
+import ModulePhoto from '../components/ModulePhoto';
 import { IconBtn, ModuleBadge, StatusChip, Empty, modColor } from '../components/ui';
 
 function Section({ s, open, toggle }) {
@@ -161,6 +162,7 @@ export default function Answer({ id }) {
             <blockquote className="mt-5 rounded-2xl border border-line bg-sunk px-5 py-4 font-read text-[17px] leading-relaxed" style={{ borderLeft: `4px solid ${modColor(q.module)}` }}>
               <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">Question · {markLabel} Marks</span>{q.question}
             </blockquote>
+            <ModulePhoto module={q.module} compact className="mt-5" />
             {answerMode === 'two' && displayedQuestion !== q.question && <p className="mt-2 text-sm text-mute"><strong>2-mark focus:</strong> {displayedQuestion}</p>}
 
             {/* Answer length selector */}

@@ -4,6 +4,7 @@ import { QUESTIONS, MODULES, MODULE_ORDER } from '../data/questions';
 import { searchBlob } from '../lib/content';
 import { useStudy } from '../lib/study';
 import QuestionCard from '../components/QuestionCard';
+import ModulePhoto from '../components/ModulePhoto';
 import { Empty, modColor } from '../components/ui';
 
 const BLOBS = Object.fromEntries(QUESTIONS.map((q) => [q.id, searchBlob(q)]));
@@ -32,6 +33,7 @@ export default function Library({ module, bookmarksOnly }) {
       <p className="eyebrow">Question library</p>
       <h1 className="mt-1 text-3xl font-bold tracking-tight">{title}</h1>
       <p className="mt-1 text-mute">{sub}</p>
+      {module && <ModulePhoto module={module} className="mt-6" />}
 
       <div className="mt-6 flex flex-col gap-3">
         <div className="relative">
@@ -68,6 +70,7 @@ export default function Library({ module, bookmarksOnly }) {
         ) : grouped ? MODULE_ORDER.map((m) => (
           <section key={m} aria-label={`Module ${m}`} className="pt-3">
             <div className="mb-3 flex items-center gap-3"><span className="h-6 w-1.5 rounded-full" style={{ background: modColor(m) }} /><h2 className="text-sm font-semibold uppercase tracking-wider text-mute">Module {m} · {MODULES[m].name}</h2></div>
+            <ModulePhoto module={m} compact className="mb-4" />
             <div className="space-y-4">{list.filter((q) => q.module === m).map((q) => <QuestionCard key={q.id} q={q} delay={idx++ * 40} />)}</div>
           </section>
         )) : list.map((q, i) => <QuestionCard key={q.id} q={q} delay={i * 40} />)}
