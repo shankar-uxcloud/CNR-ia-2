@@ -452,22 +452,26 @@ export default function Shell({ path, children }) {
       {!hide && (
         <header className={'topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:px-6 2xl:px-8 ' + (sidebarVisible ? (collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]') : 'lg:ml-0')}>
           <button
-            ref={menuButtonRef}
             type="button"
-            className="sidebar-visibility-toggle grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-panel"
+            className="sidebar-visibility-toggle hidden h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-panel lg:grid"
             aria-label={sidebarVisible ? 'Close sidebar' : 'Open sidebar'}
             aria-expanded={sidebarVisible}
             aria-controls="desktop-sidebar"
             title={sidebarVisible ? 'Close sidebar' : 'Open sidebar'}
-            onClick={() => {
-              if (window.matchMedia?.('(min-width: 1024px)').matches) {
-                setSidebarVisible((value) => !value);
-              } else {
-                setOpen(true);
-              }
-            }}
+            onClick={() => setSidebarVisible((value) => !value)}
           >
             <Menu size={18} aria-hidden="true" />
+          </button>
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-panel lg:hidden"
+            aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={open}
+            aria-controls="mobile-navigation-dialog"
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
           </button>
           <div className="lg:hidden"><Logo /></div>
           <div className="relative ml-auto hidden w-full max-w-lg xl:block">
