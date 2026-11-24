@@ -90,7 +90,7 @@ test('cinematic intro uses an isolated accessible palette and reduced-motion fal
   assert.ok(startup.includes('.cinematic-intro'));
   assert.ok(startup.includes('prefers-reduced-motion:reduce'));
   assert.ok(startup.includes('safe-area-inset-top'));
-  assert.ok(component.includes('CNR_MODULES'));
+  assert.ok(component.includes('SCENES'));\n  assert.ok(component.includes('cinematic-photo'));
   assert.ok(component.includes('Skip intro'));
 });
 
