@@ -4,6 +4,8 @@ import './ResourceVault.css';
 import { DRIVE_RESOURCES, RESOURCE_CATEGORIES } from '../data/resourceCatalog';
 import { getDriveFileId, getDrivePreviewUrl, getDriveOpenUrl } from '../lib/driveResources';
 import { getDocumentKind, getDocumentViewerUrl } from '../lib/documentViewer';
+import { CNR_MODULES } from '../data/cnrAcademic';
+import { ModulePhotography } from '../components/ModulePhotography';
 
 const getRepositoryUrl = (resource) => resource.repositoryPath
   ? `${import.meta.env.BASE_URL}${resource.repositoryPath.split('/').map(encodeURIComponent).join('/')}`
@@ -104,6 +106,21 @@ export default function ResourceVault({ initialModule = 'all' } = {}) {
         <p className="mt-2 max-w-2xl text-mute">A searchable study library for module notes, presentations, question papers, model papers and syllabus documents. Open supported materials in the website and continue studying without leaving the vault.</p></div>
       <div className="rounded-2xl border border-line bg-panel px-4 py-3"><p className="text-xs text-mute">Published resources</p><p className="text-2xl font-bold tabular-nums">{DRIVE_RESOURCES.length}</p></div>
     </div>
+
+    <section className="rv-module-gallery mt-7" aria-labelledby="rv-module-gallery-title">
+      <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+        <div><p className="eyebrow">EXPLORE BY SYLLABUS</p><h2 id="rv-module-gallery-title" className="mt-1 text-xl font-bold">Choose your CNR module</h2></div>
+        <button type="button" onClick={() => setModuleFilter('all')} aria-pressed={moduleFilter === 'all'} className="btn-quiet">View all resources</button>
+      </div>
+      <div className="rv-module-gallery-grid">
+        {CNR_MODULES.map((module) => (
+          <button key={module.number} type="button" onClick={() => { setModuleFilter(String(module.number)); setCategoryFilter('all'); setSavedOnly(false); }} aria-pressed={moduleFilter === String(module.number)} className={'rv-module-card' + (moduleFilter === String(module.number) ? ' is-active' : '')}>
+            <ModulePhotography moduleNumber={module.number} variant="tile" />
+            <span className="rv-module-card-copy"><small>MODULE 0{module.number}</small><strong>{module.title}{module.secondaryHeading ? ' & ' + module.secondaryHeading : ''}</strong><span>Explore module resources <span aria-hidden="true">↗</span></span></span>
+          </button>
+        ))}
+      </div>
+    </section>
 
     <section className="mt-6 grid gap-3 sm:grid-cols-3" aria-label="Vault features">
       <div className="card flex items-center gap-3 p-4"><FolderOpen className="text-brand" size={20}/><div><p className="font-semibold">Module-wise</p><p className="text-xs text-mute">M1–M5 organization</p></div></div>
