@@ -172,3 +172,44 @@ body {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Five-mark answer maps: each authored answer gets a section-by-section visual tree. */
+.five-mark-structure { color: var(--text-primary); font-family: Inter, system-ui, sans-serif; }
+.five-mark-structure-label { margin-bottom: .7rem; color: var(--cyber-accent); font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.five-mark-structure-root {
+  max-width: 46rem; margin-inline: auto; padding: .9rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 65%, var(--border-color));
+  border-radius: .9rem; background: color-mix(in srgb, var(--cyber-accent) 11%, var(--surface-secondary));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--cyber-accent) 8%, transparent);
+  color: var(--text-primary); font-size: .95rem; font-weight: 800; line-height: 1.45;
+  text-align: center; overflow-wrap: anywhere;
+}
+.five-mark-structure-trunk { width: 2px; height: 1.25rem; margin-inline: auto; background: color-mix(in srgb, var(--cyber-accent) 68%, var(--border-color)); }
+.five-mark-structure-branches { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; align-items: stretch; }
+.five-mark-structure-branch {
+  position: relative; min-width: 0; padding: .8rem; border: 1px solid var(--border-color);
+  border-top: 2px solid color-mix(in srgb, var(--cyber-accent) 68%, var(--border-color));
+  border-radius: .85rem; background: color-mix(in srgb, var(--surface-secondary) 88%, transparent);
+}
+.five-mark-structure-branch-title { display: flex; align-items: flex-start; gap: .55rem; color: var(--text-primary); font-size: .83rem; font-weight: 800; line-height: 1.45; overflow-wrap: anywhere; }
+.five-mark-structure-number {
+  display: inline-grid; width: 1.45rem; height: 1.45rem; flex: 0 0 1.45rem; place-items: center;
+  border-radius: 999px; background: color-mix(in srgb, var(--cyber-accent) 16%, var(--surface-secondary));
+  color: var(--cyber-accent); font-size: .72rem; font-variant-numeric: tabular-nums;
+}
+.five-mark-structure-nodes { display: grid; gap: .45rem; margin: .7rem 0 0; padding: 0 0 0 1rem; list-style: none; }
+.five-mark-structure-nodes li {
+  position: relative; padding: .45rem .55rem; border: 1px solid color-mix(in srgb, var(--border-color) 82%, transparent);
+  border-radius: .55rem; background: var(--surface-primary, var(--surface-secondary));
+  color: var(--text-secondary, var(--text-primary)); font-size: .72rem; line-height: 1.5; overflow-wrap: anywhere;
+}
+.five-mark-structure-nodes li::before { position: absolute; top: 50%; left: -.72rem; width: .45rem; height: 1px; background: var(--cyber-accent); content: ''; }
+@media (max-width: 639px) {
+  .five-mark-structure-branches { grid-template-columns: minmax(0, 1fr); gap: .7rem; }
+  .five-mark-structure-root { padding: .75rem .85rem; font-size: .88rem; }
+  .five-mark-structure-branch { padding: .7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .five-mark-structure, .five-mark-structure * { animation: none !important; transition: none !important; }
+}

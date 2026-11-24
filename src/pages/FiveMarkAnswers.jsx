@@ -7,6 +7,7 @@ import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
 import { QUESTIONS } from '../data/questions';
 import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
 import { Blocks } from '../components/Blocks';
+import FiveMarkStructure from '../components/FiveMarkStructure';
 import { useStudy } from '../lib/study';
 import { formatFiveMarkQuestionNumber } from '../lib/fiveMarkPresentation';
 
@@ -85,6 +86,7 @@ const REVIEW_LABELS = {
 function AnswerSections({ item }) {
   return (
     <div className="five-mark-answer mt-4 border-t border-line pt-2">
+      <FiveMarkStructure item={item} />
       {item.answer.map((section) => (
         <section key={section.id} className="border-b border-line/70 py-3 last:border-0">
           <h3 className="five-mark-section-title mb-2 text-base font-semibold tracking-tight">{section.title}</h3>
