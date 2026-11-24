@@ -162,7 +162,7 @@ export default function StartupExperience({ children }) {
   }, []);
 
   // The application tree is mounted underneath the intro. Its first committed
-  // render is the readiness signal; no fabricated percentage or fixed wait is used.
+  // render is the readiness signal; no fabricated percentage or long fixed delay is used.
   useEffect(() => {
     setAppReady(true);
   }, []);
