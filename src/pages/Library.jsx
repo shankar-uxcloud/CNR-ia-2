@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Search, X, SearchX, Bookmark } from 'lucide-react';
+import { Search, X, SearchX, Bookmark, LayoutGrid, List } from 'lucide-react';
 import { QUESTIONS, MODULES, MODULE_ORDER } from '../data/questions';
 import { searchBlob } from '../lib/content';
 import { useStudy } from '../lib/study';
@@ -13,7 +13,8 @@ export default function Library({ module, bookmarksOnly }) {
   const { query, setQuery, bookmarks, completed = {}, recent = [] } = useStudy();
   const [sort, setSort] = useState('default');
   const [status, setStatus] = useState('all');
-  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const [view, setView] = useState('grid');
+  const terms = query.toLowerCase().split(/\\s+/).filter(Boolean);
   const list = useMemo(() => {
     const result = QUESTIONS.filter((q) =>
       (!module || q.module === module) && (!bookmarksOnly || bookmarks[q.id]) && (status === 'all' || (status === 'completed' ? !!completed[q.id] : status === 'pending' ? !completed[q.id] : recent.includes(q.id))) && terms.every((t) => BLOBS[q.id].includes(t)));
@@ -27,6 +28,7 @@ export default function Library({ module, bookmarksOnly }) {
   const sub = bookmarksOnly ? 'Answers you saved for quick revision.' : module ? MODULES[module].long : 'Ten important 10-mark questions across Modules 3, 4 and 5.';
   const chips = [{ to: '/questions', label: 'All', n: 10, on: !module && !bookmarksOnly }, ...[3, 4, 5].map((m) => ({ to: `/module/${m}`, label: `M${m} · ${MODULES[m].name}`, n: MODULES && QUESTIONS.filter((q) => q.module === m).length, on: module === m, m })), { to: '/bookmarks', label: 'Bookmarked', n: Object.keys(bookmarks).length, on: bookmarksOnly, icon: true }];
   const grouped = !module && !bookmarksOnly && !terms.length;
+  const questionLayout = view === 'grid' ? 'question-discovery-grid' : 'space-y-4';
   let idx = 0;
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-10">
@@ -53,27 +55,39 @@ export default function Library({ module, bookmarksOnly }) {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-mute" aria-live="polite">Showing {list.length} of 10 questions</p>
-          <label className="flex items-center gap-2 text-xs font-medium text-mute">Status <select value={status} onChange={e => setStatus(e.target.value)} className="h-9 rounded-lg border border-line bg-panel px-2 text-sm text-ink"><option value="all">All</option><option value="completed">Completed</option><option value="pending">Not completed</option><option value="recent">Recently studied</option></select></label>
-          <label className="flex items-center gap-2 text-xs font-medium text-mute">Sort
-            <select value={sort} onChange={(e) => setSort(e.target.value)} className="h-9 rounded-lg border border-line bg-panel px-2 text-sm text-ink">
-              <option value="default">Question order</option><option value="title">Title A–Z</option><option value="module">Module</option><option value="studied">Recently studied</option>{bookmarksOnly && <option value="recent">Recently bookmarked</option>}
-            </select>
-          </label>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="question-view-toggle" role="group" aria-label="Question layout">
+              <button type="button" onClick={() => setView('grid')} aria-pressed={view === 'grid'} aria-label="Editorial grid view" title="Editorial grid view">
+                <LayoutGrid size={16} aria-hidden="true" /><span>Grid</span>
+              </button>
+              <button type="button" onClick={() => setView('list')} aria-pressed={view === 'list'} aria-label="List view" title="List view">
+                <List size={16} aria-hidden="true" /><span>List</span>
+              </button>
+            </div>
+            <label className="flex items-center gap-2 text-xs font-medium text-mute">Status <select value={status} onChange={e => setStatus(e.target.value)} className="h-9 rounded-lg border border-line bg-panel px-2 text-sm text-ink"><option value="all">All</option><option value="completed">Completed</option><option value="pending">Not completed</option><option value="recent">Recently studied</option></select></label>
+            <label className="flex items-center gap-2 text-xs font-medium text-mute">Sort
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className="h-9 rounded-lg border border-line bg-panel px-2 text-sm text-ink">
+                <option value="default">Question order</option><option value="title">Title A–Z</option><option value="module">Module</option><option value="studied">Recently studied</option>{bookmarksOnly && <option value="recent">Recently bookmarked</option>}
+              </select>
+            </label>
+          </div>
         </div>
       </div>
 
-      <div className="mt-4 space-y-4">
+      <div className="mt-5">
         {list.length === 0 ? (
           <Empty icon={bookmarksOnly && !query ? Bookmark : SearchX} title={bookmarksOnly && !query ? 'No bookmarks yet' : 'No matching questions'}
             text={bookmarksOnly && !query ? 'Tap the bookmark icon on any question or answer to save it here.' : 'Try another keyword or change the status filter.'}
             action={<button onClick={() => { setQuery(''); setStatus('all'); }} className="btn-primary">Clear search and filters</button>} />
         ) : grouped ? MODULE_ORDER.map((m) => (
-          <section key={m} aria-label={`Module ${m}`} className="pt-3">
+          <section key={m} aria-label={`Module ${m}`} className="pt-5">
             <div className="mb-3 flex items-center gap-3"><span className="h-6 w-1.5 rounded-full" style={{ background: modColor(m) }} /><h2 className="text-sm font-semibold uppercase tracking-wider text-mute">Module {m} · {MODULES[m].name}</h2></div>
             <ModulePhoto module={m} compact className="mb-4" />
-            <div className="space-y-4">{list.filter((q) => q.module === m).map((q) => <QuestionCard key={q.id} q={q} delay={idx++ * 40} />)}</div>
+            <div className={questionLayout}>{list.filter((q) => q.module === m).map((q) => <QuestionCard key={q.id} q={q} delay={idx++ * 40} />)}</div>
           </section>
-        )) : list.map((q, i) => <QuestionCard key={q.id} q={q} delay={i * 40} />)}
+        )) : (
+          <div className={questionLayout}>{list.map((q, i) => <QuestionCard key={q.id} q={q} delay={i * 40} />)}</div>
+        )}
       </div>
     </div>
   );

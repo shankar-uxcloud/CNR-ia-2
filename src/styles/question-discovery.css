@@ -1,0 +1,127 @@
+/* Pinterest-inspired discovery treatment for the CNR question library.
+   Composition borrows editorial masonry and generous card rhythm; all colours,
+   borders and shadows remain connected to the existing CNR semantic theme tokens. */
+
+.question-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full, 999px);
+  background: var(--surface-secondary);
+}
+
+.question-view-toggle button {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  padding: .35rem .7rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full, 999px);
+  color: var(--text-secondary);
+  font-size: .8125rem;
+  font-weight: 650;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.question-view-toggle button:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: var(--surface-elevated);
+}
+
+.question-view-toggle button[aria-pressed='true'] {
+  color: var(--button-primary-text);
+  border-color: var(--border-active);
+  background: var(--button-primary-bg);
+}
+
+.question-view-toggle button:active:not(:disabled) { transform: scale(.97); }
+.question-view-toggle button:disabled { cursor: not-allowed; opacity: .5; }
+.question-view-toggle button:focus-visible {
+  outline: 2px solid var(--border-active);
+  outline-offset: 3px;
+}
+
+/* CSS columns create a true content-first masonry rhythm without JS measurement. */
+.question-discovery-grid {
+  columns: 1;
+  column-gap: var(--layout-card-gap, 1rem);
+}
+
+.question-discovery-grid > article {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  break-inside: avoid;
+  flex-direction: column;
+  gap: .8rem;
+  margin: 0 0 var(--layout-card-gap, 1rem);
+  padding: 1rem;
+  border: 1px solid var(--surface-outline, var(--border-color));
+  border-radius: var(--radius-large, 20px);
+  background: var(--surface-primary);
+  box-shadow: var(--surface-shadow, none);
+  vertical-align: top;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.question-discovery-grid > article:hover {
+  border-color: color-mix(in srgb, var(--cyber-accent) 36%, var(--border-color));
+  box-shadow: var(--surface-shadow-hover, var(--surface-shadow, none));
+}
+
+.question-discovery-grid > article > div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .75rem;
+  padding-right: 2.8rem;
+}
+
+.question-discovery-grid > article > div:first-child > div:first-child {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-medium, 14px);
+}
+
+.question-discovery-grid > article > div:nth-child(2) { width: 100%; }
+.question-discovery-grid > article > div:nth-child(2) h3 { padding-right: .25rem; }
+.question-discovery-grid > article > button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--surface-secondary);
+}
+
+.question-discovery-grid > article h3 a:focus-visible {
+  outline: 2px solid var(--border-active);
+  outline-offset: 4px;
+  border-radius: .25rem;
+}
+
+@media (min-width: 640px) {
+  .question-discovery-grid { columns: 2; }
+  .question-discovery-grid > article { padding: 1.125rem; }
+}
+
+@media (min-width: 1100px) {
+  .question-discovery-grid { columns: 3; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .question-discovery-grid > article:hover { transform: translateY(-2px); }
+}
+
+@media (max-width: 639px) {
+  .question-view-toggle button { padding-inline: .6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question-view-toggle button,
+  .question-discovery-grid > article { transition: none; animation: none; }
+  .question-discovery-grid > article:hover { transform: none; }
+}
