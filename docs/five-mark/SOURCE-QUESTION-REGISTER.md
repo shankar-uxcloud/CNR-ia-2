@@ -44,7 +44,7 @@ The December/January question-paper PDF and scheme/solutions PDF remain separate
 
 ## Syllabus and notes inventory
 
-The resource catalogue lists BCV755B note PDFs for Modules 1–5, presentations for Modules 1–5, the BCV755B 2022 Scheme syllabus and the question-paper collection.
+The resource catalogue lists BCV755B note PDFs and presentations for Modules 1–5, the June/July and December/January question-paper resources, the supplementary model paper and a CNR 2026–27 syllabus reference. The earlier 57-page BCV755B Full Notes audit is a separate reference map and is not a substitute for line-by-line verification against the current official syllabus.
 
 The earlier 57-page BCV755B Full Notes audit records these PDF viewer page ranges:
 - Module 1: 1–13
