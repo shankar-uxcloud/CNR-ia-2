@@ -145,6 +145,7 @@ export default function StartupExperience({ children }) {
   const [leaving, setLeaving] = useState(false);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [failedSceneId, setFailedSceneId] = useState(null);
+  const [heroImageSettled, setHeroImageSettled] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
   );
@@ -247,7 +248,7 @@ export default function StartupExperience({ children }) {
             loading={sceneIndex === 0 ? 'eager' : 'lazy'}
             fetchPriority={sceneIndex === 0 ? 'high' : 'auto'}
             decoding="async"
-            onError={() => setFailedSceneId(scene.id)}
+            onLoad={() => { if (sceneIndex === 0) setHeroImageSettled(true); }}\n            onError={() => { setFailedSceneId(scene.id); if (sceneIndex === 0) setHeroImageSettled(true); }}
           />
           <div className="cinematic-photo-shade" aria-hidden="true" />
           <div className="cinematic-photo-caption">
