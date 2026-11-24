@@ -38,6 +38,12 @@ test('module, source, topic and answer-availability filters are present', () => 
   assert.match(page, /Search question, topic, answer or source/);
 });
 
+test('source details expose notes references and related-question groups', () => {
+  assert.match(page, /notesPageRefs/);
+  assert.match(page, /Related concept group/);
+  assert.match(page, /Repeated question wording is retained as a separate source record/);
+});
+
 test('the page reuses existing bookmarks, completion progress and answer-block rendering', () => {
   assert.match(page, /useStudy\(\)/);
   assert.match(page, /toggleBookmark/);
@@ -45,4 +51,13 @@ test('the page reuses existing bookmarks, completion progress and answer-block r
   assert.match(page, /visit\(item\.id\)/);
   assert.match(page, /<Blocks blocks=/);
   assert.match(page, /reviewReason/);
+});
+
+test('the page uses mobile-first responsive layout and existing theme tokens', () => {
+  assert.match(page, /max-w-6xl px-4 py-7 sm:px-8/);
+  assert.match(page, /sm:grid-cols-2 lg:grid-cols-4/);
+  assert.match(page, /flex-wrap/);
+  assert.match(page, /bg-panel/);
+  assert.match(page, /border-line/);
+  assert.match(page, /text-ink/);
 });
