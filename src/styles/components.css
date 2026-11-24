@@ -1939,7 +1939,7 @@ aside.sidebar-shell nav .sidebar-link.is-active {
 :root[data-ui-mode='nebula'] .sidebar-progress-card { box-shadow: 0 0 22px color-mix(in srgb, var(--cyber-accent) 8%, transparent), inset 0 1px rgb(255 255 255 / .035); }
 :root[data-ui-mode='holographic'] .sidebar-link.is-active { box-shadow: inset 2px 0 var(--cyber-accent), 0 0 18px color-mix(in srgb, var(--cyber-accent) 10%, transparent); }
 @media (max-width: 1023px) {
-  .sidebar-brand-mark { display: none !important; }
+  .sidebar-shell .sidebar-brand-mark { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sidebar-module-progress > span, .sidebar-progress-ring .progress-ring-value { transition: none; }
