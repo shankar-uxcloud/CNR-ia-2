@@ -1,0 +1,13 @@
+/* Module-wise real photography: readable overlays, stable image crops and graceful fallbacks. */
+.module-photo { isolation: isolate; min-width: 0; background: #18352f; }
+.module-photo-feature { min-height: 220px; }
+.module-photo-compact { min-height: 132px; }
+.module-photo img { z-index: -2; transition: transform 700ms cubic-bezier(.2,.7,.2,1); }
+.module-photo:hover img { transform: scale(1.035); }
+.module-photo-shade { z-index: -1; background: linear-gradient(90deg, rgb(4 15 17 / .82) 0%, rgb(4 15 17 / .44) 55%, rgb(4 15 17 / .08) 100%), linear-gradient(0deg, rgb(4 15 17 / .42), transparent 72%); }
+.module-photo-fallback { background: radial-gradient(circle at 78% 18%, rgb(255 255 255 / .2), transparent 32%), linear-gradient(135deg, #153e37, #356b56 48%, #182d3c); }
+@media (max-width: 639px) {
+  .module-photo-feature { min-height: 205px; }
+  .module-photo-compact { min-height: 118px; }
+}
+@media (prefers-reduced-motion: reduce) { .module-photo img { transition: none; } .module-photo:hover img { transform: none; } }
