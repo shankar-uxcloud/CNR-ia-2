@@ -296,7 +296,7 @@ export const FIVE_MARK_MODULE_2_ANSWERS = [
         ['Domestic', '5–7%'],
         ['Industry', '8–10%'],
       ]),
-      note('These are approximate figures quoted in the supplied notes; they should not be treated as a universal or current national inventory.', 'info'),
+      p('Note: these are approximate figures quoted in the supplied notes; they should not be treated as a universal or current national inventory.'),
     ]),
     section('conclusion', 'Conclusion', [
       p('Integrated planning balances supply and demand, reduces conflicts and protects water resources for future generations.'),
