@@ -9,6 +9,7 @@ import './styles/utilities.css';
 import './styles/responsive.css';
 import './styles/premium-sitewide.css';
 import './styles/responsive-v2.css';
+import './styles/module-photos.css';
 
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   // When a new deployment activates, immediately leave any document still running
