@@ -164,6 +164,7 @@ const NAV_GROUPS = [
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
+    { to: '/model-paper-21cv654', label: '21CV654 Complete Model Answers', icon: BookOpenText },
     { to: '/mqps', label: 'Model Question Papers', icon: FolderOpen, children: [
       { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', shortLabel: 'Dec/Jan 2026' },
       { to: '/question-papers/june-july-2026', label: 'June/July 2026 Question Paper', shortLabel: 'June/July 2026' },
