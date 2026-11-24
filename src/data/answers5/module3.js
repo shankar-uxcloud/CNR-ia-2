@@ -321,4 +321,6 @@ export const FIVE_MARK_MODULE_3_ANSWERS = [
       note('The supplied notes support the ozone-depletion mechanism and selected impacts, but this model-paper question requires a human-health-focused answer. The draft needs manual checking against the complete Module 3 notes before it is marked complete.', 'gap'),
     ]),
   ], ['Ozone depletion', 'UV-B', 'Human health'], 'The source map classifies this question as partially supported. Manual review is required before marking the answer complete.'),
+  answer('21cv654-6-b-', 'needs-source', [], ['Rock-forming minerals', 'Quartz', 'Mica', 'Feldspar', 'Amphibole'], 'The supplied BCV755B notes do not explain the listed rock-forming minerals. A verified geology reference is required before authoring this answer.'),
+  answer('21cv654-6-c-', 'needs-source', [], ['Weathering', 'Physical weathering', 'Biogeochemical weathering'], 'The supplied BCV755B notes do not develop physical and biogeochemical weathering. A verified reference is required before authoring this answer.'),
 ];
