@@ -147,6 +147,7 @@ export default function StartupExperience({ children }) {
   const [failedSceneId, setFailedSceneId] = useState(null);
   const [heroImageSettled, setHeroImageSettled] = useState(false);
   const [introSequenceComplete, setIntroSequenceComplete] = useState(false);
+  const [progress, setProgress] = useState(1);
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
   );
@@ -168,21 +169,31 @@ export default function StartupExperience({ children }) {
     setAppReady(true);
   }, []);
 
-  // The startup is also a short cinematic introduction, not merely a network
-  // spinner. Keep it visible long enough for its environmental scenes to be seen,
-  // even when React and the preloaded hero are already cached and ready.
+  // A deliberate 1–100% presentation sequence requested for the CNR intro.
+  // This is an intro-timeline indicator, not a measurement of network download progress.
+  // It completes in about 8 seconds (5 seconds with reduced motion).
   useEffect(() => {
-    if (!visible) return undefined;
-    const timer = window.setTimeout(() => setIntroSequenceComplete(true), reducedMotion ? 2600 : 4800);
-    return () => window.clearTimeout(timer);
-  }, [visible, reducedMotion]);
+    if (!visible || introSequenceComplete) return undefined;
+    const intervalMs = reducedMotion ? 50 : 80;
+    const timer = window.setInterval(() => {
+      setProgress((current) => {
+        const next = Math.min(100, current + 1);
+        if (next === 100) {
+          window.clearInterval(timer);
+          setIntroSequenceComplete(true);
+        }
+        return next;
+      });
+    }, intervalMs);
+    return () => window.clearInterval(timer);
+  }, [visible, introSequenceComplete, reducedMotion]);
 
-  // Cycle through all five environmental scenes during the intro sequence.
+  // Cycle through all five environmental scenes while the percentage advances.
   useEffect(() => {
     if (!visible || introSequenceComplete || reducedMotion) return undefined;
     const timer = window.setInterval(() => {
       setSceneIndex((current) => (current + 1) % SCENES.length);
-    }, 1050);
+    }, 1600);
     return () => window.clearInterval(timer);
   }, [visible, introSequenceComplete, reducedMotion]);
 
@@ -244,15 +255,22 @@ export default function StartupExperience({ children }) {
           <div className="cinematic-progress-panel">
             <div className="cinematic-progress-heading">
               <span>Preparing your learning environment</span>
-              <span className="cinematic-loading-indicator" aria-hidden="true"><i /><i /><i /></span>
+              <strong className="cinematic-percentage" aria-live="off">{progress}<span>%</span></strong>
             </div>
-            <div className="cinematic-progress-track cinematic-progress-track--indeterminate" role="progressbar" aria-label="Application initialization" aria-valuetext={appReady ? 'Application ready' : 'Initializing application'}>
-              <span className="cinematic-progress-fill" />
+            <div
+              className="cinematic-progress-track"
+              role="progressbar"
+              aria-label="CNR introduction progress"
+              aria-valuemin={1}
+              aria-valuemax={100}
+              aria-valuenow={progress}
+            >
+              <span className="cinematic-progress-fill" style={{ width: progress + '%' }} />
             </div>
             <p className="cinematic-progress-status" aria-live="polite">
-              {appReady ? 'Your CNR learning environment is ready.' : 'Loading study materials, modules and learning tools…'}
+              {progress < 25 ? 'Preparing your environmental learning space…' : progress < 50 ? 'Exploring forests and freshwater resources…' : progress < 75 ? 'Discovering biodiversity and natural ecosystems…' : progress < 100 ? 'Organizing your CNR learning tools…' : 'Your CNR learning experience is ready.'}
             </p>
-            <p className="cinematic-progress-note">Live application initialization · no simulated percentage</p>
+            <p className="cinematic-progress-note">Cinematic intro sequence · approximately {reducedMotion ? '5' : '8'} seconds</p>
           </div>
 
           <p className="cinematic-environment-quote">“{scene.quote}”</p>
