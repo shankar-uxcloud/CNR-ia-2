@@ -27,7 +27,7 @@ The resource catalogue also lists a separate scheme-specific December/January PD
 
 The binary PDF files could not be read through the repository file-content interface during this implementation pass. Therefore:
 - No paper-header verification is claimed.
-- The six December/January summary-only records remain blocked.
+- The six December/January summary-only records now have topic-aligned answer drafts, but their exact paper wording and original mark allocation remain unverified.
 - The notes-page references attached to model-paper questions are explicitly labelled as notes PDF viewer pages, not question-paper page numbers.
 - The 2026–27 official syllabus has not yet been checked line-by-line against all 70 source questions.
 
