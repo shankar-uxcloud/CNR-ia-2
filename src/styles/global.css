@@ -94,3 +94,81 @@ body {
 .reading .sect-body strong.kw {
   font-weight: 800;
 }
+
+
+/* Five-mark answer hierarchy: scoped to the dedicated 5-Mark Answers route.
+   All colors resolve through the active semantic theme tokens. */
+.five-mark-answer-card > .five-mark-question-title {
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(1.05rem, 1.65vw, 1.28rem);
+  font-weight: 750;
+  letter-spacing: -.025em;
+  line-height: 1.42;
+  text-wrap: pretty;
+}
+
+.five-mark-answer .five-mark-section-title {
+  position: relative;
+  max-width: 100%;
+  margin: clamp(1.1rem, 2.4vw, 1.55rem) 0 .8rem;
+  padding: .65rem .85rem .65rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 24%, var(--border-color));
+  border-left: 3px solid var(--cyber-accent);
+  border-radius: .7rem;
+  background: color-mix(in srgb, var(--cyber-accent) 5%, var(--surface-secondary));
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  font-weight: 750;
+  letter-spacing: -.018em;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.five-mark-answer .five-mark-subsection-title {
+  max-width: 100%;
+  margin: 1.15rem 0 .55rem;
+  padding: 0 0 .4rem .75rem;
+  border-left: 2px solid color-mix(in srgb, var(--cyber-accent) 68%, var(--border-color));
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(.94rem, 1.3vw, 1.02rem);
+  font-weight: 700;
+  letter-spacing: -.012em;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.five-mark-answer .five-mark-section-title + p,
+.five-mark-answer .five-mark-subsection-title + p {
+  margin-top: .55rem;
+}
+
+.five-mark-answer :where(p, li, td) {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 639px) {
+  .five-mark-answer .five-mark-section-title {
+    margin-top: 1rem;
+    padding: .58rem .7rem .58rem .8rem;
+    border-radius: .6rem;
+  }
+  .five-mark-answer .five-mark-subsection-title {
+    margin-top: .95rem;
+    padding-left: .6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .five-mark-answer-card,
+  .five-mark-answer-card * {
+    scroll-behavior: auto;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

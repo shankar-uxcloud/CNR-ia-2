@@ -84,14 +84,14 @@ const REVIEW_LABELS = {
 
 function AnswerSections({ item }) {
   return (
-    <div className="mt-4 border-t border-line pt-2">
+    <div className="five-mark-answer mt-4 border-t border-line pt-2">
       {item.answer.map((section) => (
         <section key={section.id} className="border-b border-line/70 py-3 last:border-0">
-          <h3 className="mb-2 text-base font-semibold tracking-tight">{section.title}</h3>
+          <h3 className="five-mark-section-title mb-2 text-base font-semibold tracking-tight">{section.title}</h3>
           <Blocks blocks={section.blocks || []} />
           {(section.subsections || []).map((subsection) => (
             <div key={subsection.title} className="mt-4">
-              <h4 className="mb-2 font-semibold">{subsection.title}</h4>
+              <h4 className="five-mark-subsection-title mb-2 font-semibold">{subsection.title}</h4>
               <Blocks blocks={subsection.blocks || []} />
             </div>
           ))}
@@ -140,7 +140,7 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
   const statusLabel = REVIEW_LABELS[item.reviewStatus] || 'Review status pending';
 
   return (
-    <article className="card min-w-0 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
+    <article className="five-mark-answer-card card min-w-0 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
       <div className="flex flex-wrap items-center gap-2">
         <span className="chip font-semibold" data-question-number={formatFiveMarkQuestionNumber(item)}>
           Question {formatFiveMarkQuestionNumber(item)}
@@ -152,7 +152,7 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
         {done && <span className="chip text-brand"><CheckCircle2 size={12} /> Completed</span>}
       </div>
 
-      <h2 id={item.id + '-question'} className="mt-3 text-base font-semibold leading-relaxed sm:text-lg">
+      <h2 id={item.id + '-question'} className="five-mark-question-title mt-3 text-base font-semibold leading-relaxed sm:text-lg">
         {item.question}
       </h2>
 
