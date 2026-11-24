@@ -7,6 +7,7 @@ import {
   getFiveMarkPaperQuestionsByModule,
 } from './fiveMarkPaperBank.js';
 import { FIVE_MARK_PAPER_ANSWERS } from './answers5/index.js';
+import { FIVE_MARK_SOURCE_QUESTIONS } from './fiveMarkQuestionSources.js';
 
 const supportedBlockTypes = new Set(['p', 'list', 'table', 'eq', 'diagram', 'note', 'key']);
 const diagramRegistrySource = readFileSync(new URL('../diagrams/index.js', import.meta.url), 'utf8');
@@ -16,9 +17,7 @@ test('the assembled paper bank preserves all seventy source records', () => {
   assert.equal(new Set(FIVE_MARK_PAPER_BANK.map((item) => item.id)).size, 70);
   assert.deepEqual(
     FIVE_MARK_PAPER_BANK.map((item) => item.id).sort(),
-    FIVE_MARK_PAPER_ANSWERS.length
-      ? [...new Set(FIVE_MARK_PAPER_BANK.map((item) => item.id))].sort()
-      : [],
+    FIVE_MARK_SOURCE_QUESTIONS.map((item) => item.id).sort(),
   );
 });
 
