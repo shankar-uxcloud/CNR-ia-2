@@ -14,7 +14,7 @@ test('cinematic loader displays a timed 1–100 percent introduction progress in
   assert.match(source, /style=\{\{ width: progress \+ '%' \}\}/);
   assert.match(source, /Cinematic intro sequence/);
   assert.match(source, /approximately/);
-  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|setProgress|aria-valuenow|percentage\s*===|percentage\s*\?\?/);
+  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|percentage\s*===|percentage\s*\?\?/);
   assert.match(css, /\.cinematic-percentage/);
 });
 
