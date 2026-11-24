@@ -2,7 +2,7 @@
 
 ## Dedicated entry point
 
-A dedicated **5-Mark Answers** destination is available at /five-mark-answers and is linked under Exam Preparation in the sidebar. The sidebar count is derived from the ten existing core companion answers plus the seventy source-question records.
+A dedicated **5-Mark Answers** destination is available at /five-mark-answers and is linked under Exam Preparation in the sidebar. The sidebar count is derived from a lightweight count module (10 existing core companion answers + 70 source-question records), so the full answer bank is not eagerly loaded with the sidebar.
 
 The existing Answers destination and its 2-mark / 10-mark content remain separate. The new page explicitly tells students that it is dedicated to five-mark preparation.
 
