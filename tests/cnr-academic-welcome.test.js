@@ -41,7 +41,9 @@ test('module explorer exposes searchable topics, filters and working existing de
 test('cinematic intro uses real readiness signals instead of synthetic loading percentages', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
-  assert.match(source, /cnr-cinematic-intro-seen-v1/);
+  assert.match(source, /const \[visible, setVisible\] = useState\(true\)/);
+  assert.match(source, /\{!visible && children\}/);
+  assert.doesNotMatch(source, /localStorage|SEEN_KEY/);
   assert.match(source, /document\.fonts\?\.ready/);
   assert.match(source, /window\.addEventListener\('load'/);
   assert.match(source, /prefers-reduced-motion: reduce/);
