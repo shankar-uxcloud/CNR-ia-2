@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { FIVE_MARK_ANSWERS } from './fiveMarkAnswers.js';
 import { FIVE_MARK_PAPER_BANK } from './fiveMarkPaperBank.js';
+import { FIVE_MARK_TOTAL_COUNT } from './fiveMarkCounts.js';
 
 const app = readFileSync(new URL('../App.jsx', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../components/Shell.jsx', import.meta.url), 'utf8');
