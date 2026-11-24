@@ -119,8 +119,8 @@ function SourceDetails({ item }) {
         {Number.isFinite(item.originalMarks) && <span>Original paper allocation: {item.originalMarks} marks</span>}
         {item.source?.supportingFile && <span>Supporting scheme/solutions resource recorded</span>}
       </div>
-      {item.sourcePageRefs?.length > 0 && (
-        <div className="mt-1">Notes reference pages: {item.sourcePageRefs.join('; ')}</div>
+      {item.notesPageRefs?.length > 0 && (
+        <div className="mt-1">Notes reference pages: {item.notesPageRefs.join('; ')}</div>
       )}
       {item.sourceVerificationStatus && <div className="mt-1">Source check: {item.sourceVerificationStatus.replace(/-/g, ' ')}</div>}
       {item.sourceSupportStatus && item.sourceSupportStatus !== 'not-audited' && (
