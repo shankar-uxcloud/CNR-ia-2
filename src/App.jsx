@@ -46,7 +46,7 @@ function Router({ path }) {
   if (path === '/dec-jan-2026') return <DecJan2026 />;
   if (path === '/question-papers/june-july-2026') return <JuneJuly2026 />;
   if (path === '/dashboard') return <Dashboard />;
-  if (path === '/questions') return <Library />;
+  if (path === '/questions' || path === '/answers') return <Library />;
   if (path === '/bookmarks') return <Library bookmarksOnly />;
   if (path === '/revision') return <Revision />;
   if (path === '/practice') return <Practice />;

@@ -1891,3 +1891,60 @@ aside.sidebar-shell nav .sidebar-link.is-active {
   .sidebar-shell, .sidebar-progress-card, .sidebar-link.is-active { color: CanvasText; background: Canvas; border: 1px solid CanvasText; box-shadow: none; }
   .sidebar-link.is-active { outline: 2px solid Highlight; }
 }
+
+
+/* Next-generation academic command center refinements. */
+.sidebar-brand-mark {
+  display: none; width: 36px; height: 36px; flex: 0 0 auto; align-items: center; justify-content: center;
+  position: relative; gap: 0; border: 1px solid color-mix(in srgb, var(--cyber-accent) 45%, var(--border-color));
+  border-radius: 12px; color: var(--cyber-accent); background: color-mix(in srgb, var(--cyber-accent) 9%, var(--surface-primary));
+  font-size: 16px; font-weight: 900; box-shadow: 0 4px 16px color-mix(in srgb, var(--cyber-accent) 10%, transparent);
+}
+.sidebar-brand-mark svg { position: absolute; right: 3px; bottom: 3px; color: var(--cyber-secondary); }
+.sidebar-collapsed .sidebar-brand-mark { display: inline-flex; }
+.sidebar-command-search {
+  display: flex; min-height: 38px; align-items: center; gap: 8px; margin: 12px 12px 2px; padding: 0 10px;
+  border: 1px solid var(--border-color); border-radius: 11px; color: var(--text-muted);
+  background: color-mix(in srgb, var(--surface-secondary) 82%, transparent);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+.sidebar-command-search:focus-within { border-color: var(--border-active); box-shadow: 0 0 0 3px var(--focus-ring); background: var(--surface-primary); }
+.sidebar-command-search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--text-primary); background: transparent; font: inherit; font-size: 11px; }
+.sidebar-command-search input::placeholder { color: var(--text-muted); }
+.sidebar-command-search button { display: grid; width: 22px; height: 22px; flex: 0 0 auto; place-items: center; border-radius: 6px; }
+.sidebar-command-search button:hover { color: var(--text-primary); background: var(--surface-elevated); }
+.sidebar-command-search kbd { flex: 0 0 auto; border: 1px solid var(--border-color); border-radius: 5px; padding: 2px 4px; color: var(--text-muted); font-size: 9px; white-space: nowrap; }
+.sidebar-module-progress { width: 30px; height: 3px; flex: 0 0 auto; overflow: hidden; border-radius: 99px; background: var(--surface-elevated); }
+.sidebar-module-progress > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyber-accent), var(--cyber-secondary)); transition: width 220ms ease; }
+.sidebar-progress-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.sidebar-progress-copy strong, .sidebar-progress-copy small { display: block; }
+.sidebar-progress-copy strong { color: var(--text-primary); font-size: 11px; font-weight: 750; }
+.sidebar-progress-copy small { margin-top: 3px; color: var(--text-muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.sidebar-progress-ring { position: relative; display: grid; width: 40px; height: 40px; flex: 0 0 auto; place-items: center; }
+.sidebar-progress-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.sidebar-progress-ring circle { fill: none; stroke-width: 3.5; }
+.sidebar-progress-ring .progress-ring-track { stroke: var(--surface-elevated); }
+.sidebar-progress-ring .progress-ring-value { stroke: var(--cyber-accent); stroke-linecap: round; transition: stroke-dashoffset 300ms ease; }
+.sidebar-progress-ring b { position: relative; color: var(--text-primary); font-size: 9px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.sidebar-progress-caption { display: block; margin-top: 8px; line-height: 1.4; }
+.sidebar-progress-card { padding: 12px; }
+.sidebar-link:focus-visible, .sidebar-group-toggle:focus-visible, .sidebar-nested-toggle:focus-visible,
+.sidebar-collapse-toggle:focus-visible, .sidebar-brand-mark:focus-visible {
+  outline: 2px solid var(--cyber-accent); outline-offset: 2px; box-shadow: 0 0 0 4px var(--focus-ring);
+}
+.sidebar-collapsed .sidebar-progress-heading { justify-content: center; margin-bottom: 8px; }
+.sidebar-collapsed .sidebar-progress-ring { width: 34px; height: 34px; }
+.sidebar-collapsed .sidebar-progress-card { display: flex; flex-direction: column; align-items: center; }
+:root[data-ui-mode='glass'] .sidebar-command-search { background: color-mix(in srgb, var(--surface-primary) 58%, transparent); }
+:root[data-ui-mode='nebula'] .sidebar-progress-card { box-shadow: 0 0 22px color-mix(in srgb, var(--cyber-accent) 8%, transparent), inset 0 1px rgb(255 255 255 / .035); }
+:root[data-ui-mode='holographic'] .sidebar-link.is-active { box-shadow: inset 2px 0 var(--cyber-accent), 0 0 18px color-mix(in srgb, var(--cyber-accent) 10%, transparent); }
+@media (max-width: 1023px) {
+  .sidebar-shell .sidebar-brand-mark { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-module-progress > span, .sidebar-progress-ring .progress-ring-value { transition: none; }
+}
+@media (forced-colors: active) {
+  .sidebar-brand-mark, .sidebar-command-search, .sidebar-progress-ring circle { border-color: CanvasText; }
+  .sidebar-module-progress > span, .sidebar-progress-ring .progress-ring-value { stroke: Highlight; background: Highlight; }
+}

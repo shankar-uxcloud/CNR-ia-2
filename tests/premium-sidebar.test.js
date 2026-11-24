@@ -29,7 +29,7 @@ test('model question papers are nested and existing application routes remain re
   assert.match(shell, /children: \[/);
   assert.match(shell, /\/dec-jan-2026/);
   assert.match(shell, /\/question-papers\/june-july-2026/);
-  for (const route of ['/dashboard', '/learning-hub', '/analytics', '/questions', '/module', '/bookmarks', '/revision', '/practice', '/quiz', '/exam', '/study-coach', '/visual-studio', '/environment-lab', '/smart-revision', '/planner', '/ecoweb', '/cnr-notes', '/resources', '/additional-notes', '/welcome', '/data-backup']) {
+  for (const route of ['/dashboard', '/learning-hub', '/analytics', '/questions', '/answers', '/module', '/bookmarks', '/revision', '/practice', '/quiz', '/exam', '/study-coach', '/visual-studio', '/environment-lab', '/smart-revision', '/planner', '/ecoweb', '/cnr-notes', '/resources', '/additional-notes', '/welcome', '/data-backup']) {
     assert.ok(app.includes(route), 'existing route not found: ' + route);
   }
 });
@@ -52,4 +52,8 @@ test('sidebar styles consume semantic theme tokens and respect accessibility pre
   assert.match(styles, /prefers-reduced-motion: reduce/);
   assert.match(styles, /prefers-reduced-transparency: reduce/);
   assert.match(styles, /forced-colors: active/);
+  assert.match(styles, /sidebar-command-search/);
+  assert.match(styles, /sidebar-module-progress/);
+  assert.match(styles, /sidebar-progress-ring/);
+  assert.match(styles, /sidebar-brand-mark/);
 });
