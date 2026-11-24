@@ -343,6 +343,7 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
 export default function Shell({ path, children }) {
   const { focus, setFocus, query, setQuery } = useStudy();
   const [open, setOpen] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(() => { try { return localStorage.getItem('cnr-sidebar-visible-v1') !== 'false'; } catch { return true; } });
   const [collapsed, setCollapsed] = useState(() => { try { return localStorage.getItem('cnr-sidebar-collapsed-v1') === 'true'; } catch { return false; } });
   const [top, setTop] = useState(false);
   const menuButtonRef = useRef(null);
@@ -352,6 +353,7 @@ export default function Shell({ path, children }) {
 
   useEffect(() => { setOpen(false); window.scrollTo(0, 0); }, [path]);
   useEffect(() => { try { localStorage.setItem('cnr-sidebar-collapsed-v1', String(collapsed)); } catch { /* optional preference */ } }, [collapsed]);
+  useEffect(() => { try { localStorage.setItem('cnr-sidebar-visible-v1', String(sidebarVisible)); } catch { /* optional preference */ } }, [sidebarVisible]);
   useEffect(() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !window.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return;
     let frame = 0, latest = null;
@@ -420,8 +422,8 @@ export default function Shell({ path, children }) {
     <div className="min-h-screen">
       <a href="#main" onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus(); }} className="sr-only z-[200] rounded-lg bg-brand px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:left-3 focus:top-3">Skip to content</a>
 
-      {!hide && (
-        <aside className={'sidebar-shell fixed inset-y-0 left-0 z-30 hidden flex-col border-r lg:flex ' + (collapsed ? 'sidebar-collapsed w-[4.75rem]' : 'w-[17rem]')}>
+      {!hide && sidebarVisible && (
+        <aside id="desktop-sidebar" aria-label="Desktop sidebar" className={'sidebar-shell fixed inset-y-0 left-0 z-30 hidden flex-col border-r lg:flex ' + (collapsed ? 'sidebar-collapsed w-[4.75rem]' : 'w-[17rem]')}>
           <div className="sidebar-brand-row flex items-center justify-between gap-2 px-3 py-4">
             <a href="#/" className="sidebar-brand-mark" aria-label="CNR-IA-2 home" title="CNR-IA-2">
               <span>C</span><Leaf size={13} aria-hidden="true" />
@@ -448,8 +450,29 @@ export default function Shell({ path, children }) {
       )}
 
       {!hide && (
-        <header className={'topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:px-6 2xl:px-8 ' + (collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]')}>
-          <button ref={menuButtonRef} className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-panel lg:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-navigation-dialog" onClick={() => setOpen(true)}><Menu size={18} /></button>
+        <header className={'topbar sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-line bg-bg/85 px-3 backdrop-blur sm:gap-3 sm:px-4 lg:px-6 2xl:px-8 ' + (sidebarVisible ? (collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]') : 'lg:ml-0')}>
+          <button
+            type="button"
+            className="sidebar-visibility-toggle hidden h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-panel lg:grid"
+            aria-label={sidebarVisible ? 'Close sidebar' : 'Open sidebar'}
+            aria-expanded={sidebarVisible}
+            aria-controls="desktop-sidebar"
+            title={sidebarVisible ? 'Close sidebar' : 'Open sidebar'}
+            onClick={() => setSidebarVisible((value) => !value)}
+          >
+            <Menu size={18} aria-hidden="true" />
+          </button>
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-panel lg:hidden"
+            aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={open}
+            aria-controls="mobile-navigation-dialog"
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+          </button>
           <div className="lg:hidden"><Logo /></div>
           <div className="relative ml-auto hidden w-full max-w-lg xl:block">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-mute" aria-hidden="true" />
@@ -461,7 +484,7 @@ export default function Shell({ path, children }) {
         </header>
       )}
 
-      <main id="main" tabIndex={-1} className={'outline-none ' + (hide ? '' : collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]')}>
+      <main id="main" tabIndex={-1} className={'outline-none ' + (hide || !sidebarVisible ? '' : collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-[17rem]')}>
         <div key={path} className="page-enter">{children}</div>
       </main>
 

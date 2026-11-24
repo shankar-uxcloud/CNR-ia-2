@@ -1948,3 +1948,23 @@ aside.sidebar-shell nav .sidebar-link.is-active {
   .sidebar-brand-mark, .sidebar-command-search, .sidebar-progress-ring circle { border-color: CanvasText; }
   .sidebar-module-progress > span, .sidebar-progress-ring .progress-ring-value { stroke: Highlight; background: Highlight; }
 }
+
+
+/* Persistent desktop sidebar visibility control. */
+.sidebar-visibility-toggle {
+  color: var(--text-secondary);
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.sidebar-visibility-toggle:hover {
+  color: var(--cyber-accent);
+  border-color: var(--border-active);
+  background: color-mix(in srgb, var(--cyber-accent) 9%, var(--surface-primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyber-accent) 9%, transparent);
+}
+.sidebar-visibility-toggle:focus-visible {
+  outline: 2px solid var(--cyber-accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-visibility-toggle { transition: none; }
+}
