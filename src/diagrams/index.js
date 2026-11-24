@@ -2,6 +2,14 @@ import { Greenhouse, EiaFlow, ConservationTree } from './Climate';
 import { CarbonCycle, NitrogenCycle, OxygenCycle, PhosphorusCycle, WaterCycle } from './Cycles';
 import { Esp, Baghouse, Cyclone, Scrubber } from './Equipment';
 import { OzoneDepletion } from './Ozone';
+import {
+  SoilFoodSecurity,
+  LandUsePlanning,
+  BasinImbalance,
+  WaterDistribution,
+  RiverLinking,
+  SeawaterIngress,
+} from './FiveMark';
 
 // id → { title, Component, hint }  (ids are referenced from the answer content files)
 export const DIAGRAMS = {
@@ -18,4 +26,10 @@ export const DIAGRAMS = {
   cyclone: { title: 'Cyclone separator', Component: Cyclone },
   scrubber: { title: 'Wet scrubber', Component: Scrubber },
   ozone: { title: 'Ozone-depletion mechanism', Component: OzoneDepletion },
+  soilFoodSecurity: { title: 'Soil degradation and food security', Component: SoilFoodSecurity },
+  landUsePlanning: { title: 'Sustainable land-use planning', Component: LandUsePlanning },
+  basinImbalance: { title: 'Water-surplus and water-deficit basins', Component: BasinImbalance },
+  waterDistribution: { title: 'Global water-resource distribution', Component: WaterDistribution },
+  riverLinking: { title: 'Himalayan and Peninsular river-linking components', Component: RiverLinking },
+  seawaterIngress: { title: 'Seawater ingress in a coastal aquifer', Component: SeawaterIngress },
 };
