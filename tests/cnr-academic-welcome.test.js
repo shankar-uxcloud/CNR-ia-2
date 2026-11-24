@@ -56,3 +56,19 @@ test('cinematic intro uses real readiness signals instead of synthetic loading p
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.match(css, /cinematic-landscape/);
 });
+
+test('all five syllabus modules have distinct real-photo hero and card imagery', () => {
+  const photos = read('src/components/ModulePhotography.jsx');
+  const page = read('src/pages/NexusWelcome.jsx');
+  const styles = read('src/pages/NexusWelcome.css');
+  for (const moduleNumber of [1, 2, 3, 4, 5]) {
+    assert.match(photos, new RegExp('^\\s*' + moduleNumber + ': \\{', 'm'), 'missing photo for module ' + moduleNumber);
+  }
+  assert.equal((photos.match(/src: 'https:\\/\\/images\\.unsplash\\.com\\/photo-/g) || []).length, 5, 'each module must use its own Unsplash photograph');
+  assert.equal((photos.match(/alt: '/g) || []).length, 5, 'each photograph needs descriptive alternative text');
+  assert.match(page, /<ModulePhotography moduleNumber=\{module\.number\} variant="tile" \/>/);
+  assert.match(page, /<ModulePhotography moduleNumber=\{activeModule\.number\} variant="hero" \/>/);
+  assert.match(styles, /cnr-module-detail-visual-grid/);
+  assert.match(styles, /@media\(max-width:760px\)/);
+  assert.match(styles, /prefers-reduced-motion:reduce/);
+});
