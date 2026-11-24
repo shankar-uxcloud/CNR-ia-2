@@ -9,7 +9,7 @@ test('cinematic environmental loader advances one presentation percentage at a t
   assert.match(source, /PRESENTATION_TICK_MS = 150/);
   assert.match(source, /setProgress\(\(current\) => Math\.min\(100, current \+ 1\)\)/);
   assert.match(source, /if \(!visible \|\| !appReady \|\| reducedMotion \|\| leaving\) return undefined/);
-  assert.match(source, /aria-valuenow=\{percentage\}/);
+  assert.match(source, /aria-valuenow=\{percentage \?\? 0\}/);
   assert.match(source, /Nature journey/);
   assert.match(source, /presentation timeline/);
   assert.match(source, /FINAL_HOLD_MS = 900/);
