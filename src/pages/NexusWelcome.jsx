@@ -10,6 +10,7 @@ import { CNR_MODULES, COURSE_OBJECTIVES, COURSE_OUTCOMES, SYLLABUS_SOURCE, QUEST
 import { QUESTIONS } from '../data/questions';
 import { DRIVE_RESOURCES } from '../data/resourceCatalog';
 import { useStudy } from '../lib/study';
+import { ModulePhotography } from '../components/ModulePhotography';
 
 const ICONS = { mountain: Mountain, droplets: Droplets, wind: Wind, trees: Trees, globe: Globe2 };
 const FILTERS = [
@@ -167,13 +168,16 @@ export default function NexusWelcome() {
           const Icon = ICONS[module.icon] || BookOpen;
           const stats = getModuleCatalogStats(module.number);
           const done = getModuleQuestions(module.number).filter((question) => completed[question.id]).length;
-          return <button key={module.number} type="button" onClick={() => selectModule(module.number)} aria-pressed={selectedModule===module.number} className={'welcome-module-tile card flex min-h-52 flex-col p-4 text-left transition hover:-translate-y-1 ' + (selectedModule===module.number?'is-selected':'')}>
+          return <button key={module.number} type="button" onClick={() => selectModule(module.number)} aria-pressed={selectedModule===module.number} className={'welcome-module-tile card flex min-h-[340px] flex-col overflow-hidden p-0 text-left transition hover:-translate-y-1 ' + (selectedModule===module.number?'is-selected':'')}>
+            <ModulePhotography moduleNumber={module.number} variant="tile" />
+            <div className="flex flex-1 flex-col p-4 pt-3">
             <div className="flex items-center justify-between"><span className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand"><Icon size={20}/></span><span className="text-xs font-bold text-mute">0{module.number} / 05</span></div>
             <span className="mt-4 text-xs font-bold tracking-[.14em] text-brand">{module.eyebrow}</span>
             <strong className="mt-2 text-lg">{module.title}</strong>
             {module.secondaryHeading && <span className="text-xs text-mute">+ {module.secondaryHeading}</span>}
             <span className="mt-auto pt-4 text-xs leading-5 text-mute">{stats.topicCount} syllabus topics · {stats.resourceCount} catalogued items · {stats.questionCount} answers</span>
             {done>0 && <span className="mt-2 text-[11px] font-semibold text-brand">{done}/{stats.questionCount} published answers completed</span>}
+            </div>
           </button>;
         })}
         {!moduleMatches.length && <p className="rounded-xl bg-sunk p-4 text-sm text-mute">No modules or indexed content match this search.</p>}
@@ -181,9 +185,14 @@ export default function NexusWelcome() {
 
       <article className="welcome-module-detail card mt-5 overflow-hidden" aria-labelledby="welcome-active-module">
         <div className="welcome-module-detail-head p-5 sm:p-7">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="max-w-3xl"><p className="text-xs font-bold tracking-[.16em] text-brand">MODULE 0{activeModule.number} · {activeModule.eyebrow}</p><h3 id="welcome-active-module" className="mt-2 text-2xl font-black sm:text-3xl">{activeModule.title}{activeModule.secondaryHeading ? ' & ' + activeModule.secondaryHeading : ''}</h3><p className="mt-3 text-sm leading-7 text-mute">{activeModule.description}</p></div>
-            <span className="rounded-xl border border-line bg-panel px-3 py-2 text-xs font-semibold text-mute">{stats.topicCount} syllabus topics</span>
+          <div className="cnr-module-detail-visual-grid">
+            <div className="cnr-module-detail-copy">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="max-w-3xl"><p className="text-xs font-bold tracking-[.16em] text-brand">MODULE 0{activeModule.number} · {activeModule.eyebrow}</p><h3 id="welcome-active-module" className="mt-2 text-2xl font-black sm:text-3xl">{activeModule.title}{activeModule.secondaryHeading ? ' & ' + activeModule.secondaryHeading : ''}</h3><p className="mt-3 text-sm leading-7 text-mute">{activeModule.description}</p></div>
+                <span className="rounded-xl border border-line bg-panel px-3 py-2 text-xs font-semibold text-mute">{stats.topicCount} syllabus topics</span>
+              </div>
+            </div>
+            <ModulePhotography moduleNumber={activeModule.number} variant="hero" />
           </div>
           <div className="mt-5 flex flex-wrap gap-2">
             <a href={activeModule.number>=3?'#/module/'+activeModule.number:'#/cnr-notes/module/'+activeModule.number} className="btn-primary inline-flex items-center gap-2">Start module <ArrowRight size={15}/></a>
