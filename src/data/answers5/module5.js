@@ -230,6 +230,7 @@ export const FIVE_MARK_MODULE_5_ANSWERS = [
     section('agreements', 'Important international agreements', [
       list([
         'Convention on Biological Diversity (CBD), 1992: promotes conservation of biodiversity, sustainable use and fair sharing of benefits from genetic resources.',
+        'Kunming–Montreal Global Biodiversity Framework, 2022: sets global goals and 2030 targets for conservation, restoration, sustainable use and equitable benefit sharing, including the 30-by-30 area-based conservation target.',
         'CITES, 1973: regulates international trade in endangered wild animals and plants.',
         'Ramsar Convention, 1971: promotes conservation and wise use of wetlands.',
         'Convention on Migratory Species (CMS), 1979: supports international cooperation to conserve migratory animals and their habitats.',
