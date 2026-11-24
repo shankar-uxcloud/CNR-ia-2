@@ -154,9 +154,9 @@ const NAV_GROUPS = [
   ]},
   { id: 'study', title: 'Study Material', icon: BookOpenText, defaultOpen: true, items: [
     { to: '/questions', label: 'All Questions', icon: ListChecks, count: QUESTIONS.length },
-    { to: '/module/3', label: 'Module 3 — Air and Air Pollution', shortLabel: 'Module 3', icon: Wind, count: QUESTIONS.filter((question) => question.module === 3).length },
-    { to: '/module/4', label: 'Module 4 — Biodiversity and Ecosystems', shortLabel: 'Module 4', icon: Leaf, count: QUESTIONS.filter((question) => question.module === 4).length },
-    { to: '/module/5', label: 'Module 5 — Global Warming and EIA', shortLabel: 'Module 5', icon: Globe2, count: QUESTIONS.filter((question) => question.module === 5).length },
+    { to: '/module/3', label: 'Module 3 — Air and Air Pollution', shortLabel: 'Module 3', icon: Wind, moduleId: 3, count: QUESTIONS.filter((question) => question.module === 3).length },
+    { to: '/module/4', label: 'Module 4 — Biodiversity and Ecosystems', shortLabel: 'Module 4', icon: Leaf, moduleId: 4, count: QUESTIONS.filter((question) => question.module === 4).length },
+    { to: '/module/5', label: 'Module 5 — Global Warming and EIA', shortLabel: 'Module 5', icon: Globe2, moduleId: 5, count: QUESTIONS.filter((question) => question.module === 5).length },
     { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark, countFrom: 'bookmarks' },
     { to: '/revision', label: 'Revision Mode', icon: Zap },
   ]},
@@ -164,6 +164,7 @@ const NAV_GROUPS = [
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
+    { to: '/answers', label: 'Answers', icon: BookOpenText },
     { to: '/model-paper-21cv654', label: '21CV654 Complete Model Answers', icon: BookOpenText },
     { to: '/mqps', label: 'Model Question Papers', icon: FolderOpen, children: [
       { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', shortLabel: 'Dec/Jan 2026' },
@@ -191,8 +192,17 @@ const NAV_GROUPS = [
 
 function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
   const { bookmarks, completed } = useStudy();
-  const [expanded, setExpanded] = useState(() => Object.fromEntries(NAV_GROUPS.map((group) => [group.id, group.defaultOpen])));
-  const [papersExpanded, setPapersExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('cnr-sidebar-groups-v2') || 'null');
+      return { ...Object.fromEntries(NAV_GROUPS.map((group) => [group.id, group.defaultOpen])), ...(saved && typeof saved === 'object' ? saved : {}) };
+    } catch { return Object.fromEntries(NAV_GROUPS.map((group) => [group.id, group.defaultOpen])); }
+  });
+  const [papersExpanded, setPapersExpanded] = useState(() => {
+    try { return localStorage.getItem('cnr-sidebar-papers-expanded-v2') !== 'false'; } catch { return true; }
+  });
+  const [navSearch, setNavSearch] = useState('');
+  const navSearchRef = useRef(null);
   const questionRoute = path.match(/^\/q\/([^/]+)$/);
   const answeredQuestion = questionRoute && QUESTIONS.find((question) => question.id === questionRoute[1]);
   const canonicalPath = path === '/materials' || path.startsWith('/materials/') ? '/resources' : path;
@@ -203,6 +213,29 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
   const progress = totalQuestions ? completedQuestions / totalQuestions : 0;
   const isActive = (item) => activePath === item.to || (item.to === '/cnr-notes' && activePath.startsWith('/cnr-notes/'));
   const groupIsActive = (group) => group.items.some((item) => isActive(item) || item.children?.some(isActive));
+  const moduleProgressLabel = (moduleId, progressState) => {
+    const moduleQuestions = QUESTIONS.filter((question) => question.module === moduleId);
+    const done = moduleQuestions.filter((question) => Boolean(progressState?.[question.id])).length;
+    return `Module ${moduleId}: ${done} of ${moduleQuestions.length} completed`;
+  };
+  const moduleProgressWidth = (moduleId, progressState) => {
+    const moduleQuestions = QUESTIONS.filter((question) => question.module === moduleId);
+    const done = moduleQuestions.filter((question) => Boolean(progressState?.[question.id])).length;
+    return (moduleQuestions.length ? done / moduleQuestions.length * 100 : 0) + '%';
+  };
+
+  useEffect(() => {
+    const onShortcut = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        navSearchRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onShortcut);
+    return () => document.removeEventListener('keydown', onShortcut);
+  }, []);
+  useEffect(() => { try { localStorage.setItem('cnr-sidebar-groups-v2', JSON.stringify(expanded)); } catch { /* optional navigation preference */ } }, [expanded]);
+  useEffect(() => { try { localStorage.setItem('cnr-sidebar-papers-expanded-v2', String(papersExpanded)); } catch { /* optional navigation preference */ } }, [papersExpanded]);
 
   useEffect(() => {
     setExpanded((current) => {
@@ -213,6 +246,8 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
     if (activePath === '/dec-jan-2026' || activePath === '/question-papers/june-july-2026') setPapersExpanded(true);
   }, [activePath]);
 
+  const normalizedSearch = navSearch.trim().toLowerCase();
+  const matchesItem = (item) => !normalizedSearch || item.label.toLowerCase().includes(normalizedSearch) || item.shortLabel?.toLowerCase().includes(normalizedSearch) || item.children?.some(matchesItem);
   const renderLink = (item, nested = false) => {
     const active = isActive(item);
     const Icon = item.icon;
@@ -234,7 +269,7 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
         </div>
         <div id={instance + '-papers-subnav'} className={'sidebar-subnav-panel ' + (papersExpanded ? 'is-open' : '')}
           aria-hidden={!papersExpanded} inert={!papersExpanded ? '' : undefined}>
-          <div className="sidebar-subnav-inner">{item.children.map((child) => renderLink(child, true))}</div>
+          <div className="sidebar-subnav-inner">{item.children.filter(matchesItem).map((child) => renderLink(child, true))}</div>
         </div>
       </div>
     );
@@ -244,6 +279,9 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
         className={'sidebar-link ' + (nested ? 'sidebar-link-nested ' : '') + (active ? 'is-active' : '')}>
         {Icon ? <Icon size={17} aria-hidden="true" /> : <span className="sidebar-link-dot" aria-hidden="true" />}
         <span className="sidebar-link-label">{item.shortLabel || item.label}</span>
+        {item.moduleId && <span className="sidebar-module-progress" aria-label={moduleProgressLabel(item.moduleId, completed)} title={moduleProgressLabel(item.moduleId, completed)}>
+          <span style={{ width: moduleProgressWidth(item.moduleId, completed) }} />
+        </span>}
         {hasCount && <span className="sidebar-badge">{count}</span>}
       </a>
     );
@@ -251,10 +289,16 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
 
   return (
     <nav aria-label="Primary navigation" className="sidebar-nav-scroll flex flex-1 flex-col px-3 pb-3">
+      {!collapsed && <div className="sidebar-command-search">
+        <Search size={15} aria-hidden="true" />
+        <input ref={navSearchRef} value={navSearch} onChange={(event) => setNavSearch(event.target.value)} placeholder="Find a destination…" aria-label="Search sidebar navigation" />
+        {navSearch && <button type="button" onClick={() => setNavSearch('')} aria-label="Clear navigation search"><X size={13} /></button>}
+        <kbd>Ctrl K</kbd>
+      </div>}
       <div className="space-y-3 py-2">
-        {NAV_GROUPS.map((group) => {
+        {NAV_GROUPS.filter((group) => group.items.some(matchesItem)).map((group) => {
           const GroupIcon = group.icon;
-          const isExpanded = Boolean(expanded[group.id]);
+          const isExpanded = Boolean(expanded[group.id]) || Boolean(normalizedSearch);
           const panelId = instance + '-group-' + group.id;
           return (
             <section key={group.id} className="sidebar-group">
@@ -268,7 +312,7 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
               </button>
               <div id={panelId} className={'sidebar-group-panel ' + (isExpanded ? 'is-open' : '')}
                 aria-hidden={!isExpanded} inert={!isExpanded ? '' : undefined}>
-                <div className="sidebar-group-inner"><div className="space-y-1 pt-1">{group.items.map((item) => renderLink(item))}</div></div>
+                <div className="sidebar-group-inner"><div className="space-y-1 pt-1">{group.items.filter(matchesItem).map((item) => renderLink(item))}</div></div>
               </div>
             </section>
           );
@@ -277,14 +321,18 @@ function Nav({ path, onNavigate, collapsed = false, instance = 'desktop' }) {
       <a href="#/analytics" onClick={onNavigate} className="sidebar-progress-card block rounded-xl p-3"
         aria-label={'Open Progress & Analytics. ' + completedQuestions + ' of ' + totalQuestions + ' questions completed'}
         title={collapsed ? completedQuestions + '/' + totalQuestions + ' questions completed' : undefined}>
-        <div className="sidebar-progress-copy mb-2 flex items-center justify-between gap-2 text-xs">
-          <span className="font-semibold">Learning progress</span><span className="tabular-nums">{completedQuestions}/{totalQuestions}</span>
+        <div className="sidebar-progress-heading">
+          <span className="sidebar-progress-copy"><strong>Learning progress</strong><small>{completedQuestions} / {totalQuestions} questions</small></span>
+          <span className="sidebar-progress-ring" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><circle className="progress-ring-track" cx="20" cy="20" r="16" /><circle className="progress-ring-value" cx="20" cy="20" r="16" style={{ strokeDasharray: 100.53, strokeDashoffset: 100.53 * (1 - progress) }} /></svg>
+            <b>{Math.round(progress * 100)}%</b>
+          </span>
         </div>
         <div className="sidebar-progress-track" role="progressbar" aria-label="Questions completed"
-          aria-valuemin={0} aria-valuemax={totalQuestions} aria-valuenow={completedQuestions}>
+          aria-valuemin={0} aria-valuemax={totalQuestions} aria-valuenow={completedQuestions} aria-valuetext={completedQuestions + ' of ' + totalQuestions + ' questions completed'}>
           <span style={{ width: (progress * 100) + '%' }} />
         </div>
-        <span className="sidebar-progress-caption sidebar-progress-copy mt-2 block text-[10px]">Questions completed</span>
+        <span className="sidebar-progress-caption sidebar-progress-copy">{progress >= 1 ? 'Every question completed — excellent work.' : progress >= .5 ? 'Great momentum. Keep it going.' : progress > 0 ? 'A strong start. One question at a time.' : 'Your learning journey starts here.'}</span>
       </a>
     </nav>
   );
@@ -373,6 +421,9 @@ export default function Shell({ path, children }) {
       {!hide && (
         <aside className={'sidebar-shell fixed inset-y-0 left-0 z-30 hidden flex-col border-r lg:flex ' + (collapsed ? 'sidebar-collapsed w-[4.75rem]' : 'w-[17rem]')}>
           <div className="sidebar-brand-row flex items-center justify-between gap-2 px-3 py-4">
+            <a href="#/" className="sidebar-brand-mark" aria-label="CNR-IA-2 home" title="CNR-IA-2">
+              <span>C</span><Leaf size={13} aria-hidden="true" />
+            </a>
             <div className="sidebar-brand-copy min-w-0"><Logo /></div>
             <button type="button" className="sidebar-collapse-toggle" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               aria-pressed={collapsed} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
