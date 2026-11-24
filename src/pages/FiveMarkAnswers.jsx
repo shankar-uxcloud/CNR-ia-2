@@ -7,7 +7,6 @@ import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
 import { QUESTIONS } from '../data/questions';
 import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
 import { Blocks } from '../components/Blocks';
-import { ModuleBadge } from '../components/ui';
 import { useStudy } from '../lib/study';
 
 const CORE_ITEMS = QUESTIONS.map((question) => {
@@ -140,7 +139,7 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
   return (
     <article className="card min-w-0 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
       <div className="flex flex-wrap items-center gap-2">
-        <ModuleBadge m={item.module} />
+        <span className="chip">Module {item.module}</span>
         <span className="chip">5 Marks</span>
         <span className="chip">{item.sourceLabel}</span>
         <span className="chip">{statusLabel}</span>
