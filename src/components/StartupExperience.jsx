@@ -177,9 +177,20 @@ export default function StartupExperience({ children }) {
     return () => window.clearInterval(timer);
   }, [visible, appReady, reducedMotion]);
 
+  // Give the preloaded hero a short opportunity to paint, but never let a slow
+  // image request hold the application behind the intro indefinitely.
   useEffect(() => {
-    if (appReady && visible) setLeaving(true);
-  }, [appReady, visible]);
+    if (!visible || heroImageSettled) return undefined;
+    const timer = window.setTimeout(() => {
+      setFailedSceneId('forest');
+      setHeroImageSettled(true);
+    }, 1400);
+    return () => window.clearTimeout(timer);
+  }, [visible, heroImageSettled]);
+
+  useEffect(() => {
+    if (appReady && heroImageSettled && visible) setLeaving(true);
+  }, [appReady, heroImageSettled, visible]);
 
   useEffect(() => {
     if (!leaving) return undefined;
@@ -248,7 +259,8 @@ export default function StartupExperience({ children }) {
             loading={sceneIndex === 0 ? 'eager' : 'lazy'}
             fetchPriority={sceneIndex === 0 ? 'high' : 'auto'}
             decoding="async"
-            onLoad={() => { if (sceneIndex === 0) setHeroImageSettled(true); }}\n            onError={() => { setFailedSceneId(scene.id); if (sceneIndex === 0) setHeroImageSettled(true); }}
+            onLoad={() => { if (sceneIndex === 0) setHeroImageSettled(true); }}
+            onError={() => { setFailedSceneId(scene.id); if (sceneIndex === 0) setHeroImageSettled(true); }}
           />
           <div className="cinematic-photo-shade" aria-hidden="true" />
           <div className="cinematic-photo-caption">
