@@ -3,18 +3,32 @@ import {
   Bookmark, CheckCircle2, ChevronDown, ChevronUp, Search, X,
   SlidersHorizontal, BookOpenText, RotateCcw,
 } from 'lucide-react';
-import { FIVE_MARK_BANK } from '../data/fiveMarkBank';
+import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
+import { QUESTIONS } from '../data/questions';
 import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
 import { Blocks } from '../components/Blocks';
-import { ModuleBadge } from '../components/ui';
 import { useStudy } from '../lib/study';
 
-const CORE_ITEMS = FIVE_MARK_BANK.map((item) => ({
-  ...item,
-  sourceType: 'core',
-  sourceLabel: 'Core syllabus question bank',
-  reviewReason: 'Existing core five-mark companion answer. Academic verification status remains pending.',
-}));
+const CORE_ITEMS = QUESTIONS.map((question) => {
+  const source = question.answer?.source || null;
+  return {
+    id: question.id,
+    question: question.question,
+    module: question.module,
+    marks: 5,
+    answer: FIVE_MARK_ANSWERS[question.id] || [],
+    sourceType: 'core',
+    sourceLabel: 'Core syllabus question bank',
+    source: source ? {
+      document: source.doc || null,
+      references: source.refs || [],
+      additionalReferences: source.extra || [],
+    } : null,
+    topicTags: question.answer?.keywords || [],
+    reviewStatus: 'needs-review',
+    reviewReason: 'Existing core five-mark companion answer. Academic verification status remains pending.',
+  };
+});
 
 const PAPER_ITEMS = FIVE_MARK_PAPER_BANK.map((item) => ({
   ...item,
@@ -125,7 +139,7 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
   return (
     <article className="card min-w-0 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
       <div className="flex flex-wrap items-center gap-2">
-        <ModuleBadge m={item.module} />
+        <span className="chip">Module {item.module}</span>
         <span className="chip">5 Marks</span>
         <span className="chip">{item.sourceLabel}</span>
         <span className="chip">{statusLabel}</span>
@@ -234,6 +248,7 @@ export default function FiveMarkAnswers() {
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
             Source-linked question bank across all five modules, with core syllabus questions kept separate from paper-derived questions.
           </p>
+          <p className="mt-1 text-xs text-mute">2-Mark and 10-Mark answers remain in the existing Answers section; this page is dedicated to five-mark preparation.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <span className="chip">80 questions</span>
