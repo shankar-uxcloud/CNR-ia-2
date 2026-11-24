@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { FIVE_MARK_ANSWERS } from './fiveMarkAnswers.js';
 import { FIVE_MARK_PAPER_BANK } from './fiveMarkPaperBank.js';
 import { FIVE_MARK_TOTAL_COUNT } from './fiveMarkCounts.js';
+import { formatFiveMarkQuestionNumber } from '../lib/fiveMarkPresentation.js';
 
 const app = readFileSync(new URL('../App.jsx', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../components/Shell.jsx', import.meta.url), 'utf8');
@@ -60,4 +61,20 @@ test('the page uses mobile-first responsive layout and existing theme tokens', (
   assert.match(page, /bg-panel/);
   assert.match(page, /border-line/);
   assert.match(page, /text-ink/);
+});
+
+test('all 80 questions have a visible number and a non-empty five-mark answer', () => {
+  assert.equal(FIVE_MARK_PAPER_BANK.length, 70);
+  assert.ok(FIVE_MARK_PAPER_BANK.every((item) => item.answer.length > 0));
+  assert.ok(Object.values(FIVE_MARK_ANSWERS).every((answer) => answer.length > 0));
+  assert.equal(Object.keys(FIVE_MARK_ANSWERS).length + FIVE_MARK_PAPER_BANK.length, 80);
+  assert.equal(formatFiveMarkQuestionNumber({ sourceType: 'paper', sourceQuestionId: 'Q1(a)' }), 'Q1(a)');
+  assert.equal(formatFiveMarkQuestionNumber({ sourceType: 'core', id: 'q01' }), 'Core Q01');
+});
+
+test('answers are expanded by default so students see answer content without an extra click', () => {
+  assert.match(page, /useState\(\(\) => Object\.fromEntries\(/);
+  assert.match(page, /FIVE_MARK_ITEMS\.filter\(\(item\) => item\.answer\.length > 0\)/);
+  assert.match(page, /Question \{formatFiveMarkQuestionNumber\(item\)\}/);
+  assert.match(page, /complete 5-mark answers are expanded by default/);
 });
