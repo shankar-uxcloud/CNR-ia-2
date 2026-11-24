@@ -213,3 +213,60 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .five-mark-structure, .five-mark-structure * { animation: none !important; transition: none !important; }
 }
+
+
+/* Horizontal question-number navigator for the dedicated five-mark answer bank. */
+.five-mark-question-navigator {
+  min-width: 0;
+  padding: .85rem;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface-secondary) 78%, transparent);
+}
+.five-mark-question-navigator-track {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: .25rem .1rem .55rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cyber-accent) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.five-mark-question-nav-item {
+  display: inline-flex;
+  min-height: 2.45rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: .45rem .8rem;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 30%, var(--border-color));
+  border-radius: .7rem;
+  background: var(--surface-primary, var(--surface-secondary));
+  color: var(--text-primary);
+  font-size: .75rem;
+  font-weight: 750;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: border-color .18s ease, background-color .18s ease, color .18s ease, transform .18s ease;
+}
+.five-mark-question-nav-item:hover {
+  transform: translateY(-1px);
+  border-color: var(--cyber-accent);
+  background: color-mix(in srgb, var(--cyber-accent) 12%, var(--surface-secondary));
+}
+.five-mark-question-nav-item:focus-visible {
+  outline: 2px solid var(--cyber-accent);
+  outline-offset: 3px;
+}
+.five-mark-answer-card { scroll-margin-top: 6rem; }
+@media (max-width: 639px) {
+  .five-mark-question-navigator { padding: .7rem; }
+  .five-mark-question-navigator-track { gap: .4rem; }
+  .five-mark-question-nav-item { min-height: 2.35rem; padding: .4rem .65rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .five-mark-question-nav-item { transition: none; }
+}

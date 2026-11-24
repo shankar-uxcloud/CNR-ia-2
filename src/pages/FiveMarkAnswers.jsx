@@ -142,7 +142,7 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
   const statusLabel = REVIEW_LABELS[item.reviewStatus] || 'Review status pending';
 
   return (
-    <article className="five-mark-answer-card card min-w-0 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
+    <article id={'five-mark-question-' + item.id} className="five-mark-answer-card card min-w-0 scroll-mt-24 p-4 sm:p-5" aria-labelledby={item.id + '-question'}>
       <div className="flex flex-wrap items-center gap-2">
         <span className="chip font-semibold" data-question-number={formatFiveMarkQuestionNumber(item)}>
           Question {formatFiveMarkQuestionNumber(item)}
@@ -267,6 +267,31 @@ export default function FiveMarkAnswers() {
           <span className="chip">{reviewOnlyCount} review-only</span>
         </div>
       </div>
+
+      <nav className="five-mark-question-navigator mt-5" aria-label="Jump to a five-mark question">
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-sm font-semibold text-ink">Quick question navigator</h2>
+          <span className="text-xs text-mute">Select a number to jump directly to its answer</span>
+        </div>
+        <div className="five-mark-question-navigator-track" role="group" aria-label="Five-mark question numbers">
+          {filtered.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className="five-mark-question-nav-item"
+              aria-label={'Go to ' + formatFiveMarkQuestionNumber(item) + ', Module ' + item.module}
+              title={'Module ' + item.module + ' · ' + item.question}
+              onClick={() => {
+                setExpanded((current) => ({ ...current, [item.id]: true }));
+                visit(item.id);
+                document.getElementById('five-mark-question-' + item.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+            >
+              {formatFiveMarkQuestionNumber(item)}
+            </button>
+          ))}
+        </div>
+      </nav>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="card p-4"><p className="text-xs font-semibold uppercase tracking-wide text-mute">Available questions</p><p className="mt-1 text-2xl font-bold tabular-nums">{FIVE_MARK_ITEMS.length}</p><p className="mt-1 text-xs text-mute">10 core + 70 source-question records</p></div>
