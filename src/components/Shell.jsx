@@ -3,8 +3,7 @@ import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, Cale
 import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, SUBJECT } from '../data/questions';
-import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
-import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
+import { FIVE_MARK_TOTAL_COUNT } from '../data/fiveMarkCounts';
 
 export function Logo({ light }) {
   return (
@@ -164,7 +163,7 @@ const NAV_GROUPS = [
   ]},
   { id: 'exam', title: 'Exam Preparation', icon: ClipboardCheck, defaultOpen: true, items: [
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
-    { to: '/five-mark-answers', label: '5-Mark Answers', icon: BookOpenText, count: Object.keys(FIVE_MARK_ANSWERS).length + FIVE_MARK_PAPER_BANK.length },
+    { to: '/five-mark-answers', label: '5-Mark Answers', icon: BookOpenText, count: FIVE_MARK_TOTAL_COUNT },
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
     { to: '/answers', label: 'Answers', icon: BookOpenText },
