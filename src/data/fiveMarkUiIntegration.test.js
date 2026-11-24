@@ -14,10 +14,11 @@ test('the dedicated five-mark page is lazy-loaded and routed', () => {
   assert.match(app, /path === '\/five-mark-answers'/);
 });
 
-test('the exam navigation exposes the five-mark bank with a live count', () => {
+test('the exam navigation exposes the five-mark bank with a lightweight live count', () => {
   assert.match(shell, /label: '5-Mark Answers'/);
-  assert.match(shell, /Object\.keys\(FIVE_MARK_ANSWERS\)\.length \+ FIVE_MARK_PAPER_BANK\.length/);
-  assert.equal(Object.keys(FIVE_MARK_ANSWERS).length + FIVE_MARK_PAPER_BANK.length, 80);
+  assert.match(shell, /count: FIVE_MARK_TOTAL_COUNT/);
+  assert.equal(FIVE_MARK_TOTAL_COUNT, Object.keys(FIVE_MARK_ANSWERS).length + FIVE_MARK_PAPER_BANK.length);
+  assert.equal(FIVE_MARK_TOTAL_COUNT, 80);
 });
 
 test('the five-mark page combines core and paper-source questions without merging their identities', () => {
