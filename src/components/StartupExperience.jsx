@@ -46,7 +46,7 @@ const SCENES = [
 ];
 
 function LandscapeIllustration({ scene }) {
-  return <div className="cinematic-landscape-wrap" aria-hidden="true">
+  return <div className="cinematic-landscape-fallback" aria-hidden="true">
     <svg className="cinematic-landscape" data-scene={scene.id} viewBox="0 0 900 560" role="presentation" focusable="false">
       <defs>
         <linearGradient id="cnr-sky" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#8fc9d1"/><stop offset=".48" stopColor="#d8d9b4"/><stop offset="1" stopColor="#f1c58c"/></linearGradient>
@@ -240,7 +240,7 @@ export default function StartupExperience({ children }) {
         </div>
 
         <div className={'cinematic-landscape-wrap' + (imageFailed ? ' is-image-fallback' : '')}>
-          <LandscapeIllustration scene={scene} />
+          <LandscapeIllustration scene={{ ...scene, id: "complete" }} />
           <img
             key={scene.id}
             className="cinematic-photo"
