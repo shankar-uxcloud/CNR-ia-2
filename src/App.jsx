@@ -14,6 +14,7 @@ import StartupExperience from './components/StartupExperience';
 const Answer = lazy(() => import('./pages/Answer'));
 const Revision = lazy(() => import('./pages/Revision'));
 const Practice = lazy(() => import('./pages/Practice'));
+const FiveMarkAnswers = lazy(() => import('./pages/FiveMarkAnswers'));
 const Quiz = lazy(() => import('./pages/Quiz'));
 const Planner = lazy(() => import('./pages/Planner'));
 const ExamSimulator = lazy(() => import('./pages/ExamSimulator'));
@@ -50,6 +51,7 @@ function Router({ path }) {
   if (path === '/bookmarks') return <Library bookmarksOnly />;
   if (path === '/revision') return <Revision />;
   if (path === '/practice') return <Practice />;
+  if (path === '/five-mark-answers') return <FiveMarkAnswers />;
   if (path === '/quiz') return <Quiz />;
   if (path === '/exam') return <ExamSimulator />;
   if (path === '/analytics') return <Analytics />;
