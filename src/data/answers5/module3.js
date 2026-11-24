@@ -321,6 +321,57 @@ export const FIVE_MARK_MODULE_3_ANSWERS = [
       note('The supplied notes support the ozone-depletion mechanism and selected impacts, but this model-paper question requires a human-health-focused answer. The draft needs manual checking against the complete Module 3 notes before it is marked complete.', 'gap'),
     ]),
   ], ['Ozone depletion', 'UV-B', 'Human health'], 'The source map classifies this question as partially supported. Manual review is required before marking the answer complete.'),
-  answer('21cv654-6-b-', 'needs-source', [], ['Rock-forming minerals', 'Quartz', 'Mica', 'Feldspar', 'Amphibole'], 'The supplied BCV755B notes do not explain the listed rock-forming minerals. A verified geology reference is required before authoring this answer.'),
-  answer('21cv654-6-c-', 'needs-source', [], ['Weathering', 'Physical weathering', 'Biogeochemical weathering'], 'The supplied BCV755B notes do not develop physical and biogeochemical weathering. A verified reference is required before authoring this answer.'),
+  answer('21cv654-6-b-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of rock-forming minerals', [
+      p('Rock-forming minerals are naturally occurring inorganic solids with a definite chemical composition and an ordered crystalline structure. They are the basic constituents of rocks.'),
+    ]),
+    section('minerals', 'Important rock-forming minerals', [
+      table(['Mineral', 'Composition / identifying properties', 'Occurrence / importance'], [
+        ['Quartz', 'Silicon dioxide (SiO₂); hard (Mohs 7), glassy lustre and no cleavage.', 'Common in granite and sandstone; resistant to weathering and a major constituent of sand.'],
+        ['Feldspar', 'Aluminosilicate group containing potassium, sodium or calcium; two cleavage directions.', 'Common in granite and basalt; weathering contributes to clay formation.'],
+        ['Mica', 'Sheet silicate minerals such as muscovite and biotite; split into thin sheets.', 'Occurs in igneous and metamorphic rocks; muscovite is light and biotite is dark.'],
+        ['Amphibole', 'Dark double-chain silicate group; commonly elongated crystals with two oblique cleavages.', 'Hornblende is a common example in igneous and metamorphic rocks.'],
+      ]),
+    ]),
+    section('comparison', 'Key differences', [
+      list([
+        'Quartz is hard and lacks cleavage.',
+        'Feldspar has two cleavage directions, usually close to right angles.',
+        'Mica separates into thin, flexible sheets.',
+        'Amphibole commonly forms elongated crystals with oblique cleavage directions.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Quartz, feldspar, mica and amphibole are important crustal minerals. Their properties help identify rocks and explain mineral weathering and soil formation.'),
+    ]),
+  ], ['Rock-forming minerals', 'Quartz', 'Feldspar', 'Mica', 'Amphibole'], 'The supplied notes do not develop these mineral groups. This concise supplementary geology answer is based on the model-paper source record and requires academic review against an approved geology reference.'),
+  answer('21cv654-6-c-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of weathering', [
+      p('Weathering is the breakdown and alteration of rocks and minerals at or near the Earth’s surface. The material remains in place; its transportation is called erosion.'),
+    ]),
+    section('physical', 'Physical (mechanical) weathering', [
+      list([
+        'Temperature changes: repeated heating and cooling cause expansion and contraction, forming cracks.',
+        'Freeze–thaw action: water enters cracks, freezes, expands and widens the cracks.',
+        'Salt crystallisation: salts grow in pores and exert pressure on rock surfaces.',
+        'Abrasion: wind, rivers and moving ice grind and wear rock surfaces.',
+        'Exfoliation: removal of overlying pressure allows outer rock layers to expand and peel away.',
+      ]),
+    ]),
+    section('biogeochemical', 'Biogeochemical weathering', [
+      list([
+        'Root action: plant roots grow into cracks and exert pressure on rocks.',
+        'Organic acids: lichens, microbes and decaying vegetation release acids that dissolve or alter minerals.',
+        'Microbial activity: bacteria and fungi promote mineral transformation and nutrient release.',
+        'Oxidation: oxygen reacts with iron-bearing minerals to form oxides.',
+        'Hydrolysis and carbonation: water and weak carbonic acid react with minerals to form altered minerals or dissolved ions.',
+      ]),
+    ]),
+    section('importance', 'Importance', [
+      p('Weathering forms soil, releases mineral nutrients, shapes landscapes and supplies sediments. Its rate depends on climate, rock type, water, slope and biological activity.'),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Physical weathering breaks rocks into smaller fragments, while biogeochemical processes alter minerals through chemical and biological reactions. Both contribute to soil formation.'),
+    ]),
+  ], ['Weathering', 'Physical weathering', 'Biogeochemical weathering', 'Soil formation'], 'The supplied notes do not develop these weathering processes. This concise supplementary earth-science answer is based on the model-paper source record and requires academic review against an approved reference.'),
 ];
