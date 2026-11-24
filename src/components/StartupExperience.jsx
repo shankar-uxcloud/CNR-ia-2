@@ -1,25 +1,49 @@
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Leaf, SkipForward } from 'lucide-react';
-import { CNR_MODULES } from '../data/cnrAcademic';
+import { useEffect, useState } from 'react';
+import { Leaf, SkipForward } from 'lucide-react';
 import './CinematicIntro.css';
 
-const PRESENTATION_TICK_MS = 150;
-const FINAL_HOLD_MS = 900;
-
 const SCENES = [
-  { id: 'awakening', start: 1, end: 10, title: 'Nature awakens', message: 'A quiet landscape comes into view.' },
-  { id: 'land', start: 11, end: 25, module: 1, message: 'Discovering landforms, soil health and sustainable land use.' },
-  { id: 'water', start: 26, end: 40, module: 2, message: 'Following water resources, river basins and groundwater.' },
-  { id: 'air', start: 41, end: 55, module: 3, message: 'Understanding air composition, pollutants and air quality.' },
-  { id: 'biodiversity', start: 56, end: 70, module: 4, message: 'Exploring flora, fauna, biodiversity and ecosystems.' },
-  { id: 'climate', start: 71, end: 85, module: 5, message: 'Studying global warming, climate impacts and EIA in India.' },
-  { id: 'complete', start: 86, end: 95, title: 'A living landscape', message: 'Land, water, air and life are connected.' },
-  { id: 'identity', start: 96, end: 100, title: 'CNR-IA-2', message: 'Your CNR learning environment is ready.' },
+  {
+    id: 'forest',
+    title: 'Forest conservation',
+    message: 'Healthy forests protect soil, water, wildlife and the climate.',
+    quote: 'Protecting nature begins with understanding it.',
+    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1800&q=82',
+    alt: 'Sunlight filtering through a dense green forest',
+  },
+  {
+    id: 'water',
+    title: 'Rivers & freshwater ecosystems',
+    message: 'Rivers, lakes and wetlands sustain communities and living systems.',
+    quote: 'Every drop of water matters.',
+    image: 'https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=1800&q=82',
+    alt: 'A flowing freshwater river surrounded by a natural landscape',
+  },
+  {
+    id: 'biodiversity',
+    title: 'Wildlife & biodiversity',
+    message: 'Biodiversity keeps ecosystems resilient, balanced and alive.',
+    quote: 'Biodiversity keeps ecosystems alive.',
+    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1800&q=82',
+    alt: 'Wild deer in a natural forest habitat',
+  },
+  {
+    id: 'mountains',
+    title: 'Mountains & watersheds',
+    message: 'Mountain landscapes shape watersheds, rivers and local climates.',
+    quote: 'Conserve resources. Sustain the future.',
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=82',
+    alt: 'Mountain peaks and a broad natural watershed landscape',
+  },
+  {
+    id: 'earth',
+    title: 'One planet, shared future',
+    message: 'Environmental protection and sustainable development connect us all.',
+    quote: 'Sustainable development protects tomorrow.',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=82',
+    alt: 'Planet Earth viewed from space',
+  },
 ];
-
-function getScene(progress) {
-  return SCENES.find((scene) => progress >= scene.start && progress <= scene.end) || SCENES[0];
-}
 
 function LandscapeIllustration({ scene }) {
   return <div className="cinematic-landscape-wrap" aria-hidden="true">
@@ -116,19 +140,17 @@ function LandscapeIllustration({ scene }) {
 }
 
 export default function StartupExperience({ children }) {
-  // Show the dedicated loading screen on every fresh document load.
-  // It is intentionally not persisted: reloads and new visits always replay it.
   const [visible, setVisible] = useState(true);
   const [appReady, setAppReady] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [leaving, setLeaving] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
+  const [sceneIndex, setSceneIndex] = useState(0);
+  const [failedSceneId, setFailedSceneId] = useState(null);
+  const [reducedMotion, setReducedMotion] = useState(
+    () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
+  );
 
-  const scene = useMemo(() => getScene(progress || 1), [progress]);
-  const activeModule = scene.module ? CNR_MODULES.find((module) => module.number === scene.module) : null;
-  const sceneTitle = activeModule
-    ? `MODULE 0${activeModule.number}`
-    : scene.title;
+  const scene = SCENES[sceneIndex];
+  const imageFailed = failedSceneId === scene.id;
 
   useEffect(() => {
     const media = window.matchMedia?.('(prefers-reduced-motion: reduce)');
@@ -138,52 +160,25 @@ export default function StartupExperience({ children }) {
     return () => media.removeEventListener?.('change', update);
   }, []);
 
-  // Essential readiness is independent from the cinematic presentation counter.
+  // The application tree is mounted underneath the intro. Its first committed
+  // render is the readiness signal; no fabricated percentage or fixed wait is used.
   useEffect(() => {
-    if (!visible) return undefined;
-    let cancelled = false;
-    let onLoad;
-    const loadEvent = document.readyState === 'complete'
-      ? Promise.resolve()
-      : new Promise((resolve) => {
-          onLoad = resolve;
-          window.addEventListener('load', onLoad, { once: true });
-        });
-    const fontsReady = document.fonts?.ready || Promise.resolve();
-    Promise.all([loadEvent, fontsReady]).then(() => {
-      if (!cancelled) setAppReady(true);
-    }).catch(() => {
-      if (!cancelled) setAppReady(true);
-    });
-    return () => {
-      cancelled = true;
-      if (onLoad) window.removeEventListener('load', onLoad);
-    };
-  }, [visible]);
+    setAppReady(true);
+  }, []);
 
-  // The counter is a presentation timeline only. It starts after the app is ready
-  // and advances by exactly one integer per tick (100 ticks × 150 ms ≈ 15 seconds).
+  // Rotate scenes only while the real application initialization is still in progress.
+  // If initialization finishes quickly, the intro exits promptly rather than delaying use.
   useEffect(() => {
-    if (!visible || !appReady || reducedMotion || leaving) return undefined;
-    setProgress(1);
+    if (!visible || appReady || reducedMotion) return undefined;
     const timer = window.setInterval(() => {
-      setProgress((current) => Math.min(100, current + 1));
-    }, PRESENTATION_TICK_MS);
+      setSceneIndex((current) => (current + 1) % SCENES.length);
+    }, 3600);
     return () => window.clearInterval(timer);
-  }, [visible, appReady, reducedMotion, leaving]);
+  }, [visible, appReady, reducedMotion]);
 
   useEffect(() => {
-    if (!visible || !appReady || !reducedMotion || leaving) return undefined;
-    setProgress(100);
-    const timer = window.setTimeout(() => setLeaving(true), 800);
-    return () => window.clearTimeout(timer);
-  }, [visible, appReady, reducedMotion, leaving]);
-
-  useEffect(() => {
-    if (!visible || progress !== 100 || leaving || reducedMotion) return undefined;
-    const timer = window.setTimeout(() => setLeaving(true), FINAL_HOLD_MS);
-    return () => window.clearTimeout(timer);
-  }, [visible, progress, leaving, reducedMotion]);
+    if (appReady && visible) setLeaving(true);
+  }, [appReady, visible]);
 
   useEffect(() => {
     if (!leaving) return undefined;
@@ -193,56 +188,75 @@ export default function StartupExperience({ children }) {
 
   const skip = () => setLeaving(true);
 
-  const percentage = appReady ? (reducedMotion ? 100 : Math.max(progress, 1)) : null;
-  const statusMessage = !appReady
-    ? 'Preparing the application before the nature journey begins…'
-    : percentage === 100
-      ? 'Your CNR learning environment is ready.'
-      : scene.message;
-
   return <>
-    {!visible && children}
-    {visible && <section className={'cinematic-intro' + (leaving ? ' is-leaving' : '') + (reducedMotion ? ' is-reduced-motion' : '')}
-      role="region" aria-label="CNR-IA-2 cinematic environmental introduction">
+    <div className="cinematic-app-underlay" aria-hidden={visible} inert={visible}>
+      {children}
+    </div>
+    {visible && <section
+      className={'cinematic-intro' + (leaving ? ' is-leaving' : '') + (reducedMotion ? ' is-reduced-motion' : '')}
+      role="region"
+      aria-label="CNR-IA-2 environmental loading experience"
+      aria-busy={!appReady}
+    >
       <div className="cinematic-intro-atmosphere" aria-hidden="true" />
       <header className="cinematic-intro-header">
         <a className="cinematic-intro-brand" href="#/" aria-label="CNR-IA-2 home">
           <span className="cinematic-intro-brand-mark"><Leaf size={19} /></span>
           <span><strong>CNR-IA-2</strong><small>CONSERVATION AND NATURAL RESOURCES</small></span>
         </a>
-        <div className="cinematic-intro-course">BCV755B <i /> VTU</div>
-        <button type="button" className="cinematic-intro-skip" onClick={skip}><SkipForward size={15} /> Skip intro</button>
+        <div className="cinematic-intro-course">21CV654 / BCV755B <i /> VTU</div>
+        <button type="button" className="cinematic-intro-skip" onClick={skip}>
+          <SkipForward size={15} /> Skip intro
+        </button>
       </header>
 
       <main className="cinematic-intro-main">
         <div className="cinematic-intro-copy">
           <span className="cinematic-intro-kicker">A CINEMATIC JOURNEY THROUGH NATURE</span>
-          <h1>{percentage === 100 ? 'Nature is connected.' : 'Watch nature come alive.'}</h1>
-          <p className="cinematic-intro-subtitle">Your journey towards understanding nature begins here.</p>
+          <h1>Conservation starts with knowledge.</h1>
+          <p className="cinematic-intro-subtitle">Enter your environmental learning workspace for Conservation & Natural Resources.</p>
 
           <div className="cinematic-scene-copy" key={scene.id}>
-            <span className="cinematic-scene-eyebrow">
-              {activeModule ? `MODULE 0${activeModule.number} · OFFICIAL SYLLABUS` : sceneTitle}
-            </span>
-            <h2>{activeModule ? activeModule.title + (activeModule.secondaryHeading ? ' & ' + activeModule.secondaryHeading : '') : scene.title}</h2>
-            <p>{activeModule ? activeModule.description : scene.message}</p>
+            <span className="cinematic-scene-eyebrow">EXPLORE · {String(sceneIndex + 1).padStart(2, '0')} / 05</span>
+            <h2>{scene.title}</h2>
+            <p>{scene.message}</p>
           </div>
 
           <div className="cinematic-progress-panel">
             <div className="cinematic-progress-heading">
-              <span>Nature journey</span>
-              <strong className="cinematic-percentage" aria-label={percentage === null ? "Waiting for application readiness" : `${percentage} percent`}>{percentage ?? "—"}{percentage !== null && <span>%</span>}</strong>
+              <span>Preparing your learning environment</span>
+              <span className="cinematic-loading-indicator" aria-hidden="true"><i /><i /><i /></span>
             </div>
-            <div className="cinematic-progress-track" role="progressbar" aria-label="Cinematic presentation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow={percentage ?? 0}>
-              <span className="cinematic-progress-fill" style={{ width: `${percentage}%` }} />
+            <div className="cinematic-progress-track cinematic-progress-track--indeterminate" role="progressbar" aria-label="Application initialization" aria-valuetext={appReady ? 'Application ready' : 'Initializing application'}>
+              <span className="cinematic-progress-fill" />
             </div>
-            <p className="cinematic-progress-status" aria-live="polite">{statusMessage}</p>
-            <p className="cinematic-progress-note">{appReady ? 'Application ready · presentation timeline' : 'Waiting for essential application readiness'}</p>
+            <p className="cinematic-progress-status" aria-live="polite">
+              {appReady ? 'Your CNR learning environment is ready.' : 'Loading study materials, modules and learning tools…'}
+            </p>
+            <p className="cinematic-progress-note">Live application initialization · no simulated percentage</p>
           </div>
 
-          {percentage === 100 && <div className="cinematic-ready-label"><Leaf size={15} /> CNR-IA-2 IS READY TO EXPLORE</div>}
+          <p className="cinematic-environment-quote">“{scene.quote}”</p>
         </div>
-        <LandscapeIllustration scene={scene} />
+
+        <div className={'cinematic-landscape-wrap' + (imageFailed ? ' is-image-fallback' : '')}>
+          <LandscapeIllustration scene={scene} />
+          <img
+            key={scene.id}
+            className="cinematic-photo"
+            src={scene.image}
+            alt={scene.alt}
+            loading={sceneIndex === 0 ? 'eager' : 'lazy'}
+            fetchPriority={sceneIndex === 0 ? 'high' : 'auto'}
+            decoding="async"
+            onError={() => setFailedSceneId(scene.id)}
+          />
+          <div className="cinematic-photo-shade" aria-hidden="true" />
+          <div className="cinematic-photo-caption">
+            <span>FIELD NOTES · CNR-IA-2</span>
+            <strong>{scene.title}</strong>
+          </div>
+        </div>
       </main>
 
       <footer className="cinematic-intro-footer">
