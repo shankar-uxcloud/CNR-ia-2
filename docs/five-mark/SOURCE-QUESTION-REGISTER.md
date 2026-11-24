@@ -65,7 +65,7 @@ Each record in src/data/fiveMarkQuestionSources.js contains:
 - Question-text and source-verification status.
 - Notes-support status where an existing audit provides one.
 - Answer status, initially not-started or blocked.
-- Source page references where available.
+- Notes PDF viewer-page references from the existing source map where available; these are not question-paper page numbers.
 - Repeat-group metadata when a paper repeats a question.
 
 Tests validate 70 unique source records, source separation, module validity, marks, the six blocked summaries, all 30 supplementary model-paper questions and the repeated question.
@@ -83,3 +83,33 @@ Tests validate 70 unique source records, source separation, module validity, mar
 - Add answers in separate module-wise files and add the UI only after source records and answer data are stable.
 
 No question is marked complete or academically verified merely because it appears in an existing 10-mark answer file or because an answer has been generated.
+
+
+## Repeated questions and related concept groups
+
+The structured register assigns a conceptGroup to clearly repeated or closely related questions, while retaining every original source record and answer mapping. A concept group is a review aid, not permission to reuse an answer without checking the exact wording and subparts.
+
+Current clusters include:
+- Soil ecological/economic importance.
+- Soil degradation and food security.
+- Sustainable land-use planning.
+- Water-surplus and water-deficit basins.
+- Global water resources.
+- Inter-basin water transfer.
+- Seawater ingress.
+- Air-pollution sources and classification.
+- Air-pollution human-health effects.
+- Ozone depletion.
+- Biodiversity importance.
+- Ecological restoration.
+- Natural and anthropogenic climate disturbance.
+- Global-warming causes and effects.
+- EIA for thermal power plants.
+- Environmental-clearance project categories.
+- Zoological gardens.
+
+The zoological-garden question in model-paper Q8(c) and Q9(c) is the exact repeated-question case and retains two separate records under the same concept group and repeatGroup. Other clusters identify related wording or overlapping concepts; their answers remain separately authored and scoped to their own question.
+
+## Verification labels
+
+The two university-paper collections are catalogued in the repository but are not yet certified as official VTU documents in this register. Their PDF headers and exact question wording must be checked before the source records are marked verified. The 21CV654 paper remains explicitly supplementary. The six December/January core summaries remain blocked until exact wording is transcribed from the original PDF.
