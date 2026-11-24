@@ -14,7 +14,7 @@ export default function Library({ module, bookmarksOnly }) {
   const [sort, setSort] = useState('default');
   const [status, setStatus] = useState('all');
   const [view, setView] = useState('grid');
-  const terms = query.toLowerCase().split(/\\s+/).filter(Boolean);
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
   const list = useMemo(() => {
     const result = QUESTIONS.filter((q) =>
       (!module || q.module === module) && (!bookmarksOnly || bookmarks[q.id]) && (status === 'all' || (status === 'completed' ? !!completed[q.id] : status === 'pending' ? !completed[q.id] : recent.includes(q.id))) && terms.every((t) => BLOBS[q.id].includes(t)));
