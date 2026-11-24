@@ -35,72 +35,56 @@ test('all module-one and module-two source questions have an answer or explicit 
   }
 });
 
-test('module-one and module-two drafts contain nineteen answers and three explicit source gaps', () => {
+test('Module 1 and Module 2 now have an answer for every source question', () => {
   const firstTwoModuleAnswers = FIVE_MARK_PAPER_ANSWERS.filter((item) => {
     const source = getFiveMarkPaperQuestion(item.id);
     return source && source.module <= 2;
   });
-  assert.equal(firstTwoModuleAnswers.length, 22);
-  const withAnswer = firstTwoModuleAnswers.filter((item) => item.answer.length > 0);
-  const withoutAnswer = firstTwoModuleAnswers.filter((item) => item.answer.length === 0);
-  assert.equal(withAnswer.length, 19);
-  assert.equal(withoutAnswer.length, 3);
-  assert.deepEqual(withoutAnswer.map((item) => item.id).sort(), [
-    '21cv654-1-a-',
-    '21cv654-1-b-',
-    '21cv654-3-b-',
-  ]);
+  assert.equal(firstTwoModuleAnswers.length, 28);
+  assert.ok(firstTwoModuleAnswers.every((item) => item.answer.length > 0));
+  assert.ok(firstTwoModuleAnswers.every((item) => item.reviewStatus !== 'not-started'));
 });
 
-test('Module 3 has twelve answer drafts and two explicit source gaps', () => {
+test('Module 3 has an answer draft for every source question', () => {
   const moduleThree = getFiveMarkPaperQuestionsByModule(3);
   assert.equal(moduleThree.length, 14);
-  assert.equal(moduleThree.filter((item) => item.answer.length > 0).length, 12);
-  const gaps = moduleThree.filter((item) => item.answer.length === 0);
-  assert.equal(gaps.length, 2);
-  assert.ok(gaps.every((item) => item.reviewStatus === 'needs-source' && item.reviewReason));
-  assert.deepEqual(gaps.map((item) => item.sourceQuestionId).sort(), ['6(b)', '6(c)']);
+  assert.equal(moduleThree.filter((item) => item.answer.length > 0).length, 14);
+  assert.ok(moduleThree.every((item) => item.answer.length > 0));
 });
 
-test('six December/January core entries remain blocked until exact wording is checked', () => {
-  const blocked = FIVE_MARK_PAPER_BANK.filter((item) => item.reviewStatus === 'blocked-question-text');
-  assert.equal(blocked.length, 6);
-  assert.ok(blocked.every((item) => item.sourceQuestionId.startsWith('Q')));
+test('six December/January summary records now have study answers but retain exact-wording review notes', () => {
+  const summaries = FIVE_MARK_PAPER_BANK.filter((item) => item.questionTextStatus === 'summary-only');
+  assert.equal(summaries.length, 6);
+  assert.ok(summaries.every((item) => item.answer.length > 0));
+  assert.ok(summaries.every((item) => item.reviewStatus === 'draft-needs-pdf-review'));
+  assert.ok(summaries.every((item) => item.reviewReason && item.sourceQuestionId.startsWith('Q')));
 });
 
-test('Module 4 has twelve answer drafts and two explicit source gaps', () => {
+test('Module 4 has an answer draft for every source question', () => {
   const moduleFour = getFiveMarkPaperQuestionsByModule(4);
   assert.equal(moduleFour.length, 14);
-  assert.equal(moduleFour.filter((item) => item.answer.length > 0).length, 12);
-  const gaps = moduleFour.filter((item) => item.answer.length === 0);
-  assert.equal(gaps.length, 2);
-  assert.ok(gaps.every((item) => item.reviewStatus === 'needs-source' && item.reviewReason));
-  assert.deepEqual(gaps.map((item) => item.sourceQuestionId).sort(), ['8(a)', '8(c)']);
+  assert.equal(moduleFour.filter((item) => item.answer.length > 0).length, 14);
+  assert.ok(moduleFour.every((item) => item.answer.length > 0));
 });
 
-test('Module 5 has thirteen answer drafts and one explicit source gap', () => {
+test('Module 5 has an answer draft for every source question', () => {
   const moduleFive = getFiveMarkPaperQuestionsByModule(5);
   assert.equal(moduleFive.length, 14);
-  assert.equal(moduleFive.filter((item) => item.answer.length > 0).length, 13);
-  const gaps = moduleFive.filter((item) => item.answer.length === 0);
-  assert.equal(gaps.length, 1);
-  assert.equal(gaps[0].reviewStatus, 'needs-source');
-  assert.equal(gaps[0].sourceQuestionId, '9(c)');
-  assert.ok(gaps[0].reviewReason);
+  assert.equal(moduleFive.filter((item) => item.answer.length > 0).length, 14);
+  assert.ok(moduleFive.every((item) => item.answer.length > 0));
 });
 
-test('all seventy source questions have an answer or a documented review state', () => {
+test('all seventy source questions now have a complete answer draft and traceable review status', () => {
+  assert.ok(FIVE_MARK_PAPER_BANK.every((item) => item.answer.length > 0));
   assert.ok(FIVE_MARK_PAPER_BANK.every((item) => item.reviewStatus !== 'not-started'));
-  for (const item of FIVE_MARK_PAPER_BANK.filter((question) => question.answer.length === 0)) {
-    assert.ok(['needs-source', 'blocked-question-text'].includes(item.reviewStatus));
-    assert.ok(item.reviewReason);
-  }
+  assert.ok(FIVE_MARK_PAPER_BANK.every((item) => item.sourceQuestionId && item.source?.title));
+  assert.ok(FIVE_MARK_PAPER_BANK.every((item) => item.answer.every((section) => section.title && section.blocks?.length)));
 });
 
-test('the assembled bank contains sixty-four answer or review records across all five modules', () => {
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.length, 64);
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length > 0).length, 56);
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length === 0).length, 8);
+test('the assembled bank contains seventy answer records across all five modules', () => {
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.length, 70);
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length > 0).length, 70);
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length === 0).length, 0);
 });
 
 test('answer IDs map to known source questions without duplicates', () => {
