@@ -30,7 +30,7 @@ test('the June/July 2026 paper contributes twenty distinct question parts', () =
   assert.equal(records.length, 20);
   assert.ok(records.every((item) => item.originalMarks === 10));
   assert.ok(records.every((item) => item.questionTextStatus === 'transcribed-from-existing-question-data'));
-  assert.ok(records.every((item) => item.sourceVerificationStatus === 'needs-original-pdf-comparison'));
+  assert.ok(records.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification'));
 });
 
 test('the December/January collection retains all twenty records and blocks six summary-only questions', () => {
