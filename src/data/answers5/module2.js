@@ -404,4 +404,4 @@ export const FIVE_MARK_MODULE_2_ANSWERS = [
       p('Inter-basin transfer is one water-management option, not a replacement for local conservation. It requires basin studies, environmental assessment, public participation and fair agreements.'),
     ]),
   ], ['Inter-basin transfer', 'River linking', 'Water management'], 'The repository contains a topic summary rather than the exact December 2025/January 2026 question wording. This answer addresses the recorded topic; compare the original paper before academic sign-off.')
-
+];
