@@ -72,3 +72,13 @@ test('all five syllabus modules have distinct real-photo hero and card imagery',
   assert.match(styles, /@media\(max-width:760px\)/);
   assert.match(styles, /prefers-reduced-motion:reduce/);
 });
+
+test('Resource Vault provides photographic navigation for all five modules', () => {
+  const vault = read('src/pages/ResourceVault.jsx');
+  const styles = read('src/pages/ResourceVault.css');
+  assert.match(vault, /CNR_MODULES\.map/);
+  assert.match(vault, /ModulePhotography moduleNumber=\{module\.number\} variant="tile"/);
+  assert.match(vault, /setModuleFilter\(String\(module\.number\)\)/);
+  assert.match(styles, /rv-module-gallery-grid/);
+  assert.match(styles, /@media\(max-width:600px\)/);
+});
