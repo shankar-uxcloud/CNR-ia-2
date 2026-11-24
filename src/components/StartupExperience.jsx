@@ -3,7 +3,6 @@ import { ArrowRight, Leaf, SkipForward } from 'lucide-react';
 import { CNR_MODULES } from '../data/cnrAcademic';
 import './CinematicIntro.css';
 
-const SEEN_KEY = 'cnr-cinematic-intro-seen-v1';
 const PRESENTATION_TICK_MS = 150;
 const FINAL_HOLD_MS = 900;
 
@@ -117,9 +116,9 @@ function LandscapeIllustration({ scene }) {
 }
 
 export default function StartupExperience({ children }) {
-  const [visible, setVisible] = useState(() => {
-    try { return localStorage.getItem(SEEN_KEY) !== 'true'; } catch { return true; }
-  });
+  // Show the dedicated loading screen on every fresh document load.
+  // It is intentionally not persisted: reloads and new visits always replay it.
+  const [visible, setVisible] = useState(true);
   const [appReady, setAppReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -188,15 +187,11 @@ export default function StartupExperience({ children }) {
 
   useEffect(() => {
     if (!leaving) return undefined;
-    try { localStorage.setItem(SEEN_KEY, 'true'); } catch { /* intro remains dismissible without storage */ }
     const timer = window.setTimeout(() => setVisible(false), reducedMotion ? 0 : 520);
     return () => window.clearTimeout(timer);
   }, [leaving, reducedMotion]);
 
-  const skip = () => {
-    try { localStorage.setItem(SEEN_KEY, 'true'); } catch { /* storage may be unavailable */ }
-    setLeaving(true);
-  };
+  const skip = () => setLeaving(true);
 
   const percentage = appReady ? (reducedMotion ? 100 : Math.max(progress, 1)) : null;
   const statusMessage = !appReady
@@ -206,7 +201,7 @@ export default function StartupExperience({ children }) {
       : scene.message;
 
   return <>
-    {children}
+    {!visible && children}
     {visible && <section className={'cinematic-intro' + (leaving ? ' is-leaving' : '') + (reducedMotion ? ' is-reduced-motion' : '')}
       role="region" aria-label="CNR-IA-2 cinematic environmental introduction">
       <div className="cinematic-intro-atmosphere" aria-hidden="true" />
