@@ -273,7 +273,33 @@ export const FIVE_MARK_MODULE_4_ANSWERS = [
       note('The supplied notes cover natural and human climate agents, but this question’s full list and attribution details need a page-by-page check before the answer is marked complete.', 'gap'),
     ]),
   ], ['Climate disturbance', 'Natural climate factors', 'Anthropogenic climate factors'], 'The source map classifies this question as partially supported. Verify the complete agent list and attribution statements against the Module 5 notes before marking it complete.'),
-  answer('21cv654-8-a-', 'needs-source', [], ['Wildlife sanctuaries', 'Protected areas', 'Biodiversity'], 'The supplied notes explain the wildlife-sanctuary concept but do not provide a reliable list of named sanctuaries in India. Do not invent or add unsupported examples.'),
+  answer('21cv654-8-a-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of wildlife sanctuary', [
+      p('A wildlife sanctuary is a protected area established to conserve wild animals, their habitats and associated biodiversity. Hunting and other harmful activities are prohibited or regulated under applicable wildlife-protection laws.'),
+    ]),
+    section('examples', 'Important wildlife sanctuaries in India', [
+      table(['Sanctuary', 'State / region', 'Important wildlife or habitat'], [
+        ['Vedanthangal Bird Sanctuary', 'Tamil Nadu', 'Wetland and nesting habitat for resident and migratory water birds.'],
+        ['Ranganathittu Bird Sanctuary', 'Karnataka', 'Kaveri river-island habitat supporting water birds, crocodiles and other wildlife.'],
+        ['Wayanad Wildlife Sanctuary', 'Kerala', 'Forest landscape supporting elephants, deer, birds and Western Ghats biodiversity.'],
+        ['Bhadra Wildlife Sanctuary', 'Karnataka', 'Forest and river habitats supporting tiger, elephant, gaur and diverse birds.'],
+        ['Gahirmatha Marine Wildlife Sanctuary', 'Odisha', 'Coastal and marine habitat known for olive ridley sea-turtle nesting.'],
+        ['National Chambal Sanctuary', 'Madhya Pradesh, Rajasthan and Uttar Pradesh', 'River ecosystem protecting gharial, river dolphins and freshwater turtles.'],
+      ]),
+    ]),
+    section('importance', 'Importance of sanctuaries', [
+      list([
+        'Protect endangered species and their natural breeding habitats.',
+        'Maintain food webs, genetic diversity and ecological balance.',
+        'Support research, education and regulated nature tourism.',
+        'Reduce habitat destruction, poaching and disturbance through protection and monitoring.',
+        'Promote community participation and management of human–wildlife conflict.',
+      ]),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Wildlife sanctuaries conserve species in their natural habitats and protect the ecosystems on which wildlife depends.'),
+    ]),
+  ], ['Wildlife sanctuaries', 'Protected areas', 'In-situ conservation', 'Biodiversity'], 'Named sanctuary examples are supplementary to the supplied notes and are drawn from the repository model-paper source record. Verify names and state details against an approved reference before academic sign-off.'),
   answer('21cv654-8-b-', 'needs-source-review', [
     section('introduction', 'Medicinal value of plant biodiversity', [
       p('Plants contain biologically active compounds that are used in traditional medicine and can provide starting materials for modern drug development.'),
@@ -292,5 +318,34 @@ export const FIVE_MARK_MODULE_4_ANSWERS = [
       note('The supplied notes give general medicinal value and the Taxol example but do not provide a complete list of plant-derived drugs. Additional examples require an approved reference.', 'gap'),
     ]),
   ], ['Medicinal plants', 'Taxol', 'Plant biodiversity'], 'The source audit classifies the notes as partial for a list of drugs derived from plants. This draft includes only the notes-supported Taxol example and needs an approved additional source for broader coverage.'),
-  answer('21cv654-8-c-', 'needs-source', [], ['Zoological gardens', 'Ex-situ conservation', 'Biodiversity'], 'The supplied notes cover general biodiversity conservation but do not provide enough zoological-garden detail for a complete five-mark answer. The supplementary model-paper explanation is not treated as notes-derived evidence.'),
+  answer('21cv654-8-c-', 'draft-needs-academic-review', [
+    section('definition', 'Meaning of zoological garden', [
+      p('A zoological garden or zoo is a managed facility where wild animals are kept in protected, species-appropriate enclosures for conservation, education, research and, where suitable, captive breeding. It is an example of ex-situ conservation.'),
+    ]),
+    section('role', 'Role in biodiversity conservation', [
+      list([
+        'Ex-situ conservation: maintains threatened species outside their natural habitats as a safeguard against extinction.',
+        'Captive breeding: supports carefully managed breeding programmes for endangered species.',
+        'Genetic management: coordinated breeding and ancestry records help reduce inbreeding and maintain genetic diversity.',
+        'Rescue and rehabilitation: provides care for injured, orphaned or confiscated wild animals.',
+        'Education and awareness: teaches visitors about species, habitats, threats and conservation.',
+        'Research: supports veterinary science, animal behaviour, nutrition and reproduction studies.',
+        'Reintroduction support: suitable captive-bred animals may be considered for release after habitat and threat assessments.',
+      ]),
+    ]),
+    section('requirements', 'Requirements of a good zoological garden', [
+      list([
+        'Spacious and enriched enclosures suited to each species.',
+        'Proper food, clean water, veterinary care and hygiene.',
+        'Trained staff, accurate records and ethical animal management.',
+        'Links with in-situ conservation and protection of natural habitats.',
+      ]),
+    ]),
+    section('limitations', 'Limitations', [
+      p('Zoos cannot replace natural habitats. Small captive populations may face genetic problems, and unsuitable enclosures can affect animal welfare.'),
+    ]),
+    section('conclusion', 'Conclusion', [
+      p('Zoological gardens contribute to ex-situ conservation, education and research, but their work must complement protection of wildlife in natural ecosystems.'),
+    ]),
+  ], ['Zoological gardens', 'Ex-situ conservation', 'Biodiversity', 'Captive breeding'], 'Supplementary zoo-specific content is drawn from the repository model-paper source record because the notes provide only general biodiversity-conservation coverage. Academic review is pending.'),
 ];
