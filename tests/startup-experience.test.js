@@ -32,7 +32,7 @@ test('application content mounts underneath the startup overlay', () => {
   assert.match(source, /\{children\}\s*\{visible && <section/);
   assert.match(source, /aria-busy=\{!appReady\}/);
   assert.match(source, /setAppReady\(true\)/);
-  assert.match(source, /\[appReady, heroImageSettled, visible\]/);
+  assert.match(source, /\[appReady, heroImageSettled, introSequenceComplete, visible\]/);
 });
 
 test('hero image readiness is bounded and remote image failures reveal the vector fallback', () => {
@@ -64,4 +64,14 @@ test('cinematic loader keeps responsive layout and theme-specific refinements', 
   assert.match(css, /data-ui-mode=['"]glass['"]/);
   assert.match(css, /data-ui-mode=['"]nebula['"]/);
   assert.match(css, /safe-area-inset-top/);
+});
+
+test('cinematic intro remains visible long enough to present the environmental scene sequence', () => {
+  const source = read('src/components/StartupExperience.jsx');
+  assert.match(source, /setIntroSequenceComplete\(true\)/);
+  assert.match(source, /reducedMotion \? 2600 : 4800/);
+  assert.match(source, /setInterval\(\(\) => \{/);
+  assert.match(source, /\}, 1050\)/);
+  assert.match(source, /appReady && heroImageSettled && introSequenceComplete && visible/);
+  assert.doesNotMatch(source, /if \(!visible \|\| appReady \|\| reducedMotion\)/);
 });
