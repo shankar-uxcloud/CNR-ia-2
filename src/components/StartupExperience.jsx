@@ -146,6 +146,7 @@ export default function StartupExperience({ children }) {
   const [sceneIndex, setSceneIndex] = useState(0);
   const [failedSceneId, setFailedSceneId] = useState(null);
   const [heroImageSettled, setHeroImageSettled] = useState(false);
+  const [introSequenceComplete, setIntroSequenceComplete] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
   );
@@ -167,15 +168,23 @@ export default function StartupExperience({ children }) {
     setAppReady(true);
   }, []);
 
-  // Rotate scenes only while the real application initialization is still in progress.
-  // If initialization finishes quickly, the intro exits promptly rather than delaying use.
+  // The startup is also a short cinematic introduction, not merely a network
+  // spinner. Keep it visible long enough for its environmental scenes to be seen,
+  // even when React and the preloaded hero are already cached and ready.
   useEffect(() => {
-    if (!visible || appReady || reducedMotion) return undefined;
+    if (!visible) return undefined;
+    const timer = window.setTimeout(() => setIntroSequenceComplete(true), reducedMotion ? 2600 : 4800);
+    return () => window.clearTimeout(timer);
+  }, [visible, reducedMotion]);
+
+  // Cycle through all five environmental scenes during the intro sequence.
+  useEffect(() => {
+    if (!visible || introSequenceComplete || reducedMotion) return undefined;
     const timer = window.setInterval(() => {
       setSceneIndex((current) => (current + 1) % SCENES.length);
-    }, 3600);
+    }, 1050);
     return () => window.clearInterval(timer);
-  }, [visible, appReady, reducedMotion]);
+  }, [visible, introSequenceComplete, reducedMotion]);
 
   // Give the preloaded hero a short opportunity to paint, but never let a slow
   // image request hold the application behind the intro indefinitely.
@@ -189,8 +198,8 @@ export default function StartupExperience({ children }) {
   }, [visible, heroImageSettled]);
 
   useEffect(() => {
-    if (appReady && heroImageSettled && visible) setLeaving(true);
-  }, [appReady, heroImageSettled, visible]);
+    if (appReady && heroImageSettled && introSequenceComplete && visible) setLeaving(true);
+  }, [appReady, heroImageSettled, introSequenceComplete, visible]);
 
   useEffect(() => {
     if (!leaving) return undefined;
