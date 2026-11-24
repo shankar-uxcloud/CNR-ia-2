@@ -10,7 +10,7 @@ test('cinematic loader uses an indeterminate indicator and never fabricates a pe
   assert.match(source, /cinematic-progress-track--indeterminate/);
   assert.match(source, /aria-valuetext=/);
   assert.match(source, /no simulated percentage/i);
-  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|setProgress|aria-valuenow|percentage/);
+  assert.doesNotMatch(source, /PRESENTATION_TICK_MS|FINAL_HOLD_MS|setProgress|aria-valuenow|percentage\s*===|percentage\s*\?\?/);
   assert.match(css, /cnr-loading-sweep/);
 });
 
