@@ -36,9 +36,13 @@ test('all module-one and module-two source questions have an answer or explicit 
 });
 
 test('module-one and module-two drafts contain nineteen answers and three explicit source gaps', () => {
-  assert.equal(FIVE_MARK_PAPER_ANSWERS.length, 22);
-  const withAnswer = FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length > 0);
-  const withoutAnswer = FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length === 0);
+  const firstTwoModuleAnswers = FIVE_MARK_PAPER_ANSWERS.filter((item) => {
+    const source = getFiveMarkPaperQuestion(item.id);
+    return source && source.module <= 2;
+  });
+  assert.equal(firstTwoModuleAnswers.length, 22);
+  const withAnswer = firstTwoModuleAnswers.filter((item) => item.answer.length > 0);
+  const withoutAnswer = firstTwoModuleAnswers.filter((item) => item.answer.length === 0);
   assert.equal(withAnswer.length, 19);
   assert.equal(withoutAnswer.length, 3);
   assert.deepEqual(withoutAnswer.map((item) => item.id).sort(), [
@@ -48,16 +52,32 @@ test('module-one and module-two drafts contain nineteen answers and three explic
   ]);
 });
 
+test('Module 3 has twelve answer drafts and two explicit source gaps', () => {
+  const moduleThree = getFiveMarkPaperQuestionsByModule(3);
+  assert.equal(moduleThree.length, 14);
+  assert.equal(moduleThree.filter((item) => item.answer.length > 0).length, 12);
+  const gaps = moduleThree.filter((item) => item.answer.length === 0);
+  assert.equal(gaps.length, 2);
+  assert.ok(gaps.every((item) => item.reviewStatus === 'needs-source' && item.reviewReason));
+  assert.deepEqual(gaps.map((item) => item.sourceQuestionId).sort(), ['6(b)', '6(c)']);
+});
+
 test('six December/January core entries remain blocked until exact wording is checked', () => {
   const blocked = FIVE_MARK_PAPER_BANK.filter((item) => item.reviewStatus === 'blocked-question-text');
   assert.equal(blocked.length, 6);
   assert.ok(blocked.every((item) => item.sourceQuestionId.startsWith('Q')));
 });
 
-test('modules three through five remain visibly not started rather than being counted as complete', () => {
-  const laterModules = FIVE_MARK_PAPER_BANK.filter((item) => item.module >= 3);
-  assert.equal(laterModules.length, 42);
+test('Modules 4 and 5 remain visibly not started rather than being counted as complete', () => {
+  const laterModules = FIVE_MARK_PAPER_BANK.filter((item) => item.module >= 4);
+  assert.equal(laterModules.length, 28);
   assert.ok(laterModules.every((item) => item.reviewStatus === 'not-started' && item.answer.length === 0));
+});
+
+test('the assembled bank contains thirty-six answer or review records through Module 3', () => {
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.length, 36);
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length > 0).length, 31);
+  assert.equal(FIVE_MARK_PAPER_ANSWERS.filter((item) => item.answer.length === 0).length, 5);
 });
 
 test('answer IDs map to known source questions without duplicates', () => {
