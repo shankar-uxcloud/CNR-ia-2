@@ -134,8 +134,8 @@ export const MODEL_21CV654 = [
 4. The combined operation helps balance seasonal variation and spatial differences in supply.
 
 **Illustrative flow**
-`Surface water (reservoir/canal) + groundwater (aquifer/well) → planned allocation → farms/domestic/industry`
-`Canal seepage + rainwater harvesting + recharge structures → aquifer recharge → stored groundwater`
+'Surface water (reservoir/canal) + groundwater (aquifer/well) → planned allocation → farms/domestic/industry'
+'Canal seepage + rainwater harvesting + recharge structures → aquifer recharge → stored groundwater'
 
 **Advantages**
 - Improves reliability of irrigation during drought and canal closures.
@@ -183,12 +183,12 @@ export const MODEL_21CV654 = [
 - Only about 1.2% is surface freshwater, including rivers, lakes and swamps.
 
 **Simple representation**
-`Total global water (100%)`
-`├── Saline water: 97.5%`
-`└── Freshwater: 2.5%`
-`    ├── Glaciers and ice caps: 68.7% of freshwater`
-`    ├── Groundwater: 30.1% of freshwater`
-`    └── Surface freshwater: 1.2% of freshwater`
+'Total global water (100%)'
+'├── Saline water: 97.5%'
+'└── Freshwater: 2.5%'
+'    ├── Glaciers and ice caps: 68.7% of freshwater'
+'    ├── Groundwater: 30.1% of freshwater'
+'    └── Surface freshwater: 1.2% of freshwater'
 
 **Importance and challenges**
 1. Water is essential for drinking, sanitation, agriculture, industry and ecosystems.
@@ -407,12 +407,12 @@ Weathering is the breakdown and alteration of rocks and minerals at or near the 
 11. Land-use change and urbanisation: Removal of vegetation and expansion of built surfaces alter local heat and water cycles.
 
 **Flow summary**
-`Natural: solar variation | volcanoes | climate cycles | ocean circulation`
-`Human: fossil fuels | deforestation | industry | agriculture | waste | land-use change`
-`                         ↓`
-`Changes in greenhouse gases, aerosols, land surface and energy balance`
-`                         ↓`
-`Changes in temperature, rainfall, sea level and extreme events`
+'Natural: solar variation | volcanoes | climate cycles | ocean circulation'
+'Human: fossil fuels | deforestation | industry | agriculture | waste | land-use change'
+'                         ↓'
+'Changes in greenhouse gases, aerosols, land surface and energy balance'
+'                         ↓'
+'Changes in temperature, rainfall, sea level and extreme events'
 
 **Conclusion:** Natural factors cause climate variability, but the supplied notes identify human activities as the dominant driver of current long-term global warming.`}]},
 {module:4,number:8,parts:[
@@ -482,25 +482,25 @@ Weathering is the breakdown and alteration of rocks and minerals at or near the 
 {code:'9(a)',marks:8,question:'Develop a flowchart of hydropower plant EIA environmental clearance under EIA notifications.',pages:'PDF pp. 54–57',answer:`Environmental Impact Assessment (EIA) is a statutory process under the Environment (Protection) Act, 1986 and the EIA Notification, 2006. It identifies and evaluates likely environmental and social impacts before project approval.
 
 **Flowchart — hydropower project environmental clearance**
-`Project proposal and application`
-`          ↓`
-`Screening / applicability and categorisation`
-`          ↓`
-`Scoping: Terms of Reference (ToR) for EIA study`
-`          ↓`
-`Baseline data collection and impact prediction`
-`          ↓`
-`Prepare draft EIA / Environmental Management Plan (EMP)`
-`          ↓`
-`Public consultation / hearing (where applicable)`
-`          ↓`
-`Final EIA and EMP incorporating responses`
-`          ↓`
-`Appraisal by Expert Appraisal Committee / State committee`
-`          ↓`
-`Regulatory decision: grant with conditions or reject / seek further information`
-`          ↓`
-`Post-clearance compliance, monitoring and reporting`
+'Project proposal and application'
+'          ↓'
+'Screening / applicability and categorisation'
+'          ↓'
+'Scoping: Terms of Reference (ToR) for EIA study'
+'          ↓'
+'Baseline data collection and impact prediction'
+'          ↓'
+'Prepare draft EIA / Environmental Management Plan (EMP)'
+'          ↓'
+'Public consultation / hearing (where applicable)'
+'          ↓'
+'Final EIA and EMP incorporating responses'
+'          ↓'
+'Appraisal by Expert Appraisal Committee / State committee'
+'          ↓'
+'Regulatory decision: grant with conditions or reject / seek further information'
+'          ↓'
+'Post-clearance compliance, monitoring and reporting'
 
 **Explanation**
 1. Screening and categorisation determine the applicable regulatory route. The supplied notes describe Category A projects as requiring clearance from MoEFCC and Category B projects from SEIAA; B1 generally requires a full EIA while B2 does not.
