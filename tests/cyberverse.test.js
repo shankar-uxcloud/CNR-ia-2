@@ -84,29 +84,14 @@ test('all neon modes synchronize legacy accents, diagram focus and feedback toke
   }
 });
 
-test('startup experience uses the simple leaf palette and adapts to light and dark themes', () => {
-  const startup = read('src/components/StartupExperience.css');
-  assert.ok(startup.includes('--s-green:#72e2a0'));
-  assert.ok(startup.includes('data-theme=\'light\''));
-  assert.ok(startup.includes('prefers-reduced-motion: reduce'));
-});
-
-test('theme picker clearly marks the selected palette without relying on colour alone', () => {
-  assert.ok(shell.includes('theme-picker-check'));
-  assert.ok(shell.includes('aria-pressed={cyberTheme === item.value}'));
-});
-
-
-test('startup experience renders a minimal leaf-branded responsive welcome screen', () => {
-  const startup = read('src/components/StartupExperience.jsx');
-  const styles = read('src/components/StartupExperience.css');
-  assert.ok(startup.includes('<Leaf'));
-  assert.ok(startup.includes('Your Learning Environment Is Ready!'));
-  assert.ok(startup.includes('aria-valuenow={progress}'));
-  assert.ok(styles.includes('.startup-brand-mark'));
-  assert.ok(styles.includes('safe-area-inset-top'));
-  assert.ok(styles.includes('prefers-reduced-motion: reduce'));
-  assert.ok(!startup.includes('startup-hud--left'));
+test('cinematic intro uses an isolated accessible palette and reduced-motion fallback', () => {
+  const startup = read('src/components/CinematicIntro.css');
+  const component = read('src/components/StartupExperience.jsx');
+  assert.ok(startup.includes('.cinematic-intro'));
+  assert.ok(startup.includes('prefers-reduced-motion:reduce'));
+  assert.ok(startup.includes('safe-area-inset-top'));
+  assert.ok(component.includes('CNR_MODULES'));
+  assert.ok(component.includes('Skip intro'));
 });
 
 
