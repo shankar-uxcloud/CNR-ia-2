@@ -28,7 +28,7 @@ test('module navigation counts are derived from published note catalogue, not qu
     assert.ok(shell.includes("Number(item.module) === " + module), 'missing note count for module ' + module);
   }
   for (let module = 1; module <= 5; module += 1) {
-    assert.match(catalog, new RegExp("module: " + module + ",\\s+category: 'notes'"));
+    assert.match(catalog, new RegExp("module: " + module + ",[\\s\\S]{0,220}category: 'notes'"));
   }
 });
 
@@ -37,6 +37,8 @@ test('all-modules and individual module routes open the shared vault filtered to
   assert.match(app, /cnrNotesModule\) return <ResourceVault initialModule=\{Number\(cnrNotesModule\[1\]\)\} initialCategory="notes"/);
   assert.match(vault, /initialCategory = 'all'/);
   assert.match(vault, /useState\(initialCategory\)/);
+  assert.match(vault, /setModuleFilter\(initialModule === 'all' \? 'all' : String\(initialModule\)\)/);
+  assert.match(vault, /\[initialModule, initialCategory\]/);
 });
 
 test('All Modules note results are visibly grouped into module sections', () => {
