@@ -15,7 +15,7 @@ const answerRecords = [...QUESTIONS.map((q) => ({ id: q.id, module: q.module, an
 const gitBlobSha = (content) => createHash('sha1').update('blob ' + Buffer.byteLength(content) + String.fromCharCode(0) + content).digest('hex');
 
 test('the five-mark answer uses a semantic four-level heading system', () => {
-  assert.ok(page.includes('FiveMarkHeading level={4} className="five-mark-section-title"'));
+  assert.ok(page.includes('FiveMarkHeading level={4} className="five-mark-section-title mb-2"'));
   assert.ok(page.includes('FiveMarkHeading level={5} className="five-mark-subsection-title"'));
   assert.ok(structure.includes('FiveMarkHeading level={3} className="five-mark-structure-root"'));
   for (const role of ['five-mark-answer-title', 'five-mark-section-title', 'five-mark-subsection-title', 'five-mark-minor-title']) assert.ok(heading.includes(role));
@@ -36,7 +36,7 @@ test('all eighty five-mark records retain their IDs, module mappings and answer 
 
 test('academic answer data, question IDs and module mappings are byte-for-byte preserved', () => {
   const snapshots = [
-    ['../data/fiveMarkAnswers.js', '7e5ce48139fecb9377ecca90d5f70a4e2391e3f7'],
+    ['../data/fiveMarkAnswers.js', '7e5ce48139fecb9377eeca90d5f70a4e2391e3f7'],
     ['../data/fiveMarkPaperBank.js', 'f1797730b9546c54d036e2d80214bc879830706c'],
     ['../data/questions.js', '1efbfd58383264fd8aaec23883312464da766db7'],
   ];
