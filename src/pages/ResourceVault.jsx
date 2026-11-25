@@ -38,6 +38,12 @@ export default function ResourceVault({ initialModule = 'all', initialCategory =
 
   useEffect(() => writeList(BOOKMARK_KEY, bookmarks), [bookmarks]);
   useEffect(() => writeList(RECENT_KEY, recent), [recent]);
+  useEffect(() => {
+    setModuleFilter(initialModule === 'all' ? 'all' : String(initialModule));
+    setCategoryFilter(initialCategory);
+    setSearch('');
+    setSavedOnly(false);
+  }, [initialModule, initialCategory]);
 
   useEffect(() => {
     const onFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
