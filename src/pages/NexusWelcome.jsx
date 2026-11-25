@@ -117,10 +117,11 @@ export default function NexusWelcome() {
       <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 pb-14 pt-8 sm:px-8 lg:min-h-[590px] lg:grid-cols-[1.06fr_.94fr] lg:gap-10 lg:py-16">
         <div className="max-w-3xl">
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-panel/80 px-3 py-1.5 text-xs font-semibold tracking-wide text-brand"><Leaf size={14} /> VTU · 2022 SCHEME · SEVENTH SEMESTER</span>
-          <h1 className="mt-6 text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">WELCOME TO <span className="text-brand">CNR-IA-2</span></h1>
-          <p className="mt-3 text-lg font-semibold text-mute">Your Complete Conservation and Natural Resources Learning Environment</p>
+          <h1 className="mt-6 text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">YOUR <span className="text-brand">CNR LEARNING SPACE</span></h1>
+          <p className="mt-3 text-lg font-semibold text-mute">Everything you need to learn, prepare &amp; excel.</p>
           <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span className="rounded-full border border-line bg-panel px-3 py-1.5">BCV755B</span><span className="rounded-full border border-line bg-panel px-3 py-1.5">VTU</span><span className="rounded-full border border-line bg-panel px-3 py-1.5">5 official modules</span></div>
-          <p className="mt-6 max-w-2xl text-sm leading-8 text-mute sm:text-base">Explore the science of Conservation and Natural Resources through structured academic modules, visual explanations, repository-catalogued study materials and VTU-focused examination preparation.</p>
+          <p className="mt-6 max-w-2xl text-sm leading-8 text-mute sm:text-base">A dedicated academic destination for BCV755B — Conservation of Natural Resources. Bring together syllabus-aligned study answers, module notes, VTU question papers, visual learning and focused exam-preparation tools in one place.</p>
+          <p className="mt-3 text-xs font-bold tracking-wide text-brand sm:text-sm">Understand nature. Prepare with purpose. Conserve for tomorrow.</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <button type="button" onClick={() => scrollTo('welcome-modules')} className="btn-primary inline-flex items-center gap-2 px-5 py-3">Explore all modules <ArrowRight size={16} /></button>
             <a href="#/learning-hub" className="inline-flex items-center gap-2 rounded-xl border border-line bg-panel px-5 py-3 text-sm font-semibold hover:bg-sunk">Start learning <BookOpen size={16} /></a>
@@ -143,7 +144,7 @@ export default function NexusWelcome() {
     </nav>
 
     <section id="about" className="scroll-mt-28 mx-auto max-w-7xl px-4 py-14 sm:px-8">
-      <SectionHeading eyebrow="01 / THE SUBJECT" title="About Conservation and Natural Resources" text="The BCV755B syllabus approaches conservation through connected land, water, air, biodiversity and climate-related study areas. It links natural-resource understanding with resource planning, pollution, ecosystem functioning and environmental assessment." />
+      <SectionHeading eyebrow="01 / THE SUBJECT" title="Learn the science. Understand the balance. Protect the future." text="Explore Conservation of Natural Resources through the connected systems of land, water, air, biodiversity and climate. Build a clear understanding of resource planning, pollution, ecosystem functioning and environmental assessment — one syllabus topic at a time." />
       <div className="mt-7 grid gap-4 md:grid-cols-3">
         {[['Natural resources','Land, water, soil and air are studied as resources whose availability, quality and use need informed planning.'],['Ecological systems','Biodiversity, flora and fauna, biogeochemical cycling and ecosystem components connect living organisms with their environment.'],['Conservation decisions','Soil and water conservation, pollution control, biodiversity measures and EIA introduce practical resource-management concerns.']].map(([title,description],index) => <article key={title} className="card p-5"><span className="text-xs font-bold text-brand">0{index+1}</span><h3 className="mt-3 font-bold">{title}</h3><p className="mt-2 text-sm leading-7 text-mute">{description}</p></article>)}
       </div>
@@ -254,7 +255,7 @@ export default function NexusWelcome() {
     </section>
 
     <footer className="mx-auto max-w-7xl px-4 py-14 text-center sm:px-8">
-      <p className="eyebrow">BCV755B · VTU</p><h2 className="mt-2 text-3xl font-black tracking-tight">Start with the syllabus. Learn with purpose.</h2><p className="mt-3 text-sm text-mute">Your journey towards understanding and protecting our natural environment begins here.</p>
+      <p className="eyebrow">BCV755B · VTU</p><h2 className="mt-2 text-3xl font-black tracking-tight">Learn today. Conserve for tomorrow.</h2><p className="mt-3 text-sm text-mute">From syllabus topics to exam practice, take the next step in understanding the natural resources that sustain life.</p>
       <div className="mt-6 flex flex-wrap justify-center gap-3"><a href="#/learning-hub" className="btn-primary inline-flex items-center gap-2 px-5 py-3">Start learning <ArrowRight size={16}/></a><a href="#/resources" className="inline-flex items-center gap-2 rounded-xl border border-line bg-panel px-5 py-3 text-sm font-semibold">Open Resource Vault <LibraryBig size={16}/></a></div>
       <div className="mt-8 border-t border-line pt-5 text-xs text-mute"><p>Academic source: <a className="font-semibold text-brand hover:underline" href={SYLLABUS_SOURCE.url} target="_blank" rel="noreferrer">{SYLLABUS_SOURCE.label} <ExternalLink size={12} className="inline"/></a></p><p className="mt-2">No PDF page or figure number is inferred where the repository content has not been page-verified.</p></div>
     </footer>
