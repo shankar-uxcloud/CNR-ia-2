@@ -9,7 +9,7 @@ const styles = read('src/styles/components.css');
 test('desktop sidebar is visible by default and can be hidden or restored from the top bar', () => {
   assert.match(shell, /const \[sidebarVisible, setSidebarVisible\] = useState\(\(\) => \{ try \{ return localStorage\.getItem\('cnr-sidebar-visible-v1'\) !== 'false';/);
   assert.match(shell, /\{!hide && sidebarVisible && \(/);
-  assert.match(shell, /aria-label=\{sidebarVisible \? 'Close sidebar' : 'Open sidebar'\}/);
+  assert.match(shell, /aria-label=\{sidebarVisible \? 'Close sidebar completely' : 'Open sidebar'\}/);
   assert.match(shell, /onClick=\{\(\) => setSidebarVisible\(\(value\) => !value\)\}/);
   assert.match(shell, /id="desktop-sidebar"/);
 });
