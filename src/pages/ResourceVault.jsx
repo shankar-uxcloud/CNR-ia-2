@@ -23,10 +23,10 @@ function driveLink(resource, mode = 'open') {
   return mode === 'preview' ? getDrivePreviewUrl(id) : getDriveOpenUrl(id);
 }
 
-export default function ResourceVault({ initialModule = 'all' } = {}) {
+export default function ResourceVault({ initialModule = 'all', initialCategory = 'all' } = {}) {
   const [search, setSearch] = useState('');
   const [moduleFilter, setModuleFilter] = useState(() => initialModule === 'all' ? 'all' : String(initialModule));
-  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState(initialCategory);
   const [savedOnly, setSavedOnly] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [bookmarks, setBookmarks] = useState(() => readList(BOOKMARK_KEY));
@@ -38,6 +38,12 @@ export default function ResourceVault({ initialModule = 'all' } = {}) {
 
   useEffect(() => writeList(BOOKMARK_KEY, bookmarks), [bookmarks]);
   useEffect(() => writeList(RECENT_KEY, recent), [recent]);
+  useEffect(() => {
+    setModuleFilter(initialModule === 'all' ? 'all' : String(initialModule));
+    setCategoryFilter(initialCategory);
+    setSearch('');
+    setSavedOnly(false);
+  }, [initialModule, initialCategory]);
 
   useEffect(() => {
     const onFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
@@ -98,12 +104,20 @@ export default function ResourceVault({ initialModule = 'all' } = {}) {
     drivePreviewUrl: selectedDriveUrl,
   }) : null;
   const originalUrl = selected ? (selectedRepositoryUrl || driveLink(selected, 'open')) : null;
+  const notesByModule = [1, 2, 3, 4, 5].map((number) => ({ number, items: resources.filter((item) => Number(item.module) === number) })).filter((group) => group.items.length);
+  const renderResourceCard = (item) => <article key={item.id} className="resource-vault-card card flex flex-col p-5">
+    <div className="flex items-start justify-between gap-3"><span className="rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">{RESOURCE_CATEGORIES.find((cat) => cat.id === item.category)?.label || item.category}</span>
+      <button type="button" onClick={() => toggleBookmark(item.id)} aria-label={bookmarks.includes(item.id) ? 'Remove saved resource' : 'Save resource'} aria-pressed={bookmarks.includes(item.id)} className="rv-touch-target grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line hover:bg-sunk"><Bookmark size={17} fill={bookmarks.includes(item.id) ? 'currentColor' : 'none'}/></button></div>
+    <h3 className="mt-3 text-lg font-bold">{item.title}</h3><p className="mt-1 text-sm text-mute">{item.description}</p>
+    <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}<span className="rounded-md bg-sunk px-2 py-1">{getDocumentKind(item).toUpperCase()}</span></div>
+    <div className="mt-auto flex flex-wrap gap-2 pt-5"><button type="button" onClick={() => openResource(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Read online</button>{(getRepositoryUrl(item) || driveLink(item)) && <a href={getRepositoryUrl(item) || driveLink(item, 'open')} target="_blank" rel="noreferrer" className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open original</a>}</div>
+  </article>;
 
   return <main className="resource-vault-page mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
     <p className="eyebrow">CNR-IA-2 · RESOURCE SYSTEM</p>
     <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
-      <div><h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Academic Resource Vault</h1>
-        <p className="mt-2 max-w-2xl text-mute">A searchable study library for module notes, presentations, question papers, model papers and syllabus documents. Open supported materials in the website and continue studying without leaving the vault.</p></div>
+      <div><h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{categoryFilter === 'notes' ? (moduleFilter === 'all' ? 'All Module Study Notes' : 'Module ' + moduleFilter + ' Study Notes') : 'Academic Resource Vault'}</h1>
+        <p className="mt-2 max-w-2xl text-mute">{categoryFilter === 'notes' ? 'Browse the published BCV755B notes, organized module by module. Open any PDF in the built-in reader and continue studying in your workspace.' : 'A searchable study library for module notes, presentations, question papers, model papers and syllabus documents. Open supported materials in the website and continue studying without leaving the vault.'}</p></div>
       <div className="rounded-2xl border border-line bg-panel px-4 py-3"><p className="text-xs text-mute">Published resources</p><p className="text-2xl font-bold tabular-nums">{DRIVE_RESOURCES.length}</p></div>
     </div>
 
@@ -139,18 +153,14 @@ export default function ResourceVault({ initialModule = 'all' } = {}) {
       </div>
     </section>
 
-    {resources.length ? <section className="mt-5 grid gap-3 md:grid-cols-2" aria-label="Resource results">
-      {resources.map((item) => <article key={item.id} className="resource-vault-card card flex flex-col p-5">
-        <div className="flex items-start justify-between gap-3"><span className="rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">{RESOURCE_CATEGORIES.find((cat) => cat.id === item.category)?.label || item.category}</span>
-          <button type="button" onClick={() => toggleBookmark(item.id)} aria-label={bookmarks.includes(item.id) ? 'Remove saved resource' : 'Save resource'} aria-pressed={bookmarks.includes(item.id)} className="rv-touch-target grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line hover:bg-sunk"><Bookmark size={17} fill={bookmarks.includes(item.id) ? 'currentColor' : 'none'}/></button></div>
-        <h2 className="mt-3 text-lg font-bold">{item.title}</h2><p className="mt-1 text-sm text-mute">{item.description}</p>
-        <div className="mt-3 flex flex-wrap gap-2 text-xs text-mute"><span className="rounded-md bg-sunk px-2 py-1">Module {item.module}</span>{item.year && <span className="rounded-md bg-sunk px-2 py-1">{item.year}</span>}{item.fileSize && <span className="rounded-md bg-sunk px-2 py-1">{item.fileSize}</span>}<span className="rounded-md bg-sunk px-2 py-1">{getDocumentKind(item).toUpperCase()}</span></div>
-        <div className="mt-auto flex flex-wrap gap-2 pt-5">
-          <button type="button" onClick={() => openResource(item)} className="btn-primary"><BookOpen size={15} className="mr-1 inline"/> Read online</button>
-          {(getRepositoryUrl(item) || driveLink(item)) && <a href={getRepositoryUrl(item) || driveLink(item, 'open')} target="_blank" rel="noreferrer" className="btn-quiet"><ExternalLink size={15} className="mr-1 inline"/> Open original</a>}
-        </div>
-      </article>)}
-    </section> : <section className="card mt-5 p-8 text-center">
+    {resources.length ? (categoryFilter === 'notes' && moduleFilter === 'all' ? (
+      <div className="mt-6 space-y-8" aria-label="Study notes grouped by module">
+        {notesByModule.map((group) => <section key={group.number} aria-labelledby={'notes-module-' + group.number}>
+          <div className="mb-3 flex flex-wrap items-end justify-between gap-2"><div><p className="eyebrow">MODULE 0{group.number} / BCV755B</p><h2 id={'notes-module-' + group.number} className="mt-1 text-xl font-bold">Module {group.number} notes</h2></div><span className="text-xs text-mute">{group.items.length} note file{group.items.length === 1 ? '' : 's'}</span></div>
+          <div className="grid gap-3 md:grid-cols-2">{group.items.map(renderResourceCard)}</div>
+        </section>)}
+      </div>
+    ) : <section className="mt-5 grid gap-3 md:grid-cols-2" aria-label="Resource results">{resources.map(renderResourceCard)}</section>) : <section className="card mt-5 p-8 text-center">
       <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 text-brand"><FileText size={26}/></div>
       <h2 className="mt-4 text-xl font-bold">{DRIVE_RESOURCES.length ? 'No matching resources' : 'Your resource library is ready'}</h2>
       <p className="mx-auto mt-2 max-w-xl text-sm text-mute">{DRIVE_RESOURCES.length ? 'Try changing the search or filters.' : 'No resources have been added to the catalogue yet. Uploaded PDFs, presentations and documents appear here once registered.'}</p>

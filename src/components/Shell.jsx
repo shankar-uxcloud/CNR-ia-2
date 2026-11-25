@@ -4,6 +4,7 @@ import { useStudy } from '../lib/study';
 import { go } from '../lib/router';
 import { QUESTIONS, SUBJECT } from '../data/questions';
 import { FIVE_MARK_TOTAL_COUNT } from '../data/fiveMarkCounts';
+import { DRIVE_RESOURCES } from '../data/resourceCatalog';
 
 export function Logo({ light }) {
   return (
@@ -154,10 +155,13 @@ const NAV_GROUPS = [
     { to: '/analytics', label: 'Progress & Analytics', icon: ChartNoAxesCombined },
   ]},
   { id: 'study', title: 'Study Material', icon: BookOpenText, defaultOpen: true, items: [
+    { to: '/cnr-notes/all', label: 'All Modules', icon: Layers3, count: DRIVE_RESOURCES.filter((item) => item.category === 'notes').length },
+    { to: '/cnr-notes/module/1', label: 'Module 1', icon: BookOpenText, shortLabel: 'Module 1', moduleId: 1, count: DRIVE_RESOURCES.filter((item) => item.category === 'notes' && Number(item.module) === 1).length },
+    { to: '/cnr-notes/module/2', label: 'Module 2', icon: BookOpenText, shortLabel: 'Module 2', moduleId: 2, count: DRIVE_RESOURCES.filter((item) => item.category === 'notes' && Number(item.module) === 2).length },
+    { to: '/cnr-notes/module/3', label: 'Module 3', icon: Wind, shortLabel: 'Module 3', moduleId: 3, count: DRIVE_RESOURCES.filter((item) => item.category === 'notes' && Number(item.module) === 3).length },
+    { to: '/cnr-notes/module/4', label: 'Module 4', icon: Leaf, shortLabel: 'Module 4', moduleId: 4, count: DRIVE_RESOURCES.filter((item) => item.category === 'notes' && Number(item.module) === 4).length },
+    { to: '/cnr-notes/module/5', label: 'Module 5', icon: Globe2, shortLabel: 'Module 5', moduleId: 5, count: DRIVE_RESOURCES.filter((item) => item.category === 'notes' && Number(item.module) === 5).length },
     { to: '/questions', label: 'All Questions', icon: ListChecks, count: QUESTIONS.length },
-    { to: '/module/3', label: 'Module 3 — Air and Air Pollution', shortLabel: 'Module 3', icon: Wind, moduleId: 3, count: QUESTIONS.filter((question) => question.module === 3).length },
-    { to: '/module/4', label: 'Module 4 — Biodiversity and Ecosystems', shortLabel: 'Module 4', icon: Leaf, moduleId: 4, count: QUESTIONS.filter((question) => question.module === 4).length },
-    { to: '/module/5', label: 'Module 5 — Global Warming and EIA', shortLabel: 'Module 5', icon: Globe2, moduleId: 5, count: QUESTIONS.filter((question) => question.module === 5).length },
     { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark, countFrom: 'bookmarks' },
     { to: '/revision', label: 'Revision Mode', icon: Zap },
   ]},

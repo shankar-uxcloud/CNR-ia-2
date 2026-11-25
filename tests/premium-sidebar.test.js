@@ -15,11 +15,12 @@ test('sidebar navigation is grouped into the six academic sections', () => {
   assert.match(shell, /defaultOpen: false/);
 });
 
-test('question and bookmark badges use live study data rather than fixed counts', () => {
+test('question, note-module and bookmark badges use live source data rather than fixed counts', () => {
   assert.match(shell, /count: QUESTIONS\.length/);
-  assert.match(shell, /QUESTIONS\.filter\(\(question\) => question\.module === 3\)\.length/);
-  assert.match(shell, /QUESTIONS\.filter\(\(question\) => question\.module === 4\)\.length/);
-  assert.match(shell, /QUESTIONS\.filter\(\(question\) => question\.module === 5\)\.length/);
+  assert.match(shell, /DRIVE_RESOURCES\.filter\(\(item\) => item\.category === 'notes'\)\.length/);
+  for (let module = 1; module <= 5; module += 1) {
+    assert.ok(shell.includes("Number(item.module) === " + module), 'missing live note count for module ' + module);
+  }
   assert.match(shell, /Object\.keys\(bookmarks \|\| \{\}\)\.length/);
   assert.match(shell, /QUESTIONS\.filter\(\(question\) => Boolean\(completed\?\.\[question\.id\]\)\)\.length/);
   assert.doesNotMatch(shell, /count: 10|count: 2|count: 4/);
