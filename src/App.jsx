@@ -38,9 +38,10 @@ const JuneJuly2026 = lazy(() => import('./pages/JuneJuly2026'));
 function Router({ path }) {
   if (path === '/welcome') return <NexusWelcome revisit />;
   if (path === '/learning-hub') return <LearningHub />;
+  if (path === '/cnr-notes/all') return <ResourceVault initialCategory="notes" />;
   if (path === '/cnr-notes') return <CNRNotes />;
   const cnrNotesModule = path.match(/^\/cnr-notes\/module\/([1-5])$/);
-  if (cnrNotesModule) return <ResourceVault initialModule={Number(cnrNotesModule[1])} />;
+  if (cnrNotesModule) return <ResourceVault initialModule={Number(cnrNotesModule[1])} initialCategory="notes" />;
   if (path === '/resources' || path === '/materials' || path.startsWith('/materials/')) return <ResourceVault />;
   if (path === '/mqps') return <ModelPapers />;
   if (path === '/model-paper-21cv654') return <ModelQuestionPaper21CV654 />;
