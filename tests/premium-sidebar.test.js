@@ -28,9 +28,13 @@ test('question, note-module and bookmark badges use live source data rather than
 
 test('model question papers are nested and existing application routes remain registered', () => {
   assert.match(shell, /children: \[/);
+  assert.match(shell, /label: 'Solved Question Papers'/);
+  assert.match(shell, /to: '\/model-paper-21cv654', label: '21CV654 Complete Model Answers'/);
   assert.match(shell, /\/dec-jan-2026/);
   assert.match(shell, /\/question-papers\/june-july-2026/);
-  for (const route of ['/dashboard', '/learning-hub', '/analytics', '/questions', '/answers', '/module', '/bookmarks', '/revision', '/practice', '/quiz', '/exam', '/study-coach', '/visual-studio', '/environment-lab', '/smart-revision', '/planner', '/ecoweb', '/cnr-notes', '/resources', '/additional-notes', '/welcome', '/data-backup']) {
+  assert.doesNotMatch(shell, /label: 'Model Question Papers'/);
+  assert.doesNotMatch(shell, /to: '\/model-paper-21cv654', label: '21CV654 Complete Model Answers'.*?\n\s*\{ to: '\/mqps'/s);
+  for (const route of ['/dashboard', '/learning-hub', '/analytics', '/questions', '/answers', '/model-paper-21cv654', '/module', '/bookmarks', '/revision', '/practice', '/quiz', '/exam', '/study-coach', '/visual-studio', '/environment-lab', '/smart-revision', '/planner', '/ecoweb', '/cnr-notes', '/resources', '/additional-notes', '/welcome', '/data-backup']) {
     assert.ok(app.includes(route), 'existing route not found: ' + route);
   }
 });
