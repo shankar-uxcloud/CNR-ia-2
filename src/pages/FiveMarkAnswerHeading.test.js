@@ -16,7 +16,7 @@ const gitBlobSha = (content) => createHash('sha1').update('blob ' + Buffer.byteL
 
 test('the five-mark answer uses a semantic four-level heading system', () => {
   assert.ok(page.includes('FiveMarkHeading level={4} className="five-mark-section-title mb-2"'));
-  assert.ok(page.includes('FiveMarkHeading level={5} className="five-mark-subsection-title"'));
+  assert.ok(page.includes('FiveMarkHeading level={5} className="five-mark-subsection-title mb-2"'));
   assert.ok(structure.includes('FiveMarkHeading level={3} className="five-mark-structure-root"'));
   for (const role of ['five-mark-answer-title', 'five-mark-section-title', 'five-mark-subsection-title', 'five-mark-minor-title']) assert.ok(heading.includes(role));
 });
