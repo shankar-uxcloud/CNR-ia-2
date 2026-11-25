@@ -64,8 +64,13 @@ header.topbar {
   box-shadow: 0 8px 28px rgb(0 0 0 / .16);
 }
 @media (min-width: 1024px) {
-  body > #root aside.fixed.inset-y-0.left-0 { width: 16rem; }
   body > #root header.topbar { padding-inline: clamp(1.25rem, 2vw, 2rem); }
+}
+/* Keep the fixed sidebar width in sync with the shell's collapsed state.
+   This selector intentionally outranks legacy fixed-aside sizing rules. */
+@media (min-width: 1024px) {
+  body > #root aside.sidebar-shell.fixed.inset-y-0.left-0 { width: 17rem; }
+  body > #root aside.sidebar-shell.fixed.inset-y-0.left-0.sidebar-collapsed { width: 4.75rem; }
 }
 body > #root aside.fixed.inset-y-0.left-0 {
   border-right-color: var(--surface-outline);
