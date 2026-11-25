@@ -8,6 +8,7 @@ import { QUESTIONS } from '../data/questions';
 import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
 import { Blocks } from '../components/Blocks';
 import FiveMarkStructure from '../components/FiveMarkStructure';
+import FiveMarkHeading from '../components/FiveMarkHeading';
 import { useStudy } from '../lib/study';
 import { formatFiveMarkQuestionNumber } from '../lib/fiveMarkPresentation';
 
@@ -89,11 +90,11 @@ function AnswerSections({ item }) {
       <FiveMarkStructure item={item} />
       {item.answer.map((section) => (
         <section key={section.id} className="border-b border-line/70 py-3 last:border-0">
-          <h3 className="five-mark-section-title mb-2 text-base font-semibold tracking-tight">{section.title}</h3>
+          <FiveMarkHeading level={4} className="five-mark-section-title mb-2">{section.title}</FiveMarkHeading>
           <Blocks blocks={section.blocks || []} />
           {(section.subsections || []).map((subsection) => (
             <div key={subsection.title} className="mt-4">
-              <h4 className="five-mark-subsection-title mb-2 font-semibold">{subsection.title}</h4>
+              <FiveMarkHeading level={5} className="five-mark-subsection-title mb-2">{subsection.title}</FiveMarkHeading>
               <Blocks blocks={subsection.blocks || []} />
             </div>
           ))}
