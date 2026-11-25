@@ -171,10 +171,10 @@ const NAV_GROUPS = [
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
     { to: '/answers', label: 'Answers', icon: BookOpenText },
-    { to: '/model-paper-21cv654', label: '21CV654 Complete Model Answers', icon: BookOpenText },
-    { to: '/mqps', label: 'Model Question Papers', icon: FolderOpen, children: [
+    { to: '/mqps', label: 'Solved Question Papers', icon: FolderOpen, children: [
       { to: '/dec-jan-2026', label: 'Dec/Jan 2026 Question Paper', shortLabel: 'Dec/Jan 2026' },
       { to: '/question-papers/june-july-2026', label: 'June/July 2026 Question Paper', shortLabel: 'June/July 2026' },
+      { to: '/model-paper-21cv654', label: '21CV654 Complete Model Answers', shortLabel: '21CV654 Solved' },
     ]},
   ]},
   { id: 'tools', title: 'Learning Tools', icon: Sparkles, defaultOpen: false, items: [
