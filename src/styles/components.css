@@ -1950,86 +1950,42 @@ aside.sidebar-shell nav .sidebar-link.is-active {
 }
 
 
-/* Persistent desktop sidebar visibility control. */
+/* One premium desktop control cycles expanded → compact → hidden → expanded. */
 .sidebar-visibility-toggle {
+  position: relative;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 26%, var(--border-color));
+  border-radius: 13px;
   color: var(--text-secondary);
-  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  background: color-mix(in srgb, var(--surface-primary) 88%, transparent);
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--text-primary) 5%, transparent), inset 0 1px rgb(255 255 255 / .08);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  backdrop-filter: blur(14px) saturate(130%);
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 .sidebar-visibility-toggle:hover {
   color: var(--cyber-accent);
-  border-color: var(--border-active);
-  background: color-mix(in srgb, var(--cyber-accent) 9%, var(--surface-primary));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyber-accent) 9%, transparent);
+  border-color: var(--cyber-accent);
+  background: color-mix(in srgb, var(--cyber-accent) 10%, var(--surface-primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyber-accent) 9%, transparent), 0 7px 20px color-mix(in srgb, var(--cyber-accent) 10%, transparent);
+  transform: translateY(-1px);
 }
-.sidebar-visibility-toggle:focus-visible {
-  outline: 2px solid var(--cyber-accent);
-  outline-offset: 3px;
+.sidebar-visibility-toggle:active { transform: translateY(0) scale(.96); }
+.sidebar-visibility-toggle:focus-visible { outline: 2px solid var(--cyber-accent); outline-offset: 3px; }
+:root[data-ui-mode='glass'] .sidebar-visibility-toggle,
+:root[data-ui-mode='nebula'] .sidebar-visibility-toggle,
+:root[data-ui-mode='holographic'] .sidebar-visibility-toggle {
+  background: color-mix(in srgb, var(--surface-primary) 64%, transparent);
+  border-color: color-mix(in srgb, var(--cyber-accent) 34%, var(--border-color));
+}
+@media (prefers-reduced-transparency: reduce) {
+  .sidebar-visibility-toggle { background: var(--surface-primary); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sidebar-visibility-toggle { transition: none; }
-}
-
-
-/* Distinct sidebar actions: compact, completely close, and persistent restore. */
-.sidebar-header-actions {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: .35rem;
-}
-.sidebar-close-toggle {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--cyber-accent) 24%, var(--border-color));
-  border-radius: 10px;
-  color: var(--text-muted);
-  background: color-mix(in srgb, var(--surface-secondary) 78%, transparent);
-  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
-}
-.sidebar-close-toggle:hover {
-  color: var(--cyber-accent);
-  border-color: var(--cyber-accent);
-  background: color-mix(in srgb, var(--cyber-accent) 12%, var(--surface-secondary));
-}
-.sidebar-close-toggle:focus-visible,
-.sidebar-reopen-fab:focus-visible {
-  outline: 2px solid var(--cyber-accent);
-  outline-offset: 3px;
-}
-.sidebar-reopen-fab {
-  position: fixed;
-  z-index: 45;
-  top: calc(var(--shell-header-height, 4rem) + .75rem);
-  left: max(.75rem, env(safe-area-inset-left, 0px));
-  display: none;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  gap: .55rem;
-  padding: .65rem .85rem;
-  border: 1px solid color-mix(in srgb, var(--cyber-accent) 48%, var(--border-color));
-  border-radius: .85rem;
-  color: var(--text-primary);
-  background: var(--surface-primary);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--text-primary) 18%, transparent);
-  font-size: .78rem;
-  font-weight: 750;
-}
-.sidebar-reopen-fab:hover {
-  color: var(--cyber-accent);
-  border-color: var(--cyber-accent);
-  background: var(--surface-secondary);
-}
-@media (min-width: 1024px) {
-  .sidebar-reopen-fab { display: inline-flex; }
-  .sidebar-collapsed .sidebar-header-actions { flex-direction: column; }
-}
-@media (max-width: 1023px) {
-  .sidebar-close-toggle { display: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sidebar-close-toggle, .sidebar-reopen-fab { transition: none; }
+  .sidebar-visibility-toggle:hover, .sidebar-visibility-toggle:active { transform: none; }
 }
