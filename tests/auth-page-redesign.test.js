@@ -23,7 +23,7 @@ test('sign-in keeps the real Supabase flow and validates empty and malformed cre
   assert.ok(page.includes('Enter your email address.'));
   assert.ok(page.includes('Enter your password.'));
   assert.ok(page.includes('aria-invalid'));
-  assert.ok(page.includes('Authentication setup required.'));
+  assert.ok(page.includes('Supabase setup required.'));
   assert.ok(!page.includes('demo.signIn'));
 });
 

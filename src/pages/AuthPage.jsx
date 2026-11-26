@@ -198,7 +198,7 @@ function ResetPassword() {
 
 function ConfigurationNotice({ missing = [] }) {
   return <div className="auth-message is-error auth-config-notice" role="alert">
-    <strong>Authentication setup required.</strong>
+    <strong>Supabase setup required.</strong>
     <span>Supabase is not configured for this build{missing.length ? ' (missing: ' + missing.join(', ') + ').' : '.'} Sign-in is unavailable until configuration is complete.</span>
   </div>;
 }
