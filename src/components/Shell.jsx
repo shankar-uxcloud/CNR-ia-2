@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { LayoutDashboard, ListChecks, Bookmark, Zap, ClipboardCheck, Brain, CalendarDays, ChartNoAxesCombined, Network, BookOpenText, Orbit, Moon, Sun, Menu, X, Search, ArrowUp, Minimize2, FileText, Sparkles, Database, Layers3, Palette, ChevronDown, Check, Wind, Leaf, Globe2, FolderOpen } from 'lucide-react';
 import { useStudy } from '../lib/study';
+import AccountMenu from './AccountMenu';
 import { go } from '../lib/router';
 import { QUESTIONS, SUBJECT } from '../data/questions';
 import { FIVE_MARK_TOTAL_COUNT } from '../data/fiveMarkCounts';
@@ -495,6 +496,7 @@ export default function Shell({ path, children }) {
               className="h-10 w-full rounded-xl border border-line bg-panel pl-10 pr-3 text-sm outline-none transition placeholder:text-mute focus:border-brand focus:ring-2 focus:ring-brand/25" />
           </div>
           <AppearanceDropdown className="ml-auto" />
+          <AccountMenu currentPath={path} />
           <a href="#/" className="btn-ghost hidden !py-2 lg:inline-flex">Welcome page</a>
         </header>
       )}
