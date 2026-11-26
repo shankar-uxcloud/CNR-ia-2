@@ -1,4 +1,4 @@
-import { Check, ListTree } from 'lucide-react';
+import { ListTree } from 'lucide-react';
 
 export function AnswerPresentationSwitch({ value, onChange, className = '' }) {
   return (
