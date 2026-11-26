@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { additionalDecJanAnswers, moduleNames } from '../data/decJan2026Additional';
 import { evaluationScheme } from '../data/decJan2026Evaluation';
+import { AnswerPresentationSwitch } from '../components/AnswerPresentation';
+import './AnswerPresentation.css';
 import { ArrowLeft, BookOpen, CalendarDays, CheckCircle2, FileText, GraduationCap, Minus, Plus, RotateCcw, Type } from 'lucide-react';
 const coreQuestionNavItems = [
   { id: 'q1-a', label: '1)a)', question: 'Ecological and economic importance of land', module: 'Module 1 · Land' },
@@ -62,6 +64,7 @@ function AnswerSection({ section, number }) {
 
 export default function DecJan2026() {
   const [fontScale, setFontScale] = useState(1);
+  const [presentationMode, setPresentationMode] = useState('original');
   const [activeQuestion, setActiveQuestion] = useState(() => questionNavItems[0]?.id ?? '');
   const activeQuestionIndex = questionNavItems.findIndex((item) => item.id === activeQuestion);
   const navigateToQuestion = (id, updateHistory = true) => {
@@ -93,7 +96,7 @@ export default function DecJan2026() {
     if (window.location.hash) requestAnimationFrame(syncHash);
     return () => { observer.disconnect(); window.removeEventListener('popstate', syncHash); window.removeEventListener('hashchange', syncHash); };
   }, []);
-  return <main className="study-page mx-auto max-w-5xl px-4 py-7 sm:px-8 sm:py-10" style={{ '--study-font-scale': fontScale }}>
+  return <main className={`study-page mx-auto max-w-5xl px-4 py-7 sm:px-8 sm:py-10 ${presentationMode === "structured" ? "answer-presentation-structured" : ""}`} style={{ '--study-font-scale': fontScale }}>
     <a href="#/mqps" className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-brand"><ArrowLeft size={16}/> Question papers</a>
     <div className="flex flex-wrap items-center gap-2">
       <span className="chip"><CalendarDays size={14}/> December 2025 / January 2026</span>
@@ -108,6 +111,7 @@ export default function DecJan2026() {
       <div className="card p-4"><CheckCircle2 className="text-brand" size={20}/><p className="mt-2 text-xs text-mute">Progress</p><strong>Questions 1–10 added</strong></div>
     </div>
     <section className="study-reading-tools mt-6 card p-4 sm:p-5" aria-label="Reading appearance controls"><div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-center gap-2"><Type size={19} className="text-brand"/><div><h2 className="font-bold">Comfortable reading</h2><p className="text-xs text-mute">Adjust text size across the whole answer page.</p></div></div><div className="flex items-center gap-2" role="group" aria-label="Adjust reading text size"><button type="button" className="study-size-button" onClick={() => setFontScale(v => Math.max(0.9, Number((v - 0.1).toFixed(1))))} aria-label="Decrease text size" disabled={fontScale <= 0.9}><Minus size={16}/><span>A−</span></button><span className="study-size-value" aria-live="polite">{Math.round(fontScale * 100)}%</span><button type="button" className="study-size-button" onClick={() => setFontScale(v => Math.min(1.4, Number((v + 0.1).toFixed(1))))} aria-label="Increase text size" disabled={fontScale >= 1.4}><Plus size={16}/><span>A+</span></button><button type="button" className="study-size-button study-reset-button" onClick={() => setFontScale(1)} aria-label="Reset text size"><RotateCcw size={15}/><span>Reset</span></button></div></div></section>
+    <AnswerPresentationSwitch value={presentationMode} onChange={setPresentationMode} className="mt-4" />
     <nav id="question-navigator" className="question-navigator mt-6 card p-4 sm:p-5" aria-label="Question paper navigation">
       <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="eyebrow">JUMP TO ANSWER</p><h2 className="mt-1 text-lg font-extrabold">Question navigator</h2><p className="mt-1 text-xs leading-5 text-mute">Select any subquestion to jump directly to its complete answer. The active tag follows your reading position.</p></div><span className="chip">{questionNavItems.length} subquestions</span></div>
       <div className="question-nav-groups mt-3" aria-label="Questions 1 through 10">
