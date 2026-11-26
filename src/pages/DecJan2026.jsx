@@ -96,7 +96,7 @@ export default function DecJan2026() {
     if (window.location.hash) requestAnimationFrame(syncHash);
     return () => { observer.disconnect(); window.removeEventListener('popstate', syncHash); window.removeEventListener('hashchange', syncHash); };
   }, []);
-  return <main className={`study-page mx-auto max-w-5xl px-4 py-7 sm:px-8 sm:py-10 ${presentationMode === "structured" ? "answer-presentation-structured" : ""}`} style={{ '--study-font-scale': fontScale }}>
+  return <main className="study-page mx-auto max-w-5xl px-4 py-7 sm:px-8 sm:py-10" data-answer-presentation={presentationMode} style={{ '--study-font-scale': fontScale }}>
     <a href="#/mqps" className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-brand"><ArrowLeft size={16}/> Question papers</a>
     <div className="flex flex-wrap items-center gap-2">
       <span className="chip"><CalendarDays size={14}/> December 2025 / January 2026</span>
