@@ -35,7 +35,9 @@ self.addEventListener('fetch', (event) => {
 
   // Never cache authentication, API or callback traffic. Supabase normally uses
   // its own origin, but this guard also covers same-origin proxy deployments.
-  const isAuthTraffic = /\\/(auth\\/v1|rest\\/v1|functions\\/v1)(\\/|$)/.test(url.pathname)
+  const isAuthTraffic = url.pathname.startsWith('/auth/v1/')
+    || url.pathname.startsWith('/rest/v1/')
+    || url.pathname.startsWith('/functions/v1/')
     || url.searchParams.has('code')
     || request.headers.has('authorization');
   if (isAuthTraffic) return;

@@ -3,7 +3,7 @@ import { CircleUserRound, LogIn, LogOut, LoaderCircle } from 'lucide-react';
 import { go } from '../lib/router';
 import { useAuth } from '../lib/AuthProvider';
 
-export default function AccountMenu() {
+export default function AccountMenu({ currentPath = '/dashboard' }) {
   const { user, loading, configured, signOut } = useAuth();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -21,7 +21,7 @@ export default function AccountMenu() {
   };
 
   if (loading) return <span className="account-status" aria-label="Restoring account session"><LoaderCircle size={16} className="auth-spin" /></span>;
-  if (!user) return <a href="#/auth" className="account-entry" title={configured ? 'Sign in or create an account' : 'Supabase setup required'}><LogIn size={16} /><span>Sign in</span></a>;
+  if (!user) return <a href={'#/auth?redirect=' + encodeURIComponent(currentPath)} className="account-entry" title={configured ? 'Sign in or create an account' : 'Supabase setup required'}><LogIn size={16} /><span>Sign in</span></a>;
 
   return <div className="account-menu" title={user.email || 'Signed in'}>
     <CircleUserRound size={17} aria-hidden="true" />

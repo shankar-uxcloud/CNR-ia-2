@@ -7,10 +7,19 @@ const supabaseKey = (
   ''
 ).trim();
 
+const validSupabaseUrl = (() => {
+  try {
+    const parsed = new URL(supabaseUrl);
+    return parsed.protocol === 'https:' || parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1';
+  } catch {
+    return false;
+  }
+})();
+
 export const supabaseConfig = Object.freeze({
-  configured: Boolean(supabaseUrl && supabaseKey),
+  configured: Boolean(validSupabaseUrl && supabaseKey),
   missing: [
-    ...(!supabaseUrl ? ['VITE_SUPABASE_URL'] : []),
+    ...(!supabaseUrl ? ['VITE_SUPABASE_URL'] : !validSupabaseUrl ? ['VITE_SUPABASE_URL (valid HTTPS URL required)'] : []),
     ...(!supabaseKey ? ['VITE_SUPABASE_ANON_KEY (or VITE_SUPABASE_PUBLISHABLE_KEY)'] : []),
   ],
 });

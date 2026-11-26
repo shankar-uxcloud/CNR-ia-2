@@ -93,7 +93,7 @@ function AuthForm({ mode, redirect }) {
 }
 
 function ResetPassword() {
-  const { user, loading } = useAuth();
+  const { user, loading, configured, missing } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
@@ -127,6 +127,7 @@ function ResetPassword() {
   };
 
   return <div className="auth-card">
+    {!configured && <div className="auth-message is-error" role="alert"><strong>Supabase setup required.</strong><span> Missing: {missing.join(', ')}. Add these values to your deployment environment and rebuild.</span></div>}
     <div className="auth-card-heading"><span className="auth-icon"><Mail size={19} /></span><div><h2>{user ? 'Choose a new password' : 'Reset your password'}</h2><p>{user ? 'Set a new password for your account.' : 'We will email you a secure password reset link.'}</p></div></div>
     <form className="auth-form" onSubmit={submit}>
       {!user && <label className="auth-field"><span>Email address</span><input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" /></label>}
@@ -145,7 +146,7 @@ export default function AuthPage({ path }) {
 
   if (path === '/reset-password') return <main className="auth-page"><div className="auth-wrap"><a href="#/" className="auth-back"><ArrowLeft size={16} /> Back to CNR-IA-2</a><AuthBrand /><ResetPassword /></div></main>;
 
-  if (path === '/auth/callback') return <main className="auth-page"><div className="auth-wrap"><AuthBrand /><section className="auth-card"><span className="auth-icon"><ShieldCheck size={20} /></span><h1>Finishing your sign-in</h1><p>{loading ? 'Confirming your secure session…' : user ? 'Your email is verified and your account is ready.' : 'The link may have expired or already been used. Try signing in or request a new verification email.'}</p><button className="auth-submit" type="button" onClick={() => go(user ? redirect : '/auth')}>{user ? 'Continue to workspace' : 'Go to sign in'}</button></section></div></main>;
+  if (path === '/auth/callback') return <main className="auth-page"><div className="auth-wrap"><AuthBrand /><section className="auth-card">{!configured && <p className="auth-message is-error" role="alert">Supabase authentication is not configured in this build.</p>}<span className="auth-icon"><ShieldCheck size={20} /></span><h1>Finishing your sign-in</h1><p>{loading ? 'Confirming your secure session…' : user ? 'Your email is verified and your account is ready.' : 'The link may have expired or already been used. Try signing in or request a new verification email.'}</p><button className="auth-submit" type="button" onClick={() => go(user ? redirect : '/auth')}>{user ? 'Continue to workspace' : 'Go to sign in'}</button></section></div></main>;
 
   return <main className="auth-page"><div className="auth-wrap">
     <a href="#/" className="auth-back"><ArrowLeft size={16} /> Back to study workspace</a>
