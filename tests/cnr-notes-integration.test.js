@@ -29,9 +29,10 @@ test('the hub and shared reader use the existing real resource catalogue', () =>
   assert.ok(vault.includes('String(initialModule)'));
 });
 
-test('integration documentation explicitly excludes demo authentication and placeholder answers', () => {
+test('integration documentation distinguishes source demo authentication from production CNR-IA-2 auth', () => {
   const docs = read('../docs/CNR-NOTES-INTEGRATION.md');
   assert.ok(docs.includes('sample placeholders'));
-  assert.ok(docs.includes('simulated sign-in'));
-  assert.ok(docs.includes('payments are disabled'));
+  assert.ok(docs.includes('simulated browser-only login'));
+  assert.ok(docs.includes('VITE_SUPABASE_URL'));
+  assert.ok(docs.includes('No cloud sync'));
 });

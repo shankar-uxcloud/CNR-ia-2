@@ -33,6 +33,13 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  // Never cache authentication, API or callback traffic. Supabase normally uses
+  // its own origin, but this guard also covers same-origin proxy deployments.
+  const isAuthTraffic = /\\/(auth\\/v1|rest\\/v1|functions\\/v1)(\\/|$)/.test(url.pathname)
+    || url.searchParams.has('code')
+    || request.headers.has('authorization');
+  if (isAuthTraffic) return;
+
   // HTML and executable assets must prefer the network so a deployment cannot
   // leave users running a stale application bundle from an older release.
   const isAppShell = request.mode === 'navigate';

@@ -1,0 +1,27 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
+const supabaseKey = (
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  ''
+).trim();
+
+export const supabaseConfig = Object.freeze({
+  configured: Boolean(supabaseUrl && supabaseKey),
+  missing: [
+    ...(!supabaseUrl ? ['VITE_SUPABASE_URL'] : []),
+    ...(!supabaseKey ? ['VITE_SUPABASE_ANON_KEY (or VITE_SUPABASE_PUBLISHABLE_KEY)'] : []),
+  ],
+});
+
+export const supabase = supabaseConfig.configured
+  ? createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        flowType: 'pkce',
+      },
+    })
+  : null;
