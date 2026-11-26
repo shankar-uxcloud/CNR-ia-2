@@ -9,6 +9,6 @@ export function createStructuredSections(sections = []) {
   return sections.map((section, index) => ({
     ...section,
     structuredNumber: String(index + 1).padStart(2, '0'),
-    structuredTitle: String(section?.title ?? '').replace(/^\\s*\\d+[.)]\\s*/, ''),
+    structuredTitle: String(section?.title ?? '').replace(/^\s*\d+[.)]\s*/, ''),
   }));
 }
