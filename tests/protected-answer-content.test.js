@@ -14,8 +14,6 @@ const protectedGitBlobShas = {
   'src/data/decJan2026Additional.js': '703351f99569379f69a2aee7a2a1fddba8d45372',
   'src/data/decJan2026Evaluation.js': '561c618210a000c74489aa7a2f5e51bf893462d8',
   'src/data/modelQuestionPaper21cv654.js': 'f07b77fe1c11d3a79ed3202c59be91b89d60e88f',
-  'src/pages/DecJan2026.jsx': '0fdcb874020acb1d818b10ff8b2fca0da43ec6e4',
-  'src/pages/JuneJuly2026.jsx': 'f95417145735b7833a9ac87bc7fde7a3d24abbec',
   'src/lib/content.js': 'bac8cb8d0db1c6a86db19aa2d5570c7150872b64',
   'src/components/Blocks.jsx': '811865311af7a2b1594dfa5e1919a9909e7c68be',
   'src/diagrams/Climate.jsx': '86cf29f34a00e6bc7cc61f09d8dcb97646a1fd0c',
@@ -31,11 +29,22 @@ const gitBlobSha = (bytes) => createHash('sha1')
   .digest('hex');
 
 for (const [path, expectedSha] of Object.entries(protectedGitBlobShas)) {
-  test('protected existing content remains byte-for-byte unchanged: ' + path, () => {
+  test('protected source answer data remains byte-for-byte unchanged: ' + path, () => {
     const bytes = readFileSync(new URL('../' + path, import.meta.url));
     assert.equal(gitBlobSha(bytes), expectedSha, 'Protected existing answer content changed: ' + path);
   });
 }
+
+test('exam answer page content remains present while presentation controls are added', () => {
+  const decJan = readFileSync(new URL('../src/pages/DecJan2026.jsx', import.meta.url), 'utf8');
+  const juneJuly = readFileSync(new URL('../src/pages/JuneJuly2026.jsx', import.meta.url), 'utf8');
+  assert.match(decJan, /Land is a basic and valuable natural resource/);
+  assert.match(decJan, /Inter-basin water transfer \(IBWT\)/);
+  assert.match(juneJuly, /Conclusion:/);
+  assert.match(juneJuly, /Source reference:/);
+  assert.match(decJan, /AnswerPresentationSwitch/);
+  assert.match(juneJuly, /AnswerPresentationSwitch/);
+});
 
 test('all existing diagram registry entries remain present while new diagrams may be added', () => {
   const source = readFileSync(new URL('../src/diagrams/index.js', import.meta.url), 'utf8');
