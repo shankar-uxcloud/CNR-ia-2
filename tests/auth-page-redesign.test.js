@@ -4,43 +4,26 @@ import { readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
-test('authentication routes render as a dedicated full-page experience outside the workspace shell', () => {
-  const app = read('../src/App.jsx');
-  const page = read('../src/pages/AuthPage.jsx');
-  assert.ok(app.includes('const isAuthRoute ='));
-  assert.ok(app.includes('if (isAuthRoute) return <Suspense'));
-  assert.ok(page.includes('Welcome Back to Your'));
-  assert.ok(page.includes('auth-visual'));
-  assert.ok(page.includes('auth-content'));
+test('Study Access Hub contains every requested open learning destination', () => {
+  const hub = read('../src/pages/StudyAccessHub.jsx');
+  for (const text of [
+    'Your Learning Journey', 'Starts Here', 'No accounts. No barriers. Just learning.',
+    'Start Learning', 'Explore VTU Answers', 'Module Library', 'Smart Revision',
+    'Practice & Quiz', 'Study Planner', 'CNR Notes', 'Previous Question Papers',
+    'Free for every student', 'No registration required', 'Progress saved locally',
+    'Study anytime', 'Knowledge belongs to everyone.',
+  ]) assert.ok(hub.includes(text), 'Missing Study Access Hub content: ' + text);
+  for (const route of ['/dashboard', '/questions', '/module/3', '/module/4', '/module/5', '/smart-revision', '/practice', '/quiz', '/planner', '/cnr-notes', '/mqps']) {
+    assert.ok(hub.includes('#' + route), 'Missing existing destination: ' + route);
+  }
 });
 
-test('sign-in keeps the real Supabase flow and validates empty and malformed credentials inline', () => {
-  const page = read('../src/pages/AuthPage.jsx');
-  assert.ok(page.includes('signInWithPassword'));
-  assert.ok(page.includes('supabase.auth.signUp'));
-  assert.ok(page.includes('resetPasswordForEmail'));
-  assert.ok(page.includes('EMAIL_PATTERN'));
-  assert.ok(page.includes('Enter your email address.'));
-  assert.ok(page.includes('Enter your password.'));
-  assert.ok(page.includes('aria-invalid'));
-  assert.ok(page.includes('Supabase setup required.'));
-  assert.ok(!page.includes('demo.signIn'));
-});
-
-test('premium auth page consumes semantic theme tokens and supports reduced motion and mobile layouts', () => {
-  const css = read('../src/styles/auth.css');
-  for (const token of ['--bg-primary', '--surface-primary', '--text-primary', '--cyber-accent', '--cyber-secondary', '--input-bg', '--input-border', '--button-primary-bg', '--status-danger', '--status-success']) {
+test('Study Access Hub uses the existing theme system and responsive reduced-motion styling', () => {
+  const css = read('../src/pages/StudyAccessHub.css');
+  for (const token of ['--bg-primary', '--surface-primary', '--text-primary', '--text-secondary', '--border-color', '--cyber-accent', '--cyber-secondary']) {
     assert.ok(css.includes(token), 'Expected theme token ' + token);
   }
-  assert.ok(css.includes('@media (max-width: 820px)'));
-  assert.ok(css.includes('@media (max-width: 520px)'));
-  assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
-  assert.ok(css.includes('auth-orbit-scene'));
-  assert.ok(css.includes('backdrop-filter: blur'));
-});
-
-test('sign-in does not claim a remember-me option or persist credentials outside Supabase', () => {
-  const page = read('../src/pages/AuthPage.jsx');
-  assert.ok(!page.toLowerCase().includes('remember me'));
-  assert.ok(!page.includes('localStorage.setItem'));
+  assert.ok(css.includes('@media(max-width:900px)'));
+  assert.ok(css.includes('@media(max-width:640px)'));
+  assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));
 });

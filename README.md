@@ -93,11 +93,11 @@ The question catalogue and answer content are maintained separately from the mai
 - Responsive layouts for desktop, tablet and mobile screens.
 - Keyboard-friendly controls and semantic interface elements across supported experiences.
 
-## 🔐 Optional account authentication
+## 🌱 Free and open access
 
-CNR-IA-2 supports real email/password authentication through Supabase Auth. Sign in or create an account from the application header. Email verification and password reset are handled by Supabase. Configure `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (or `VITE_SUPABASE_PUBLISHABLE_KEY`) before building; without them, the app clearly reports that authentication setup is required and never offers a simulated login.
+CNR-IA-2 is designed for learning without barriers. No account, signup, password or registration is required to use the study resources. Open the Study Access Hub and jump directly into answers, modules, revision, practice, planning, CNR Notes and available question papers.
 
-Authentication is optional: study content remains public, and bookmarks, progress, reading settings and practice history remain local to the browser. Signing in does not enable cloud sync or upload existing study data. See [the authentication and integration setup guide](docs/CNR-NOTES-INTEGRATION.md#production-authentication-in-cnr-ia-2).
+Bookmarks, reading progress, appearance choices and supported study activity stay in this browser through local storage. No authentication service or application backend is needed for the core learning experience.
 
 ## 💾 Your progress, your browser
 
@@ -117,7 +117,6 @@ The application stores supported learning state locally in the browser using `lo
 | [Vite 5](https://vite.dev/) | Development server and production build |
 | [Tailwind CSS 3](https://tailwindcss.com/) | Utility-first styling |
 | [Lucide React](https://lucide.dev/) | Interface icons |
-| [Supabase JS](https://supabase.com/docs/reference/javascript/introduction) | Optional email/password authentication |
 | JavaScript (ES modules) | Application logic and learning interactions |
 | Browser APIs | Local persistence and progressive web app support |
 
