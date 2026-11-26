@@ -38,16 +38,26 @@ The standalone CNR Notes source contains a simulated browser-only login in `src/
 
 ### Required environment
 
+The connected Supabase project for this deployment is:
+
+- Project URL: `https://wqvygmovvutjkmfjhzke.supabase.co`
+- Project reference: `wqvygmovvutjkmfjhzke`
+- Client key: the project's publishable key supplied by the project owner (do not put it in source control).
+
 Create a local `.env.local` file (never commit it):
 
 ```dotenv
-VITE_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+VITE_SUPABASE_URL=https://wqvygmovvutjkmfjhzke.supabase.co
 VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY
 ```
 
 The app also accepts `VITE_SUPABASE_PUBLISHABLE_KEY` as the public-key variable. Use only the project's publishable/anon client key. Never use a service-role or secret key in a Vite variable because all `VITE_*` values are exposed to the browser.
 
-For local development, restart Vite after changing environment variables. For GitHub Pages, add the same two values as repository Actions variables/secrets and expose them to the build step in the deployment workflow. The browser client key is public by design; keep project security dependent on Supabase Auth settings and database RLS, not on hiding that key.
+For local development, restart Vite after changing environment variables. For GitHub Pages, configure the repository at **Settings → Secrets and variables → Actions**:
+- Add repository variable `VITE_SUPABASE_URL` with value `https://wqvygmovvutjkmfjhzke.supabase.co`.
+- Add repository secret `VITE_SUPABASE_ANON_KEY` with the project's `sb_publishable_...` key (the public publishable key is acceptable here; never use a service-role key).
+
+The existing `.github/workflows/deploy.yml` already passes these names to `npm run build`. A new deployment is required after adding/changing them because Vite embeds `VITE_*` values at build time. The browser client key is public by design; keep project security dependent on Supabase Auth settings and database RLS, not on hiding that key.
 
 ### Supabase dashboard configuration
 
