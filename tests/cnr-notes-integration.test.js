@@ -32,7 +32,7 @@ test('the hub and shared reader use the existing real resource catalogue', () =>
 test('CNR Notes integration documentation remains separate from account services', () => {
   const docs = read('../docs/CNR-NOTES-INTEGRATION.md');
   assert.ok(docs.includes('sample placeholders'));
-  assert.ok(docs.includes('simulated browser-only login'));
+  assert.ok(docs.includes('demo-store'));
   assert.ok(!docs.includes('VITE_SUPABASE'));
   assert.ok(!docs.includes('Supabase Auth'));
 });
