@@ -80,3 +80,12 @@ test('Resource Vault provides photographic navigation for all five modules', () 
   assert.match(styles, /rv-module-gallery-grid/);
   assert.match(styles, /@media\(max-width:600px\)/);
 });
+
+test('welcome hero uses CNR-specific student learning and conservation taglines', () => {
+  const source = read('src/pages/NexusWelcome.jsx');
+  assert.match(source, /YOUR <span className="text-brand">CNR LEARNING SPACE<\/span>/);
+  assert.match(source, /Everything you need to learn, prepare &amp; excel/);
+  assert.match(source, /A dedicated academic destination for BCV755B/);
+  assert.match(source, /Understand nature\. Prepare with purpose\. Conserve for tomorrow\./);
+  assert.match(source, /Learn today\. Conserve for tomorrow\./);
+});
