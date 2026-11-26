@@ -1,22 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { sanitizeRedirectPath, getRedirectPath, authErrorMessage } from '../src/lib/auth-routing.js';
+import { readFileSync } from 'node:fs';
 
-test('redirect targets accept safe in-app hash routes', () => {
-  assert.equal(sanitizeRedirectPath('/cnr-notes/module/3'), '/cnr-notes/module/3');
-  assert.equal(getRedirectPath('?redirect=%2Fdashboard'), '/dashboard');
+const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
+
+test('legacy account URLs lead to the open Study Access Hub instead of authentication screens', () => {
+  const app = read('../src/App.jsx');
+  assert.ok(app.includes('legacyAccessRoute'));
+  assert.ok(app.includes("['/auth', '/signup', '/reset-password', '/auth/callback']"));
+  assert.ok(app.includes("if (legacyAccessRoute) go('/')"));
+  assert.ok(app.includes('StudyAccessHub'));
+  assert.ok(!app.includes('AuthPage'));
+  assert.ok(!app.includes('AuthProvider'));
 });
 
-test('redirect targets reject external, protocol-relative and auth-loop destinations', () => {
-  assert.equal(sanitizeRedirectPath('https://example.com'), '/dashboard');
-  assert.equal(sanitizeRedirectPath('//example.com/path'), '/dashboard');
-  assert.equal(sanitizeRedirectPath('/auth'), '/dashboard');
-  assert.equal(sanitizeRedirectPath('/auth/callback'), '/dashboard');
-  assert.equal(sanitizeRedirectPath('/\\\\evil.example'), '/dashboard');
-});
-
-test('authentication errors are translated into actionable messages', () => {
-  assert.match(authErrorMessage({ message: 'Invalid login credentials' }), /incorrect/i);
-  assert.match(authErrorMessage({ message: 'Email not confirmed' }), /verify your email/i);
-  assert.match(authErrorMessage({ message: 'Too many requests' }), /wait/i);
+test('existing public learning routes remain directly addressable', () => {
+  const app = read('../src/App.jsx');
+  for (const route of ["path === '/dashboard'", "path === '/questions' || path === '/answers'", "path === '/planner'", "path === '/cnr-notes'"]) {
+    assert.ok(app.includes(route), 'Missing direct learning route: ' + route);
+  }
+  assert.ok(app.includes("path.match(/^\\/module\\/([345])$/)"));
 });
