@@ -40,7 +40,7 @@ function Section({ s, open, toggle }) {
 
 
 function StructuredSection({ s, number, open, toggle }) {
-  const title = s.title.replace(/^\\s*\\d+[.)]\\s*/, '');
+  const title = s.structuredTitle || s.title;
   return (
     <section id={s.id} className="scroll-mt-24 py-3">
       <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-soft">
