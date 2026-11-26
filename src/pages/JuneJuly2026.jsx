@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, Bookmark, CheckCircle2, ChevronDown, ChevronUp, FileText, ListFilter, Printer, Search, Type, X } from 'lucide-react';
 import { EXAM_ANSWERS, EXAM_META, EXAM_MODULES, EXAM_QUESTION_PAPER } from '../data/juneJuly2026';
 import './JuneJuly2026.css';
+import { AnswerPresentationSwitch, StructuredSectionCard } from '../components/AnswerPresentation';
 
 const BOOKMARK_KEY = 'cnr-june-july-2026-bookmarks-v1';
 const COMPLETE_KEY = 'cnr-june-july-2026-completed-v1';
@@ -42,6 +43,7 @@ function AcademicDiagram({ type }) {
 }
 
 function AnswerCard({ item, index, total, bookmarked, completed, expanded, printId, onBookmark, onComplete, onExpand, onPrint, onNavigate }) {
+  const [presentationMode, setPresentationMode] = useState('original');
   return <article id={item.id} className="jj-answer-card card" data-answer-id={item.id} style={printId && printId !== 'all' && printId !== item.id ? { display: 'none' } : undefined}>
     <div className="jj-answer-top">
       <div><div className="jj-question-kicker">{item.question} <span>·</span> Module {item.module}</div><h3>{item.title}</h3></div>
@@ -49,11 +51,21 @@ function AnswerCard({ item, index, total, bookmarked, completed, expanded, print
     </div>
     <p className="jj-answer-intro">{item.intro}</p>
     {item.diagram && <AcademicDiagram type={item.diagram}/>}
-    {expanded && <div className="jj-answer-body">
-      {item.sections.map((group) => <section key={group.heading} className="jj-answer-section"><h4>{group.heading}</h4><ol>{group.points.map((point, i) => <li key={i}>{point}</li>)}</ol></section>)}
-      <p className="jj-conclusion"><strong>Conclusion:</strong> {item.conclusion}</p>
-      <p className="jj-source"><strong>Source reference:</strong> {item.source}</p>
-    </div>}
+    {expanded && <>
+      <AnswerPresentationSwitch value={presentationMode} onChange={setPresentationMode} className="my-3" />
+      {presentationMode === 'original' ? <div className="jj-answer-body">
+        {item.sections.map((group) => <section key={group.heading} className="jj-answer-section"><h4>{group.heading}</h4><ol>{group.points.map((point, i) => <li key={i}>{point}</li>)}</ol></section>)}
+        <p className="jj-conclusion"><strong>Conclusion:</strong> {item.conclusion}</p>
+        <p className="jj-source"><strong>Source reference:</strong> {item.source}</p>
+      </div> : <div className="jj-answer-body space-y-3">
+        <StructuredSectionCard number="01" title="Introduction"><p>{item.intro}</p></StructuredSectionCard>
+        {item.sections.map((group, groupIndex) => <StructuredSectionCard key={group.heading} number={groupIndex + 2} title={group.heading}>
+          <ol className="list-decimal space-y-2 pl-5">{group.points.map((point, i) => <li key={i}>{point}</li>)}</ol>
+        </StructuredSectionCard>)}
+        <StructuredSectionCard number={item.sections.length + 2} title="Conclusion"><p>{item.conclusion}</p></StructuredSectionCard>
+        <StructuredSectionCard number={item.sections.length + 3} title="Source reference"><p>{item.source}</p></StructuredSectionCard>
+      </div>}
+    </>}
     <div className="jj-answer-actions">
       <button type="button" className={bookmarked ? 'jj-action is-active' : 'jj-action'} onClick={onBookmark} aria-pressed={bookmarked}><Bookmark size={16}/> {bookmarked ? 'Bookmarked' : 'Bookmark'}</button>
       <button type="button" className={completed ? 'jj-action is-active' : 'jj-action'} onClick={onComplete} aria-pressed={completed}><CheckCircle2 size={16}/> {completed ? 'Completed' : 'Mark complete'}</button>

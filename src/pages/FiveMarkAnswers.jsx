@@ -7,6 +7,7 @@ import { FIVE_MARK_ANSWERS } from '../data/fiveMarkAnswers';
 import { QUESTIONS } from '../data/questions';
 import { FIVE_MARK_PAPER_BANK } from '../data/fiveMarkPaperBank';
 import { Blocks } from '../components/Blocks';
+import { AnswerPresentationSwitch, StructuredSectionCard } from '../components/AnswerPresentation';
 import FiveMarkStructure from '../components/FiveMarkStructure';
 import FiveMarkHeading from '../components/FiveMarkHeading';
 import { useStudy } from '../lib/study';
@@ -84,11 +85,21 @@ const REVIEW_LABELS = {
   'not-started': 'Not started',
 };
 
-function AnswerSections({ item }) {
+function AnswerSections({ item, presentationMode }) {
   return (
     <div className="five-mark-answer mt-4 border-t border-line pt-2">
       <FiveMarkStructure item={item} />
-      {item.answer.map((section) => (
+      {item.answer.map((section, index) => presentationMode === 'structured' ? (
+        <StructuredSectionCard key={section.id} number={index + 1} title={section.title}>
+          <Blocks blocks={section.blocks || []} />
+          {(section.subsections || []).map((subsection) => (
+            <div key={subsection.title} className="mt-4 border-t border-line/60 pt-3">
+              <FiveMarkHeading level={5} className="five-mark-subsection-title mb-2">{subsection.title}</FiveMarkHeading>
+              <Blocks blocks={subsection.blocks || []} />
+            </div>
+          ))}
+        </StructuredSectionCard>
+      ) : (
         <section key={section.id} className="border-b border-line/70 py-3 last:border-0">
           <FiveMarkHeading level={4} className="five-mark-section-title mb-2">{section.title}</FiveMarkHeading>
           <Blocks blocks={section.blocks || []} />
@@ -137,6 +148,7 @@ function SourceDetails({ item }) {
 }
 
 function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, toggleBookmark, visit, notify }) {
+  const [presentationMode, setPresentationMode] = useState('original');
   const done = isDone(item.id);
   const marked = isMarked(item.id);
   const hasAnswer = item.answer.length > 0;
@@ -194,7 +206,7 @@ function QuestionCard({ item, expanded, onToggle, isDone, isMarked, toggleDone, 
       {expanded && (
         <div id={item.id + '-answer'} className="mt-4" aria-label={hasAnswer ? 'Five-mark answer' : 'Review status'}>
           {hasAnswer
-            ? <AnswerSections item={item} />
+            ? <><AnswerPresentationSwitch value={presentationMode} onChange={setPresentationMode} className="mb-3" /><AnswerSections item={item} presentationMode={presentationMode} /></>
             : <div className="rounded-xl border border-line bg-sunk p-4 text-sm text-mute">
                 No answer has been authored for this source question. The review note above records what must be checked or supplied before it can be answered accurately.
               </div>}

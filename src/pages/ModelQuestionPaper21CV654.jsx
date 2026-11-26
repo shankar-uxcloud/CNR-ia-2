@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, FileText, Printer, Search } from 'lucide-react';
 import { MODEL_21CV654 } from '../data/modelQuestionPaper21cv654';
+import { AnswerPresentationSwitch, StructuredSectionCard } from '../components/AnswerPresentation';
+import './AnswerPresentation.css';
 
 const MODULES = [1,2,3,4,5];
 
@@ -55,11 +57,12 @@ const STATUS_CLASS = {
 function formatAnswer(value) { return value.split(/(\\*\\*[^*]+\\*\\*)/g).map((part,i) => part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2,-2)}</strong> : part); }
 export default function ModelQuestionPaper21CV654() {
   const [moduleFilter,setModuleFilter]=useState('all');
+  const [presentationMode,setPresentationMode]=useState('original');
   const [query,setQuery]=useState('');
   const [open,setOpen]=useState({});
   const groups=useMemo(()=>MODEL_21CV654.filter(g=>moduleFilter==='all'||g.module===Number(moduleFilter)).map(g=>({...g,parts:g.parts.filter(p=>(p.code+' '+p.question+' '+p.answer).toLowerCase().includes(query.toLowerCase()))})).filter(g=>g.parts.length),[moduleFilter,query]);
   const total=MODEL_21CV654.reduce((n,g)=>n+g.parts.length,0);
-  return <main className="mx-auto max-w-6xl px-4 py-7 sm:px-8 sm:py-10">
+  return <main className="mx-auto max-w-6xl px-4 py-7 sm:px-8 sm:py-10" data-answer-presentation={presentationMode}>
     <div className="flex flex-wrap items-start justify-between gap-4">
       <div><p className="eyebrow">21CV654 · CONSERVATION OF NATURAL RESOURCES</p><h1 className="mt-2 text-3xl font-extrabold sm:text-4xl">Complete Model Paper Answers</h1><p className="mt-3 max-w-3xl leading-7 text-mute">All five modules · every sub-question · expanded study answers, based on the supplied BCV755B module notes.</p></div>
       <button onClick={()=>window.print()} className="inline-flex items-center gap-2 rounded-xl border border-line bg-panel px-4 py-2 text-sm font-semibold"><Printer size={16}/> Print answers</button>
@@ -79,6 +82,7 @@ export default function ModelQuestionPaper21CV654() {
       <div className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-mute"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search questions or answers..." className="w-full rounded-xl border border-line bg-sunk py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand"/></div>
       <div className="flex flex-wrap gap-2"><button onClick={()=>setModuleFilter('all')} className={'rounded-xl px-3 py-2 text-sm '+(moduleFilter==='all'?'bg-brand text-white':'bg-sunk')}>All modules</button>{MODULES.map(m=><button key={m} onClick={()=>setModuleFilter(String(m))} className={'rounded-xl px-3 py-2 text-sm '+(moduleFilter===String(m)?'bg-brand text-white':'bg-sunk')}>M{m}</button>)}</div>
     </div>
+    <AnswerPresentationSwitch value={presentationMode} onChange={setPresentationMode} className="mt-4" />
     <div className="mt-7 space-y-7">
       {groups.map(g=><section key={g.module+'-'+g.number}>
         <div className="mb-3 flex items-center justify-between"><div><p className="eyebrow">MODULE {g.module}</p><h2 className="text-xl font-bold">Question {g.number} {g.number%2===0?'(OR option)':''}</h2></div><span className="text-xs text-mute">{g.parts.length} answers</span></div>
@@ -89,7 +93,14 @@ export default function ModelQuestionPaper21CV654() {
             {expanded?<ChevronUp size={18}/>:<ChevronDown size={18}/>}
           </button>
           {expanded&&<div className="border-t border-line px-4 py-5 sm:px-6">
-            <div className="answer-prose whitespace-pre-line text-[15px] leading-8">{formatAnswer(p.answer)}</div>
+            {presentationMode === 'original' ? <div className="answer-prose whitespace-pre-line text-[15px] leading-8">{formatAnswer(p.answer)}</div> : <div className="space-y-3">
+              {p.answer.split(/\n{2,}/).map((paragraph, paragraphIndex) => {
+                const heading = paragraph.match(/^\*\*([^*]+)\*\*/);
+                return <StructuredSectionCard key={paragraphIndex} number={paragraphIndex + 1} title={heading?.[1] || 'Answer section ' + (paragraphIndex + 1)}>
+                  <p className="answer-prose whitespace-pre-line text-[15px] leading-8">{formatAnswer(paragraph)}</p>
+                </StructuredSectionCard>;
+              })}
+            </div>}
             <div className={'mt-5 rounded-xl border p-3 text-xs leading-5 '+STATUS_CLASS[status]}><strong>{STATUS_LABEL[status]}:</strong> {note}</div>
             <div className="mt-3 rounded-xl bg-sunk p-3 text-xs leading-5 text-mute"><BookOpen size={14} className="mr-1 inline"/> Reference: BCV755B Full Notes.pdf · {p.pages}. Page numbers refer to PDF page order (1–57), not a printed textbook page number.</div>
           </div>}

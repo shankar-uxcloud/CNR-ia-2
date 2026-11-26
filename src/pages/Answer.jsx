@@ -10,6 +10,7 @@ import { answerToText, diagramsOf, readMinutes } from '../lib/content';
 import { useStudy, FONT_SIZES, WIDTHS } from '../lib/study';
 import { iconFor } from '../lib/icons';
 import { Blocks } from '../components/Blocks';
+import { createStructuredSections } from '../lib/answerPresentation';
 import ModulePhoto from '../components/ModulePhoto';
 import { IconBtn, ModuleBadge, StatusChip, Empty, modColor } from '../components/ui';
 
@@ -37,6 +38,39 @@ function Section({ s, open, toggle }) {
   );
 }
 
+
+function StructuredSection({ s, number, open, toggle }) {
+  const title = s.structuredTitle || s.title;
+  return (
+    <section id={s.id} className="scroll-mt-24 py-3">
+      <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-soft">
+        <h2 className="m-0">
+          <button type="button" onClick={toggle} aria-expanded={open} aria-controls={`${s.id}-body`}
+            className="group flex w-full items-center gap-4 px-4 py-4 text-left transition hover:bg-sunk sm:px-5">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand/12 text-sm font-bold tabular-nums text-brand">{number}</span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[10px] font-semibold uppercase tracking-[.16em] text-mute">Section {number}</span>
+              <span className="mt-0.5 block text-base font-semibold tracking-tight text-ink">{title}</span>
+            </span>
+            <ChevronDown size={18} className={`shrink-0 text-mute transition ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+          </button>
+        </h2>
+        <div id={`${s.id}-body`} hidden={!open} className="border-t border-line/70 px-4 py-4 sm:px-6 sm:py-5">
+          <div className="structured-answer-content">
+            <Blocks blocks={s.blocks || []} />
+            {(s.subsections || []).map((sub) => (
+              <div key={sub.title} className="mt-6 border-l-2 border-brand/30 pl-4">
+                <h3 className="mb-2 text-sm font-semibold text-ink">{sub.title}</h3>
+                <Blocks blocks={sub.blocks || []} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Toc({ items, active, onPick, className = '' }) {
   return (
     <nav aria-label="Table of contents" className={className}>
@@ -57,6 +91,7 @@ export default function Answer({ id }) {
   const st = useStudy();
   const { isDone, isMarked, toggleDone, toggleBookmark, visit, notify, focus, setFocus, settings, setSetting, examChecks = {}, toggleExamCheck, readingChecks = {}, toggleReading } = st;
   const [answerMode, setAnswerMode] = useState('ten');
+  const [presentationMode, setPresentationMode] = useState('original');
   const twoMarkSections = TWO_MARK_ANSWERS[id] || [];
   const fiveMarkSections = FIVE_MARK_ANSWERS[id] || [];
   const sections = answerMode === 'two' && twoMarkSections.length
@@ -64,6 +99,7 @@ export default function Answer({ id }) {
     : answerMode === 'five' && fiveMarkSections.length
       ? fiveMarkSections
       : (q?.answer.sections || []);
+  const structuredSections = useMemo(() => createStructuredSections(sections), [sections]);
   const markLabel = answerMode === 'two' ? '2' : answerMode === 'five' ? '5' : '10';
   const displayedQuestion = answerMode === 'two' ? TWO_MARK_QUESTIONS[id] : q?.question;
   const [open, setOpen] = useState(() => Object.fromEntries(sections.map((s) => [s.id, true])));
@@ -172,6 +208,20 @@ export default function Answer({ id }) {
               <button type="button" onClick={() => setAnswerMode('ten')} aria-pressed={answerMode === 'ten'} className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${answerMode === 'ten' ? 'bg-panel text-brand shadow-soft' : 'text-mute hover:text-ink'}`}>10-mark answer</button>
             </div>
 
+            {/* Answer presentation: keeps the source content intact and changes only its reading layout. */}
+            <div className="no-print mt-3 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-sunk p-3 sm:p-4">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-ink">Answer presentation</p>
+                <p className="mt-0.5 text-xs text-mute">Switch the layout without changing the original answer text.</p>
+              </div>
+              <div className="inline-flex rounded-xl border border-line bg-panel p-1" role="group" aria-label="Choose answer presentation">
+                <button type="button" onClick={() => setPresentationMode('original')} aria-pressed={presentationMode === 'original'}
+                  className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${presentationMode === 'original' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>Original</button>
+                <button type="button" onClick={() => setPresentationMode('structured')} aria-pressed={presentationMode === 'structured'}
+                  className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${presentationMode === 'structured' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>Structured</button>
+              </div>
+            </div>
+
             {/* Actions */}
             <div className="no-print mt-3 flex flex-wrap items-center gap-2">
               <button onClick={complete} aria-pressed={done} className={done ? 'btn border border-brand/50 bg-brand/12 text-brand' : 'btn-primary'}>
@@ -250,7 +300,9 @@ export default function Answer({ id }) {
 
           {showAnswer && (
             <div className="reading mt-8">
-              {sections.map((s) => <Section key={s.id} s={s} open={!!open[s.id]} toggle={() => setOpen((o) => ({ ...o, [s.id]: !o[s.id] }))} />)}
+              {presentationMode === 'original'
+                ? sections.map((s) => <Section key={s.id} s={s} open={!!open[s.id]} toggle={() => setOpen((o) => ({ ...o, [s.id]: !o[s.id] }))} />)
+                : structuredSections.map((s) => <StructuredSection key={s.id} s={s} number={s.structuredNumber} open={!!open[s.id]} toggle={() => setOpen((o) => ({ ...o, [s.id]: !o[s.id] }))} />)}
 
               <aside className="avoid-break mt-10 break-words rounded-2xl border border-line bg-sunk p-5 font-sans text-sm leading-relaxed [overflow-wrap:anywhere]">
                 <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold"><FileText size={15} />Source and references</h2>
