@@ -92,7 +92,7 @@ export default function Landing() {
             <button onClick={() => { scrollToSection('journey'); setMenuOpen(false); }}>How it works</button>
             <a className="cnr-mobile-cta" href="#/resources" onClick={() => setMenuOpen(false)}>Explore platform <ArrowUpRight size={16}/></a>
           </nav>
-          <div className="cnr-nav-actions"><ThemeBtn /><a href="#/resources" className="cnr-nav-cta">Explore platform <ArrowUpRight size={15}/></a><button className="cnr-menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(v => !v)}>{menuOpen ? <X/> : <Menu/>}</button></div>
+          <div className="cnr-nav-actions"><ThemeBtn /><a href="#/auth" className="cnr-nav-cta">Sign in</a><a href="#/resources" className="cnr-nav-cta">Explore platform <ArrowUpRight size={15}/></a><button className="cnr-menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(v => !v)}>{menuOpen ? <X/> : <Menu/>}</button></div>
         </div>
       </header>
 
