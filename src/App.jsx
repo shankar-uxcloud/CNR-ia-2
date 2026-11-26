@@ -75,7 +75,9 @@ function Router({ path }) {
 }
 function Inner() {
   const path = useRoute();
+  const isAuthRoute = path === '/auth' || path === '/signup' || path === '/reset-password' || path === '/auth/callback';
   if (path === '/') return <><Landing /><Toasts /></>;
+  if (isAuthRoute) return <Suspense fallback={<Skeleton />}><Router path={path} /></Suspense>;
   return <Shell path={path}><Suspense fallback={<Skeleton />}><Router path={path} /></Suspense></Shell>;
 }
 export default function App() {
