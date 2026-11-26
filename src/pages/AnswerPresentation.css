@@ -1,17 +1,17 @@
 /* Structured answer presentation: layout-only enhancements; source answer text is untouched. */
-.answer-presentation-structured .question-answer-anchor > .card,
-.answer-presentation-structured .question-answer-anchor .reading > .card {
+[data-answer-presentation="structured"] .question-answer-anchor > .card,
+[data-answer-presentation="structured"] .question-answer-anchor .reading > .card {
   border-radius: 1rem;
   border-left: 3px solid rgb(var(--c-brand) / .38);
   box-shadow: 0 8px 24px rgb(0 0 0 / .045);
 }
-.answer-presentation-structured .question-answer-anchor .study-points > li {
+[data-answer-presentation="structured"] .question-answer-anchor .study-points > li {
   border-radius: .75rem;
   padding: .65rem .8rem;
   background: rgb(var(--c-brand) / .045);
 }
-.answer-presentation-structured .question-answer-anchor .study-points > li h3,
-.answer-presentation-structured .question-answer-anchor .study-points > li h4 {
+[data-answer-presentation="structured"] .question-answer-anchor .study-points > li h3,
+[data-answer-presentation="structured"] .question-answer-anchor .study-points > li h4 {
   color: var(--text-primary, inherit);
 }
 [data-answer-presentation="structured"] .answer-prose {
@@ -22,7 +22,7 @@
   margin-top: .75rem;
 }
 @media (max-width: 640px) {
-  .answer-presentation-structured .question-answer-anchor .study-points > li {
+  [data-answer-presentation="structured"] .question-answer-anchor .study-points > li {
     padding: .55rem .65rem;
   }
 }
