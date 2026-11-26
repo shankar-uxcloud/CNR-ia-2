@@ -34,7 +34,7 @@ test('premium auth page consumes semantic theme tokens and supports reduced moti
   }
   assert.ok(css.includes('@media (max-width: 820px)'));
   assert.ok(css.includes('@media (max-width: 520px)'));
-  assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
+  assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));
   assert.ok(css.includes('auth-orbit-scene'));
   assert.ok(css.includes('backdrop-filter: blur'));
 });

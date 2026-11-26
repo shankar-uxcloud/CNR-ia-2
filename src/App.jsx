@@ -1,11 +1,10 @@
-import { Suspense, lazy } from 'react';
-import { useRoute } from './lib/router';
+import { Suspense, lazy, useEffect } from 'react';
+import { go, useRoute } from './lib/router';
 import { StudyProvider } from './lib/study';
-import { AuthProvider } from './lib/AuthProvider';
 import Shell, { Toasts } from './components/Shell';
 import { Skeleton, Empty } from './components/ui';
 import { FileQuestion } from 'lucide-react';
-import Landing from './pages/Landing';
+import StudyAccessHub from './pages/StudyAccessHub';
 import Dashboard from './pages/Dashboard';
 import Library from './pages/Library';
 import PWAStatus from './components/PWAStatus';
@@ -35,10 +34,8 @@ const ModelPapers = lazy(() => import('./pages/ModelPapers'));
 const ModelQuestionPaper21CV654 = lazy(() => import('./pages/ModelQuestionPaper21CV654'));
 const DecJan2026 = lazy(() => import('./pages/DecJan2026'));
 const JuneJuly2026 = lazy(() => import('./pages/JuneJuly2026'));
-const AuthPage = lazy(() => import('./pages/AuthPage'));
 
 function Router({ path }) {
-  if (path === '/auth' || path === '/signup' || path === '/reset-password' || path === '/auth/callback') return <AuthPage path={path} />;
   if (path === '/welcome') return <NexusWelcome revisit />;
   if (path === '/learning-hub') return <LearningHub />;
   if (path === '/cnr-notes/all') return <ResourceVault initialCategory="notes" />;
@@ -75,11 +72,13 @@ function Router({ path }) {
 }
 function Inner() {
   const path = useRoute();
-  const isAuthRoute = path === '/auth' || path === '/signup' || path === '/reset-password' || path === '/auth/callback';
-  if (path === '/') return <><Landing /><Toasts /></>;
-  if (isAuthRoute) return <Suspense fallback={<Skeleton />}><Router path={path} /></Suspense>;
+  const legacyAccessRoute = ['/auth', '/signup', '/reset-password', '/auth/callback'].includes(path);
+  useEffect(() => {
+    if (legacyAccessRoute) go('/');
+  }, [legacyAccessRoute]);
+  if (path === '/' || legacyAccessRoute) return <><StudyAccessHub /><Toasts /></>;
   return <Shell path={path}><Suspense fallback={<Skeleton />}><Router path={path} /></Suspense></Shell>;
 }
 export default function App() {
-  return <StartupExperience><StudyProvider><AuthProvider><><Inner /><PWAStatus /><ConnectivityToast /></></AuthProvider></StudyProvider></StartupExperience>;
+  return <StartupExperience><StudyProvider><><Inner /><PWAStatus /><ConnectivityToast /></></StudyProvider></StartupExperience>;
 }
