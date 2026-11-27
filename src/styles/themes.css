@@ -366,7 +366,7 @@ body {
   to { background-position: 173px 191px, -227px 211px, 191px -223px, -241px 197px; }
 }
 #root { position: relative; z-index: 1; min-height: 100vh; }
-:root[data-visual-theme='neon'] body { background-color: var(--neon-bg); }
+:root[data-visual-theme='neon'] body { background-color: var(--bg-primary); }
 
 
 /* Complete palette contract: keep legacy aliases, feedback and SVG focus accents in sync. */
@@ -397,4 +397,79 @@ body {
   --status-info: #5eead4; --status-info-bg: #103a32;
   --glow-cyan: 0 0 12px rgb(74 222 128 / .2), 0 0 28px rgb(74 222 128 / .1);
   --glow-purple: 0 0 12px rgb(45 212 191 / .18), 0 0 28px rgb(45 212 191 / .09);
+}
+
+
+/* Unified two-axis theme contract.
+   Appearance owns the surface/contrast system; the selected palette supplies accents.
+   Keep legacy aliases mapped to semantic values so older components cannot force a
+   dark canvas when the user selects a light appearance. */
+:root {
+  --accent-primary: var(--cyber-accent);
+  --accent-secondary: var(--cyber-secondary);
+  --accent-tertiary: var(--cyber-tertiary);
+  --accent-soft: color-mix(in srgb, var(--cyber-accent) 12%, transparent);
+  --accent-glow: 0 0 18px color-mix(in srgb, var(--cyber-accent) 18%, transparent);
+  --border-primary: var(--border-color);
+  --success: var(--status-success);
+  --warning: var(--status-warning);
+  --danger: var(--status-danger);
+  --neon-bg: var(--bg-primary);
+  --neon-bg-raised: var(--bg-secondary);
+  --neon-surface: var(--surface-primary);
+  --neon-surface-raised: var(--surface-elevated);
+  --neon-text: var(--text-primary);
+  --neon-muted: var(--text-muted);
+}
+:root[data-theme='light'],
+:root[data-theme='dark'] {
+  --accent-primary: var(--cyber-accent);
+  --accent-secondary: var(--cyber-secondary);
+  --accent-tertiary: var(--cyber-tertiary);
+  --accent-soft: color-mix(in srgb, var(--cyber-accent) 12%, transparent);
+  --accent-glow: 0 0 18px color-mix(in srgb, var(--cyber-accent) 18%, transparent);
+  --border-primary: var(--border-color);
+  --focus-ring: color-mix(in srgb, var(--cyber-accent) 22%, transparent);
+  --neon-bg: var(--bg-primary);
+  --neon-bg-raised: var(--bg-secondary);
+  --neon-surface: var(--surface-primary);
+  --neon-surface-raised: var(--surface-elevated);
+  --neon-text: var(--text-primary);
+  --neon-muted: var(--text-muted);
+}
+
+/* Glass is a material treatment layered over the active appearance + accent palette. */
+:root[data-ui-mode='glass'] {
+  --glass-line: color-mix(in srgb, var(--cyber-accent) 25%, var(--border-color));
+  --glass-line-hot: color-mix(in srgb, var(--cyber-accent) 48%, var(--border-active));
+  --glass-ambient-a: color-mix(in srgb, var(--cyber-accent) 12%, transparent);
+  --glass-ambient-b: color-mix(in srgb, var(--cyber-secondary) 10%, transparent);
+  --glass-tint: color-mix(in srgb, var(--surface-primary) 76%, transparent);
+  --glass-tint-strong: color-mix(in srgb, var(--surface-elevated) 86%, transparent);
+  --glass-tint-soft: color-mix(in srgb, var(--surface-secondary) 60%, transparent);
+}
+:root[data-theme='light'][data-ui-mode='glass'] {
+  --glass-reflection: rgb(255 255 255 / .72);
+  --glass-depth-shadow: 0 18px 48px rgb(35 70 95 / .10), 0 3px 12px rgb(35 70 95 / .05), inset 0 1px 0 rgb(255 255 255 / .82);
+  --glass-float-shadow: 0 24px 64px rgb(35 70 95 / .13), 0 6px 18px rgb(35 70 95 / .06), inset 0 1px 0 rgb(255 255 255 / .9);
+}
+:root[data-theme='dark'][data-ui-mode='glass'] {
+  --glass-reflection: rgb(255 255 255 / .12);
+  --glass-depth-shadow: 0 24px 70px rgb(0 0 0 / .34), 0 5px 18px rgb(0 0 0 / .2), inset 0 1px 0 rgb(255 255 255 / .12);
+  --glass-float-shadow: 0 34px 90px rgb(0 0 0 / .42), 0 8px 24px rgb(0 0 0 / .22), inset 0 1px 0 rgb(255 255 255 / .16);
+}
+
+/* Colour-only transitions avoid geometry changes and are disabled for reduced motion. */
+:where(body, #root, .card, aside, header.topbar, button, input, select, textarea,
+  [role='dialog'], .diagram-frame, .chip, .btn-primary, .btn-ghost) {
+  transition-property: background-color, background, color, border-color, box-shadow, fill, stroke;
+  transition-duration: var(--transition-normal, 280ms);
+  transition-timing-function: ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(body, #root, .card, aside, header.topbar, button, input, select, textarea,
+    [role='dialog'], .diagram-frame, .chip, .btn-primary, .btn-ghost) {
+    transition-duration: 0ms;
+    scroll-behavior: auto;
+  }
 }
