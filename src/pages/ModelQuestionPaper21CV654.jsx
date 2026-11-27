@@ -57,12 +57,14 @@ const STATUS_CLASS = {
 function formatAnswer(value) { return value.split(/(\\*\\*[^*]+\\*\\*)/g).map((part,i) => part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2,-2)}</strong> : part); }
 export default function ModelQuestionPaper21CV654() {
   const [moduleFilter,setModuleFilter]=useState('all');
-  const [presentationMode,setPresentationMode]=useState('original');
+  const [presentationModes,setPresentationModes]=useState({});
+  const presentationFor=(id)=>presentationModes[id]||'original';
+  const setPresentationFor=(id,mode)=>setPresentationModes((current)=>({...current,[id]:mode}));
   const [query,setQuery]=useState('');
   const [open,setOpen]=useState({});
   const groups=useMemo(()=>MODEL_21CV654.filter(g=>moduleFilter==='all'||g.module===Number(moduleFilter)).map(g=>({...g,parts:g.parts.filter(p=>(p.code+' '+p.question+' '+p.answer).toLowerCase().includes(query.toLowerCase()))})).filter(g=>g.parts.length),[moduleFilter,query]);
   const total=MODEL_21CV654.reduce((n,g)=>n+g.parts.length,0);
-  return <main className="mx-auto max-w-6xl px-4 py-7 sm:px-8 sm:py-10" data-answer-presentation={presentationMode}>
+  return <main className="mx-auto max-w-6xl px-4 py-7 sm:px-8 sm:py-10">
     <div className="flex flex-wrap items-start justify-between gap-4">
       <div><p className="eyebrow">21CV654 · CONSERVATION OF NATURAL RESOURCES</p><h1 className="mt-2 text-3xl font-extrabold sm:text-4xl">Complete Model Paper Answers</h1><p className="mt-3 max-w-3xl leading-7 text-mute">All five modules · every sub-question · expanded study answers, based on the supplied BCV755B module notes.</p></div>
       <button onClick={()=>window.print()} className="inline-flex items-center gap-2 rounded-xl border border-line bg-panel px-4 py-2 text-sm font-semibold"><Printer size={16}/> Print answers</button>
@@ -82,18 +84,18 @@ export default function ModelQuestionPaper21CV654() {
       <div className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-mute"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search questions or answers..." className="w-full rounded-xl border border-line bg-sunk py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand"/></div>
       <div className="flex flex-wrap gap-2"><button onClick={()=>setModuleFilter('all')} className={'rounded-xl px-3 py-2 text-sm '+(moduleFilter==='all'?'bg-brand text-white':'bg-sunk')}>All modules</button>{MODULES.map(m=><button key={m} onClick={()=>setModuleFilter(String(m))} className={'rounded-xl px-3 py-2 text-sm '+(moduleFilter===String(m)?'bg-brand text-white':'bg-sunk')}>M{m}</button>)}</div>
     </div>
-    <AnswerPresentationSwitch value={presentationMode} onChange={setPresentationMode} className="mt-4" />
     <div className="mt-7 space-y-7">
       {groups.map(g=><section key={g.module+'-'+g.number}>
         <div className="mb-3 flex items-center justify-between"><div><p className="eyebrow">MODULE {g.module}</p><h2 className="text-xl font-bold">Question {g.number} {g.number%2===0?'(OR option)':''}</h2></div><span className="text-xs text-mute">{g.parts.length} answers</span></div>
-        <div className="space-y-3">{g.parts.map(p=>{const id=g.number+'-'+p.code;const expanded=open[id]!==false;const [status,note]=SOURCE_COVERAGE[p.code]||['partial','Source mapping has not yet been completed for this item.'];return <article key={id} className="overflow-hidden rounded-2xl border border-line bg-panel">
+        <div className="space-y-3">{g.parts.map(p=>{const id=g.number+'-'+p.code;const expanded=open[id]!==false;const [status,note]=SOURCE_COVERAGE[p.code]||['partial','Source mapping has not yet been completed for this item.'];return <article key={id} data-answer-presentation={presentationFor(id)} className="overflow-hidden rounded-2xl border border-line bg-panel">
           <button onClick={()=>setOpen(v=>({...v,[id]:!expanded}))} aria-expanded={expanded} className="flex w-full items-start gap-3 p-4 text-left sm:p-5">
             <span className="grid h-10 min-w-10 place-items-center rounded-xl bg-brand/10 text-sm font-extrabold text-brand">{p.code}</span>
             <span className="min-w-0 flex-1"><span className="block text-xs font-semibold text-mute">{p.marks} MARKS IN ORIGINAL PAPER · EXPANDED STUDY ANSWER</span><span className="mt-1 block font-semibold leading-6">{p.question}</span><span className="mt-2 flex flex-wrap items-center gap-2 text-xs text-mute"><span className="inline-flex items-center gap-1"><FileText size={13}/> {p.pages}</span><span className={'rounded-full border px-2 py-1 font-semibold '+STATUS_CLASS[status]}>{STATUS_LABEL[status]}</span></span></span>
             {expanded?<ChevronUp size={18}/>:<ChevronDown size={18}/>}
           </button>
           {expanded&&<div className="border-t border-line px-4 py-5 sm:px-6">
-            {presentationMode === 'original' ? <div className="answer-prose whitespace-pre-line text-[15px] leading-8">{formatAnswer(p.answer)}</div> : <div className="space-y-3">
+            <AnswerPresentationSwitch value={presentationFor(id)} onChange={(mode)=>setPresentationFor(id,mode)} className="mb-4" />
+            {presentationFor(id) === 'original' ? <div className="answer-prose whitespace-pre-line text-[15px] leading-8">{formatAnswer(p.answer)}</div> : <div className="space-y-3">
               {p.answer.split(/\n{2,}/).map((paragraph, paragraphIndex) => {
                 const heading = paragraph.match(/^\*\*([^*]+)\*\*/);
                 return <StructuredSectionCard key={paragraphIndex} number={paragraphIndex + 1} title={heading?.[1] || 'Answer section ' + (paragraphIndex + 1)}>
