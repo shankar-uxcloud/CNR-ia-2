@@ -78,7 +78,16 @@ test('Resource Vault provides photographic navigation for all five modules', () 
   assert.match(vault, /ModulePhotography moduleNumber=\{module\.number\} variant="tile"/);
   assert.match(vault, /setModuleFilter\(String\(module\.number\)\)/);
   assert.match(styles, /rv-module-gallery-grid/);
-  assert.match(styles, /@media\(max-width:600px\)/);
+  assert.match(styles, /@media \(max-width: 600px\)/);
+  const shared = read('src/styles/module-photos.css');
+  const appStyles = read('src/main.jsx');
+  assert.match(appStyles, /styles\/module-photos\.css/);
+  assert.match(shared, /\.cnr-module-photo \{/);
+  assert.match(shared, /\.cnr-module-photo img \{/);
+  assert.match(shared, /position: absolute/);
+  assert.match(shared, /\.cnr-module-photo figcaption \{/);
+  assert.match(shared, /text-overflow: ellipsis/);
+  assert.match(shared, /prefers-reduced-motion/);
 });
 
 test('welcome hero uses CNR-specific student learning and conservation taglines', () => {
