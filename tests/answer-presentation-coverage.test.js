@@ -53,7 +53,8 @@ test('all 30 supplementary model-paper subanswers own independent presentation m
   assert.match(page, /data-answer-presentation=\{presentationFor\(id\)\}/);
   assert.match(page, /<AnswerPresentationSwitch value=\{presentationFor\(id\)\}/);
   assert.match(page, /presentationFor\(id\) === 'original'/);
-  assert.match(page, /presentationFor\(id\) === 'structured'/);
+  assert.match(page, /: <div className="space-y-3">/);
+  assert.match(page, /<StructuredSectionCard key=\{paragraphIndex\}/);
 });
 
 test('structured mode preserves source content and uses responsive per-answer styling', () => {
