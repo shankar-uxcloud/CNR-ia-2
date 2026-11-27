@@ -168,6 +168,7 @@ const NAV_GROUPS = [
   { id: 'exam', title: 'Exam Preparation', icon: ClipboardCheck, defaultOpen: true, items: [
     { to: '/practice', label: 'Practice Centre', icon: ClipboardCheck },
     { to: '/five-mark-answers', label: '5-Mark Answers', icon: BookOpenText, count: FIVE_MARK_TOTAL_COUNT },
+    { to: '/visual-structural-answers', label: 'Visual Structural Answers', icon: Network },
     { to: '/quiz', label: 'Quiz Centre', icon: Brain },
     { to: '/exam', label: 'VTU Exam Simulator', icon: FileText },
     { to: '/answers', label: 'Answers', icon: BookOpenText },
