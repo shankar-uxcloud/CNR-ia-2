@@ -58,7 +58,7 @@ test('cinematic intro combines timed presentation progress with independent real
 test('all five syllabus modules have distinct real-photo hero and card imagery', () => {
   const photos = read('src/components/ModulePhotography.jsx');
   const page = read('src/pages/NexusWelcome.jsx');
-  const styles = read('src/pages/NexusWelcome.css');
+  const styles = read('src/styles/module-photos.css');
   for (const moduleNumber of [1, 2, 3, 4, 5]) {
     assert.match(photos, new RegExp('^\\s*' + moduleNumber + ': \\{', 'm'), 'missing photo for module ' + moduleNumber);
   }
@@ -67,8 +67,8 @@ test('all five syllabus modules have distinct real-photo hero and card imagery',
   assert.match(page, /<ModulePhotography moduleNumber=\{module\.number\} variant="tile" \/>/);
   assert.match(page, /<ModulePhotography moduleNumber=\{activeModule\.number\} variant="hero" \/>/);
   assert.match(styles, /cnr-module-detail-visual-grid/);
-  assert.match(styles, /@media\(max-width:760px\)/);
-  assert.match(styles, /prefers-reduced-motion:reduce/);
+  assert.match(styles, /@media \(max-width: 760px\)/);
+  assert.match(styles, /prefers-reduced-motion: reduce/);
 });
 
 test('Resource Vault provides photographic navigation for all five modules', () => {
