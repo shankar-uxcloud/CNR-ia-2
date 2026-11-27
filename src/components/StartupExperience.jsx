@@ -1,6 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Activity, BookOpen, Database, Layers3, Leaf, ShieldCheck, SkipForward } from 'lucide-react';
+import { Component, useCallback, useEffect, useRef, useState } from 'react';
+import { Activity, BookOpen, Database, Layers3, Leaf, ShieldCheck } from 'lucide-react';
 import './CinematicIntro.css';
+
+export const STARTUP_MIN_DURATION_MS = 9500;
+export const STARTUP_TICK_MS = 95;
+const COMPLETION_HOLD_MS = 400;
+const EXIT_TRANSITION_MS = 480;
 
 const SYSTEM_MODULES = [
   { label: 'Academic resources', Icon: BookOpen },
@@ -8,6 +13,43 @@ const SYSTEM_MODULES = [
   { label: 'Answer systems', Icon: Layers3 },
   { label: 'Study environment', Icon: ShieldCheck },
 ];
+
+export function getStartupStatus(progress) {
+  if (progress >= 100) return 'System Ready – Welcome to CNR-IA-2';
+  if (progress >= 89) return 'Finalizing Learning Environment';
+  if (progress >= 76) return 'Initializing Study Tools';
+  if (progress >= 61) return 'Preparing Structural Diagrams';
+  if (progress >= 46) return 'Synchronizing Answer Database';
+  if (progress >= 31) return 'Preparing VTU Question Papers';
+  if (progress >= 16) return 'Loading Academic Resources';
+  return 'Initializing ExamPrep Environment';
+}
+
+class StartupErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { failed: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error) {
+    this.props.onError(error);
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
+
+function StartupReadinessSignal({ onReady }) {
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
+  return null;
+}
 
 function KnowledgePlanet() {
   return (
@@ -63,11 +105,17 @@ function KnowledgePlanet() {
 export default function StartupExperience({ children }) {
   const [visible, setVisible] = useState(true);
   const [appReady, setAppReady] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const [leaving, setLeaving] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(1);
+  const [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
   );
+  const appReadyRef = useRef(false);
+  const errorRef = useRef(false);
+  const progressRef = useRef(1);
 
   useEffect(() => {
     const media = window.matchMedia?.('(prefers-reduced-motion: reduce)');
@@ -77,38 +125,105 @@ export default function StartupExperience({ children }) {
     return () => media.removeEventListener?.('change', update);
   }, []);
 
-  // The application tree is rendered underneath this overlay. This effect runs
-  // only after React has committed the children, so 100% means the workspace mounted.
   useEffect(() => {
-    setAppReady(true);
-    setProgress(100);
-  }, []);
+    appReadyRef.current = appReady;
+  }, [appReady]);
 
-  // A short completion crossfade lets the real ready state be perceived without
-  // substituting a timer for initialization or holding a ready app for seconds.
   useEffect(() => {
-    if (!appReady || !visible) return undefined;
-    const timer = window.setTimeout(() => setLeaving(true), reducedMotion ? 0 : 560);
+    errorRef.current = error;
+  }, [error]);
+
+  // One interval advances exactly one integer per tick. It deliberately stops at
+  // 99 until both the real React subtree commit and the 9.5s presentation minimum
+  // have completed. A delayed browser tick can slow the sequence, never skip it.
+  useEffect(() => {
+    const startedAt = performance.now();
+    const timer = window.setInterval(() => {
+      if (errorRef.current) return;
+      const current = progressRef.current;
+      if (current < 99) {
+        const next = current + 1;
+        progressRef.current = next;
+        setProgress(next);
+        return;
+      }
+      if (appReadyRef.current && performance.now() - startedAt >= STARTUP_MIN_DURATION_MS) {
+        progressRef.current = 100;
+        setProgress(100);
+        setCompleted(true);
+        window.clearInterval(timer);
+      }
+    }, STARTUP_TICK_MS);
+
+    return () => window.clearInterval(timer);
+  }, [attempt]);
+
+  useEffect(() => {
+    if (!completed || !visible) return undefined;
+    const timer = window.setTimeout(() => setLeaving(true), COMPLETION_HOLD_MS);
     return () => window.clearTimeout(timer);
-  }, [appReady, visible, reducedMotion]);
+  }, [completed, visible]);
 
   useEffect(() => {
     if (!leaving) return undefined;
-    const timer = window.setTimeout(() => setVisible(false), reducedMotion ? 0 : 480);
+    const timer = window.setTimeout(() => setVisible(false), reducedMotion ? 0 : EXIT_TRANSITION_MS);
     return () => window.clearTimeout(timer);
   }, [leaving, reducedMotion]);
 
-  const skip = () => setLeaving(true);
+  const markAppReady = useCallback(() => {
+    if (!errorRef.current) setAppReady(true);
+  }, []);
+
+  const handleInitializationError = useCallback(() => {
+    errorRef.current = true;
+    appReadyRef.current = false;
+    setError(true);
+    setAppReady(false);
+    setCompleted(false);
+    setVisible(true);
+    setLeaving(false);
+    const safeProgress = Math.min(progressRef.current, 99);
+    progressRef.current = safeProgress;
+    setProgress(safeProgress);
+  }, []);
+
+  const retryInitialization = () => {
+    errorRef.current = false;
+    appReadyRef.current = false;
+    progressRef.current = 1;
+    setError(false);
+    setAppReady(false);
+    setCompleted(false);
+    setLeaving(false);
+    setVisible(true);
+    setProgress(1);
+    setAttempt((current) => current + 1);
+  };
+
+  const status = error
+    ? 'Initialization failed'
+    : getStartupStatus(progress);
+  const statusDetail = error
+    ? 'The learning workspace could not finish starting. Retry to mount the application again.'
+    : completed
+      ? 'Application interface committed successfully'
+      : appReady
+        ? 'Application mounted; completing the minimum startup presentation'
+        : 'Preparing the application interface…';
 
   return (
     <>
-      {children}
+      <StartupErrorBoundary key={attempt} onError={handleInitializationError}>
+        {children}
+        <StartupReadinessSignal onReady={markAppReady} />
+      </StartupErrorBoundary>
+
       {visible && (
         <section
-          className={'cinematic-intro' + (leaving ? ' is-leaving' : '') + (reducedMotion ? ' is-reduced-motion' : '')}
+          className={'cinematic-intro' + (leaving ? ' is-leaving' : '') + (reducedMotion ? ' is-reduced-motion' : '') + (completed ? ' is-complete' : '')}
           role="region"
           aria-label="CNR-IA-2 system initialization"
-          aria-busy={!appReady}
+          aria-busy={!completed && !error}
         >
           <div className="cinematic-intro-atmosphere" aria-hidden="true" />
           <header className="cinematic-intro-header">
@@ -117,45 +232,58 @@ export default function StartupExperience({ children }) {
               <span><strong>CNR-IA-2</strong><small>CONSERVATION & NATURAL RESOURCES</small></span>
             </a>
             <div className="cinematic-intro-course"><span className="ci-live-dot" /> VTU EXAMPREP ENGINE <i /> 21CV654</div>
-            <button type="button" className="cinematic-intro-skip" onClick={skip}>
-              <SkipForward size={15} /> Skip
-            </button>
           </header>
 
           <main className="cinematic-intro-main">
             <div className="cinematic-intro-copy">
-              <span className="cinematic-intro-kicker"><span className="ci-kicker-line" /> SYSTEM INITIALIZATION</span>
+              <span className="cinematic-intro-kicker"><span className="ci-kicker-line" /> INITIALIZING EXAMPREP</span>
               <h1>Your learning universe is <em>coming online.</em></h1>
               <p className="cinematic-intro-subtitle">A focused command environment for your VTU Conservation of Natural Resources journey.</p>
 
-              <div className="ci-system-state">
+              <div className={'ci-system-state' + (completed ? ' is-ready' : '')} aria-live="polite">
                 <div className="ci-state-icon"><Activity size={17} /></div>
                 <div className="ci-state-copy">
-                  <span>{appReady ? 'ENVIRONMENT STATUS' : 'INITIALIZATION STATUS'}</span>
-                  <strong>{appReady ? 'Learning workspace ready' : 'Mounting the learning workspace'}</strong>
-                  <small>{appReady ? 'Application interface committed successfully' : 'Preparing the application interface…'}</small>
+                  <span>{error ? 'INITIALIZATION ERROR' : completed ? 'ENVIRONMENT STATUS' : 'INITIALIZATION STATUS'}</span>
+                  <strong>{status}</strong>
+                  <small>{statusDetail}</small>
                 </div>
-                <span className={'ci-state-indicator' + (appReady ? ' is-ready' : '')} />
+                <span className={'ci-state-indicator' + (completed ? ' is-ready' : '')} />
               </div>
 
-              <div className="cinematic-progress-panel">
-                <div className="cinematic-progress-heading">
-                  <span>Workspace initialization</span>
-                  <strong className="cinematic-percentage" aria-live="polite">{progress}<span>%</span></strong>
+              {error ? (
+                <div className="ci-error-panel" role="alert">
+                  <strong>We couldn’t start ExamPrep.</strong>
+                  <p>Your study data has not been changed. Retry the startup process to recover the learning workspace.</p>
+                  <button type="button" className="ci-retry-button" onClick={retryInitialization}>Retry initialization</button>
                 </div>
-                <div className="cinematic-progress-track" role="progressbar" aria-label="Application initialization progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
-                  <span className="cinematic-progress-fill" style={{ width: progress + '%' }} />
+              ) : (
+                <div className="cinematic-progress-panel">
+                  <div className="cinematic-progress-heading">
+                    <span>Workspace initialization</span>
+                    <strong className="cinematic-percentage" aria-live="off">{String(progress).padStart(2, '0')}<span>%</span></strong>
+                  </div>
+                  <div
+                    className="cinematic-progress-track"
+                    role="progressbar"
+                    aria-label="Application initialization progress"
+                    aria-valuemin={1}
+                    aria-valuemax={100}
+                    aria-valuenow={progress}
+                    aria-valuetext={progress + '% — ' + status}
+                  >
+                    <span className="cinematic-progress-fill" style={{ width: progress + '%' }} />
+                  </div>
+                  <div className="ci-progress-meta">
+                    <span>{completed ? 'SYSTEM READY' : appReady ? 'APP READY · FINISHING PRESENTATION' : 'INITIALIZING CORE SYSTEMS'}</span>
+                    <span>{String(progress).padStart(2, '0')}% {completed ? '· COMPLETE' : '· IN PROGRESS'}</span>
+                  </div>
                 </div>
-                <div className="ci-progress-meta">
-                  <span>{appReady ? 'CORE SYSTEM READY' : 'WAITING FOR APP MOUNT'}</span>
-                  <span>{appReady ? '100% · COMPLETE' : 'INITIALIZING'}</span>
-                </div>
-              </div>
+              )}
 
               <div className="ci-module-grid" aria-label="Learning systems">
                 {SYSTEM_MODULES.map(({ label, Icon }) => (
                   <div className="ci-module-chip" key={label}>
-                    <Icon size={15} /><span>{label}</span><i className={appReady ? 'is-ready' : ''} />
+                    <Icon size={15} /><span>{label}</span><i className={completed ? 'is-ready' : ''} />
                   </div>
                 ))}
               </div>
@@ -164,9 +292,9 @@ export default function StartupExperience({ children }) {
             <div className="ci-visual-column">
               <KnowledgePlanet />
               <div className="ci-telemetry-row">
-                <div><span>CORE</span><strong>{appReady ? 'ONLINE' : 'STARTING'}</strong></div>
-                <div><span>DATABASE</span><strong>{appReady ? 'AVAILABLE' : 'CONNECTING'}</strong></div>
-                <div><span>INTERFACE</span><strong>{appReady ? 'READY' : 'MOUNTING'}</strong></div>
+                <div><span>CORE</span><strong>{completed ? 'ONLINE' : error ? 'RECOVERY' : 'STARTING'}</strong></div>
+                <div><span>DATABASE</span><strong>{completed ? 'AVAILABLE' : error ? 'RETRY' : 'CONNECTING'}</strong></div>
+                <div><span>INTERFACE</span><strong>{completed ? 'READY' : error ? 'BLOCKED' : 'MOUNTING'}</strong></div>
               </div>
             </div>
           </main>
