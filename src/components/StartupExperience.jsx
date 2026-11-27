@@ -260,7 +260,7 @@ export default function StartupExperience({ children }) {
                 <div className="cinematic-progress-panel">
                   <div className="cinematic-progress-heading">
                     <span>Workspace initialization</span>
-                    <strong className="cinematic-percentage" aria-live="off">{String(progress).padStart(2, '0')}<span>%</span></strong>
+                    <strong className="cinematic-percentage" aria-live="off"><span className="ci-counter-value" key={progress}>{String(progress).padStart(2, '0')}</span><span>%</span></strong>
                   </div>
                   <div
                     className="cinematic-progress-track"
