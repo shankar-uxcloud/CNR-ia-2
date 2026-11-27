@@ -98,7 +98,8 @@ export const VISUAL_STRUCTURAL_ANSWERS = FIVE_MARK_PAPER_BANK.map((item) => {
   const type = /compare|difference|distinguish|versus|vs\./i.test(item.question) ? 'comparison'
     : /cycle|lifecycle|life cycle/i.test(item.question) ? 'cycle'
     : /classify|classification|types of|categories/i.test(item.question) ? 'classification'
-    : /steps|process|procedure|working|mechanism|flowchart|clearance/i.test(item.question) ? 'flow'
+     : /steps|process|procedure/i.test(item.question) ? 'timeline'
+    : /working|mechanism|flowchart|clearance/i.test(item.question) ? 'flow'
     : /structure|components|architecture|system|plant/i.test(item.question) ? 'block'
     : normalized.length > 3 ? 'tree' : 'concept';
 
