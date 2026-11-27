@@ -10,6 +10,7 @@ import { answerToText, diagramsOf, readMinutes } from '../lib/content';
 import { useStudy, FONT_SIZES, WIDTHS } from '../lib/study';
 import { iconFor } from '../lib/icons';
 import { Blocks } from '../components/Blocks';
+import { AnswerPresentationSwitch } from '../components/AnswerPresentation';
 import { createStructuredSections } from '../lib/answerPresentation';
 import ModulePhoto from '../components/ModulePhoto';
 import { IconBtn, ModuleBadge, StatusChip, Empty, modColor } from '../components/ui';
@@ -209,18 +210,7 @@ export default function Answer({ id }) {
             </div>
 
             {/* Answer presentation: keeps the source content intact and changes only its reading layout. */}
-            <div className="no-print mt-3 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-sunk p-3 sm:p-4">
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-ink">Answer presentation</p>
-                <p className="mt-0.5 text-xs text-mute">Switch the layout without changing the original answer text.</p>
-              </div>
-              <div className="inline-flex rounded-xl border border-line bg-panel p-1" role="group" aria-label="Choose answer presentation">
-                <button type="button" onClick={() => setPresentationMode('original')} aria-pressed={presentationMode === 'original'}
-                  className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${presentationMode === 'original' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>Original</button>
-                <button type="button" onClick={() => setPresentationMode('structured')} aria-pressed={presentationMode === 'structured'}
-                  className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${presentationMode === 'structured' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>Structured</button>
-              </div>
-            </div>
+            <AnswerPresentationSwitch value={presentationMode} onChange={setPresentationMode} className="mt-3" />
 
             {/* Actions */}
             <div className="no-print mt-3 flex flex-wrap items-center gap-2">
