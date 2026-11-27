@@ -96,6 +96,8 @@ test('progress bar follows the percentage with a near-tick-duration transition',
   const css = read('src/components/CinematicIntro.css');
   assert.match(css, /cinematic-progress-fill[\s\S]*transition: width 95ms linear/);
   assert.match(css, /ci-energy-sweep/);
+  assert.match(css, /ci-counter-value/);
+  assert.match(css, /ci-number-step/);
   assert.match(css, /ci-error-panel/);
   assert.match(css, /ci-retry-button/);
   assert.match(css, /animation: none !important/);
