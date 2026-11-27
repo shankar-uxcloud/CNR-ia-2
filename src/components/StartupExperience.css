@@ -614,3 +614,52 @@ html[data-theme='light'] .startup-footer{color:#55796c}
  .startup-progress-track span{background:Highlight}
  .startup-skip-intro{border:1px solid ButtonText}
 }
+
+
+/* Theme-aware startup surfaces: keep the cinematic illustration, but derive its
+   environment, HUD and copy contrast from the active appearance and palette. */
+.startup-screen {
+  background:
+    radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--cyber-accent) 14%, transparent), transparent 38%),
+    radial-gradient(ellipse at 82% 12%, color-mix(in srgb, var(--cyber-secondary) 12%, transparent), transparent 34%),
+    var(--bg-primary);
+  color: var(--text-primary);
+}
+.startup-scene {
+  border-color: color-mix(in srgb, var(--cyber-accent) 32%, var(--border-color));
+  background:
+    radial-gradient(ellipse at 50% 46%, color-mix(in srgb, var(--cyber-accent) 20%, var(--surface-elevated)), var(--surface-primary) 72%);
+  box-shadow: 0 28px 80px color-mix(in srgb, var(--text-primary) 12%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--cyber-accent) 10%, transparent),
+    inset 0 1px color-mix(in srgb, white 18%, transparent);
+}
+.startup-scene-copy p { color: var(--text-secondary); }
+.startup-scene-kicker, .startup-caption, .startup-brand strong i { color: var(--cyber-accent); }
+.startup-progress-panel {
+  background: color-mix(in srgb, var(--surface-elevated) 82%, transparent);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  box-shadow: var(--cyber-panel-shadow);
+}
+.startup-progress-top { color: var(--text-secondary); }
+.startup-progress-top strong { color: var(--text-primary); }
+.startup-progress-track { background: color-mix(in srgb, var(--surface-secondary) 88%, transparent); }
+.startup-progress-track span { background: linear-gradient(90deg, var(--cyber-secondary), var(--cyber-accent), var(--cyber-tertiary)); }
+.startup-progress-bottom, .startup-footer { color: var(--text-muted); }
+.startup-skip-intro {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--surface-elevated) 84%, transparent);
+  border-color: var(--cyber-edge);
+}
+.startup-skip-intro:hover {
+  background: color-mix(in srgb, var(--cyber-accent) 12%, var(--surface-elevated));
+  border-color: var(--cyber-accent);
+}
+:root[data-theme='light'] .startup-scene-copy p { color: var(--text-secondary); }
+:root[data-theme='light'] .startup-scene-telemetry { color: var(--text-secondary); text-shadow: none; }
+:root[data-theme='light'] .startup-scene-telemetry strong { color: var(--cyber-accent); text-shadow: none; }
+:root[data-theme='light'] .startup-brand small { color: var(--text-muted); }
+:root[data-theme='light'] .startup-brand>b { color: var(--text-secondary); border-color: var(--border-color); background: var(--surface-secondary); }
+@media (prefers-reduced-motion: reduce) {
+  .startup-screen, .startup-scene, .startup-progress-panel, .startup-skip-intro { transition: none; }
+}
