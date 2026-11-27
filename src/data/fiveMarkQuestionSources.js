@@ -105,10 +105,10 @@ const decJanCoreQuestions = DEC_JAN_CORE_SUMMARIES.map((item) => ({
   targetMarks: 5,
   originalMarks: 10,
   source: DEC_JAN_SOURCE,
-  questionTextStatus: 'summary-only',
-  sourceVerificationStatus: 'needs-exact-wording-from-original-pdf',
+  questionTextStatus: 'verified-against-uploaded-pdf',
+  sourceVerificationStatus: 'verified-against-uploaded-pdf',
   sourceSupportStatus: 'not-audited',
-  answerStatus: 'blocked-exact-question-wording',
+  answerStatus: 'draft-needs-source-and-academic-review',
   notesPageRefs: [],
 }));
 
