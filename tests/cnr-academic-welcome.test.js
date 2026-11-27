@@ -38,21 +38,21 @@ test('module explorer exposes searchable topics, filters and working existing de
   assert.match(source, /#\/q\//);
 });
 
-test('cinematic intro combines timed presentation progress with independent real readiness signals', () => {
+test('premium system intro mounts the app underneath one overlay and uses real readiness', () => {
   const source = read('src/components/StartupExperience.jsx');
   const css = read('src/components/CinematicIntro.css');
   assert.match(source, /const \[visible, setVisible\] = useState\(true\)/);
-  assert.match(source, /\{children\}\s*\{visible && <section/);
+  assert.match(source, /\{children\}\s*\{visible &&/);
   assert.doesNotMatch(source, /localStorage|SEEN_KEY|PRESENTATION_TICK_MS/);
-  assert.match(source, /heroImageSettled/);
-  assert.match(source, /1400/);
+  assert.match(source, /setAppReady\(true\)/);
+  assert.match(source, /setProgress\(100\)/);
   assert.match(source, /prefers-reduced-motion: reduce/);
-  assert.match(source, /Skip intro/);
-  assert.match(source, /cinematic-photo/);
+  assert.match(source, /Skip/);
+  assert.match(source, /ci-planet-art/);
   assert.match(source, /aria-valuenow=\{progress\}/);
-  assert.match(source, /appReady && heroImageSettled && introSequenceComplete/);
+  assert.match(source, /if \(!appReady \|\| !visible\)/);
   assert.match(css, /prefers-reduced-motion/);
-  assert.match(css, /cinematic-landscape-fallback/);
+  assert.match(css, /ci-planet-stage/);
 });
 
 test('all five syllabus modules have distinct real-photo hero and card imagery', () => {
