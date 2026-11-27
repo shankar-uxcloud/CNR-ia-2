@@ -37,7 +37,7 @@ function fromDecJan(item) {
 }
 
 function fromModel(part) {
-  const text = clean(part.answer || '');
+  const text = String(part.answer || '').trim();
   const paragraphs = text.split(/\n+/).map(clean).filter(Boolean);
   const sections = [];
   let current = { title: 'Core explanation', points: [] };
