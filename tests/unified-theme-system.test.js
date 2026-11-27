@@ -10,7 +10,7 @@ const startup = read('src/components/StartupExperience.css');
 
 test('all four accents have independent light and dark surface palettes', () => {
   for (const appearance of ['light', 'dark']) {
-    for (const palette of ['ultra-cyber', 'arctic', 'purple', 'eco']) {
+    for (const palette of ['default', 'ultra-cyber', 'arctic', 'purple', 'eco']) {
       assert.ok(themes.includes(`:root[data-theme='${appearance}'][data-neon-theme='${palette}']`), `Missing ${appearance}/${palette}`);
     }
   }
@@ -38,6 +38,8 @@ test('theme persistence remains in the existing study settings without resetting
   assert.match(study, /settings: \{ theme: 'dark', cyberTheme: 'ultra-cyber', uiMode: 'standard'/);
   assert.match(study, /root\.setAttribute\('data-theme', theme\)/);
   assert.match(study, /root\.setAttribute\('data-neon-theme', cyberTheme\)/);
+  assert.match(study, /'default', 'ultra-cyber', 'arctic', 'purple', 'eco'/);
+  assert.match(html, /'default', 'ultra-cyber', 'arctic', 'purple', 'eco'/);
   assert.match(study, /root\.setAttribute\('data-ui-mode', uiMode\)/);
   assert.match(study, /localStorage\.setItem\(KEY, JSON\.stringify\(state\)\)/);
   assert.match(html, /localStorage\.getItem\('vtu-examprep-v1'\)/);
