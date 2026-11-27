@@ -29,18 +29,17 @@ test('the June/July 2026 paper contributes twenty distinct question parts', () =
   const records = FIVE_MARK_SOURCE_QUESTIONS.filter((item) => item.id.startsWith('june-july-2026-'));
   assert.equal(records.length, 20);
   assert.ok(records.every((item) => item.originalMarks === 10));
-  assert.ok(records.every((item) => item.questionTextStatus === 'transcribed-from-existing-question-data'));
-  assert.ok(records.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification'));
+  assert.ok(records.every((item) => item.questionTextStatus === 'verified-against-uploaded-pdf'));
+  assert.ok(records.every((item) => item.sourceVerificationStatus === 'verified-against-uploaded-pdf'));
 });
 
-test('the December/January collection retains all twenty records and blocks six summary-only questions', () => {
+test('the December/January collection retains all twenty exact question texts and ten-mark allocations', () => {
   const records = FIVE_MARK_SOURCE_QUESTIONS.filter((item) => item.id.startsWith('dec-jan-2026-'));
   assert.equal(records.length, 20);
-  const summaryOnly = records.filter((item) => item.questionTextStatus === 'summary-only');
-  assert.equal(summaryOnly.length, 6);
-  assert.ok(summaryOnly.every((item) => item.originalMarks === null));
-  assert.ok(summaryOnly.every((item) => item.answerStatus === 'blocked-exact-question-wording'));
-  assert.equal(records.filter((item) => item.originalMarks === 10).length, 14);
+  assert.ok(records.every((item) => item.questionTextStatus === 'verified-against-uploaded-pdf'));
+  assert.ok(records.every((item) => item.sourceVerificationStatus === 'verified-against-uploaded-pdf'));
+  assert.equal(records.filter((item) => item.originalMarks === 10).length, 20);
+  assert.equal(records.filter((item) => item.id.startsWith('dec-jan-2026-q')).length, 6);
 });
 
 test('the 21CV654 supplementary model paper retains all thirty subquestions and its source-support statuses', () => {
@@ -48,7 +47,7 @@ test('the 21CV654 supplementary model paper retains all thirty subquestions and 
   assert.equal(records.length, 30);
   assert.ok(records.every((item) => [6, 7, 8].includes(item.originalMarks)));
   assert.ok(records.every((item) => ['supported', 'partial', 'gap'].includes(item.sourceSupportStatus)));
-  assert.ok(records.every((item) => item.sourceVerificationStatus === 'mapped-in-existing-source-audit'));
+  assert.ok(records.every((item) => item.sourceVerificationStatus === 'verified-against-uploaded-pdf'));
 });
 
 test('the repeated zoological-garden model-paper question is retained as two source records', () => {
@@ -84,8 +83,8 @@ test('related question wording is grouped without merging source-specific record
   assert.deepEqual(zooRepeat.map((item) => item.sourceQuestionId).sort(), ['8(c)', '9(c)']);
 });
 
-test('catalogued university papers remain unverified until PDF header and wording checks are complete', () => {
+test('catalogued university papers have verified PDF wording while retaining source categories', () => {
   const universityPapers = getFiveMarkSourceQuestionsByCategory('catalogued-university-question-paper');
   assert.equal(universityPapers.length, 40);
-  assert.ok(universityPapers.every((item) => item.sourceVerificationStatus === 'needs-pdf-header-and-wording-verification' || item.sourceVerificationStatus === 'needs-exact-wording-from-original-pdf'));
+  assert.ok(universityPapers.every((item) => item.sourceVerificationStatus === 'verified-against-uploaded-pdf'));
 });

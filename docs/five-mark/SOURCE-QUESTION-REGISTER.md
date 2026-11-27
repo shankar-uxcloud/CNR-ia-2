@@ -8,9 +8,9 @@ This is a source inventory for the independent 5-mark answer bank. It preserves 
 
 | Source collection | Parts | Classification | Extraction state |
 |---|---:|---|---|
-| BCV755B June / July 2026 question paper | 20 | Catalogued university question paper | All parts exist in EXAM_QUESTION_PAPER; compare exact wording with the PDF |
-| BCV755B December 2025 / January 2026 question paper | 20 | Catalogued university question paper | 14 question texts exist in additionalDecJanAnswers; six core entries are navigation summaries only |
-| 21CV654 model question paper | 30 | Supplementary model paper | All parts exist in MODEL_21CV654 and the existing Phase 2 source map |
+| BCV755B June / July 2026 question paper | 20 | Catalogued university question paper | All 20 subparts compared with uploaded PDF pages 1–2; wording verified |
+| BCV755B December 2025 / January 2026 question paper | 20 | Catalogued university question paper | All 20 subparts compared with uploaded combined paper/scheme PDF page 1; wording and 10-mark allocations verified |
+| 21CV654 model question paper | 30 | Supplementary model paper | All 30 subparts checked against uploaded scan pages 2–3; exact question wording transcribed in source register |
 | **Total** | **70** | **40 catalogued university-paper parts + 30 supplementary parts** | **64 full texts + 6 topic summaries; every record now has an answer draft** |
 
 The December/January question-paper PDF and scheme/solutions PDF remain separate resources. The scheme is supporting mark-allocation evidence, not another question paper.
@@ -21,24 +21,25 @@ The December/January question-paper PDF and scheme/solutions PDF remain separate
 - Question paper: resources/question-papers/June-July 2026.pdf
 - Structured data: src/data/juneJuly2026.js, export EXAM_QUESTION_PAPER.
 - Ten full-question groups, two subparts each: twenty question parts.
-- Module mapping is preserved from the group records, including the printed-heading note on the Module 5 group.
-- The source data records ten marks per subpart; the new bank targets five marks.
-- PDF header and exact wording comparison remain required.
+- All twenty question texts and 10-mark allocations were checked against the uploaded two-page PDF.
+- The paper prints “Module - 3” above Q9–Q10 on page 2; the application preserves that printed heading while mapping those topics to study Module 5 (Global Warming and EIA).
+- The new bank's targetMarks=5 is separate from the original 10-mark paper allocation.
 
 ### December 2025 / January 2026
 - Question paper: resources/question-papers/BCV755B-dec-2025-jan-2026.pdf
 - Supporting scheme: resources/question-papers/SCH_BCV755B DEC.2025-JAN.2026.pdf
 - Question/answer data: src/data/decJan2026Additional.js
 - Mark-allocation data: src/data/decJan2026Evaluation.js
-- Fourteen additional subquestions (Q4(a) through Q10(b)) have question text in the existing answer data and ten-mark scheme allocations.
-- Six core entries (Q1(a), Q1(b), Q2(a), Q2(b), Q3(a), Q3(b)) currently have only short navigation summaries in DecJan2026.jsx. They remain marked summary-only, have no asserted original mark allocation, and now have topic-aligned answer drafts. The exact wording and scope must still be checked against the original PDF.
-- No question page number is asserted without source evidence.
+- Fourteen subquestions (Q4(a) through Q10(b)) retain their structured question text and ten-mark scheme allocations; all were compared with page 1 of the uploaded combined paper/scheme PDF.
+- The six former navigation summaries (Q1(a), Q1(b), Q2(a), Q2(b), Q3(a), Q3(b)) were replaced in the source register with the exact question wording transcribed from page 1. Each is recorded as 10 marks, consistent with the paper's printed marks column.
+- The uploaded eight-page PDF contains the question paper on page 1 and handwritten scheme/solutions on pages 2–8. The scheme was used as supporting evidence for mark allocations and answer-outline scope, not as a substitute for the printed question wording.
+- No unverified question-paper page number is asserted.
 
 ### 21CV654 supplementary model paper
 - Resource: resources/question-papers/[studocu.com] - 21CV654 Model Question Paper - Conservation of Natural Resources.pdf
 - Structured data: src/data/modelQuestionPaper21cv654.js, export MODEL_21CV654.
-- Thirty subquestions retain their original module, code, wording and original marks (6, 7 or 8).
-- docs/21cv654/PHASE-2-SOURCE-MAP.md provides support status and PDF viewer-page mapping.
+- Thirty subquestions retain their original module, code and original marks (6, 7 or 8). Exact wording was checked against the scanned question tables on uploaded PDF pages 2–3; the source register now carries the verbatim transcription.
+- docs/21cv654/PHASE-2-SOURCE-MAP.md provides notes-support status and PDF viewer-page mapping.
 - This is a supplementary model paper, not an official BCV755B VTU paper.
 - The repeated zoological-garden question in Q8(c) and Q9(c) remains two separate source records.
 
@@ -59,7 +60,7 @@ The existing Phase 2 map's supported/partial/gap labels describe support in the 
 
 Each record in src/data/fiveMarkQuestionSources.js contains:
 - Stable project ID and original source question identifier.
-- Exact question text or an explicitly marked summary-only label.
+- Exact question text checked against the uploaded paper PDF; summary-only labels are not used for the 70 paper-derived records.
 - Module, target marks=5 and original paper marks where established.
 - Source title, category and repository file path.
 - Question-text and source-verification status.
@@ -77,7 +78,7 @@ Tests validate 70 unique source records, source separation, module validity, mar
 - Navigation summaries remain explicitly labelled as summaries; answer drafts address the recorded topic without claiming verbatim paper wording.
 - Original marks are preserved; targetMarks=5 applies only to the new answer bank.
 - The supplementary 21CV654 paper is never mixed into the university-paper category.
-- Verify PDF headers and exact question wording for the two university-paper collections.
+- PDF headers, question numbering, original marks and exact wording have been checked against the three uploaded PDFs. This verifies transcription, not the issuing authority or official status of the documents.
 - Audit each question against the relevant module notes and BCV755B syllabus.
 - Keep supplementary answers visibly marked for academic review; do not present supplementary material as notes-derived or officially verified.
 - Keep answers in separate module-wise files and render the question number and answer directly in the dedicated UI.
@@ -112,4 +113,4 @@ The zoological-garden question in model-paper Q8(c) and Q9(c) is the exact repea
 
 ## Verification labels
 
-The two university-paper collections are catalogued in the repository but are not yet certified as official VTU documents in this register. Their PDF headers and exact question wording must be checked before the source records are marked verified. The 21CV654 paper remains explicitly supplementary. The six December/January core summaries now have topic-aligned drafts, but their exact wording and original marks remain unverified until the original PDF and scheme are checked.
+The two BCV755B university-paper documents are catalogued and their supplied PDF headers, question wording and printed marks have now been checked. This is a transcription check only; it does not independently authenticate the documents as official VTU publications. The 21CV654 paper remains explicitly supplementary. All six December/January core questions now use exact wording and 10-mark allocations transcribed from the uploaded paper.

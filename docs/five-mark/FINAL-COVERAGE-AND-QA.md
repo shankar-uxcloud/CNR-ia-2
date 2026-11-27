@@ -19,16 +19,19 @@ The dedicated user experience also retains the ten pre-existing core syllabus fi
 
 | Source group | Records | Current treatment |
 |---|---:|---|
-| June/July 2026 university-paper collection | 20 | Question text transcribed from existing repository data; PDF header and exact wording still require verification |
-| December/January 2025–26 university-paper collection | 20 | 14 detailed question parts plus six summary-only core records; PDF header and wording still require verification |
-| 21CV654 supplementary model paper | 30 | Mapped to the existing source audit and notes reference pages; explicitly treated as supplementary, not as an official VTU model paper |
+| June/July 2026 university-paper collection | 20 | All 20 subparts and printed 10-mark allocations checked against uploaded PDF pages 1–2 |
+| December/January 2025–26 university-paper collection | 20 | All 20 subparts checked against uploaded combined question-paper/scheme PDF page 1; all original allocations are 10 marks |
+| 21CV654 supplementary model paper | 30 | All 30 subparts checked against uploaded scanned paper pages 2–3; explicitly treated as supplementary, not as an official VTU model paper |
 
 The resource catalogue also lists a separate scheme-specific December/January PDF and a 2026–27 syllabus PDF. The current 70-record source register does not claim that those additional documents have been fully compared against every question. The university-paper collections are catalogued in the repository but are not certified as official VTU documents until their PDF headers and exact question wording are checked.
 
-The binary PDF files could not be read through the repository file-content interface during this implementation pass. Therefore:
-- No paper-header verification is claimed.
-- The six December/January summary-only records now have topic-aligned answer drafts, but their exact paper wording and original mark allocation remain unverified.
-- The notes-page references attached to model-paper questions are explicitly labelled as notes PDF viewer pages, not question-paper page numbers.
+The three PDFs were supplied directly in this conversation and visually inspected, including their scanned question tables:
+- June/July 2026: 2 pages; all 20 question parts and the 10-mark allocation per subpart checked against pages 1–2.
+- December 2025/January 2026: 8 pages; the printed paper is on page 1 and the handwritten scheme/solutions occupy pages 2–8. All 20 question parts and 10-mark allocations checked against page 1; scheme outlines were used only as supporting answer-structure evidence.
+- 21CV654 supplementary model paper: 3 pages; cover page 1 and question tables on pages 2–3. All 30 subparts, printed module groupings and original marks (6, 7 or 8) checked.
+- The six December/January core entries now contain exact question wording rather than topic-only summaries.
+- The June/July paper prints “Module - 3” above Q9–Q10 on page 2. The application preserves that printed label and separately maps those topics to study Module 5; this distinction is intentional.
+- The notes-page references attached to model-paper answers remain PDF viewer pages from the separate full-notes source, not question-paper page numbers.
 - The 2026–27 official syllabus has not yet been checked line-by-line against all 70 source questions.
 
 ## Newly completed answer drafts requiring verification
@@ -47,7 +50,7 @@ The six December/January records still use topic summaries rather than verified 
 ## Draft quality and verification status
 
 There are now 70 paper-derived answer drafts plus ten existing core five-mark answers. Draft availability is not the same as academic verification:
-- Official-paper drafts still require exact PDF comparison.
+- Question transcription is now checked against the uploaded PDFs; answer content still requires source and academic review.
 - Supplementary model-paper drafts for minerals, weathering, named sanctuaries and zoological gardens remain marked for academic review because the supplied notes do not fully cover those topics.
 - No AI-authored answer is marked verified merely because it has been generated.
 - The audit documents the questions that require a new approved source or manual academic review.
@@ -115,4 +118,4 @@ The implementation phases run the repository's existing test suite and productio
 7. PR #123 — dedicated UI integration.
 8. PR #124 — final coverage and QA audit.
 
-All PRs are intended for manual review and must remain unmerged until the owner approves them. The final acceptance criteria are not fully satisfied until the PDF headers/question wording, official syllabus mapping, partial-source answers and manual academic checks are completed.
+All PRs are intended for manual review and must remain unmerged until the owner approves them. The final acceptance criteria are not fully satisfied until the official syllabus mapping, partial-source answers and manual academic checks are completed. PDF question transcription and printed marks have been verified against the three supplied documents; this does not authenticate the issuing authority of the two BCV755B paper scans.
