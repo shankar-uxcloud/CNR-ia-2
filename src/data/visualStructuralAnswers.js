@@ -38,7 +38,7 @@ function fromDecJan(item) {
 
 function fromModel(part) {
   const text = String(part.answer || '').trim();
-  const paragraphs = text.split(/\n+/).map(clean).filter(Boolean);
+  const paragraphs = text.split(/\n+/).map((paragraph) => paragraph.trim()).filter(Boolean);
   const sections = [];
   let current = { title: 'Core explanation', points: [] };
   for (const paragraph of paragraphs) {
@@ -47,7 +47,7 @@ function fromModel(part) {
       if (current.points.length) sections.push(current);
       current = { title: clean(heading[1]), points: [] };
     } else {
-      current.points.push(paragraph.replace(/^\d+\.\s*/, ''));
+      current.points.push(clean(paragraph.replace(/^\d+\.\s*/, '')));
     }
   }
   if (current.points.length) sections.push(current);
