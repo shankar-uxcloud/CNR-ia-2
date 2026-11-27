@@ -52,12 +52,14 @@ test('Module 3 has an answer draft for every source question', () => {
   assert.ok(moduleThree.every((item) => item.answer.length > 0));
 });
 
-test('six December/January summary records now have study answers but retain exact-wording review notes', () => {
-  const summaries = FIVE_MARK_PAPER_BANK.filter((item) => item.questionTextStatus === 'summary-only');
-  assert.equal(summaries.length, 6);
-  assert.ok(summaries.every((item) => item.answer.length > 0));
-  assert.ok(summaries.every((item) => item.reviewStatus === 'draft-needs-pdf-review'));
-  assert.ok(summaries.every((item) => item.reviewReason && item.sourceQuestionId.startsWith('Q')));
+test('six December/January core questions retain answer drafts after exact PDF wording is verified', () => {
+  const core = FIVE_MARK_PAPER_BANK.filter((item) => item.id.startsWith('dec-jan-2026-q'));
+  assert.equal(core.length, 6);
+  assert.ok(core.every((item) => item.questionTextStatus === 'verified-against-uploaded-pdf'));
+  assert.ok(core.every((item) => item.sourceVerificationStatus === 'verified-against-uploaded-pdf'));
+  assert.ok(core.every((item) => item.answer.length > 0));
+  assert.ok(core.every((item) => item.reviewStatus === 'draft-needs-pdf-review'));
+  assert.ok(core.every((item) => item.reviewReason && item.sourceQuestionId.startsWith('Q')));
 });
 
 test('Module 4 has an answer draft for every source question', () => {
