@@ -92,7 +92,9 @@ test('cinematic intro uses an isolated accessible palette and reduced-motion fal
   assert.ok(startup.includes('safe-area-inset-top'));
   assert.ok(component.includes('KnowledgePlanet'));
   assert.ok(component.includes('ci-planet-art'));
-  assert.ok(component.includes('Skip'));
+  assert.ok(!component.includes('Skip'), 'skip is intentionally removed so the minimum duration and real-readiness gate cannot be bypassed');
+  assert.ok(component.includes('STARTUP_MIN_DURATION_MS'));
+  assert.ok(component.includes('appReadyRef.current && performance.now() - startedAt >= STARTUP_MIN_DURATION_MS'));
 });
 
 

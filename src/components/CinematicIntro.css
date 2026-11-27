@@ -202,3 +202,83 @@
   .cinematic-progress-track { outline: 1px solid CanvasText; }
   .cinematic-progress-fill { background: Highlight; }
 }
+
+
+/* Live, integer-synchronized startup progress and recoverable initialization state. */
+.cinematic-progress-fill {
+  position: relative;
+  overflow: hidden;
+  transition: width 95ms linear;
+  will-change: width;
+}
+.cinematic-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: -35% auto -35% -42%;
+  width: 34%;
+  transform: skewX(-22deg);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, white 72%, var(--ci-accent)), transparent);
+  animation: ci-energy-sweep 1.7s ease-in-out infinite;
+  pointer-events: none;
+}
+.cinematic-percentage {
+  text-shadow: 0 0 24px color-mix(in srgb, var(--ci-accent) 35%, transparent);
+  transition: text-shadow .2s ease, color .2s ease;
+}
+.ci-system-state.is-ready {
+  border-color: color-mix(in srgb, var(--ci-accent) 52%, var(--border-color, transparent));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--ci-accent) 14%, transparent), inset 0 1px color-mix(in srgb, var(--text-primary, #fff) 12%, transparent);
+}
+.cinematic-intro.is-complete .cinematic-percentage {
+  text-shadow: 0 0 18px color-mix(in srgb, var(--ci-accent) 72%, transparent), 0 0 42px color-mix(in srgb, var(--ci-accent) 32%, transparent);
+}
+.ci-error-panel {
+  margin-top: 14px;
+  padding: 17px 18px;
+  border: 1px solid color-mix(in srgb, #e36b75 48%, var(--border-color, transparent));
+  border-radius: 16px;
+  color: var(--ci-ink);
+  background: color-mix(in srgb, #e36b75 8%, var(--surface-primary, transparent));
+  box-shadow: 0 14px 36px color-mix(in srgb, #e36b75 10%, transparent);
+  backdrop-filter: blur(20px);
+}
+.ci-error-panel strong { display: block; font-size: 13px; font-weight: 850; }
+.ci-error-panel p { margin: 6px 0 13px; color: var(--ci-muted); font-size: 11px; line-height: 1.6; }
+.ci-retry-button {
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid color-mix(in srgb, var(--ci-accent) 55%, var(--border-color, transparent));
+  border-radius: 11px;
+  color: var(--ci-ink);
+  background: color-mix(in srgb, var(--ci-accent) 15%, var(--surface-primary, transparent));
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.ci-retry-button:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--ci-accent) 23%, var(--surface-primary, transparent)); }
+.ci-retry-button:focus-visible { outline: 2px solid var(--ci-accent); outline-offset: 3px; }
+@keyframes ci-energy-sweep {
+  0% { left: -42%; opacity: 0; }
+  18% { opacity: .9; }
+  72% { opacity: .65; }
+  100% { left: 112%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-progress-fill { transition: none !important; }
+  .cinematic-progress-fill::after { animation: none !important; }
+  .ci-retry-button { transition: none !important; }
+}
+
+.ci-counter-value {
+  display: inline-block;
+  animation: ci-number-step 180ms cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes ci-number-step {
+  from { opacity: .35; transform: translateY(5px); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ci-counter-value { animation: none !important; }
+}
