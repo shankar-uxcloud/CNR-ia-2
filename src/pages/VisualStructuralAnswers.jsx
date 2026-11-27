@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Search, ZoomIn, ZoomOut, Maximize2, Network, BookOpenText } from 'lucide-react';
-import { VISUAL_STRUCTURAL_ANSWERS, VISUAL_PAPER_OPTIONS } from '../data/visualStructuralAnswers';
+import { VISUAL_STRUCTURAL_ANSWERS, VISUAL_PAPER_OPTIONS, VISUAL_COVERAGE_REPORT } from '../data/visualStructuralAnswers';
 import { VisualStructureRenderer } from '../components/VisualStructures';
 import './VisualStructuralAnswers.css';
 
@@ -22,6 +22,12 @@ export default function VisualStructuralAnswers() {
     return matchesPaper && matchesQuery;
   }), [paper, query]);
   const current = questions.find((item) => item.id === selectedId) || questions[0] || null;
+  const coverageComplete = VISUAL_COVERAGE_REPORT.filter((item) => item.status === 'complete').length;
+  const coverageMissing = VISUAL_COVERAGE_REPORT.length - coverageComplete;
+  const paperCounts = ['Dec/Jan 2026', 'June/July 2026', '21CV654 MQP'].map((name) => ({
+    name, total: VISUAL_COVERAGE_REPORT.filter((item) => item.paper === name).length,
+    complete: VISUAL_COVERAGE_REPORT.filter((item) => item.paper === name && item.status === 'complete').length,
+  }));
   const changePaper = (value) => { setPaper(value); setSelectedId(''); };
   const changeQuery = (value) => { setQuery(value); setSelectedId(''); };
   const visualType = layout === 'auto' ? current?.visualType : layout;
@@ -32,11 +38,37 @@ export default function VisualStructuralAnswers() {
       <h1 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">Visual Answer Studio</h1>
       <p className="mt-2 max-w-3xl text-sm leading-7 text-mute">Explore chart-based answer structures for all 70 question parts across the three supplied papers. Existing written answers remain separate and unchanged.</p>
       <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">70</strong><span className="text-xs text-mute">Question records</span></div>
+        <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">70</strong><span className="text-xs text-mute">Question / subquestion records</span></div>
         <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">3</strong><span className="text-xs text-mute">Paper collections</span></div>
-        <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">7</strong><span className="text-xs text-mute">Reusable diagram forms</span></div>
-        <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">100%</strong><span className="text-xs text-mute">Question coverage</span></div>
+        <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">8</strong><span className="text-xs text-mute">Connected SVG diagram forms</span></div>
+        <div className="rounded-xl border border-line bg-surface/80 p-3"><strong className="block text-2xl">{Math.round((coverageComplete / Math.max(1, VISUAL_COVERAGE_REPORT.length)) * 100)}%</strong><span className="text-xs text-mute">Verified diagram coverage</span></div>
       </div>
+    </section>
+
+    <section className="card p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div><h2 className="text-base font-black">Question-by-question diagram coverage audit</h2>
+          <p className="mt-1 text-xs text-mute">A question passes only when source content, at least three diagram nodes and at least two directional relationships are present.</p>
+        </div>
+        <span className={coverageMissing === 0 ? 'visual-coverage-pass' : 'visual-coverage-fail'}>
+          {coverageComplete}/{VISUAL_COVERAGE_REPORT.length} diagrams complete
+        </span>
+      </div>
+      <div className="visual-audit-summary mt-3">
+        {paperCounts.map((entry) => <div key={entry.name}><strong className="block text-lg tabular-nums">{entry.complete}/{entry.total}</strong><span className="text-[11px] text-mute">{entry.name}</span></div>)}
+      </div>
+      <details className="mt-4">
+        <summary className="cursor-pointer text-sm font-bold text-brand">Open full coverage report · all individual subquestions</summary>
+        <div className="visual-coverage-report mt-3">
+          <table><thead><tr><th>Paper</th><th>Question</th><th>Diagram type</th><th>Nodes</th><th>Connections</th><th>Status</th></tr></thead>
+            <tbody>{VISUAL_COVERAGE_REPORT.map((entry) => <tr key={entry.paper + entry.question}>
+              <td>{entry.paper}</td><td><strong>{entry.question}</strong><div className="mt-1 text-mute">{entry.questionText}</div></td>
+              <td>{entry.diagramType}</td><td className="tabular-nums">{entry.nodeCount}</td><td className="tabular-nums">{entry.edgeCount}</td>
+              <td>{entry.status === 'complete' ? <span className="visual-coverage-pass">Complete</span> : <span className="visual-coverage-fail">Missing</span>}</td>
+            </tr>)}</tbody>
+          </table>
+        </div>
+      </details>
     </section>
 
     <section className="visual-answer-controls">
@@ -68,9 +100,9 @@ export default function VisualStructuralAnswers() {
           <div className="visual-zoom"><button type="button" onClick={() => setZoom((value) => Math.max(.7, +(value - .1).toFixed(1)))} aria-label="Zoom out"><ZoomOut size={15}/></button><span className="text-xs tabular-nums">{Math.round(zoom * 100)}%</span><button type="button" onClick={() => setZoom((value) => Math.min(1.5, +(value + .1).toFixed(1)))} aria-label="Zoom in"><ZoomIn size={15}/></button><button type="button" onClick={() => setZoom(1)} aria-label="Reset zoom"><Maximize2 size={15}/></button></div>
         </div>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-          <span className="chip">Visual answer · {current.visualType}</span>
+          <span className="chip">Visual answer · {current.visualType} · {current.diagramAudit.nodeCount} nodes / {current.diagramAudit.edgeCount} connections</span>
           <select value={layout} onChange={(event) => setLayout(event.target.value)} className="rounded-lg border border-line bg-surface px-3 py-2 text-xs" aria-label="Diagram layout">
-            <option value="auto">Adaptive structure</option><option value="flow">Flowchart</option><option value="tree">Hierarchical tree</option><option value="block">Block diagram</option><option value="timeline">Step timeline</option><option value="comparison">Comparison chart</option><option value="classification">Classification</option><option value="cycle">Cycle / lifecycle</option><option value="concept">Concept map</option>
+            <option value="auto">Adaptive structure</option><option value="flow">Flowchart</option><option value="tree">Hierarchical tree</option><option value="block">Block diagram</option><option value="timeline">Step timeline</option><option value="comparison">Comparison chart</option><option value="classification">Classification</option><option value="cycle">Cycle / lifecycle</option><option value="concept">Concept map</option><option value="formula">Formula / calculation layout</option>
           </select>
         </div>
         <div className="visual-answer-canvas mt-3">
@@ -86,7 +118,8 @@ export default function VisualStructuralAnswers() {
         </section>
         {current.visualKeywords.length > 0 && <section className="mt-4"><h3 className="mb-2 text-sm font-bold">Important keywords</h3><div className="visual-keywords">{current.visualKeywords.map((word) => <span key={word}>{word}</span>)}</div></section>}
         <section className="mt-4 rounded-xl border border-line p-3"><h3 className="text-sm font-bold">Exam-writing sequence</h3><p className="mt-1 text-xs text-mute">Use this order to reproduce the visual as a complete written answer:</p><div className="visual-exam-sequence mt-3">{current.examSequence.map((step, index) => <span key={index}>{step}</span>)}</div></section>
-        {current.visualSourceStatus === 'question-only-no-answer-source' && <p className="visual-answer-note mt-4"><strong>Source limitation:</strong> This paper record has no matching answer text in the existing answer bank. The visual therefore preserves the exact question focus only; it does not invent technical facts. Add a source-verified written answer to unlock a complete content diagram.</p>}
+        {current.diagramAudit.status !== 'complete' && <p className="visual-answer-note mt-4"><strong>Audit warning:</strong> This record needs source content or additional connected diagram structure before it can be marked complete.</p>}
+        {current.diagramAudit.sourcePage && <p className="mt-3 text-xs text-mute">Source: handwritten VTU Scheme &amp; Solutions outline, PDF page {current.diagramAudit.sourcePage}.</p>}
         <p className="mt-4 text-[10px] leading-5 text-mute">Structural content source: {current.visualSourceLabel}. Original answer content is displayed in its existing section elsewhere and is not edited by this visual layer.</p>
       </article>}
     </div>
