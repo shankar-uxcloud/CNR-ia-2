@@ -179,29 +179,42 @@ function ComparisonChart({ item }) {
   const sections = item.visualSections;
   const width = 1080;
   const cols = Math.min(3, Math.max(1, sections.length));
-  const height = Math.max(420, 220 + Math.max(...sections.map((section) => section.points.length)) * 145);
+  const colWidth = 290;
+  const rowCount = Math.ceil(sections.length / cols);
+  const rowHeights = Array.from({ length: rowCount }, (_, row) => {
+    const group = sections.slice(row * cols, (row + 1) * cols);
+    return Math.max(...group.map((section) =>
+      120 + section.points.reduce((sum, point) => sum + estimateHeight(point, colWidth - 10) + 22, 0)
+    ));
+  });
+  const rowTops = rowHeights.map((_, index) => 170 + rowHeights.slice(0, index).reduce((sum, value) => sum + value, 0));
+  const height = 190 + rowHeights.reduce((sum, value) => sum + value, 0);
   const root = item.visualGraph.nodes[0];
   return <DiagramSvg title={`Comparison chart for ${item.sourceQuestionId}`} width={width} height={height} className="visual-comparison-svg">
     <SvgNode node={root} x={390} y={15} width={300} height={112} index={0}/>
     {sections.map((section, index) => {
-      const x = 20 + index * (1040 / cols);
-      const colWidth = 300;
-      const node = { kind: 'branch', label: section.title };
+      const row = Math.floor(index / cols);
+      const col = index % cols;
+      const x = 20 + col * 350;
+      const y = rowTops[row];
+      const branchHeight = 82;
+      let cursor = y + branchHeight + 28;
       return <g key={section.id}>
-        <SvgEdge x1={540} y1={127} x2={x + colWidth / 2} y2={170} label="compared by" curved/>
-        <SvgNode node={node} x={x} y={170} width={colWidth} height={82} index={index + 1}/>
+        <SvgEdge x1={540} y1={127} x2={x + colWidth / 2} y2={y} label="compared by" curved/>
+        <SvgNode node={{ kind: 'branch', label: section.title }} x={x} y={y} width={colWidth} height={branchHeight} index={index + 1}/>
         {section.points.map((point, pointIndex) => {
-          const y = 280 + pointIndex * 145;
+          const nodeHeight = estimateHeight(point, colWidth - 10);
+          const nodeY = cursor;
+          cursor += nodeHeight + 22;
           return <g key={pointIndex}>
-            <SvgEdge x1={x + colWidth / 2} y1={252} x2={x + colWidth / 2} y2={y} label="aspect"/>
-            <SvgNode node={{ kind: 'detail', label: point }} x={x} y={y} width={colWidth} height={estimateHeight(point, colWidth - 10)} index={index + pointIndex + 2}/>
+            <SvgEdge x1={x + colWidth / 2} y1={nodeY - 28} x2={x + colWidth / 2} y2={nodeY} label="aspect"/>
+            <SvgNode node={{ kind: 'detail', label: point }} x={x} y={nodeY} width={colWidth} height={nodeHeight} index={index + pointIndex + 2}/>
           </g>;
         })}
       </g>;
     })}
   </DiagramSvg>;
 }
-
 function FormulaDiagram({ item }) {
   return <Flowchart item={item} mode="formula / calculation layout"/>;
 }
