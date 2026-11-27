@@ -26,3 +26,26 @@
     padding: .55rem .65rem;
   }
 }
+
+
+/* Per-answer presentation styling for the December/January paper. */
+.question-answer-anchor[data-answer-presentation="structured"] > .card,
+.question-answer-anchor[data-answer-presentation="structured"] .reading > .card {
+  border-radius: 1rem;
+  border-left: 3px solid rgb(var(--c-brand) / .38);
+  box-shadow: 0 8px 24px rgb(0 0 0 / .045);
+}
+.question-answer-anchor[data-answer-presentation="structured"] .study-points > li {
+  border-radius: .75rem;
+  padding: .65rem .8rem;
+  background: rgb(var(--c-brand) / .045);
+}
+.question-answer-anchor[data-answer-presentation="structured"] .study-points > li h3,
+.question-answer-anchor[data-answer-presentation="structured"] .study-points > li h4 {
+  color: var(--text-primary, inherit);
+}
+@media (max-width: 640px) {
+  .question-answer-anchor[data-answer-presentation="structured"] .study-points > li {
+    padding: .55rem .65rem;
+  }
+}
