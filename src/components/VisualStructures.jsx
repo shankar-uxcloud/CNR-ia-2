@@ -94,19 +94,20 @@ function Flowchart({ item, mode = 'flow' }) {
   const x = 150;
   const cardWidth = 640;
   const heights = steps.map((step) => estimateHeight(step.detail, cardWidth - 30) + 18);
+  const rootHeight = estimateHeight(item.question, cardWidth - 30) + 18;
   const positions = [];
-  let y = 20;
-  heights.forEach((height, index) => {
-    positions.push(y);
-    y += height + 54;
+  let cursor = 20 + rootHeight + 54;
+  heights.forEach((height) => {
+    positions.push(cursor);
+    cursor += height + 54;
   });
   const root = { kind: 'root', label: item.sourceQuestionId, detail: item.question };
-  return <DiagramSvg title={`${mode} diagram for ${item.sourceQuestionId}`} width={width} height={y + 10} className="visual-flow-svg">
-    <SvgNode node={root} x={x} y={positions[0]} width={cardWidth} height={estimateHeight(item.question, cardWidth - 30) + 18} index={0}/>
+  return <DiagramSvg title={`${mode} diagram for ${item.sourceQuestionId}`} width={width} height={cursor + 10} className="visual-flow-svg">
+    <SvgNode node={root} x={x} y={20} width={cardWidth} height={rootHeight} index={0}/>
     {steps.map((step, index) => {
-      const nodeY = positions[index] + (index === 0 ? estimateHeight(item.question, cardWidth - 30) + 50 : 0);
+      const nodeY = positions[index];
       const node = { kind: 'detail', label: step.title, detail: step.detail };
-      const previousY = index === 0 ? positions[0] + estimateHeight(item.question, cardWidth - 30) + 18 : positions[index - 1] + heights[index - 1];
+      const previousY = index === 0 ? 20 + rootHeight : positions[index - 1] + heights[index - 1];
       return <g key={index}>
         <SvgEdge x1={width / 2} y1={previousY} x2={width / 2} y2={nodeY} label={index === 0 ? 'begins with' : 'then'} />
         <SvgNode node={node} x={x} y={nodeY} width={cardWidth} height={heights[index]} index={index + 1}/>
@@ -120,7 +121,7 @@ function BlockDiagram({ item }) {
   const width = 1080;
   const cols = Math.min(3, Math.max(1, sections.length));
   const rows = Math.ceil(sections.length / cols);
-  const rowHeight = 260;
+  const rowHeight = 270;
   const height = 160 + rows * rowHeight;
   const root = item.visualGraph.nodes[0];
   return <DiagramSvg title={`Connected block diagram for ${item.sourceQuestionId}`} width={width} height={height} className="visual-block-svg">
@@ -132,9 +133,10 @@ function BlockDiagram({ item }) {
       const y = 190 + row * rowHeight;
       const detail = section.points.join('  •  ');
       const node = { kind: 'branch', label: section.title, detail };
+      const nodeHeight = Math.min(250, estimateHeight(detail, 270) + 80);
       return <g key={section.id}>
         <SvgEdge x1={540} y1={130} x2={x + 145} y2={y} label="connects to" curved/>
-        <SvgNode node={node} x={x} y={y} width={290} height={220} index={index + 1}/>
+        <SvgNode node={node} x={x} y={y} width={290} height={nodeHeight} index={index + 1}/>
       </g>;
     })}
   </DiagramSvg>;
