@@ -52,9 +52,13 @@ function TreeDiagram({ item, mode = 'tree' }) {
   const colWidth = 340;
   const cols = Math.min(3, Math.max(1, sections.length));
   const rowCount = Math.ceil(sections.length / cols);
+  const leafHeights = sections.map((section) => section.points.map((point) => estimateHeight(point, 290)));
   const rowHeights = Array.from({ length: rowCount }, (_, row) => {
     const group = sections.slice(row * cols, (row + 1) * cols);
-    return Math.max(1, ...group.map((section) => section.points.length)) * 132 + 175;
+    const tallestBranch = Math.max(1, ...group.map((section, index) =>
+      leafHeights[row * cols + index].reduce((sum, value) => sum + value + 18, 0)
+    ));
+    return tallestBranch + 190;
   });
   const rowTops = rowHeights.map((_, index) => 180 + rowHeights.slice(0, index).reduce((sum, value) => sum + value, 0));
   const height = 200 + rowHeights.reduce((sum, value) => sum + value, 0);
@@ -68,10 +72,13 @@ function TreeDiagram({ item, mode = 'tree' }) {
       const y = rowTops[row];
       const branch = { kind: 'branch', label: section.title };
       const branchHeight = 82;
-      const leafPositions = section.points.map((point, pointIndex) => {
+      let leafCursor = y + 120;
+      const leafPositions = section.points.map((point) => {
         const node = { kind: 'detail', label: point };
-        const leafY = y + 120 + pointIndex * 132;
-        return { node, leafY, nodeHeight: estimateHeight(point, 290) };
+        const nodeHeight = estimateHeight(point, 290);
+        const leafY = leafCursor;
+        leafCursor += nodeHeight + 18;
+        return { node, leafY, nodeHeight };
       });
       return <g key={section.id}>
         <SvgEdge x1={540} y1={132} x2={x + 145} y2={y} label="branches into" curved/>
@@ -143,10 +150,12 @@ function BlockDiagram({ item }) {
 }
 
 function CycleDiagram({ item }) {
-  const nodes = item.visualSections.flatMap((section) => section.points.map((point, index) => ({
-    label: index === 0 ? section.title : point,
-    detail: index === 0 ? point : '',
-  })));
+  const nodes = item.visualSections.length > 1
+    ? item.visualSections.map((section) => ({ label: section.title, detail: section.points.join(' • ') }))
+    : item.visualSections[0].points.map((point, index) => ({
+      label: index === 0 ? item.visualSections[0].title : `Stage ${index + 1}`,
+      detail: point,
+    }));
   const width = 1080, height = 920, cx = 540, cy = 460, radius = 300;
   const positions = nodes.map((node, index) => {
     const angle = -Math.PI / 2 + (2 * Math.PI * index) / Math.max(1, nodes.length);
