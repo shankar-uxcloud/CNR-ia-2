@@ -58,7 +58,8 @@ test('cinematic intro combines timed presentation progress with independent real
 test('all five syllabus modules have distinct real-photo hero and card imagery', () => {
   const photos = read('src/components/ModulePhotography.jsx');
   const page = read('src/pages/NexusWelcome.jsx');
-  const styles = read('src/pages/NexusWelcome.css');
+  const styles = read('src/styles/module-photos.css');
+  const welcomeStyles = read('src/pages/NexusWelcome.css');
   for (const moduleNumber of [1, 2, 3, 4, 5]) {
     assert.match(photos, new RegExp('^\\s*' + moduleNumber + ': \\{', 'm'), 'missing photo for module ' + moduleNumber);
   }
@@ -66,9 +67,9 @@ test('all five syllabus modules have distinct real-photo hero and card imagery',
   assert.equal((photos.match(/alt: '/g) || []).length, 5, 'each photograph needs descriptive alternative text');
   assert.match(page, /<ModulePhotography moduleNumber=\{module\.number\} variant="tile" \/>/);
   assert.match(page, /<ModulePhotography moduleNumber=\{activeModule\.number\} variant="hero" \/>/);
-  assert.match(styles, /cnr-module-detail-visual-grid/);
-  assert.match(styles, /@media\(max-width:760px\)/);
-  assert.match(styles, /prefers-reduced-motion:reduce/);
+  assert.match(welcomeStyles, /cnr-module-detail-visual-grid/);
+  assert.match(styles, /@media \(max-width: 760px\)/);
+  assert.match(styles, /prefers-reduced-motion: reduce/);
 });
 
 test('Resource Vault provides photographic navigation for all five modules', () => {
@@ -78,7 +79,16 @@ test('Resource Vault provides photographic navigation for all five modules', () 
   assert.match(vault, /ModulePhotography moduleNumber=\{module\.number\} variant="tile"/);
   assert.match(vault, /setModuleFilter\(String\(module\.number\)\)/);
   assert.match(styles, /rv-module-gallery-grid/);
-  assert.match(styles, /@media\(max-width:600px\)/);
+  assert.match(styles, /@media \(max-width: 600px\)/);
+  const shared = read('src/styles/module-photos.css');
+  const appStyles = read('src/main.jsx');
+  assert.match(appStyles, /styles\/module-photos\.css/);
+  assert.match(shared, /\.cnr-module-photo \{/);
+  assert.match(shared, /\.cnr-module-photo img \{/);
+  assert.match(shared, /position: absolute/);
+  assert.match(shared, /\.cnr-module-photo figcaption \{/);
+  assert.match(shared, /text-overflow: ellipsis/);
+  assert.match(shared, /prefers-reduced-motion/);
 });
 
 test('welcome hero uses CNR-specific student learning and conservation taglines', () => {
