@@ -21,7 +21,7 @@ test('premium system intro mounts the application underneath a single accessible
   assert.match(source, /Skip/);
   assert.match(source, /ci-planet-art/);
   assert.match(source, /aria-valuenow=\{progress\}/);
-  assert.match(source, /appReady && !visible/);
+  assert.match(source, /if \(!appReady \|\| !visible\)/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /ci-planet-stage/);
 });
