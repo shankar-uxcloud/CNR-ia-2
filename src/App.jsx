@@ -33,6 +33,7 @@ const CNRNotes = lazy(() => import('./pages/CNRNotes'));
 const ModelPapers = lazy(() => import('./pages/ModelPapers'));
 const ModelQuestionPaper21CV654 = lazy(() => import('./pages/ModelQuestionPaper21CV654'));
 const DecJan2026 = lazy(() => import('./pages/DecJan2026'));
+const VisualStructuralAnswers = lazy(() => import('./pages/VisualStructuralAnswers'));
 const JuneJuly2026 = lazy(() => import('./pages/JuneJuly2026'));
 
 function Router({ path }) {
@@ -45,6 +46,7 @@ function Router({ path }) {
   if (path === '/resources' || path === '/materials' || path.startsWith('/materials/')) return <ResourceVault />;
   if (path === '/mqps') return <ModelPapers />;
   if (path === '/model-paper-21cv654') return <ModelQuestionPaper21CV654 />;
+  if (path === '/visual-structural-answers') return <VisualStructuralAnswers />;
   if (path === '/dec-jan-2026') return <DecJan2026 />;
   if (path === '/question-papers/june-july-2026') return <JuneJuly2026 />;
   if (path === '/dashboard') return <Dashboard />;
