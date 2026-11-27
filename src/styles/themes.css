@@ -473,3 +473,21 @@ body {
     scroll-behavior: auto;
   }
 }
+
+/* Neutral Default palette: same appearance surfaces, restrained blue/violet accents. */
+:root[data-theme='light'][data-neon-theme='default'] {
+  --cyber-accent: #087f9f; --cyber-accent-rgb: 8 127 159;
+  --cyber-secondary: #7044c8; --cyber-tertiary: #12865b;
+  --border-active: #087f9f; --button-primary-bg: #087f9f;
+  --diagram-node-active: #087f9f; --diagram-node-active-ink: #ffffff;
+  --cyber-edge: rgb(8 127 159 / .2); --cyber-glass: rgb(255 255 255 / .88);
+  --cyber-panel-shadow: 0 10px 28px rgb(8 24 42 / .08);
+}
+:root[data-theme='dark'][data-neon-theme='default'] {
+  --cyber-accent: #38bdf8; --cyber-accent-rgb: 56 189 248;
+  --cyber-secondary: #a78bfa; --cyber-tertiary: #34d399;
+  --border-active: #38bdf8; --button-primary-bg: #38bdf8;
+  --diagram-node-active: #38bdf8; --diagram-node-active-ink: #06111f;
+  --cyber-edge: rgb(56 189 248 / .24); --cyber-glass: rgb(15 23 42 / .82);
+  --cyber-panel-shadow: 0 14px 38px rgb(0 0 0 / .28);
+}
