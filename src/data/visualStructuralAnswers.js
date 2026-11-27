@@ -1,25 +1,33 @@
 import { FIVE_MARK_PAPER_BANK } from './fiveMarkPaperBank.js';
 import { additionalDecJanAnswers } from './decJan2026Additional.js';
 import { MODEL_21CV654 } from './modelQuestionPaper21cv654.js';
+import { DEC_JAN_VISUAL_SCHEME } from './decJanVisualScheme.js';
 
 const clean = (value = '') => String(value).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
-const blockText = (block) => {
-  if (!block) return '';
-  return clean([
-    block.text, block.caption, ...(block.items || []), ...(block.lines || []),
-    ...(block.head || []), ...(block.rows || []).flat(),
-  ].filter(Boolean).join(' '));
-};
+
+function blockPoints(block) {
+  if (!block) return [];
+  if (block.type === 'table') {
+    const head = (block.head || []).join(' | ');
+    return [
+      ...(head ? [`Comparison columns: ${head}`] : []),
+      ...(block.rows || []).map((row) => row.map(clean).join(' — ')),
+    ].filter(Boolean);
+  }
+  if (block.type === 'list') return (block.items || []).map(clean).filter(Boolean);
+  if (block.type === 'diagram') return [clean(block.caption || block.text)];
+  if (block.type === 'note') return [clean(block.text)];
+  return [clean(block.text || block.caption)].filter(Boolean);
+}
 
 function fromFiveMark(item) {
   return (item.answer || []).map((section) => ({
     title: clean(section.title),
-    points: [
-      ...(section.blocks || []).map(blockText).filter(Boolean),
-      ...(section.subsections || []).flatMap((sub) => [
-        clean(sub.title), ...(sub.blocks || []).map(blockText),
-      ]).filter(Boolean),
-    ],
+    points: (section.blocks || []).flatMap(blockPoints)
+      .concat((section.subsections || []).flatMap((sub) => [
+        clean(sub.title), ...(sub.blocks || []).flatMap(blockPoints),
+      ]))
+      .filter(Boolean),
   })).filter((section) => section.points.length);
 }
 
@@ -36,9 +44,16 @@ function fromDecJan(item) {
   ].filter((section) => section.points.length);
 }
 
+function fromScheme(item) {
+  return (item.sections || []).map((section) => ({
+    title: clean(section.title),
+    points: (section.points || []).map(clean).filter(Boolean),
+  })).filter((section) => section.points.length);
+}
+
 function fromModel(part) {
-  const text = String(part.answer || '').trim();
-  const paragraphs = text.split(/\n+/).map((paragraph) => paragraph.trim()).filter(Boolean);
+  const paragraphs = String(part.answer || '').trim().split(/\n+/)
+    .map((paragraph) => paragraph.trim()).filter(Boolean);
   const sections = [];
   let current = { title: 'Core explanation', points: [] };
   for (const paragraph of paragraphs) {
@@ -47,7 +62,8 @@ function fromModel(part) {
       if (current.points.length) sections.push(current);
       current = { title: clean(heading[1]), points: [] };
     } else {
-      current.points.push(clean(paragraph.replace(/^\d+\.\s*/, '')));
+      const point = clean(paragraph.replace(/^[-•]\s*/, '').replace(/^\d+[.)]\s*/, ''));
+      if (point) current.points.push(point);
     }
   }
   if (current.points.length) sections.push(current);
@@ -60,18 +76,59 @@ const modelParts = MODEL_21CV654.flatMap((group) => group.parts.map((part) => ({
 const decJanById = new Map(additionalDecJanAnswers.map((item) => [item.id, item]));
 const modelByCode = new Map(modelParts.map((item) => [item.code, item]));
 
-const fallbackStructure = (question) => [{
-  title: 'Question focus',
-  points: [clean(question)],
-}];
+function inferDiagramType(question, sections) {
+  if (/compare|difference|distinguish|versus|\bvs\b/i.test(question)) return 'comparison';
+  if (/cycle|lifecycle|life cycle/i.test(question)) return 'cycle';
+  if (/classify|classification|types of|categories/i.test(question)) return 'classification';
+  if (/calculate|numerical|solve|compute|formula/i.test(question)) return 'formula';
+  if (/steps|process|procedure|stages|clearance/i.test(question)) return 'flow';
+  if (/working|mechanism|architecture|components|system|plant|structure/i.test(question)) return 'block';
+  if (sections.length > 1) return 'tree';
+  return 'concept';
+}
+
+function buildGraph(item, sections, type) {
+  const nodes = [{ id: 'root', kind: 'root', label: item.sourceQuestionId, detail: item.question }];
+  const edges = [];
+  sections.forEach((section, sectionIndex) => {
+    const sectionId = `section-${sectionIndex}`;
+    nodes.push({ id: sectionId, kind: 'branch', label: section.title, detail: '' });
+    edges.push({ from: 'root', to: sectionId, relation: 'contains' });
+    section.points.forEach((point, pointIndex) => {
+      const pointId = `${sectionId}-point-${pointIndex}`;
+      nodes.push({ id: pointId, kind: 'detail', label: point, detail: '' });
+      edges.push({ from: sectionId, to: pointId, relation: 'includes' });
+    });
+  });
+
+  if (['flow', 'block', 'formula'].includes(type)) {
+    const sequence = nodes.filter((node) => node.kind !== 'root');
+    for (let index = 0; index < sequence.length - 1; index += 1) {
+      edges.push({ from: sequence[index].id, to: sequence[index + 1].id, relation: 'next' });
+    }
+  }
+  if (type === 'cycle') {
+    const sequence = nodes.filter((node) => node.kind !== 'root');
+    if (sequence.length > 1) edges.push({
+      from: sequence[sequence.length - 1].id, to: sequence[0].id, relation: 'repeats',
+    });
+  }
+
+  return { nodes, edges };
+}
 
 export const VISUAL_STRUCTURAL_ANSWERS = FIVE_MARK_PAPER_BANK.map((item) => {
   let sections = fromFiveMark(item);
-  let sourceAnswerType = sections.length ? 'existing five-mark answer bank' : 'question-only source record';
+  let sourceAnswerType = sections.length ? 'existing five-mark answer bank' : '';
 
   if (!sections.length && item.source.title.includes('December')) {
-    const decJan = decJanById.get(item.sourceQuestionId.replace(/^Q/, '').toLowerCase());
-    if (decJan) {
+    const id = item.id.replace('dec-jan-2026-', '');
+    const scheme = DEC_JAN_VISUAL_SCHEME[id];
+    const decJan = decJanById.get(id);
+    if (scheme) {
+      sections = fromScheme(scheme);
+      sourceAnswerType = `VTU Scheme & Solutions outline · PDF page ${scheme.sourcePage}`;
+    } else if (decJan) {
       sections = fromDecJan(decJan);
       sourceAnswerType = 'existing December/January expanded answer';
     }
@@ -85,34 +142,49 @@ export const VISUAL_STRUCTURAL_ANSWERS = FIVE_MARK_PAPER_BANK.map((item) => {
     }
   }
 
-  const hasSourceAnswer = sections.length > 0;
-  if (!hasSourceAnswer) sections = fallbackStructure(item.question);
-
-  const normalized = sections.map((section, index) => ({
-    id: item.id + '-section-' + index,
-    title: section.title || 'Key points',
-    points: section.points.filter(Boolean),
-  })).filter((section) => section.points.length);
-
-  const text = normalized.flatMap((section) => [section.title, ...section.points]).join(' ');
-  const type = /compare|difference|distinguish|versus|vs\./i.test(item.question) ? 'comparison'
-    : /cycle|lifecycle|life cycle/i.test(item.question) ? 'cycle'
-    : /classify|classification|types of|categories/i.test(item.question) ? 'classification'
-     : /steps|process|procedure/i.test(item.question) ? 'timeline'
-    : /working|mechanism|flowchart|clearance/i.test(item.question) ? 'flow'
-    : /structure|components|architecture|system|plant/i.test(item.question) ? 'block'
-    : normalized.length > 3 ? 'tree' : 'concept';
+  const visualType = inferDiagramType(item.question, sections);
+  const graph = buildGraph(item, sections, visualType);
+  const visualKeywords = [...new Set(
+    sections.flatMap((section) => [section.title, ...section.points])
+      .join(' ').match(/\b[A-Z][A-Za-z-]{3,}\b/g) || [],
+  )].slice(0, 12);
+  const nodeCount = graph.nodes.length;
+  const edgeCount = graph.edges.length;
+  const hasSourceContent = sections.length > 0 && sections.every((section) => section.points.length > 0);
+  const hasConnectedDiagram = nodeCount >= 3 && edgeCount >= 2;
 
   return {
     ...item,
-    visualSections: normalized,
-    visualType: type,
-    visualKeywords: [...new Set((text.match(/\b[A-Z][A-Za-z-]{3,}\b/g) || []).slice(0, 12))],
-    visualSourceStatus: hasSourceAnswer ? 'derived-from-existing-answer' : 'question-only-no-answer-source',
-    visualSourceLabel: sourceAnswerType,
-    examSequence: normalized.map((section) => section.title),
+    visualSections: sections,
+    visualType,
+    visualGraph: graph,
+    visualKeywords,
+    visualSourceStatus: hasSourceContent ? 'source-content-present' : 'missing-source-content',
+    visualSourceLabel: sourceAnswerType || 'No source answer found',
+    examSequence: sections.map((section) => section.title),
+    diagramAudit: {
+      status: hasSourceContent && hasConnectedDiagram ? 'complete' : 'missing',
+      nodeCount,
+      edgeCount,
+      hasDirectionalRelationships: edgeCount > 0,
+      sourcePage: DEC_JAN_VISUAL_SCHEME[item.id.replace('dec-jan-2026-', '')]?.sourcePage || null,
+      diagramType: visualType,
+    },
   };
 });
+
+export const VISUAL_COVERAGE_REPORT = VISUAL_STRUCTURAL_ANSWERS.map((item) => ({
+  paper: item.source.category === 'supplementary-model-paper'
+    ? '21CV654 MQP'
+    : item.source.title.includes('December') ? 'Dec/Jan 2026' : 'June/July 2026',
+  question: item.sourceQuestionId,
+  questionText: item.question,
+  diagramType: item.diagramAudit.diagramType,
+  nodeCount: item.diagramAudit.nodeCount,
+  edgeCount: item.diagramAudit.edgeCount,
+  status: item.diagramAudit.status,
+  source: item.visualSourceLabel,
+}));
 
 export const VISUAL_PAPER_OPTIONS = [
   { value: 'all', label: 'All three papers' },
