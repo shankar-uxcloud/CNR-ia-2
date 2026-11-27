@@ -8,7 +8,7 @@ test('loader uses a 9.5 second minimum and advances one visible integer per 95ms
   const source = read('src/components/StartupExperience.jsx');
   assert.match(source, /STARTUP_MIN_DURATION_MS = 9500/);
   assert.match(source, /STARTUP_TICK_MS = 95/);
-  assert.match(source, /progressRef\.current \+ 1/);
+  assert.match(source, /const next = current \+ 1/);
   assert.match(source, /current < 99/);
   assert.match(source, /String\(progress\)\.padStart\(2, '0'\)/);
   assert.match(source, /aria-valuenow=\{progress\}/);
