@@ -15,7 +15,7 @@ test('the first-paint boot script restores both theme mode and palette before Re
 test('React theme state synchronizes root attributes in a layout effect', () => {
   const store = read('src/lib/study.jsx');
   assert.match(store, /useLayoutEffect/);
-  assert.match(store, /settings\.cyberTheme = \['ultra-cyber', 'arctic', 'purple', 'eco'\]/);
+  assert.match(store, /settings\.cyberTheme = \['default', 'ultra-cyber', 'arctic', 'purple', 'eco'\]/);
   assert.match(store, /setAttribute\('data-theme', theme\)/);
   assert.match(store, /setAttribute\('data-neon-theme', cyberTheme\)/);
   assert.match(store, /setAttribute\('data-visual-theme', theme === 'dark' \? 'neon' : 'light'\)/);

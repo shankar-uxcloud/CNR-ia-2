@@ -31,6 +31,7 @@ export function Logo({ light }) {
 }
 
 const CYBER_THEMES = [
+  { value: 'default', label: 'Default', colors: ['#087f9f', '#7044c8'] },
   { value: 'ultra-cyber', label: 'Ultra Cyber', colors: ['#00f5ff', '#ff3cac'] },
   { value: 'arctic', label: 'Arctic Neon', colors: ['#7de8ff', '#4d9dff'] },
   { value: 'purple', label: 'Purple Cyber', colors: ['#c084fc', '#f472d0'] },

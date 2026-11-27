@@ -23,7 +23,7 @@ test('choosing a neon palette updates the root selector immediately and persists
   const study = read('src/lib/study.jsx');
   assert.match(study, /k === 'cyberTheme'[\s\S]*document\.documentElement\.setAttribute\('data-neon-theme', v\)/);
   assert.match(study, /useLayoutEffect\(\(\) => \{[\s\S]*root\.setAttribute\('data-neon-theme', cyberTheme\)/);
-  assert.match(study, /\['ultra-cyber', 'arctic', 'purple', 'eco'\]\.includes\(v\)/);
+  assert.match(study, /\['default', 'ultra-cyber', 'arctic', 'purple', 'eco'\]\.includes\(v\)/);
 });
 
 test('all neon palettes define distinct readable light-mode accents', () => {
