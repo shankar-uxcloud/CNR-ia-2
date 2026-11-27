@@ -2,18 +2,18 @@ import { ListTree } from 'lucide-react';
 
 export function AnswerPresentationSwitch({ value, onChange, className = '' }) {
   return (
-    <div className={`no-print flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-sunk p-3 ${className}`} role="group" aria-label="Choose answer presentation">
-      <div className="flex items-center gap-2 text-sm font-semibold text-ink">
-        <ListTree size={16} className="text-brand" aria-hidden="true" />
+    <div className={`no-print flex min-w-0 flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-sunk px-4 py-3 sm:px-5 ${className}`} role="group" aria-label="Choose answer presentation">
+      <div className="flex min-w-0 items-center gap-2.5 text-sm font-bold text-ink">
+        <ListTree size={18} className="shrink-0 text-brand" aria-hidden="true" />
         <span>Answer presentation</span>
       </div>
-      <div className="inline-flex rounded-lg border border-line bg-panel p-1">
+      <div className="inline-flex shrink-0 rounded-xl border border-line bg-panel p-1" role="group" aria-label="Presentation mode">
         <button type="button" onClick={() => onChange('original')} aria-pressed={value === 'original'}
-          className={`rounded-md px-3 py-2 text-sm font-semibold transition ${value === 'original' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>
+          className={`rounded-lg px-3.5 py-2 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:px-4 ${value === 'original' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>
           Original
         </button>
         <button type="button" onClick={() => onChange('structured')} aria-pressed={value === 'structured'}
-          className={`rounded-md px-3 py-2 text-sm font-semibold transition ${value === 'structured' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>
+          className={`rounded-lg px-3.5 py-2 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:px-4 ${value === 'structured' ? 'bg-brand/12 text-brand' : 'text-mute hover:text-ink'}`}>
           Structured
         </button>
       </div>
