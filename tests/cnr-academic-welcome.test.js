@@ -50,10 +50,10 @@ test('premium system intro mounts the app underneath one overlay and uses real r
   assert.match(source, /appReadyRef\.current && performance\.now\(\) - startedAt >= STARTUP_MIN_DURATION_MS/);
   assert.match(source, /prefers-reduced-motion: reduce/);
   assert.doesNotMatch(source, /cinematic-intro-skip|SkipForward/);
-  assert.match(source, /ci-planet-art/);
+  assert.match(source, /ci-structure-art/);
   assert.match(source, /aria-valuenow=\{progress\}/);
   assert.match(css, /prefers-reduced-motion/);
-  assert.match(css, /ci-planet-stage/);
+  assert.match(css, /ci-structure-stage/);
 });
 
 test('all five syllabus modules have distinct real-photo hero and card imagery', () => {

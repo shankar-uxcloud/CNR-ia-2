@@ -51,53 +51,84 @@ function StartupReadinessSignal({ onReady }) {
   return null;
 }
 
-function KnowledgePlanet() {
+function StructuralFramework() {
+  const gridLines = Array.from({ length: 9 }, (_, index) => index * 90);
+  const nodes = [
+    [108, 132], [250, 132], [392, 132], [534, 132],
+    [108, 278], [250, 278], [392, 278], [534, 278],
+    [108, 424], [250, 424], [392, 424], [534, 424],
+  ];
+  const connections = [
+    [0, 1], [1, 2], [2, 3], [4, 5], [5, 6], [6, 7],
+    [8, 9], [9, 10], [10, 11], [0, 4], [1, 5], [2, 6],
+    [3, 7], [4, 8], [5, 9], [6, 10], [7, 11], [0, 5],
+    [1, 4], [2, 7], [3, 6], [4, 9], [5, 8], [6, 11], [7, 10],
+  ];
   return (
-    <div className="ci-planet-stage" aria-hidden="true">
-      <div className="ci-planet-aura" />
-      <div className="ci-orbit ci-orbit--outer"><span /><i /></div>
-      <div className="ci-orbit ci-orbit--inner"><span /><i /></div>
-      <div className="ci-planet">
-        <svg className="ci-planet-art" viewBox="0 0 420 420" role="presentation" focusable="false">
-          <defs>
-            <radialGradient id="ci-ocean" cx="30%" cy="24%" r="78%">
-              <stop offset="0" stopColor="#8de8dc" />
-              <stop offset=".32" stopColor="#287f91" />
-              <stop offset=".72" stopColor="#17466d" />
-              <stop offset="1" stopColor="#07172f" />
-            </radialGradient>
-            <linearGradient id="ci-land" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#b7e6a0" />
-              <stop offset=".55" stopColor="#4d9c78" />
-              <stop offset="1" stopColor="#245b59" />
-            </linearGradient>
-            <linearGradient id="ci-atmosphere" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="var(--cyber-accent, #46d9e8)" stopOpacity=".62" />
-              <stop offset="1" stopColor="var(--cyber-secondary, #9c7cff)" stopOpacity=".06" />
-            </linearGradient>
-            <clipPath id="ci-planet-clip"><circle cx="210" cy="210" r="166" /></clipPath>
-            <filter id="ci-planet-glow"><feGaussianBlur stdDeviation="12" /></filter>
-          </defs>
-          <circle cx="210" cy="210" r="179" fill="none" stroke="url(#ci-atmosphere)" strokeWidth="2" opacity=".8" />
-          <circle cx="210" cy="210" r="168" fill="url(#ci-ocean)" />
-          <g clipPath="url(#ci-planet-clip)">
-            <path d="M77 113 112 83l45 7 16 26-20 23-3 31-28 20-9 35-31-9-20-38 7-31-15-17Z" fill="url(#ci-land)" opacity=".94" />
-            <path d="m154 215 34-18 27 17 13 36-14 35-9 46-27 37-19-30 4-38-22-33 13-52Z" fill="url(#ci-land)" opacity=".88" />
-            <path d="m236 91 36-18 50 17 26 31-17 24-34 1-20 25-37-5-21-29-26-4-9-22 28-20Z" fill="url(#ci-land)" opacity=".9" />
-            <path d="m270 214 40-22 42 12 21 34-22 34-38 4-19 31-31-19-11-38 18-36Z" fill="url(#ci-land)" opacity=".9" />
-            <path d="M48 180c75-39 148-48 236-22 43 13 83 12 123-2M46 246c83-32 166-34 246-9 39 12 73 14 111 5M75 302c75-22 147-20 216 0" fill="none" stroke="#b9f4ed" strokeOpacity=".18" strokeWidth="2" />
-            <path d="M153 42c-39 75-54 154-39 236 9 48 29 91 57 128M256 43c-26 67-35 140-25 218 6 48 20 88 42 122" fill="none" stroke="#c9f7f3" strokeOpacity=".15" strokeWidth="2" />
-            <path d="M49 190c40-67 104-117 183-138 61-16 119-9 167 19" fill="none" stroke="#d8fffa" strokeOpacity=".24" strokeWidth="13" filter="url(#ci-planet-glow)" />
-          </g>
-          <circle cx="210" cy="210" r="166" fill="none" stroke="#d7fff5" strokeOpacity=".38" strokeWidth="1.5" />
-          <path d="M92 119c35-44 79-69 130-76" fill="none" stroke="#effffb" strokeOpacity=".65" strokeWidth="3" strokeLinecap="round" />
-        </svg>
-      </div>
-      <div className="ci-network" />
-      <span className="ci-orbit-label ci-orbit-label--one">KNOWLEDGE / 01</span>
-      <span className="ci-orbit-label ci-orbit-label--two">VTU • BCV755B</span>
-      <span className="ci-orbit-label ci-orbit-label--three">LEARNING SYSTEM ONLINE</span>
-      <div className="ci-planet-caption"><span>PLANETARY KNOWLEDGE CORE</span><strong>Explore. Understand. Conserve.</strong></div>
+    <div className="ci-structure-stage" aria-hidden="true">
+      <div className="ci-blueprint-grid" />
+      <div className="ci-blueprint-glow" />
+      <div className="ci-structure-topline"><span>STRUCTURAL ANALYSIS / 01</span><span>FRAME MODEL · LIVE</span></div>
+      <svg className="ci-structure-art" viewBox="0 0 640 540" role="presentation" focusable="false">
+        <defs>
+          <linearGradient id="ci-frame-metal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="var(--cyber-accent)" stopOpacity=".98" />
+            <stop offset="1" stopColor="var(--cyber-secondary)" stopOpacity=".7" />
+          </linearGradient>
+          <linearGradient id="ci-slab-glass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="var(--cyber-accent)" stopOpacity=".18" />
+            <stop offset="1" stopColor="var(--cyber-secondary)" stopOpacity=".04" />
+          </linearGradient>
+          <filter id="ci-frame-glow"><feGaussianBlur stdDeviation="5" /></filter>
+        </defs>
+        <g className="ci-structure-guides" fill="none" stroke="var(--cyber-accent)" strokeWidth="1">
+          {gridLines.map((x) => <path key={'v' + x} d={`M${x - 40} 58 V482`} />)}
+          {[110, 210, 310, 410].map((y) => <path key={'h' + y} d={`M40 ${y} H600`} />)}
+        </g>
+        <g className="ci-structure-shadow" fill="none" stroke="var(--cyber-accent)" strokeWidth="12" opacity=".12" filter="url(#ci-frame-glow)">
+          <path d="M112 430V154L320 72 528 154V430M112 154H528M112 292H528M112 430H528M250 99V430M390 99V430M112 154L250 292 390 154 528 292M112 292L250 430 390 292 528 430" />
+        </g>
+        <g className="ci-structure-frame" fill="none" stroke="url(#ci-frame-metal)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M112 430V154L320 72 528 154V430" />
+          <path d="M112 154H528M112 292H528M112 430H528" />
+          <path d="M250 99V430M390 99V430" />
+          <path d="M112 154L250 292 390 154 528 292" />
+          <path d="M112 292L250 430 390 292 528 430" />
+          <path d="M250 99L320 72 390 99" />
+          <path d="M112 154L250 99 390 99 528 154" strokeWidth="2" opacity=".72" />
+        </g>
+        <g className="ci-structure-slabs" fill="url(#ci-slab-glass)" stroke="var(--cyber-accent)" strokeOpacity=".55" strokeWidth="1.5">
+          <path d="M112 154L320 72 528 154 320 236Z" />
+          <path d="M112 292L320 374 528 292 320 210Z" opacity=".42" />
+          <path d="M112 430L320 512 528 430 320 348Z" opacity=".58" />
+        </g>
+        <g className="ci-structure-dimensions" fill="none" stroke="var(--cyber-secondary)" strokeWidth="1.2" strokeDasharray="4 6" opacity=".8">
+          <path d="M74 154V430M566 154V430M112 462H528M320 48V512" />
+          <path d="M67 154H84M67 430H84M558 154H575M558 430H575M112 455V469M528 455V469" />
+        </g>
+        <g className="ci-structure-nodes">
+          {nodes.map(([x, y], index) => <circle key={index} cx={x} cy={y} r="5" />)}
+        </g>
+        <g className="ci-structure-pulses">
+          <circle cx="250" cy="292" r="12" />
+          <circle cx="390" cy="292" r="12" />
+          <circle cx="320" cy="72" r="9" />
+        </g>
+        <g className="ci-structure-labels" fill="var(--text-secondary)" fontSize="10" fontFamily="monospace" letterSpacing="1.5">
+          <text x="38" y="145">GRID A</text><text x="535" y="145">GRID B</text>
+          <text x="38" y="444">BASE / 00</text><text x="456" y="492">ELEVATION +03</text>
+        </g>
+      </svg>
+      <svg className="ci-network-links" viewBox="0 0 640 540" preserveAspectRatio="none" focusable="false">
+        {connections.map(([from, to], index) => {
+          const [x1, y1] = nodes[from];
+          const [x2, y2] = nodes[to];
+          return <line key={index} x1={x1} y1={y1} x2={x2} y2={y2} style={{ '--link-delay': (index % 7) * -0.42 + 's' }} />;
+        })}
+      </svg>
+      <div className="ci-structure-callout ci-structure-callout--left"><span>LOAD PATH</span><strong>CONNECTED</strong></div>
+      <div className="ci-structure-callout ci-structure-callout--right"><span>FRAME NODES</span><strong>12 ACTIVE</strong></div>
+      <div className="ci-structure-caption"><span>ENGINEERING BLUEPRINT / CNR-IA-2</span><strong>Building the learning framework.</strong></div>
     </div>
   );
 }
@@ -290,7 +321,7 @@ export default function StartupExperience({ children }) {
             </div>
 
             <div className="ci-visual-column">
-              <KnowledgePlanet />
+              <StructuralFramework />
               <div className="ci-telemetry-row">
                 <div><span>CORE</span><strong>{completed ? 'ONLINE' : error ? 'RECOVERY' : 'STARTING'}</strong></div>
                 <div><span>DATABASE</span><strong>{completed ? 'AVAILABLE' : error ? 'RETRY' : 'CONNECTING'}</strong></div>
