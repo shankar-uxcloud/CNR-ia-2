@@ -282,3 +282,178 @@
 @media (prefers-reduced-motion: reduce) {
   .ci-counter-value { animation: none !important; }
 }
+
+
+/* Structural engineering boot scene — all lighting follows the active theme tokens. */
+.ci-structure-stage {
+  position: relative;
+  display: grid;
+  width: min(100%, 760px);
+  aspect-ratio: 1.18;
+  min-height: 310px;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 32%, var(--border-color));
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface-primary) 70%, transparent), color-mix(in srgb, var(--surface-secondary) 45%, transparent)),
+    var(--bg-secondary);
+  box-shadow: 0 28px 80px color-mix(in srgb, var(--bg-primary) 30%, transparent),
+    inset 0 1px color-mix(in srgb, var(--text-primary) 10%, transparent),
+    0 0 48px color-mix(in srgb, var(--cyber-accent) 9%, transparent);
+  backdrop-filter: blur(24px) saturate(1.2);
+}
+.ci-blueprint-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .5;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--cyber-accent) 13%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cyber-accent) 13%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--cyber-secondary) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cyber-secondary) 8%, transparent) 1px, transparent 1px);
+  background-size: 26px 26px, 26px 26px, 130px 130px, 130px 130px;
+  mask-image: linear-gradient(145deg, #000 12%, transparent 96%);
+}
+.ci-blueprint-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 48% 42%, color-mix(in srgb, var(--cyber-accent) 18%, transparent), transparent 42%),
+    radial-gradient(ellipse at 80% 72%, color-mix(in srgb, var(--cyber-secondary) 12%, transparent), transparent 38%);
+  filter: blur(22px);
+  animation: ci-blueprint-breathe 7s ease-in-out infinite alternate;
+}
+.ci-structure-topline {
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-muted);
+  font: 800 8px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .16em;
+}
+.ci-structure-art {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 94%;
+  max-height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 15px color-mix(in srgb, var(--cyber-accent) 12%, transparent));
+  animation: ci-frame-enter 1.1s cubic-bezier(.2,.7,.2,1) both;
+}
+.ci-structure-guides { opacity: .12; stroke-dasharray: 2 9; }
+.ci-structure-frame {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: ci-frame-draw 2.8s .12s ease-out forwards;
+}
+.ci-structure-shadow { animation: ci-frame-glow 4s ease-in-out infinite alternate; }
+.ci-structure-slabs { opacity: .82; animation: ci-slab-breathe 5s ease-in-out infinite alternate; }
+.ci-structure-dimensions { animation: ci-dimension-fade 4s ease-in-out infinite alternate; }
+.ci-structure-nodes circle {
+  fill: var(--surface-primary);
+  stroke: var(--cyber-accent);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 5px var(--cyber-accent));
+  animation: ci-node-pulse 2.4s ease-in-out infinite;
+}
+.ci-structure-nodes circle:nth-child(3n) { animation-delay: -.8s; }
+.ci-structure-nodes circle:nth-child(3n + 1) { animation-delay: -1.5s; }
+.ci-structure-pulses circle {
+  fill: none;
+  stroke: var(--cyber-secondary);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ci-node-ring 2.6s ease-out infinite;
+}
+.ci-structure-pulses circle:nth-child(2) { animation-delay: -.9s; }
+.ci-structure-pulses circle:nth-child(3) { animation-delay: -1.7s; }
+.ci-network-links {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.ci-network-links span {
+  position: absolute;
+  left: var(--x1);
+  top: var(--y1);
+  width: calc(var(--x2) - var(--x1));
+  height: 1px;
+  transform: rotate(atan2(calc(var(--y2) - var(--y1)), calc(var(--x2) - var(--x1))));
+  transform-origin: left center;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--cyber-accent), transparent);
+  animation: ci-network-flow 3.2s var(--link-delay) linear infinite;
+}
+.ci-structure-callout {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: 4px;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--cyber-accent) 28%, var(--border-color));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--surface-primary) 70%, transparent);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--bg-primary) 22%, transparent), inset 0 1px color-mix(in srgb, var(--text-primary) 9%, transparent);
+  backdrop-filter: blur(16px);
+}
+.ci-structure-callout span { color: var(--text-muted); font: 800 7px/1.2 ui-monospace, monospace; letter-spacing: .13em; }
+.ci-structure-callout strong { color: var(--cyber-accent); font: 850 9px/1.2 ui-monospace, monospace; letter-spacing: .08em; }
+.ci-structure-callout--left { left: 15px; top: 37%; }
+.ci-structure-callout--right { right: 15px; top: 55%; }
+.ci-structure-caption {
+  position: absolute;
+  z-index: 3;
+  bottom: 17px;
+  left: 18px;
+  right: 18px;
+  display: grid;
+  gap: 5px;
+  text-align: center;
+}
+.ci-structure-caption span { color: var(--cyber-accent); font: 850 7px/1.3 ui-monospace, monospace; letter-spacing: .2em; }
+.ci-structure-caption strong { color: var(--text-primary); font-size: clamp(12px, 1.4vw, 16px); font-weight: 760; }
+@keyframes ci-frame-enter { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes ci-frame-draw { to { stroke-dashoffset: 0; } }
+@keyframes ci-frame-glow { from { opacity: .07; } to { opacity: .2; } }
+@keyframes ci-slab-breathe { from { opacity: .52; } to { opacity: .94; } }
+@keyframes ci-dimension-fade { from { opacity: .35; } to { opacity: .9; } }
+@keyframes ci-node-pulse { 0%, 100% { opacity: .65; } 50% { opacity: 1; } }
+@keyframes ci-node-ring { 0% { opacity: .8; transform: scale(.45); } 100% { opacity: 0; transform: scale(2.1); } }
+@keyframes ci-network-flow { 0% { opacity: 0; } 20% { opacity: .8; } 80% { opacity: .5; } 100% { opacity: 0; } }
+@keyframes ci-blueprint-breathe { from { opacity: .55; transform: scale(.96); } to { opacity: 1; transform: scale(1.04); } }
+@media (max-width: 760px) {
+  .ci-structure-stage { width: min(100%, 520px); min-height: 250px; aspect-ratio: 1.12; border-radius: 19px; }
+  .ci-structure-art { width: 100%; }
+  .ci-structure-topline { top: 12px; left: 12px; right: 12px; font-size: 6px; }
+  .ci-structure-callout { padding: 7px 8px; }
+  .ci-structure-callout--left { left: 7px; }
+  .ci-structure-callout--right { right: 7px; }
+  .ci-structure-caption { bottom: 11px; }
+}
+@media (max-width: 390px) {
+  .ci-structure-stage { min-height: 220px; }
+  .ci-structure-callout { display: none; }
+  .ci-structure-caption span { font-size: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ci-structure-stage *, .ci-structure-stage *::before, .ci-structure-stage *::after,
+  .ci-blueprint-glow, .ci-structure-frame, .ci-structure-shadow,
+  .ci-structure-slabs, .ci-structure-dimensions, .ci-structure-nodes circle,
+  .ci-structure-pulses circle, .ci-network-links span {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ci-structure-frame { stroke-dasharray: none; stroke-dashoffset: 0; }
+}
