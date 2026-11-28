@@ -119,13 +119,13 @@ function StructuralFramework() {
           <text x="38" y="444">BASE / 00</text><text x="456" y="492">ELEVATION +03</text>
         </g>
       </svg>
-      <div className="ci-network-links">
+      <svg className="ci-network-links" viewBox="0 0 640 540" preserveAspectRatio="none" focusable="false">
         {connections.map(([from, to], index) => {
           const [x1, y1] = nodes[from];
           const [x2, y2] = nodes[to];
-          return <span key={index} style={{ '--x1': x1 / 640 * 100 + '%', '--y1': y1 / 540 * 100 + '%', '--x2': x2 / 640 * 100 + '%', '--y2': y2 / 540 * 100 + '%', '--link-delay': (index % 7) * -0.42 + 's' }} />;
+          return <line key={index} x1={x1} y1={y1} x2={x2} y2={y2} style={{ '--link-delay': (index % 7) * -0.42 + 's' }} />;
         })}
-      </div>
+      </svg>
       <div className="ci-structure-callout ci-structure-callout--left"><span>LOAD PATH</span><strong>CONNECTED</strong></div>
       <div className="ci-structure-callout ci-structure-callout--right"><span>FRAME NODES</span><strong>12 ACTIVE</strong></div>
       <div className="ci-structure-caption"><span>ENGINEERING BLUEPRINT / CNR-IA-2</span><strong>Building the learning framework.</strong></div>
