@@ -382,18 +382,19 @@
   position: absolute;
   inset: 0;
   z-index: 2;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  overflow: visible;
 }
-.ci-network-links span {
-  position: absolute;
-  left: var(--x1);
-  top: var(--y1);
-  width: calc(var(--x2) - var(--x1));
-  height: 1px;
-  transform: rotate(atan2(calc(var(--y2) - var(--y1)), calc(var(--x2) - var(--x1))));
-  transform-origin: left center;
+.ci-network-links line {
+  fill: none;
+  stroke: var(--cyber-accent);
+  stroke-width: 1.3;
+  stroke-dasharray: 3 20;
+  stroke-linecap: round;
   opacity: 0;
-  background: linear-gradient(90deg, transparent, var(--cyber-accent), transparent);
+  filter: drop-shadow(0 0 3px var(--cyber-accent));
   animation: ci-network-flow 3.2s var(--link-delay) linear infinite;
 }
 .ci-structure-callout {
@@ -451,7 +452,7 @@
   .ci-structure-stage *, .ci-structure-stage *::before, .ci-structure-stage *::after,
   .ci-blueprint-glow, .ci-structure-frame, .ci-structure-shadow,
   .ci-structure-slabs, .ci-structure-dimensions, .ci-structure-nodes circle,
-  .ci-structure-pulses circle, .ci-network-links span {
+  .ci-structure-pulses circle, .ci-network-links line {
     animation: none !important;
     transition: none !important;
   }
