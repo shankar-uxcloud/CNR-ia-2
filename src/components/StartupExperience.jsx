@@ -321,7 +321,7 @@ export default function StartupExperience({ children }) {
             </div>
 
             <div className="ci-visual-column">
-              <KnowledgePlanet />
+              <StructuralFramework />
               <div className="ci-telemetry-row">
                 <div><span>CORE</span><strong>{completed ? 'ONLINE' : error ? 'RECOVERY' : 'STARTING'}</strong></div>
                 <div><span>DATABASE</span><strong>{completed ? 'AVAILABLE' : error ? 'RETRY' : 'CONNECTING'}</strong></div>
