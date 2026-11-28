@@ -63,14 +63,14 @@ test('initialization errors show a recovery action and retry restarts the counte
   assert.match(source, /setAttempt\(\(current\) => current \+ 1\)/);
 });
 
-test('premium planetary loader and existing application tree remain intact', () => {
+test('premium structural framework loader and existing application tree remain intact', () => {
   const source = read('src/components/StartupExperience.jsx');
   const app = read('src/App.jsx');
-  assert.match(source, /function KnowledgePlanet/);
-  assert.match(source, /ci-planet-art/);
-  assert.match(source, /ci-orbit--outer/);
-  assert.match(source, /ci-orbit--inner/);
-  assert.match(source, /ci-network/);
+  assert.match(source, /function StructuralFramework/);
+  assert.match(source, /ci-structure-art/);
+  assert.match(source, /ci-structure-frame/);
+  assert.match(source, /ci-structure-slabs/);
+  assert.match(source, /ci-network-links/);
   assert.match(app, /<StartupExperience><StudyProvider>/);
   assert.match(source, /\{children\}/);
   assert.equal((source.match(/<section/g) || []).length, 1);
